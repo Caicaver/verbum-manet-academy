@@ -1,0 +1,73 @@
+name: Auditoría editorial
+
+# Ejecuta la auditoría del style guide en cada push y pull request.
+# Corresponde a la mejora OPS-001 del roadmap (MEJORAS-ADICIONALES.md §7).
+#
+# NOTA: este workflow asume que la herramienta vma_audit está disponible.
+# Como la herramienta vive fuera del repositorio del sitio (en audit-tool/,
+# que está en .gitignore), este workflow la clona desde su propio repo o
+# la descomprime desde un release. Ajusta la sección "Preparar auditor"
+# según donde decidas alojar vma_audit.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'courses/**'
+      - 'pages/**'
+      - 'data/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'courses/**'
+      - 'pages/**'
+      - 'data/**'
+
+jobs:
+  audit:
+    name: Auditar corpus contra style guide
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del sitio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # ── Preparar auditor ────────────────────────────────────────────
+      # Opción A: si vma_audit vive en su propio repositorio
+      # - name: Clonar auditor
+      #   run: git clone https://github.com/TU-USUARIO/vma-audit-tool.git audit-tool
+      #
+      # Opción B: si vma_audit se descarga de un release
+      # - name: Descargar auditor
+      #   run: |
+      #     curl -L -o audit.zip https://github.com/TU-USUARIO/vma-audit-tool/releases/latest/download/vma-audit-tool.zip
+      #     unzip audit.zip
+      #
+      # Por ahora, este paso queda como recordatorio para configurar.
+      - name: Recordatorio de configuración
+        run: |
+          echo "⚠️  Configura cómo obtener el auditor vma_audit."
+          echo "Ver comentarios en este workflow (.github/workflows/audit.yml)."
+
+      # ── Ejecutar auditoría (descomenta cuando el auditor esté disponible) ──
+      # - name: Auditar corpus
+      #   run: |
+      #     cd audit-tool
+      #     python -m vma_audit audit ../courses/ --strict
+      #
+      # - name: Generar reporte (si falla)
+      #   if: failure()
+      #   run: |
+      #     cd audit-tool
+      #     python -m vma_audit report ../courses/ --output ../audit-reports/
+      #
+      # - name: Subir reporte como artefacto
+      #   if: failure()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: audit-report
+      #     path: audit-reports/
