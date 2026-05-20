@@ -1,0 +1,44 @@
+# ════════════════════════════════════════════════════════════════════════
+#  Verbum Manet Academy — .editorconfig
+#  https://editorconfig.org/
+# ════════════════════════════════════════════════════════════════════════
+
+root = true
+
+# ─── Reglas globales ────────────────────────────────────────────────────
+[*]
+charset                  = utf-8
+end_of_line              = lf
+insert_final_newline     = true
+trim_trailing_whitespace = true
+indent_style             = space
+indent_size              = 2
+
+# ─── HTML, CSS, JS: 2 espacios ──────────────────────────────────────────
+[*.{html,css,js,mjs,json,svg,xml}]
+indent_size = 2
+
+# ─── Markdown: 2 espacios, preservar trailing whitespace ────────────────
+# (las dos espacios al final de línea son saltos en Markdown)
+[*.md]
+trim_trailing_whitespace = false
+indent_size              = 2
+
+# ─── Python: 4 espacios (PEP-8) ─────────────────────────────────────────
+[*.py]
+indent_size = 4
+
+# ─── Shell scripts: 2 espacios ──────────────────────────────────────────
+[*.sh]
+indent_size = 2
+
+# ─── Makefiles: tabulador obligatorio ───────────────────────────────────
+[Makefile]
+indent_style = tab
+
+# ─── Archivos Cloudflare especiales ─────────────────────────────────────
+[_headers]
+indent_size = 2
+
+[_redirects]
+indent_size = 2

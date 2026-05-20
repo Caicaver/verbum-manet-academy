@@ -1,0 +1,56 @@
+# ════════════════════════════════════════════════════════════════════════
+#  Verbum Manet Academy — .gitattributes
+#  Normalización de line endings entre Windows (CRLF) y Unix/Cloudflare (LF)
+# ════════════════════════════════════════════════════════════════════════
+
+# Detección automática por defecto
+*               text=auto
+
+# ─── Archivos de texto: SIEMPRE LF en el repositorio ────────────────────
+*.html          text eol=lf
+*.css           text eol=lf
+*.js            text eol=lf
+*.mjs           text eol=lf
+*.json          text eol=lf
+*.md            text eol=lf
+*.txt           text eol=lf
+*.svg           text eol=lf
+*.xml           text eol=lf
+*.yml           text eol=lf
+*.yaml          text eol=lf
+
+# Archivos de configuración Cloudflare
+_headers        text eol=lf
+_redirects      text eol=lf
+
+# Scripts
+*.sh            text eol=lf
+*.py            text eol=lf
+
+# ─── Archivos binarios: jamás transformar ───────────────────────────────
+*.png           binary
+*.jpg           binary
+*.jpeg          binary
+*.gif           binary
+*.ico           binary
+*.webp          binary
+*.woff          binary
+*.woff2         binary
+*.ttf           binary
+*.otf           binary
+*.eot           binary
+*.pdf           binary
+*.zip           binary
+*.tar.gz        binary
+
+# ─── Diff y merge especializados ────────────────────────────────────────
+# HTML: usar diff con conocimiento de tags
+*.html          diff=html
+# CSS: usar diff con conocimiento de propiedades
+*.css           diff=css
+
+# ─── Linguist (GitHub language detection) ───────────────────────────────
+# Archivos generados/auxiliares no cuentan para estadísticas del repo
+docs/**         linguist-documentation
+*.md            linguist-documentation
+audit-reports/* linguist-generated
