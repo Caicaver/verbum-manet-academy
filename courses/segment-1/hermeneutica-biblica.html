@@ -1,0 +1,2291 @@
+<!-- ============================================================================
+     VERBUM MANET ACADEMY · courses/segment-1/hermeneutica-biblica.html
+     Curso 02 · Segmento I · Fundamentos y Herramientas
+     Fragmento parcial · sin etiquetas raíz, metadatos ni scripts
+     Comparte el sistema de estilos del Curso 01 (clase .course-page).
+     ========================================================================= -->
+
+<style>
+  /* ----------------------------------------------------------------------
+   *  Estilos compartidos con el resto de cursos del segmento.
+   *  Definidos íntegramente aquí porque cada fragmento debe ser autónomo:
+   *  CourseLoader inyecta el HTML por innerHTML y los <style> previos del
+   *  fragmento anterior se eliminan al renderizar el siguiente.
+   * ------------------------------------------------------------------- */
+
+  .course-page {
+    --course-content-max: 44rem;
+    --course-rule: var(--border);
+  }
+
+  .course-page .course-hero {
+    padding-block: var(--space-lg) var(--space-xl);
+    border-block-end: 1px solid var(--border);
+  }
+  .course-page .course-hero__breadcrumbs {
+    display: flex; flex-wrap: wrap; gap: 0.4rem 0.6rem; align-items: baseline;
+    margin-block-end: var(--space-md);
+    font-family: var(--font-body); font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest); text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .course-page .course-hero__breadcrumbs a {
+    color: var(--text-secondary); text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .course-page .course-hero__breadcrumbs a:hover { color: var(--text-accent); }
+  .course-page .course-hero__breadcrumbs span[aria-hidden] { color: var(--accent); }
+  .course-page .course-hero__num {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+    line-height: 0.85; letter-spacing: -0.02em; color: var(--accent);
+    font-feature-settings: "lnum" 1; margin-block-end: var(--space-sm);
+  }
+  .course-page .course-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 1.6rem + 2.8vw, 3.75rem);
+    font-weight: 400; line-height: 0.98; letter-spacing: -0.02em;
+    color: var(--text-heading); max-width: 22ch;
+    margin-block-end: var(--space-md); text-wrap: balance;
+  }
+  .course-page .course-hero__title em { font-style: italic; color: var(--text-accent); }
+  .course-page .course-hero__lead {
+    font-family: var(--font-body); font-size: var(--text-lead);
+    line-height: var(--leading-loose); color: var(--text-secondary);
+    max-width: 44rem; margin-block-end: var(--space-lg);
+  }
+  .course-page .course-hero__meta {
+    display: flex; flex-wrap: wrap;
+    gap: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+    padding-block: var(--space-md);
+    border-block: 1px solid var(--border);
+  }
+  .course-page .course-hero__meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
+  .course-page .course-hero__meta-value {
+    font-family: var(--font-display); font-size: var(--text-h4);
+    color: var(--text-heading); line-height: 1;
+  }
+  .course-page .course-hero__meta-label {
+    font-family: var(--font-body); font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest); text-transform: uppercase;
+    color: var(--text-faint); max-width: none;
+  }
+
+  .course-page .course-toc {
+    padding-block: var(--space-xl);
+    border-block-end: 1px solid var(--border);
+  }
+  .course-page .course-toc__title {
+    font-family: var(--font-body); font-size: var(--text-xs);
+    font-weight: 500; letter-spacing: var(--tracking-widest);
+    text-transform: uppercase; color: var(--text-accent);
+    margin-block-end: var(--space-md); max-width: none;
+  }
+  .course-page .course-toc__list {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; gap: var(--space-2xs);
+  }
+  @media (min-width: 720px) {
+    .course-page .course-toc__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-md);
+    }
+  }
+  .course-page .course-toc__item {
+    display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+    column-gap: var(--space-sm); align-items: baseline;
+    padding-block: 0.4rem;
+    border-block-end: 1px dotted var(--border-subtle);
+  }
+  .course-page .course-toc__num {
+    font-family: var(--font-display); font-size: var(--text-sm);
+    color: var(--text-accent);
+    font-feature-settings: "lnum" 1, "tnum" 1; min-width: 2rem;
+  }
+  .course-page .course-toc__link {
+    font-family: var(--font-body); font-size: var(--text-sm);
+    line-height: var(--leading-snug); color: var(--text-primary);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .course-page .course-toc__link:hover { color: var(--text-accent); }
+
+  .course-page .unit {
+    padding-block: var(--space-2xl) var(--space-xl);
+    border-block-start: 1px solid var(--border);
+    scroll-margin-top: calc(var(--header-height) + 1rem);
+  }
+  .course-page .unit__header { margin-block-end: var(--space-xl); }
+  .course-page .unit__kicker {
+    font-family: var(--font-body); font-size: var(--text-xs);
+    font-weight: 500; letter-spacing: var(--tracking-widest);
+    text-transform: uppercase; color: var(--text-faint);
+    margin-block-end: var(--space-xs); max-width: none;
+  }
+  .course-page .unit__num {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    line-height: 1; color: var(--accent); margin-block-end: 0.25rem;
+    font-feature-settings: "lnum" 1;
+  }
+  .course-page .unit__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 2.2vw, 3rem);
+    font-weight: 400; line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight); color: var(--text-heading);
+    max-width: 24ch; margin-block-end: var(--space-sm); text-wrap: balance;
+  }
+  .course-page .unit__intro {
+    font-family: var(--font-body); font-size: var(--text-lead);
+    line-height: var(--leading-loose); color: var(--text-secondary);
+    max-width: 44rem;
+  }
+
+  .course-page .lesson {
+    padding-block: var(--space-xl);
+    border-block-start: 1px solid var(--border-subtle);
+    scroll-margin-top: calc(var(--header-height) + 1rem);
+  }
+  .course-page .lesson__header { margin-block-end: var(--space-lg); }
+  .course-page .lesson__num {
+    font-family: var(--font-body); font-size: var(--text-xs);
+    font-weight: 500; letter-spacing: var(--tracking-widest);
+    text-transform: uppercase; color: var(--text-accent);
+    margin-block-end: var(--space-2xs); max-width: none;
+  }
+  .course-page .lesson__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
+    font-weight: 400; line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight); color: var(--text-heading);
+    max-width: 28ch; text-wrap: balance; margin-block-end: var(--space-sm);
+  }
+  .course-page .lesson__title em { font-style: italic; color: var(--text-accent); }
+  .course-page .lesson__abstract {
+    font-family: var(--font-body); font-style: italic;
+    font-size: var(--text-base); color: var(--text-secondary);
+    line-height: var(--leading-loose); max-width: 44rem;
+    padding-inline-start: var(--space-md);
+    border-inline-start: 2px solid var(--accent);
+  }
+  .course-page .lesson__body {
+    margin-block-start: var(--space-lg);
+    max-width: var(--course-content-max);
+  }
+  .course-page .lesson__body p {
+    font-family: var(--font-body); font-size: var(--text-base);
+    line-height: var(--leading-loose); color: var(--text-primary);
+    margin-block-end: var(--space-md); max-width: none; text-wrap: pretty;
+  }
+
+  .course-page .vias {
+    margin-block-start: var(--space-lg); counter-reset: via;
+    list-style: none; padding: 0;
+  }
+  .course-page .via {
+    padding-block: var(--space-md);
+    border-block-start: 1px solid var(--border-subtle);
+  }
+  .course-page .via:first-child { border-block-start: 1px solid var(--border); }
+  .course-page .via__header {
+    counter-increment: via;
+    display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+    column-gap: var(--space-sm); align-items: baseline;
+    margin-block-end: var(--space-sm);
+  }
+  .course-page .via__header::before {
+    content: counter(via, decimal-leading-zero);
+    font-family: var(--font-display); font-size: var(--text-h4);
+    color: var(--accent); font-feature-settings: "lnum" 1, "tnum" 1;
+    line-height: 1;
+  }
+  .course-page .via__name {
+    font-family: var(--font-display); font-size: var(--text-h4);
+    font-weight: 400; line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight); color: var(--text-heading);
+    margin: 0; max-width: none;
+  }
+  .course-page .via__name em { font-style: italic; color: var(--text-accent); }
+  .course-page .via__body { max-width: var(--course-content-max); }
+  .course-page .via__body p {
+    font-family: var(--font-body); font-size: var(--text-base);
+    line-height: var(--leading-loose); color: var(--text-primary);
+    margin-block-end: var(--space-sm); max-width: none;
+  }
+  .course-page .via__body p:last-child { margin-block-end: 0; }
+
+  .course-page .via__body ul,
+  .course-page .lesson__body ul {
+    list-style: none; padding-inline-start: 0;
+    margin: var(--space-sm) 0;
+  }
+  .course-page .via__body ul li,
+  .course-page .lesson__body ul li {
+    font-family: var(--font-body); font-size: var(--text-base);
+    line-height: var(--leading-loose); color: var(--text-primary);
+    padding-inline-start: var(--space-md); position: relative;
+    margin-block-end: var(--space-2xs);
+  }
+  .course-page .via__body ul li::before,
+  .course-page .lesson__body ul li::before {
+    content: "·"; position: absolute; inset-inline-start: 0;
+    color: var(--accent); font-weight: bold;
+  }
+
+  .course-page .pullquote {
+    margin-block: var(--space-lg);
+    padding-inline-start: var(--space-md);
+    border-inline-start: 2px solid var(--accent);
+    font-family: var(--font-display); font-style: italic;
+    font-size: var(--text-h4); line-height: var(--leading-snug);
+    color: var(--text-heading); max-width: 38rem;
+  }
+  .course-page .pullquote cite {
+    display: block; margin-block-start: var(--space-2xs);
+    font-family: var(--font-body); font-style: normal;
+    font-size: var(--text-xs); letter-spacing: var(--tracking-widest);
+    text-transform: uppercase; color: var(--text-faint);
+  }
+
+  .course-page .activity {
+    margin-block: var(--space-lg); padding: var(--space-md);
+    border: 1px dashed var(--border-strong); border-radius: var(--radius-md);
+    background-color: transparent; max-width: var(--course-content-max);
+  }
+  .course-page .activity__label {
+    font-family: var(--font-body); font-size: var(--text-xs);
+    font-weight: 500; letter-spacing: var(--tracking-widest);
+    text-transform: uppercase; color: var(--text-accent);
+    margin-block-end: var(--space-2xs); max-width: none;
+  }
+  .course-page .activity__title {
+    font-family: var(--font-display); font-size: var(--text-h4);
+    font-weight: 400; line-height: var(--leading-tight);
+    color: var(--text-heading); margin-block-end: var(--space-sm);
+    max-width: none;
+  }
+  .course-page .activity__body p {
+    font-size: var(--text-sm); line-height: var(--leading-normal);
+    color: var(--text-secondary); margin-block-end: var(--space-2xs);
+    max-width: none;
+  }
+  .course-page .activity__body p:last-child { margin-block-end: 0; }
+
+  .course-page .rubric {
+    margin-block: var(--space-xl); padding: var(--space-lg);
+    border: 1px solid var(--border); border-radius: var(--radius-md);
+    background-color: var(--bg-surface);
+  }
+  .course-page .rubric__title {
+    font-family: var(--font-display); font-size: var(--text-h3);
+    color: var(--text-heading); margin-block-end: var(--space-sm);
+    max-width: none;
+  }
+  .course-page .rubric__intro {
+    font-size: var(--text-sm); color: var(--text-secondary);
+    margin-block-end: var(--space-md); max-width: 44rem;
+  }
+  .course-page .rubric table { font-size: var(--text-sm); }
+  .course-page .rubric th,
+  .course-page .rubric td {
+    padding: var(--space-xs) var(--space-sm);
+    border-block-end: 1px solid var(--border-subtle);
+    vertical-align: top;
+  }
+  .course-page .rubric th {
+    text-align: left; font-family: var(--font-body);
+    font-size: var(--text-xs); font-weight: 500;
+    letter-spacing: var(--tracking-widest); text-transform: uppercase;
+    color: var(--text-accent);
+    border-block-end: 1px solid var(--border);
+  }
+  .course-page .rubric td {
+    color: var(--text-secondary); line-height: var(--leading-snug);
+  }
+
+  .course-page .course-nav {
+    margin-block-start: var(--space-2xl);
+    padding-block: var(--space-lg);
+    border-block-start: 1px solid var(--border);
+    display: grid; gap: var(--space-md);
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (min-width: 720px) {
+    .course-page .course-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+  .course-page .course-nav__link {
+    display: block; padding: var(--space-md);
+    border: 1px solid var(--border); border-radius: var(--radius-md);
+    text-decoration: none; color: inherit;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
+  }
+  .course-page .course-nav__link:hover {
+    border-color: var(--accent); transform: translateY(-2px);
+  }
+  .course-page .course-nav__link--next { text-align: right; }
+  .course-page .course-nav__direction {
+    font-family: var(--font-body); font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest); text-transform: uppercase;
+    color: var(--text-faint); max-width: none;
+  }
+  .course-page .course-nav__title {
+    font-family: var(--font-display); font-size: var(--text-h4);
+    color: var(--text-heading); margin-block-start: 0.25rem;
+    max-width: none; line-height: var(--leading-tight);
+  }
+  .course-page .course-nav__link:hover .course-nav__title { color: var(--text-accent); }
+</style>
+
+
+<!-- ============================================================================
+     ESTRUCTURA DEL CURSO 02
+     ========================================================================= -->
+<div class="course-page" id="course-top">
+
+  <!-- ============================================
+       HERO
+       ============================================ -->
+  <section class="course-hero container" aria-labelledby="course-title">
+
+    <nav class="course-hero__breadcrumbs" aria-label="Migas de pan">
+      <a href="#/courses">Catálogo</a>
+      <span aria-hidden="true">/</span>
+      <span>Segmento I · Fundamentos y Herramientas</span>
+    </nav>
+
+    <p class="course-hero__num" aria-hidden="true">02</p>
+
+    <h1 id="course-title" class="course-hero__title">
+      <em>Hermenéutica</em> Bíblica
+    </h1>
+
+    <p class="course-hero__lead">
+      Disciplina que estudia los principios y métodos para la correcta
+      interpretación de las Escrituras, con énfasis en el método
+      <span data-glossary-term="metodo-historico-gramatical">histórico-gramatical-canónico</span>
+      dentro del marco de la teología reformada. Si la Bibliología responde
+      «¿qué es la Escritura?», la hermenéutica responde «¿cómo se lee bien?».
+      Sin la segunda, la primera se vuelve declaración estéril.
+    </p>
+
+    <div class="course-hero__meta" role="list">
+      <div class="course-hero__meta-item" role="listitem">
+        <span class="course-hero__meta-value">3</span>
+        <span class="course-hero__meta-label">Unidades</span>
+      </div>
+      <div class="course-hero__meta-item" role="listitem">
+        <span class="course-hero__meta-value">11</span>
+        <span class="course-hero__meta-label">Lecciones</span>
+      </div>
+      <div class="course-hero__meta-item" role="listitem">
+        <span class="course-hero__meta-value">6–8</span>
+        <span class="course-hero__meta-label">Semanas sugeridas</span>
+      </div>
+      <div class="course-hero__meta-item" role="listitem">
+        <span class="course-hero__meta-value">Fundacional</span>
+        <span class="course-hero__meta-label">Nivel</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       TABLA DE CONTENIDOS
+       ============================================ -->
+  <section class="course-toc container" aria-labelledby="toc-title">
+    <p id="toc-title" class="course-toc__title">Índice del curso</p>
+
+    <ol class="course-toc__list" role="list">
+      <li class="course-toc__item"><span class="course-toc__num">1.1</span><a class="course-toc__link" href="#l-1-1">¿Qué es la hermenéutica?</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">1.2</span><a class="course-toc__link" href="#l-1-2">La perspicuidad de la Escritura</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">1.3</span><a class="course-toc__link" href="#l-1-3">La iluminación del Espíritu Santo</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">1.4</span><a class="course-toc__link" href="#l-1-4">Historia de la interpretación bíblica</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">2.1</span><a class="course-toc__link" href="#l-2-1">El contexto histórico</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">2.2</span><a class="course-toc__link" href="#l-2-2">El contexto gramatical y literario</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">2.3</span><a class="course-toc__link" href="#l-2-3">Los géneros literarios bíblicos</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">2.4</span><a class="course-toc__link" href="#l-2-4">La tipología bíblica</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">3.1</span><a class="course-toc__link" href="#l-3-1">Cómo leer los Evangelios</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">3.2</span><a class="course-toc__link" href="#l-3-2">Cómo leer las Epístolas</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">3.3</span><a class="course-toc__link" href="#l-3-3">Cómo leer el Apocalipsis</a></li>
+    </ol>
+  </section>
+
+
+  <!-- ============================================
+       UNIDAD 1 · Fundamentos
+       ============================================ -->
+  <section class="unit container" id="unit-1" aria-labelledby="unit-1-title">
+
+    <header class="unit__header">
+      <p class="unit__kicker">Unidad I</p>
+      <p class="unit__num" aria-hidden="true">I</p>
+      <h2 id="unit-1-title" class="unit__title">Fundamentos de la interpretación bíblica</h2>
+      <p class="unit__intro">
+        Antes de aprender el método, conviene resolver las preguntas previas:
+        ¿qué es interpretar?, ¿es la Escritura tan clara como afirma serlo?,
+        ¿qué papel juega el Espíritu en su lectura?, ¿cómo ha leído la Iglesia
+        a lo largo de los siglos? Esta unidad establece los presupuestos
+        teológicos sobre los que se levantará el método histórico-gramatical
+        de la Unidad II.
+      </p>
+    </header>
+
+
+    <!-- LECCIÓN 1.1 -->
+    <article class="lesson" id="l-1-1" aria-labelledby="l-1-1-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 1.1</p>
+        <h3 id="l-1-1-title" class="lesson__title">¿Qué es la <em>hermenéutica</em>?</h3>
+        <p class="lesson__abstract">
+          Definición etimológica (Hermes, dios mensajero). Distinción entre
+          hermenéutica (teoría) y exégesis (práctica). Por qué toda lectura
+          es ya una interpretación. El problema de la eiségesis. El texto
+          como comunicación divino-humana.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          La palabra hermenéutica procede del verbo griego
+          <em>hermēneuō</em>, que significa traducir, explicar, interpretar.
+          La tradición la asoció con Hermes, el mensajero de los dioses
+          olímpicos: Hermes recibía un discurso divino y lo traducía a oídos
+          humanos. La hermenéutica, en su sentido más antiguo, es el arte
+          de transferir significado del texto al lector sin pérdida ni
+          añadidura.
+        </p>
+        <p>
+          Hay dos disciplinas hermanas que conviene distinguir desde el
+          principio. La hermenéutica es <em>teoría</em>: el conjunto de
+          principios que guían la interpretación correcta. La
+          <span data-glossary-term="exegesis">exégesis</span> es
+          <em>práctica</em>: el ejercicio concreto de aplicar esos principios
+          a un texto particular. Hacer hermenéutica sin exégesis produce
+          metodólogos abstractos; hacer exégesis sin hermenéutica produce
+          intuitivismo descontrolado. El estudiante reformado se forma en
+          ambas.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              La <span data-glossary-term="confesion-de-westminster">Confesión
+              de Westminster</span> articula los principios hermenéuticos
+              fundamentales en su capítulo I. I.9 establece la
+              <span data-glossary-term="analogia-fidei">analogía de la fe</span>
+              como regla suprema: «la regla infalible de la interpretación de
+              la Escritura es la Escritura misma». I.10 declara que el juez
+              último de toda controversia interpretativa no es ni el
+              concilio, ni el padre de la Iglesia, ni la razón humana, sino
+              el Espíritu Santo hablando en la Escritura.
+            </p>
+            <p>
+              Esta confesión doble —Escritura como su propio intérprete y
+              Espíritu como juez último— es la postura reformada en una
+              frase. No es subjetivismo (porque el Espíritu ata su
+              testimonio al texto inspirado), ni racionalismo (porque la
+              razón humana no se autoasigna como árbitro), ni
+              tradicionalismo (porque la tradición está sometida al texto).
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              Tres errores hermenéuticos amenazan al lector contemporáneo, y
+              esta primera lección debe nombrarlos:
+            </p>
+            <p>
+              <em>El ingenuismo</em> sostiene que el texto bíblico se
+              interpreta a sí mismo de manera transparente, sin necesidad de
+              método ni mediación cultural. Es ingenuo porque ignora que toda
+              lectura está condicionada por presupuestos del lector
+              (formación, época, lengua materna, prejuicios). El método no
+              elimina al lector; lo disciplina.
+            </p>
+            <p>
+              <em>El relativismo posmoderno</em> sostiene lo opuesto: que
+              ningún sentido del texto puede establecerse objetivamente
+              porque cada lector aporta el suyo. La Reforma rechaza esto de
+              raíz: el texto tiene un sentido pretendido por el autor (y
+              ulteriormente por el Autor divino), y la tarea hermenéutica
+              consiste precisamente en recuperarlo, no en proyectar el
+              propio.
+            </p>
+            <p>
+              <em>La eiségesis</em>, finalmente, es el error técnico
+              específico: introducir en el texto lo que no contiene. Toda
+              lectura riesga la eiségesis; la disciplina hermenéutica existe
+              precisamente para minimizarla con controles metodológicos
+              explícitos.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              La Escritura misma es testigo de su propia interpretación. En
+              Lucas 24:27, Cristo resucitado «comenzando desde Moisés, y
+              siguiendo por todos los profetas, les declaraba en todas las
+              Escrituras lo que de él decían». El verbo griego es
+              <em>diērmēneuō</em> —el mismo radical de hermenéutica— y el
+              objeto declarado es la cristología veterotestamentaria. La
+              primera clase de hermenéutica registrada en el NT la dio
+              Cristo mismo en el camino de Emaús, y su tema fue cómo leer
+              cristológicamente el AT.
+            </p>
+            <p>
+              En Hechos 8:30–31, Felipe pregunta al eunuco etíope si entiende
+              lo que lee. La respuesta del eunuco —«¿Y cómo podré, si alguno
+              no me enseñare?»— justifica la mediación pedagógica sin negar
+              la suficiencia del texto. Felipe enseña; el eunuco cree y se
+              bautiza. La interpretación bíblica es comunitaria desde la
+              primera hora del cristianismo.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Tres advertencias prácticas para el estudiante que comienza:
+            </p>
+            <ul role="list">
+              <li><strong>No lees neutralmente.</strong> Vienes con preguntas,
+                  prejuicios, dolores y entusiasmos. Reconocer esto no
+                  contamina el texto: te sitúa frente a él con honestidad.
+                  La oración previa es la primera herramienta hermenéutica:
+                  pedir al Espíritu purificación de los filtros propios.</li>
+              <li><strong>El sentido pretendido por el autor es el blanco
+                  legítimo.</strong> Antes de preguntar «qué significa esto
+                  para mí», pregunta «qué quiso decir el autor a sus
+                  primeros oyentes». La aplicación viene después; el
+                  significado primero.</li>
+              <li><strong>No estás solo en la lectura.</strong> Tienes a la
+                  Iglesia de los siglos detrás (confesiones, comentarios,
+                  pastores) y a los hermanos de tu congregación al lado.
+                  Lee con ellos, no contra ellos. La lectura solitaria es
+                  presa fácil de la eiségesis.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              El Salmo 119 ofrece ocho octetos de lo que un creyente
+              entrenado en hermenéutica reformada llamaría devoción
+              metodológica. El salmista no separa el «meditar», el
+              «entender», el «obedecer» y el «alabar»: los entrelaza. «Abre
+              mis ojos, y miraré las maravillas de tu ley» (v. 18) es a la
+              vez petición hermenéutica (que entienda) y oración doxológica
+              (que adore lo que entienda). Comenzar el estudio bíblico con
+              este versículo no es decoración: es disposición correcta del
+              corazón ante el texto que va a leerse.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+      <aside class="activity" aria-label="Actividad lección 1.1">
+        <p class="activity__label">Actividad · 20 min</p>
+        <h5 class="activity__title">Diagnóstico de presupuestos</h5>
+        <div class="activity__body">
+          <p>
+            Toma un pasaje que conozcas bien (Salmo 23, Juan 3:16, Filipenses
+            4:13). Sin abrir comentarios, escribe en una hoja: (a) qué crees
+            que significa, (b) cómo llegaste a esa convicción, (c) qué
+            preguntas presupone tu lectura. Después busca en el contexto del
+            pasaje y verifica cuántas de tus convicciones derivan del texto
+            mismo y cuántas de tradiciones, predicaciones o asociaciones
+            extra-textuales. El ejercicio no busca avergonzar: busca hacer
+            consciente lo que ya operaba en silencio.
+          </p>
+        </div>
+      </aside>
+    </article>
+
+
+    <!-- LECCIÓN 1.2 -->
+    <article class="lesson" id="l-1-2" aria-labelledby="l-1-2-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 1.2</p>
+        <h3 id="l-1-2-title" class="lesson__title">La doctrina de la <em>perspicuidad</em> de la Escritura</h3>
+        <p class="lesson__abstract">
+          La Escritura es suficientemente clara para la salvación y la vida
+          cristiana. Textos clave: 2 Pe 1:20–21; 2 Ti 3:16–17; Sal 119:105.
+          La diferencia entre claridad esencial y claridad completa.
+          Implicaciones para el laico estudiante.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          La <span data-glossary-term="perspicuidad">perspicuidad</span> es
+          una doctrina técnica con consecuencias enormes. Afirma que las
+          cosas necesarias para la salvación y la vida cristiana están
+          propuestas en la Escritura con suficiente claridad como para que
+          cualquier creyente, usando los medios ordinarios (lectura, oración,
+          predicación, catequesis, comunión eclesial), pueda entenderlas.
+          No es triunfalismo: es declaración sobria de que Dios habla para
+          ser entendido por su pueblo.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              Westminster I.7 ofrece la formulación clásica:
+              «Las cosas que es necesario conocer, creer y observar para la
+              salvación están propuestas y declaradas con tal claridad en
+              algunos lugares de la Escritura, que no sólo los doctos, sino
+              también los indoctos, haciendo el debido uso de los medios
+              ordinarios, pueden alcanzar suficiente comprensión de ellas».
+              La frase contiene los matices esenciales: <em>algunos
+              lugares</em> (no todos)—claridad esencial, no completa;
+              <em>medios ordinarios</em>—lectura disciplinada, oración,
+              comunión; <em>los indoctos</em>—el creyente común está
+              incluido, no excluido.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              La perspicuidad fue uno de los puntos de fricción más serios
+              entre Reforma y Roma. La posición tridentina sostuvo que el
+              sentido de la Escritura no podía determinarse sin la mediación
+              del magisterio eclesiástico, porque sin ese filtro autorizado
+              el texto producía interpretaciones contradictorias y
+              fragmentación eclesial. La crítica tiene fuerza prima facie:
+              ¿no es el protestantismo, con sus mil denominaciones, prueba
+              empírica del fracaso de la perspicuidad?
+            </p>
+            <p>
+              La respuesta reformada es doble. Primera, la perspicuidad no
+              afirma que todo en la Escritura sea igual de claro: 2 Pedro
+              3:16 reconoce que en las cartas de Pablo «hay algunas cosas
+              difíciles de entender». Lo que afirma es que las cosas
+              necesarias para la salvación lo son. Segunda, las divisiones
+              denominacionales suelen ocurrir sobre asuntos secundarios
+              (modos de bautismo, gobierno eclesiástico, milenialismo)
+              precisamente porque sobre las verdades centrales (Trinidad,
+              encarnación, justificación por la fe) hay convergencia
+              extraordinaria entre el ortodoxo, el luterano, el reformado
+              y el bautista confesional.
+            </p>
+            <p>
+              El error opuesto es el <em>biblicismo solipsista</em>: «yo
+              solo, con mi Biblia, basta». La perspicuidad nunca implicó
+              eso. Westminster habla de «medios ordinarios», y esos medios
+              incluyen la enseñanza pastoral, las confesiones de fe, la
+              tradición catequética y los comentarios competentes. La
+              perspicuidad legitima al laico para leer; no lo aísla del
+              cuerpo de Cristo.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              Dios habla para ser entendido. Esta convicción atraviesa la
+              Escritura desde Génesis hasta Apocalipsis. Deuteronomio
+              30:11–14 declara que el mandamiento «no es demasiado difícil
+              para ti, ni está lejos… cerca de ti está la palabra, en tu
+              boca y en tu corazón, para que la cumplas». Pablo cita ese
+              mismo pasaje en Romanos 10:8 aplicándolo al evangelio: la
+              palabra de fe está cerca, en la boca y en el corazón.
+              Habacuc 2:2 manda escribir la visión y declararla en tablas
+              «para que corra el que leyere en ella». Apocalipsis 1:3
+              promete bienaventuranza al que lee y a los que oyen.
+            </p>
+            <p>
+              La Escritura, considerada en su propia autocomprensión, no es
+              libro hermético reservado a iniciados: es palabra dirigida al
+              pueblo del pacto para ser leída, oída, entendida y obedecida.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Cuatro consecuencias prácticas para el creyente estudiante:
+            </p>
+            <ul role="list">
+              <li><strong>Tienes derecho a leer la Biblia.</strong> No
+                  necesitas autorización clerical. La perspicuidad fue
+                  recuperada precisamente para devolver el texto al pueblo.</li>
+              <li><strong>Tienes capacidad para entenderla.</strong> Bajo el
+                  Espíritu y con los medios ordinarios, las cosas necesarias
+                  son accesibles. No te dejes intimidar por quienes
+                  pretenden que solo el especialista entiende.</li>
+              <li><strong>Tienes deber de leerla.</strong> El derecho viene
+                  con responsabilidad. La perspicuidad no es excusa para la
+                  pereza: pide constancia, oración, oído entrenado por la
+                  predicación.</li>
+              <li><strong>Tienes humildad para no entenderla del todo.</strong>
+                  Habrá pasajes oscuros. La perspicuidad no afirma claridad
+                  total. Reconocer los límites propios es virtud
+                  hermenéutica.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              «Lámpara es a mis pies tu palabra, y lumbrera a mi camino» (Salmo 119:105, RVR60). La metáfora elegida por el salmista no es la
+              del faro distante ni la del relámpago abrumador: es la de la
+              lámpara doméstica que ilumina lo necesario para dar el
+              siguiente paso. La perspicuidad no promete iluminar todo el
+              horizonte; promete iluminar el camino. Cantar este salmo es
+              celebrar la suficiencia humilde y real de la palabra de Dios
+              para la vida cotidiana del pueblo de Dios.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+    </article>
+
+
+    <!-- LECCIÓN 1.3 -->
+    <article class="lesson" id="l-1-3" aria-labelledby="l-1-3-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 1.3</p>
+        <h3 id="l-1-3-title" class="lesson__title">La <em>iluminación</em> del Espíritu Santo</h3>
+        <p class="lesson__abstract">
+          La necesidad del Espíritu para comprender las Escrituras
+          (1 Co 2:14). El testimonio interno del Espíritu (Calvino).
+          Diferencia entre iluminación e inspiración. La oración como
+          componente hermenéutico.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          El método histórico-gramatical es necesario, pero no suficiente.
+          Sin la obra del Espíritu, el creyente más erudito puede registrar
+          datos sobre el texto sin penetrar su sentido espiritual. La
+          tradición reformada articula esta convicción con dos doctrinas
+          complementarias: la <span data-glossary-term="iluminacion">iluminación</span>
+          y el <span data-glossary-term="testimonium-spiritus-sancti-internum">testimonium
+          Spiritus Sancti internum</span>.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              <span data-glossary-term="calvino">Calvino</span>, en
+              <em>Institución</em> I.7, sostiene que la convicción última de
+              que la Escritura es palabra de Dios no puede provenir de la
+              autoridad eclesiástica ni de argumentos racionales meramente,
+              sino del testimonio interno del Espíritu Santo, que persuade
+              el corazón del creyente con una certeza superior a cualquier
+              demostración. Westminster I.5 recoge esta convicción
+              prácticamente verbatim: «la persuasión y certeza plena de la
+              verdad infalible y autoridad divina de la Escritura procede
+              de la obra interna del Espíritu Santo dando testimonio en y
+              con la palabra a nuestros corazones».
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              Dos errores opuestos amenazan esta doctrina.
+            </p>
+            <p>
+              <em>El racionalismo</em> reduce la lectura bíblica a operación
+              cognitiva técnica: si dispongo de las herramientas correctas
+              (lenguas originales, atlas, comentarios), puedo decodificar el
+              texto sin ayuda sobrenatural. Este error trata la Biblia como
+              libro cualquiera y al lector como sujeto autosuficiente.
+              1 Corintios 2:14 lo desautoriza: «el hombre natural no percibe
+              las cosas que son del Espíritu de Dios… y no las puede
+              entender, porque se han de discernir espiritualmente».
+            </p>
+            <p>
+              <em>El subjetivismo entusiasta</em> hace lo opuesto: reduce la
+              lectura a impresión directa del Espíritu, sin necesidad de
+              estudio textual. La frase delatora suele ser «el Señor me
+              mostró…» seguida de una interpretación que no resiste el
+              análisis textual. La iluminación reformada nunca opera contra
+              el texto ni más allá del texto: opera <em>con</em> el texto y
+              <em>sobre</em> el texto, capacitando al lector para discernir
+              su sentido propio.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              La distinción técnica entre <em>inspiración</em> e
+              <em>iluminación</em> es crítica. La inspiración es obra
+              concluida del Espíritu sobre los autores bíblicos en la
+              producción del texto: garantiza la palabra escrita
+              (2 Ti 3:16; 2 Pe 1:20–21). La iluminación es obra continua
+              del Espíritu sobre los lectores creyentes: capacita
+              subjetivamente la recepción del texto ya inspirado. La primera
+              terminó con el último libro del canon; la segunda continúa
+              cada vez que un creyente abre la Biblia con corazón orante.
+            </p>
+            <p>
+              Jesús prometió esta obra del Espíritu en Juan 14:26: «el
+              Espíritu Santo… os enseñará todas las cosas, y os
+              recordará todo lo que yo os he dicho». La promesa tuvo
+              cumplimiento primero apostólico (en la composición del NT)
+              y tiene cumplimiento extendido (en cada lector iluminado por
+              el mismo Espíritu).
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              La oración es componente integral, no preámbulo decorativo, del
+              método hermenéutico reformado. Tres oraciones tradicionales
+              estructuran la disposición del estudiante:
+            </p>
+            <ul role="list">
+              <li><strong>Antes de leer</strong>: «Abre mis ojos, y miraré
+                  las maravillas de tu ley» (Salmo 119:18, RVR60). Petición de
+                  iluminación.</li>
+              <li><strong>Durante la lectura</strong>: «Hágase tu voluntad» (Mt 6:10, RVR60). Sumisión a lo que el texto enseñe, aunque
+                  contradiga las preferencias propias.</li>
+              <li><strong>Después de leer</strong>: «Que las palabras de mi
+                  boca y la meditación de mi corazón sean gratas delante de
+                  ti, oh Jehová, roca mía, y redentor mío» (Salmo 19:14, RVR60).
+                  Doxología y sumisión renovada.</li>
+            </ul>
+            <p>
+              Estas tres oraciones, repetidas con constancia, transforman
+              el estudio bíblico de ejercicio académico en encuentro con el
+              Dios que habla.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              El himno «Espíritu del Dios viviente» (de Daniel Iverson)
+              recoge en pocas líneas la teología reformada de la
+              iluminación: «cae sobre mí… fúndeme, moldéame, lléname,
+              úsame». No pide una iluminación que opere sin la palabra
+              recibida; pide la disposición del corazón para que la
+              palabra ya escrita encuentre suelo dispuesto. Pedir la
+              iluminación del Espíritu es la postura inicial de toda
+              lectura reformada genuina.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+    </article>
+
+
+    <!-- LECCIÓN 1.4 -->
+    <article class="lesson" id="l-1-4" aria-labelledby="l-1-4-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 1.4</p>
+        <h3 id="l-1-4-title" class="lesson__title">Historia de la <em>interpretación</em> bíblica</h3>
+        <p class="lesson__abstract">
+          Método alegórico (Orígenes, Filón). Método literal-histórico
+          (escuela de Antioquía). El cuádruple sentido medieval. La
+          revolución hermenéutica de la Reforma: <em>ad fontes</em>. La
+          hermenéutica moderna y posmoderna. Evaluación reformada.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          La pregunta «¿cómo se lee la Biblia?» tiene dos mil años de
+          respuestas. Conocer las grandes escuelas hermenéuticas no es
+          pedantería académica: es vacuna contra repetir errores ya
+          identificados y ayuda para reconocer en los métodos
+          contemporáneos los rasgos que la tradición ya evaluó.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              La Reforma no inventó una hermenéutica desde cero: recuperó la
+              prioridad del sentido literal-histórico que la escuela de
+              Antioquía (Juan Crisóstomo, Teodoreto) había defendido en la
+              patrística griega. La diferencia es que la Reforma articuló
+              ese principio confesional y metodológicamente, lo combinó con
+              el regreso a las lenguas originales (<em>ad fontes</em>) y lo
+              vinculó indisolublemente con la
+              <span data-glossary-term="sola-scriptura"><i lang="la">Sola Scriptura</i></span>
+              y la <span data-glossary-term="analogia-fidei">analogía de la
+              fe</span>.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              <strong>Método alegórico (Filón, Orígenes).</strong> Filón de
+              Alejandría (siglo I) leyó el AT como alegoría platónica para
+              hacerlo respetable ante la cultura grecorromana. Orígenes
+              (siglo III) sistematizó tres sentidos en el texto: literal,
+              moral y espiritual, privilegiando el último. Su limitación:
+              cuando el sentido espiritual no está controlado por el
+              literal, el intérprete proyecta sus propias categorías sobre
+              el texto. La crítica reformada: la alegoría perdió contacto
+              con la intención del autor humano y, por consiguiente, con la
+              del Autor divino.
+            </p>
+            <p>
+              <strong>Cuádruple sentido medieval.</strong> Síntesis
+              escolástica: <em>literal</em> (lo que dice), <em>alegórico</em>
+              (lo que hay que creer), <em>moral o tropológico</em> (lo que
+              hay que hacer) y <em>anagógico</em> (lo que hay que esperar).
+              El verso latino lo memorizó la Edad Media: <em>littera gesta
+              docet, quid credas allegoria, moralis quid agas, quo tendas
+              anagogia</em>. El esquema tiene mérito (reconoce dimensiones
+              reales del texto), pero se abusó cuando los tres sentidos
+              superiores se desligaron del literal.
+            </p>
+            <p>
+              <strong>Hermenéutica moderna.</strong> Desde Spinoza y la alta
+              crítica alemana (Wellhausen, Strauss, Bultmann), la Escritura
+              fue tratada como documento humano analizable con las
+              herramientas históricas de cualquier texto antiguo,
+              prescindiendo de su carácter inspirado. La crítica de las
+              fuentes, la crítica de las formas y la crítica de la
+              redacción produjeron resultados útiles para la exégesis pero
+              también disolvieron la unidad teológica del canon en muchas
+              de sus formulaciones más radicales.
+            </p>
+            <p>
+              <strong>Hermenéutica posmoderna.</strong> Desde Gadamer hasta
+              la deconstrucción derridiana, se cuestionó la posibilidad
+              misma de recuperar el sentido pretendido por el autor:
+              cualquier lectura es ya una construcción del lector. La
+              respuesta reformada: el texto fue dado para ser comprendido,
+              no para ser construido; admitir la subjetividad del lector
+              no obliga a renunciar al objetivo de aproximarse al sentido
+              original.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              La hermenéutica reformada es heredera consciente de la
+              <em>escuela de Antioquía</em> patrística (Crisóstomo,
+              Teodoreto, Diodoro de Tarso) más que de la <em>escuela de
+              Alejandría</em> alegórica (Orígenes, Cirilo). La preferencia
+              por el sentido literal-histórico no significa rechazo de la
+              <span data-glossary-term="tipologia">tipología</span>: la
+              tipología es lectura cristológica del AT que respeta el
+              sentido literal histórico mientras reconoce que ese sentido
+              apuntaba canónicamente al cumplimiento en Cristo. Pablo en
+              1 Corintios 10:11 establece que las cosas que ocurrieron a
+              Israel «están escritas para amonestarnos a nosotros»; ese
+              «para nosotros» es la apertura tipológica controlada que la
+              Reforma defendió.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              El estudiante que ha aprendido las grandes escuelas
+              hermenéuticas adquiere tres beneficios prácticos:
+            </p>
+            <ul role="list">
+              <li><strong>Reconoce métodos en los predicadores que escucha.</strong>
+                  Cuando un predicador alegoriza el texto sin ancla
+                  literal, el estudiante puede nombrar lo que ocurre y
+                  evaluarlo críticamente.</li>
+              <li><strong>Modera el orgullo metodológico.</strong> El método
+                  histórico-gramatical es nuestro, pero no fuimos los
+                  primeros en defender la prioridad del sentido literal.
+                  Los antioquenos lo hicieron mil quinientos años antes.</li>
+              <li><strong>Distingue herramienta de presupuesto.</strong> Las
+                  herramientas críticas (análisis literario, contextual,
+                  histórico) pueden usarse desde una bibliología creyente
+                  o incrédula. Lo crítico es el presupuesto del usuario,
+                  no la herramienta misma.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              El <em>Te Deum</em> antiguo confiesa: «a ti, oh Padre, te
+              alaba la santa Iglesia universal». La hermenéutica reformada
+              reconoce que la Iglesia leyó la Escritura antes que nosotros
+              y mejor que nosotros en muchos puntos. Estudiar la historia
+              de la interpretación es practicar la humildad eclesial: no
+              somos la primera generación seria de lectores; estamos en una
+              cadena de confesores que se extiende desde los Padres
+              Apostólicos hasta hoy. Esa pertenencia es razón para
+              gratitud, no para arrogancia metodológica.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+    </article>
+
+  </section>
+
+
+  <!-- ============================================
+       UNIDAD 2 · El método histórico-gramatical
+       ============================================ -->
+  <section class="unit container" id="unit-2" aria-labelledby="unit-2-title">
+
+    <header class="unit__header">
+      <p class="unit__kicker">Unidad II</p>
+      <p class="unit__num" aria-hidden="true">II</p>
+      <h2 id="unit-2-title" class="unit__title">El método histórico-gramatical</h2>
+      <p class="unit__intro">
+        Habiendo establecido los fundamentos teológicos en la Unidad I, esta
+        unidad presenta el método propiamente dicho. Cuatro pasos articulan
+        toda exégesis reformada responsable: situar el texto en su contexto
+        histórico, analizar su gramática y estructura literaria, identificar
+        su género, y discernir las correspondencias tipológicas que la
+        canónica establece con Cristo.
+      </p>
+    </header>
+
+
+    <!-- LECCIÓN 2.1 -->
+    <article class="lesson" id="l-2-1" aria-labelledby="l-2-1-title">
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 2.1</p>
+        <h3 id="l-2-1-title" class="lesson__title">El contexto <em>histórico</em></h3>
+        <p class="lesson__abstract">
+          ¿Quién escribió? ¿A quién? ¿Cuándo? ¿Con qué propósito? Herramientas
+          para investigar el contexto: atlas, diccionarios, comentarios.
+          Ejercicio práctico: contextualización histórica de Gálatas.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          La Escritura no cae del cielo en un vacío histórico. Cada libro
+          fue escrito por un autor humano concreto, dirigido a oyentes
+          concretos, en circunstancias concretas, con un propósito
+          concreto. Recuperar esos cuatro «concretos» es el primer paso
+          metodológico, y suele resolver más problemas interpretativos que
+          el análisis textual más sofisticado.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              Westminster I.6 reconoce implícitamente la importancia del
+              contexto al hablar de «la luz de la naturaleza, y la prudencia
+              cristiana» como mediadoras necesarias para aplicar las reglas
+              generales de la Escritura a circunstancias concretas. La
+              hermenéutica reformada ha producido una vasta tradición de
+              comentaristas atentos al contexto: de Calvino a Henry, de
+              Hodge a Vos, la lectura literal nunca fue ahistórica.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              El error contrario al historicismo es el <em>atemporalismo
+              devocional</em>: leer cada texto bíblico como si hubiera sido
+              escrito directamente al lector contemporáneo, sin mediación
+              cultural ni redentor-histórica. Producirá lecturas que
+              extraen «principios» genéricos del texto pero pierden su
+              filo histórico concreto. Ezequiel hablando a los exiliados en
+              Babilonia no es lo mismo que un libro de autoayuda
+              transhistórico.
+            </p>
+            <p>
+              El error opuesto es el <em>historicismo reductor</em>: tan
+              absorto en el contexto del siglo I o del exilio babilónico
+              que olvida que el texto es palabra de Dios para todas las
+              generaciones, y no mero documento de su época. La síntesis
+              reformada: el texto está atado a su contexto histórico, y
+              precisamente por eso (no a pesar de eso) habla a todas las
+              generaciones de la Iglesia.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              Cada libro bíblico es eslabón en la cadena progresiva de la
+              <span data-glossary-term="historia-redentora">historia
+              redentora</span>. Situarlo en su contexto incluye preguntar
+              dónde encaja en esa cadena: antes o después del Sinaí, antes
+              o después del exilio, antes o después de Pentecostés, antes
+              o después de la destrucción de Jerusalén del 70 d.C. La
+              respuesta cambia significativamente la lectura. Hebreos no
+              tiene el mismo peso si se escribió antes o después del fin
+              del culto del templo.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Cinco preguntas que el estudiante debe hacer ante cualquier
+              libro bíblico antes de leerlo en serio:
+            </p>
+            <ul role="list">
+              <li><strong>¿Quién escribió?</strong> Conocer al autor
+                  ilumina su énfasis, vocabulario y experiencia.</li>
+              <li><strong>¿A quién?</strong> Los destinatarios determinan
+                  qué problemas el texto enfrenta y qué presupone.</li>
+              <li><strong>¿Cuándo?</strong> La fecha relativa sitúa el
+                  texto en la línea redentora.</li>
+              <li><strong>¿Desde dónde y hacia dónde?</strong> Geografía y
+                  destino dicen más de lo que parecen.</li>
+              <li><strong>¿Por qué?</strong> El propósito declarado o
+                  implícito orienta toda la lectura.</li>
+            </ul>
+            <p>
+              Ejercicio práctico: aplica las cinco preguntas a Gálatas. La
+              tensión judaizante en las iglesias gálatas, la relación
+              tirante con Pablo, el fechado relativo a Hechos 15… cada
+              dato cambia la intensidad polémica con que se debe leer la
+              carta.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              Que Dios haya elegido hablar dentro de la historia, sometido
+              a las contingencias de un siglo y un pueblo concretos, es
+              maravilla suficiente para alabar. La encarnación del Verbo
+              tiene su correlato textual: la palabra inspirada se hace
+              palabra histórica concreta sin perder su carácter divino. El
+              respeto al contexto histórico no es concesión a la crítica
+              moderna: es honra a la encarnación textual de la palabra.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </article>
+
+
+    <!-- LECCIÓN 2.2 -->
+    <article class="lesson" id="l-2-2" aria-labelledby="l-2-2-title">
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 2.2</p>
+        <h3 id="l-2-2-title" class="lesson__title">El contexto <em>gramatical</em> y literario</h3>
+        <p class="lesson__abstract">
+          La importancia del idioma original (hebreo, arameo, griego). El uso
+          del contexto inmediato, del párrafo y del libro completo.
+          Estructuras quiásmicas, paralelismos, inclusiones. Análisis
+          estructural de Efesios 1:3–14.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          El sentido del texto se determina por su gramática y por su lugar
+          dentro de la unidad literaria mayor. Ningún versículo se
+          interpreta sin atender a las palabras que lo rodean. La
+          atomización proof-text es la enfermedad hermenéutica más
+          frecuente: aislar un versículo, retirarlo de su contexto y
+          forzarlo a decir lo que el contexto desautoriza.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              Westminster I.8 establece que «el AT en hebreo… y el NT en
+              griego… habiendo sido inspirados inmediatamente por Dios y
+              guardados puros por su singular cuidado y providencia, son
+              auténticos». La consecuencia hermenéutica es directa: en
+              cualquier controversia religiosa, la apelación última debe
+              ser a esos textos originales, no a las traducciones. El
+              creyente que no domina las lenguas originales está obligado
+              a confiar en buenas traducciones y en herramientas que le
+              permitan acceder al sentido del original con seriedad.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              El error técnico más frecuente es la <em>falacia
+              etimológica</em>: derivar el significado de una palabra de su
+              etimología antigua o de su uso en otra época. El significado
+              de una palabra se determina por su uso en el contexto del
+              autor, no por la historia de la palabra. <em>Dynamis</em>
+              (Ro 1:16) no significa «dinamita», aunque la dinamita derivó
+              de esa raíz griega.
+            </p>
+            <p>
+              El segundo error es el <em>aislacionismo</em>: leer un
+              versículo sin párrafo ni capítulo ni libro. Romanos 8:28
+              («todas las cosas les ayudan a bien») se interpreta
+              correctamente solo en el contexto de Romanos 8 entero, donde
+              el «bien» se define en el versículo siguiente como conformidad
+              a la imagen del Hijo, no como bienestar circunstancial.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              La Escritura usa estructuras literarias deliberadas que la
+              tradición reformada ha aprendido a leer:
+            </p>
+            <ul role="list">
+              <li><strong>Quiasmo</strong>: estructura A-B-C-B'-A' en la que
+                  el centro suele cargar el peso temático. Génesis 1
+                  presenta una estructura de seis días que dialogan en
+                  pares (1–4, 2–5, 3–6).</li>
+              <li><strong>Paralelismo hebreo</strong>: dos hemistiquios que
+                  se complementan (sinónimo, antitético, sintético). Es la
+                  estructura básica de toda la poesía hebrea (Salmos,
+                  Proverbios, Profetas).</li>
+              <li><strong>Inclusio</strong>: la repetición de una frase al
+                  inicio y al final de una unidad para enmarcarla. Salmo 8
+                  abre y cierra con «Oh Jehová, Señor nuestro, cuán grande
+                  es tu nombre en toda la tierra».</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Tres herramientas accesibles para el estudiante hispano sin
+              dominio de lenguas originales:
+            </p>
+            <ul role="list">
+              <li><strong>Biblias paralelas</strong>: leer dos o tres
+                  traducciones serias (Reina-Valera 1960, La Biblia de las
+                  Américas, Reina-Valera Actualizada) en columnas paralelas
+                  expone los matices que cada traductor escogió.</li>
+              <li><strong>Concordancias</strong>: la concordancia Strong
+                  permite ver cómo se usa una palabra hebrea o griega en
+                  todos sus pasos por el canon.</li>
+              <li><strong>Comentarios técnicos</strong>: para los estudiantes
+                  más avanzados, los comentarios de la serie NICOT/NICNT,
+                  los de Hodge sobre Romanos, o los de Calvino mismo (en
+                  CCEL en libre acceso) ofrecen análisis lingüístico
+                  detallado.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              Efesios 1:3–14 forma una sola frase griega de 202 palabras,
+              estructurada doxológicamente alrededor de la fórmula
+              tripartita «para alabanza de su gloria» (vv. 6, 12, 14): la
+              elección del Padre, la redención del Hijo, el sello del
+              Espíritu. La estructura misma es trinitaria y la finalidad
+              única: la gloria de Dios. Estudiar la gramática del pasaje
+              no enfría la doxología: la calienta. Cuanto más se reconoce
+              la arquitectura de la frase, más se levanta el corazón a
+              alabar al Dios cuya obra ella confiesa.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </article>
+
+
+    <!-- LECCIÓN 2.3 -->
+    <article class="lesson" id="l-2-3" aria-labelledby="l-2-3-title">
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 2.3</p>
+        <h3 id="l-2-3-title" class="lesson__title">Los <em>géneros</em> literarios bíblicos</h3>
+        <p class="lesson__abstract">
+          Narrativa histórica, ley, profecía, poesía, sabiduría, evangelios,
+          cartas, apocalíptica. Principios específicos para cada género. El
+          peligro de leer poesía como profecía literal, o narrativa como
+          prescripción.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          La Escritura no es uniforme en su forma literaria: contiene al
+          menos ocho géneros distintos, cada uno con sus convenciones
+          propias. Leer un proverbio como promesa, un salmo como narrativa
+          histórica o una visión apocalíptica como descripción literal es
+          imponer al texto reglas que no le pertenecen. La hermenéutica
+          reformada exige sensibilidad genérica.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              La Confesión de Westminster, en su capítulo I, se refiere a la
+              variedad de la Escritura («en sus partes y géneros»). La
+              tradición reformada nunca ha sostenido que toda la Biblia se
+              lea de una sola manera. Calvino, en sus comentarios, ajusta
+              consistentemente sus principios al género del texto que
+              expone: el Eclesiastés se lee distinto que las cartas
+              paulinas; los Salmos distinto que el Apocalipsis.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              El <em>literalismo de género</em> es el error de leer todo
+              tipo de texto como si fuera narrativa histórica precisa.
+              Produce monstruosidades como tomar las imágenes apocalípticas
+              de Daniel 7 como descripción zoológica literal, o las
+              hipérboles del Cantar de los Cantares como manual matrimonial
+              prescriptivo.
+            </p>
+            <p>
+              El error opuesto es el <em>genericismo difuso</em>: declarar
+              que la Biblia es solo género literario sin valor referencial,
+              que sus narrativas históricas son meros mitos doctrinales sin
+              peso fáctico. La Reforma se distancia de ambos extremos: la
+              narrativa histórica de Génesis 1–11 narra hechos reales con
+              estructura literaria; los Salmos son poesía verdadera; el
+              Apocalipsis es apocalíptica con referente real escatológico.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              Principios específicos por género (síntesis introductoria):
+            </p>
+            <ul role="list">
+              <li><strong>Narrativa histórica</strong> (Génesis–Ester,
+                  Hechos): describe lo ocurrido. Pregunta clave: ¿qué
+                  enseña sobre Dios y su pacto? No toda acción narrada es
+                  prescriptiva (la poligamia de los patriarcas se narra; no
+                  se prescribe).</li>
+              <li><strong>Ley</strong> (Éxodo–Deuteronomio): regula la
+                  vida del pueblo del antiguo pacto. Pregunta clave: ¿qué
+                  enseña sobre el carácter de Dios? Distinguir entre ley
+                  moral (vigente), ceremonial (cumplida en Cristo) y civil
+                  (limitada al estado teocrático).</li>
+              <li><strong>Profecía</strong>: anuncia y denuncia. Pregunta
+                  clave: ¿qué decía a sus oyentes originales? La aplicación
+                  escatológica viene después de la histórica.</li>
+              <li><strong>Poesía</strong> (Salmos, gran parte de profetas):
+                  expresa con imágenes. Pregunta clave: ¿qué emoción y
+                  doctrina enseña? No leer las metáforas como descripciones
+                  prosaicas.</li>
+              <li><strong>Sabiduría</strong> (Proverbios, Job, Eclesiastés):
+                  observa el orden moral del mundo. Pregunta clave:
+                  proverbio o promesa? Los proverbios son generalizaciones,
+                  no garantías individuales (Pr 22:6 no es promesa
+                  inquebrantable).</li>
+              <li><strong>Evangelios</strong>: narran la vida de Cristo
+                  con propósito teológico. Pregunta clave: ¿qué énfasis
+                  cristológico tiene este evangelio?</li>
+              <li><strong>Cartas</strong>: exposición doctrinal y pastoral.
+                  Pregunta clave: ¿cuál era la situación pastoral concreta
+                  que la motivó?</li>
+              <li><strong>Apocalíptica</strong> (Daniel, Apocalipsis,
+                  Zacarías 9–14): visiones simbólicas con referente
+                  histórico-escatológico. Pregunta clave: ¿qué simboliza la
+                  imagen y qué prescribe la convención apocalíptica?</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Antes de leer cualquier pasaje, identifica su género. Si es
+              narrativa, no fuerces aplicaciones legales. Si es poesía, no
+              cuentes los versículos como predicciones precisas. Si es
+              sabiduría, no conviertas un proverbio en garantía bancaria.
+              Si es apocalíptica, no busques correspondencia uno-a-uno
+              entre cada figura y un personaje contemporáneo. La pregunta
+              previa al método —¿qué tipo de texto es esto?— evita más
+              errores que cualquier otra disciplina hermenéutica.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              Que Dios haya inspirado ocho géneros distintos —no uno solo—
+              es prueba de que la palabra divina es lo suficientemente
+              rica como para hablar a la totalidad de la experiencia
+              humana: la mente lógica recibe argumento epistolar, el
+              corazón herido recibe poesía salmódica, la imaginación recibe
+              visión apocalíptica, la conducta recibe ley, la inteligencia
+              práctica recibe sabiduría. Cantar el Salterio, predicar las
+              cartas, contemplar las visiones del Apocalipsis y aplicar los
+              proverbios es habitar la diversidad genérica que el Espíritu
+              quiso para la Iglesia.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </article>
+
+
+    <!-- LECCIÓN 2.4 -->
+    <article class="lesson" id="l-2-4" aria-labelledby="l-2-4-title">
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 2.4</p>
+        <h3 id="l-2-4-title" class="lesson__title">La <em>tipología</em> bíblica</h3>
+        <p class="lesson__abstract">
+          Definición de tipo y antitipo. Tipos cristológicos en el AT: Adán,
+          Noé, Abraham, Moisés, David. Criterios para identificar tipos
+          válidos: inauguración, escalada, cumplimiento. Diferencia entre
+          tipología y alegoría.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          La <span data-glossary-term="tipologia">tipología</span> es la
+          disciplina interpretativa que identifica las correspondencias
+          divinamente establecidas entre personas, instituciones o eventos
+          del AT (tipos) y sus realidades cumplidas en Cristo (antitipos).
+          No es invención posterior de los exégetas; el NT mismo enseña a
+          leer así el AT.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              Westminster VII.5 declara que el pacto de gracia, bajo la ley,
+              fue administrado «por promesas, profecías, sacrificios,
+              circuncisión, cordero pascual, y otros tipos y ordenanzas…
+              todos los cuales prefiguraban a Cristo por venir». La
+              tipología, en clave confesional reformada, es el modo orgánico
+              de leer la unidad sustantiva del pacto de gracia a través de
+              sus diversas administraciones.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              <strong>Tipología vs. alegoría.</strong> La diferencia es
+              cualitativa, no de grado. La tipología parte del sentido
+              literal-histórico del tipo (Moisés fue un libertador real de
+              Israel real) y reconoce que ese sentido apuntaba canónicamente
+              a un cumplimiento mayor en Cristo (libertador real de los
+              pecadores). La alegoría sustituye el sentido literal por uno
+              místico desconectado del referente histórico (Moisés es la
+              razón pura, los carros del Faraón son las pasiones, etc.).
+              La tipología respeta la historia; la alegoría la disuelve.
+            </p>
+            <p>
+              <strong>Tipología vs. paralelismo arbitrario.</strong> No
+              cualquier semejanza entre AT y NT es tipológica. Los criterios
+              reformados clásicos exigen tres marcas: (1) <em>inauguración</em>
+              en el AT como acto divino significativo, (2) <em>escalada</em>
+              progresiva del tipo en su patrón canónico, y (3)
+              <em>cumplimiento</em> declarado o claramente implicado en el
+              NT. Sin estos tres, lo que parece tipología es mera
+              imaginación devota.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              El NT enseña explícitamente la lectura tipológica del AT:
+            </p>
+            <ul role="list">
+              <li><strong>Adán</strong> tipo de Cristo, segundo Adán
+                  (Ro 5:14; 1 Co 15:45).</li>
+              <li><strong>Noé y el arca</strong> tipo del bautismo y la
+                  salvación en Cristo (1 Pe 3:20–21).</li>
+              <li><strong>Abraham e Isaac</strong> tipo del Padre que
+                  entrega al Hijo (He 11:17–19; Ro 8:32).</li>
+              <li><strong>El éxodo</strong> tipo de la redención mayor
+                  (1 Co 10:1–4).</li>
+              <li><strong>El cordero pascual</strong> tipo de Cristo crucificado
+                  (1 Co 5:7; Jn 1:29).</li>
+              <li><strong>Moisés</strong> tipo del profeta escatológico
+                  (Dt 18:15–18; Hch 3:22).</li>
+              <li><strong>El maná</strong> tipo del pan de vida (Jn 6).</li>
+              <li><strong>David y su reino</strong> tipo del reino de
+                  Cristo (2 S 7:12–16; Lc 1:32–33; Ap 22:16).</li>
+              <li><strong>El templo</strong> tipo del cuerpo de Cristo y
+                  del pueblo redimido (Jn 2:21; 1 Co 3:16; Ef 2:21).</li>
+              <li><strong>Sacerdocio aarónico</strong> tipo del sacerdocio
+                  de Cristo (toda la carta a los Hebreos).</li>
+            </ul>
+            <p>
+              El NT nos enseña a leer así, no como ejercicio místico
+              opcional, sino como práctica hermenéutica regular. Cristo
+              mismo lo hizo en Lucas 24:27.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Cuando leas el AT, no pares en el sentido histórico. Pregunta
+              también: ¿cómo apunta esto a Cristo? Pero pregúntalo con
+              disciplina, no con imaginación libre. Tres pruebas para
+              validar una lectura tipológica:
+            </p>
+            <ul role="list">
+              <li><strong>¿El NT lo confirma explícita o implícitamente?</strong>
+                  Si Hebreos identifica a Melquisedec como tipo de Cristo,
+                  la lectura está autorizada. Si nadie en el NT lo
+                  identifica, mantén reserva.</li>
+              <li><strong>¿Hay correspondencia estructural, no solo
+                  superficial?</strong> Tres puntos coincidentes son
+                  significativos; uno solo, no.</li>
+              <li><strong>¿Respeta el sentido histórico del tipo?</strong>
+                  Si la lectura tipológica niega lo que el texto significó
+                  en su día, no es tipología: es alegoría disfrazada.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              La tipología convierte la lectura del AT en encuentro con
+              Cristo página tras página. Cada cordero sacrificado en
+              Levítico apunta al Cordero de Dios; cada juez victorioso
+              apunta al Juez justo; cada rey ungido apunta al Mesías; cada
+              templo apunta al cuerpo del Hijo. Leer tipológicamente no
+              añade Cristo al AT donde no estaba: lo descubre donde Dios
+              mismo lo había puesto. La doxología derivada es inevitable:
+              «escudriñad las Escrituras… ellas son las que dan
+              testimonio de mí» (Jn 5:39, RVR60).
+            </p>
+          </div>
+        </li>
+      </ol>
+    </article>
+
+  </section>
+
+
+  <!-- ============================================
+       UNIDAD 3 · Hermenéutica especial por corpus
+       ============================================ -->
+  <section class="unit container" id="unit-3" aria-labelledby="unit-3-title">
+
+    <header class="unit__header">
+      <p class="unit__kicker">Unidad III</p>
+      <p class="unit__num" aria-hidden="true">III</p>
+      <h2 id="unit-3-title" class="unit__title">Hermenéutica especial por corpus</h2>
+      <p class="unit__intro">
+        Las tres lecciones que cierran el curso aplican el método aprendido
+        a los tres corpus que más controversias hermenéuticas han producido
+        en la historia de la Iglesia: los Evangelios, las Epístolas
+        Paulinas y el Apocalipsis. Cada uno requiere ajustes específicos
+        del método general.
+      </p>
+    </header>
+
+
+    <!-- LECCIÓN 3.1 · Evangelios -->
+    <article class="lesson" id="l-3-1" aria-labelledby="l-3-1-title">
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 3.1</p>
+        <h3 id="l-3-1-title" class="lesson__title">Cómo leer los <em>Evangelios</em></h3>
+        <p class="lesson__abstract">
+          El propósito específico de cada evangelio. La crítica de las formas
+          y su evaluación reformada. La fiabilidad histórica de los
+          evangelios. Cómo armonizar las narraciones paralelas.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          Los cuatro evangelios no son cuatro biografías equivalentes de
+          Jesús: son cuatro retratos teológicos del mismo Cristo, escritos
+          desde ángulos complementarios. Mateo presenta a Cristo como Rey-Mesías
+          dirigido a oyentes judíos; Marcos lo presenta como Siervo-poderoso
+          en estilo dinámico; Lucas como Salvador universal con énfasis
+          historiográfico; Juan como el Verbo encarnado en clave teológica
+          alta. Reconocer el ángulo de cada evangelio orienta su lectura.
+        </p>
+        <p>
+          Sobre las divergencias entre las narraciones paralelas, la
+          hermenéutica reformada ha sostenido siempre la armonización
+          responsable. Cuando Mateo y Lucas relatan el sermón en términos
+          ligeramente distintos, no estamos ante contradicción sino ante
+          énfasis editorial diverso bajo la inspiración del Espíritu. La
+          armonización forzada (suponer dos eventos donde hay uno) es tan
+          erróneo como la admisión de contradicción (suponer que los
+          evangelistas se equivocan). El criterio reformado: cada evangelio
+          conserva fidelidad histórica, y los aparentes desencuentros suelen
+          resolverse atendiendo al propósito teológico de cada autor.
+        </p>
+        <p>
+          La <em>crítica de las formas</em> (Bultmann y discípulos) sostuvo
+          que muchos dichos atribuidos a Jesús eran creaciones posteriores
+          de la comunidad. La respuesta reformada: tal escepticismo radical
+          carece de base histórica seria; la datación temprana de los
+          evangelios, el testimonio ocular subyacente y la disciplina
+          memorística rabínica garantizan la fiabilidad de la transmisión.
+          Las herramientas de la crítica de las formas pueden usarse desde
+          presupuestos creyentes; lo que se rechaza es el presupuesto
+          escéptico, no la disciplina técnica.
+        </p>
+      </div>
+    
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+      <li class="via">
+        <h4 class="via__title">Formulación <em>confesional</em></h4>
+        <div class="via__body">
+          <p>
+            La <strong>Confesión de Fe de Westminster I.5</strong> articula que la Escritura lleva en sí misma su propio testimonio: «la plena persuasión y certeza de su infalible verdad y de su autoridad divina son obra del Espíritu Santo que testifica por medio de ella y con ella en nuestros corazones». La lectura de los Evangelios exige esta postura: el lector no evalúa los cuatro textos desde fuera como árbitro neutral, sino que se somete a su testimonio convergente bajo la iluminación del mismo Espíritu que los inspiró. <strong>Westminster I.9</strong> añade el principio hermenéutico fundamental: «la regla infalible de interpretación de la Escritura es la misma Escritura». Los evangelios se interpretan mutuamente: la aparente tensión entre Mateo 5:1 («subiendo al monte») y Lucas 6:17 («bajando, se paró en un lugar llano») no es contradicción sino complementariedad editorial, resuelta por la analogía de la fe y la comparación cuidadosa de los textos.
+          </p>
+          <p>
+            El <strong>Catecismo de Heidelberg P. 29</strong> pregunta por qué el Hijo de Dios se llama Jesús —«Salvador»— y responde: «porque él salva a su pueblo de sus pecados». Este ancla cristológica es la clave hermenéutica de todo Evangelio: Mateo, Marcos, Lucas y Juan no están narrando la vida de un maestro ejemplar sino la obra salvadora del Hijo de Dios encarnado. La <strong>Confesión Belga Art. 2</strong> establece que Dios se da a conocer especialmente «por su santa y divina Palabra, tanto cuanto es necesario para su gloria y la salvación de los suyos». Los cuatro Evangelios son el corazón de esa Palabra especial: la revelación de la Palabra encarnada a través de la palabra escrita.
+          </p>
+        </div>
+      </li>
+      <li class="via">
+        <h4 class="via__title">Dimensión <em>elenética</em></h4>
+        <div class="via__body">
+          <p>
+            <strong>Primero, contra la crítica de las formas (Formgeschichte) en su versión radical.</strong> Rudolf Bultmann (<em>Geschichte der synoptischen Tradition</em>, 1921) sostuvo que los dichos y relatos de los Evangelios son creaciones anónimas de la comunidad cristiana primitiva proyectadas retrospectivamente sobre Jesús, no testimonios históricos fidedignos. Su proyecto de «desmitologización» redujo el evangelio a existencialismo heideggeriano sin contenido histórico verificable. La respuesta reformada —articulada por N. B. Stonehouse, Martin Hengel (<em>The Four Gospels and the One Gospel of Jesus Christ</em>, 2000), Richard Bauckham (<em>Jesus and the Eyewitnesses</em>, 2006) y D. A. Carson— sostiene que: (1) la datación temprana de los Evangelios (Marcos c. 55–65; Juan antes de 100 d.C.) es contemporánea a testigos oculares vivos; (2) la cultura memorística rabínica del primer siglo garantizaba transmisión fiel; (3) el criterio de dificultad historiográfica (pericopes difíciles para la iglesia primitiva, como el bautismo de Jesús por Juan, son señales de autenticidad, no de creación).
+          </p>
+          <p>
+            <strong>Segundo, contra la armonización mecánica que niega la diversidad teológica intencional.</strong> Cierta apologética popular reacciona ante la crítica bíblica con una armonización forzada que trata cualquier diferencia narrativa entre evangelios como problema a eliminar. El error es metodológico: cada evangelista es autor con propósito teológico deliberado bajo la inspiración del Espíritu. Que Marcos narre la expulsión de los mercaderes del Templo al inicio del ministerio (Mc 11) y Juan la coloque también al inicio (Jn 2) no exige postular dos expulsiones: exige entender el propósito editorial de cada autor. La armonización legítima (Calvin, <em>Harmony of the Gospels</em>) respeta tanto la unidad histórica como la diversidad teológica.
+          </p>
+          <p>
+            <strong>Tercero, contra la lectura «roja» que solo valora las palabras de Jesús y desestima el marco narrativo.</strong> Ciertas ediciones populares (Biblia con palabras de Jesús en rojo) inducen al lector a tratar el marco narrativo de los evangelistas como relleno secundario, y los dichos de Jesús como único contenido normativo. La hermenéutica reformada rechaza esta dicotomía: todo el texto evangélico es igualmente inspirado (2 Ti 3:16); el marco narrativo de los evangelistas no es anotación periodística neutral sino interpretación teológica bajo la dirección del Espíritu (Jn 20:30–31 declara explícitamente el propósito teológico del evangelista).
+          </p>
+        </div>
+      </li>
+      <li class="via">
+        <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+        <div class="via__body">
+          <p>
+            <strong>Los cuatro Evangelios como culminación del arco histórico-redentor.</strong> La teología bíblica vossiana entiende los Evangelios no como documentos aislados sino como el momento de cumplimiento al que toda la historia redentora del AT apuntaba. Cuando Mateo abre con «Libro de la genealogía de Jesucristo, hijo de David, hijo de Abraham» (Mt 1:1, RVR60), está anclando la encarnación en los dos pilares del pacto veterotestamentario: el pacto abrahámi­co (Gn 12) y el pacto davídico (2 S 7). Los cuatro Evangelios son el «sí» de Dios a todas sus promesas (2 Co 1:20): el Siervo Sufriente de Isaías 53 es identificado en Marcos 10:45; el Hijo del Hombre de Daniel 7 es reclamado por Jesús en Marcos 14:62; el Pastor según el corazón de Dios de Ezequiel 34 es declarado en Juan 10.
+          </p>
+          <p>
+            <strong>La estructura quíástica de Marcos como herramienta hermenéutica.</strong> Marcos 8:27–30 —la confesión de Pedro en Cesárea de Filipo («Tú eres el Cristo»)— funciona como eje central del Evangelio más breve. La primera mitad (Mc 1–8) articula la pregunta «¿Quién es este hombre?» a través de milagros, exorcismos y enseñanzas; la segunda mitad (Mc 8–16) articula la respuesta: el Mesías que debe sufrir, morir y resucitar. La mesianidad y la cruz son inseparables en Marcos. Este reconocimiento hermenéutico transforma la lectura: cada perícopa de Marcos debe ser leída en función de este eje cristológico central.
+          </p>
+          <p>
+            <strong>El prólogo de Juan (Jn 1:1–18) como clave hermenéutica del cuarto Evangelio.</strong> «En el principio era el Verbo, y el Verbo era con Dios, y el Verbo era Dios» (Jn 1:1, RVR60). El prólogo juanino conecta deliberadamente con Génesis 1:1 («En el principio»), articulando que la encarnación no es irrupción accidental sino la venida personal del Creador eterno al mundo que él mismo creó. Geerhardus Vos (<em>The Self-Disclosure of Jesus</em>, 1926) demostró que la cristología implícita de los sinópticos y la explícita de Juan son continuas, no contradictorias: el Hijo del Hombre de Marcos es el mismo Yo soy (<em>egō eimi</em>) de Juan.
+          </p>
+        </div>
+      </li>
+      <li class="via">
+        <h4 class="via__title">Aplicación <em>catequética</em></h4>
+        <div class="via__body">
+          <p>
+            <strong>Método práctico para leer un Evangelio completo.</strong> La tradición reformada recomienda la lectura continua (<em>lectio continua</em>) de cada Evangelio antes de estudiar perícopes aisladas. Práctica concreta: (1) leer el Evangelio seleccionado de una sola vez o en tres sesiones para captar el flujo narrativo; (2) identificar la estructura del evangelio (divisiones principales, perícopes pivote, momentos de transición); (3) notar el propósito declarado del autor (Jn 20:30–31; Lc 1:1–4) como clave interpretativa; (4) entonces estudiar perícopes específicas en su contexto narrativo. El estudiante que estudia solo la parábola del hijo pródigo (Lc 15) sin haber leído Lucas completo pierde el contexto narrativo: Lucas 15 es respuesta directa a la crítica farisaica del capítulo anterior (Lc 14:1–3).
+          </p>
+          <p>
+            <strong>El uso reformado de la armonía de los Evangelios.</strong> Calvino produjo su <em>Commentary on a Harmony of the Evangelists</em> (1555) como herramienta exegética, no como proyecto de fusión textual. El principio: estudiar las perícopes paralelas juntas ilumina el énfasis teológico específico de cada evangelista. Cuando Mateo incluye el Sermón del Monte (Mt 5–7) y Lucas incluye el Sermón del Llano (Lc 6:17–49), la comparación revela que ambos articulan el mismo mensaje desde perspectivas complementarias: Mateo hacia Israel (las Bienaventuranzas como nueva Torá), Lucas hacia los marginados (los pobres, los que lloran). La armonía no unifica; ilumina las diferencias teológicas deliberadas.
+          </p>
+          <p>
+            <strong>Los evangelios en la predicación expositiva reformada.</strong> El predicador que toma un Evangelio para predicación continua (como Lloyd-Jones hizo con Marcos, o Sinclair Ferguson con Lucas) practica la hermenéutica reformada en su forma más visible: sigue el movimiento argumental del evangelista perícopa a perícopa, en lugar de saltar temáticamente. Este método respeta la intención del autor, protege contra la atomización del texto y expone a la congregación a la estructura completa del testimonio evangélico. Es también la forma de predicación más parecida a la que la iglesia primitiva experimentó al escuchar el Evangelio leído en voz alta en la asamblea (Apoc 1:3).
+          </p>
+        </div>
+      </li>
+      <li class="via">
+        <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+        <div class="via__body">
+          <p>
+            <strong>El Magnificat (Lc 1:46–55) como doxología evangélica.</strong> Antes de que Jesús hable una sola palabra en el Evangelio de Lucas, su madre articula la doxología que gobierna todo el relato: «Engrandece mi alma al Señor, y mi espíritu se regocija en Dios mi Salvador» (Lc 1:46–47, RVR60). El Magnificat es arpa del AT —eco del cántico de Ana (1 S 2:1–10)— convertida en doxología encarnacional. La lectura doxológica de los Evangelios reconoce que cada narración —cada milagro, cada parábola, cada diálogo— es manifestación del Dios que actúa para gloria de su nombre y salvación de su pueblo. La respuesta correcta al Evangelio no es solo comprensión intelectual sino adoración.
+          </p>
+          <p>
+            <strong>Los «Yo soy» de Juan como doxología cristológica.</strong> Los siete «Yo soy» del Evangelio de Juan —Pan de vida (6:35), Luz del mundo (8:12), Puerta (10:9), Buen Pastor (10:11), Resurrección y vida (11:25), Camino, verdad y vida (14:6), Vid verdadera (15:1)— son la doxología del Verbo encarnado. Cada uno reclama la identidad divina del Sinaí («Yo soy el que soy», Éx 3:14) aplicada a la persona histórica de Jesús de Nazaret. Cuando la congregación canta «Cristo es la vid, nosotros los pámpanos» o «Jesús es la luz del mundo», está vocalizando la doxología juanina. <em>Evangelia non sunt chronicae humanae sed Verbum Dei incarnati per Spiritum Sanctum inspiratum ad salutem electorum et gloriam Patris. Qui legit intelligat; qui intelligit adoret. <i lang="la">Soli Deo gloria</i>.</em>
+          </p>
+        </div>
+      </li>
+      </ol>
+</article>
+
+
+    <!-- LECCIÓN 3.2 · Epístolas -->
+    <article class="lesson" id="l-3-2" aria-labelledby="l-3-2-title">
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 3.2</p>
+        <h3 id="l-3-2-title" class="lesson__title">Cómo leer las <em>Epístolas</em></h3>
+        <p class="lesson__abstract">
+          La estructura argumental de las cartas paulinas. La diferencia entre
+          aplicación cultural y norma permanente. El uso de los imperativos en
+          contexto del indicativo de gracia (Romanos 6).
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          Las epístolas paulinas tienen estructura argumental rigurosa. La
+          mayoría sigue un patrón doble: primero <em>indicativo</em> (lo que
+          Cristo ha hecho por nosotros, qué somos en él), luego
+          <em>imperativo</em> (cómo debemos vivir en consecuencia). Romanos
+          1–11 es indicativo de la salvación; Romanos 12–16 es el imperativo
+          ético derivado. Efesios 1–3 es indicativo de la gracia; Efesios
+          4–6 es el imperativo del andar digno. Esta estructura es
+          teológicamente decisiva: el imperativo cristiano descansa sobre el
+          indicativo de la gracia, no lo precede ni lo condiciona.
+        </p>
+        <p>
+          Sobre la distinción entre <em>aplicación cultural</em> y
+          <em>norma permanente</em>: ciertas instrucciones de las cartas
+          (saludarse con beso santo, cubrir la cabeza, comer carne ofrecida
+          a ídolos) están orientadas a circunstancias concretas del primer
+          siglo, mientras otras (el amor fraternal, la pureza sexual, la
+          honra al Estado) son normativas para toda generación. La distinción
+          no es arbitraria: requiere atender a las razones que el apóstol
+          aporta. Cuando la razón apela a la creación, al carácter de Dios
+          o al evangelio, la norma es permanente. Cuando apela a circunstancias
+          locales o de tropiezo, la aplicación admite variación cultural sin
+          perder el principio.
+        </p>
+        <p>
+          Romanos 6 ilustra la lógica indicativo-imperativo con precisión
+          quirúrgica: «sabiendo esto, que nuestro viejo hombre fue
+          crucificado juntamente con él… así también vosotros consideraos
+          muertos al pecado» (vv. 6, 11). El imperativo «consideraos
+          muertos» no inventa una realidad: reconoce la realidad ya operada
+          en Cristo. La ética cristiana no genera la unión con Cristo;
+          deriva de ella.
+        </p>
+      </div>
+    
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+      <li class="via">
+        <h4 class="via__title">Formulación <em>confesional</em></h4>
+        <div class="via__body">
+          <p>
+            La <strong>Confesión de Fe de Westminster I.7</strong> articula que «no todas las cosas en la Escritura son igualmente claras en sí mismas, ni igualmente claras para todos; sin embargo, las cosas necesarias para ser conocidas, creídas y observadas para la salvación son propuestas y abiertas en algún lugar u otro de la Escritura de tal modo que no sólo los eruditos, sino también los no instruidos, en el uso apropiado de los medios ordinarios, pueden alcanzar suficiente comprensión de ellas». Las Epístolas presentan precisamente este contraste: Pedro advierte que Pablo escribe «cosas difíciles de entender» (2 P 3:16, RVR60), pero las verdades salvíficas centrales —justificación por fe, unión con Cristo, resurrección— son articuladas con claridad meridiana en Romanos, Gálatas y 1 Corintios 15. La perspicuidad no elimina la dificultad; garantiza la suficiencia salvífica.
+          </p>
+          <p>
+            El <strong>Catecismo Mayor de Westminster P. 155</strong> articula que la Palabra «debe ser leída con diligencia, preparación y oración; creída, porque es Palabra de Dios; practicada y guardada en el corazón; y meditada en ella». Esta disposición catequética es particularmente urgente para las Epístolas: Pablo escribe a congregaciones en crisis —Corinto, Galacia, Colosas— con argumentación densa que exige lectura múltiple y meditativa. El <strong>Catecismo de Heidelberg P. 21</strong> articula que la fe verdadera «no es sólo cierto conocimiento por el que tengo por verdadero todo cuanto Dios nos ha revelado en su Palabra, sino también una firme confianza». Las Epístolas son el texto primario donde se articula ese conocimiento doctrinal y esa confianza personal: Romanos 5:1 («Justificados, pues, por la fe, tenemos paz para con Dios»), Gálatas 2:20, Filipenses 1:21.
+          </p>
+        </div>
+      </li>
+      <li class="via">
+        <h4 class="via__title">Dimensión <em>elenética</em></h4>
+        <div class="via__body">
+          <p>
+            <strong>Primero, contra el dispensacionalismo que trata algunas Epístolas como exclusivamente destinadas a Israel futuro.</strong> La corriente ultradispensacionalista (E. W. Bullinger, Charles Welch) argumenta que las «cartas de prisión» de Pablo (Efesios, Filipenses, Colosenses, Filemón) contienen un «misterio» dispensacional destinado al «cuerpo» de Cristo distinto de la «iglesia del reino» de los Evangelios y Hechos, y que Gálatas, Romanos y 1–2 Corintios fueron escritas en la «dispensación del reino» ya caducada. La respuesta reformada es precisa: Pablo mismo cita explícitamente el salmo 68:18 en Efesios 4:8 (aplicación tipológica del AT a la iglesia del NT) y Génesis 15:6 en Romanos 4 como paradigma de la justificación; estas cartas no son para una dispensación paralela sino para la iglesia del Nuevo Pacto de todos los tiempos (Westminster VII.5–6).
+          </p>
+          <p>
+            <strong>Segundo, contra la lectura «moralista» que extrae mandatos sin el indicativo de gracia.</strong> Un error hermenéutico frecuente en la predicación popular es predicar el imperativo epistolar sin el indicativo que lo fundamenta: «sed amables los unos con los otros» (Ef 4:32, RVR60) sin el «perdonándoos unos a otros, como Dios también os perdonó a vosotros en Cristo» que lo ancla. El resultado es moralismo funcional que deprime al creyente que no puede cumplir el mandato con sus propias fuerzas. La estructura paulina indicativo-imperativo protege contra este error: el imperativo bíblico no produce la gracia, la presupone.
+          </p>
+          <p>
+            <strong>Tercero, contra la distinción artificial entre Pablo y Santiago como contradicción irreconciliable.</strong> Lutero llamó a Santiago «epístola de paja» por percibir contradicción con la doctrina paulina de la justificación por fe. La hermenéutica reformada —articulada por Calvino, Turretini y en época contemporánea por D. A. Carson (<em>Right With God</em>, 1992)— resuelve la aparente tensión: Pablo habla de la fe que justifica ante Dios (fe que confía); Santiago habla de la «fe» que dice ser fe sin obras (profesión verbal vacía). Los dos hablan de objetos distintos usando la misma palabra. Romanos 3:28 y Santiago 2:24 no se contradicen: se complementan desde ángulos distintos.
+          </p>
+        </div>
+      </li>
+      <li class="via">
+        <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+        <div class="via__body">
+          <p>
+            <strong>La estructura indicativo-imperativo como arquitectura histórico-redentora.</strong> La estructura paulina indicativo (lo que Dios ha hecho en Cristo) → imperativo (cómo debe responder el creyente) refleja la estructura del pacto veterotestamentario: el prólogo del Decálogo («Yo soy Jehová tu Dios, que te saqué de la tierra de Egipto», Éx 20:2) precede los mandamientos. La redención no es recompensa de la obediencia; la obediencia es respuesta a la redención. En Efesios, «en quien tenemos redención por su sangre» (1:7, RVR60) precede en tres capítulos a «andad como es digno de la vocación con que fuisteis llamados» (4:1, RVR60). La estructura histórico-redentora del pacto fundamenta la ética epistolar.
+          </p>
+          <p>
+            <strong>Romanos como síntesis sistemática de la teología bíblica paulina.</strong> Romanos no es epístola ocasional: es la exposición más sistemática de la teología de Pablo, escrita para la congregación de Roma que él aún no había visitado. Su estructura sigue el arco histórico-redentor: la necesidad universal del evangelio (1:18–3:20: judíos y gentiles bajo juicio), la justificación por fe (3:21–5:21: Abraham como paradigma del AT), la santificación (6–8: unión con Cristo y obra del Espíritu), la soberanía divina e Israel (9–11: la fidelidad de Dios a las promesas veterotestamentarias) y la ética del cuerpo (12–15: consecuencias prácticas). Geerhardus Vos (<em>The Pauline Eschatology</em>, 1930) demostró que incluso la escatología de Romanos 8 es teología bíblica: el gemido de la creación en los vv. 19–22 conecta con la esperanza del nuevo éxodo ya inaugurado en la resurrección de Cristo.
+          </p>
+          <p>
+            <strong>Las cartas de prisión como doxología cristológica desde la adversidad.</strong> Efesios, Filipenses, Colosenses y Filemón —escritas desde la prisión romana (c. 60–62 d.C.)— articulan la cristología más elevada del corpus paulino precisamente desde la adversidad: «a mí el vivir es Cristo, y el morir es ganancia» (Fil 1:21, RVR60); «en él habita corporalmente toda la plenitud de la Deidad» (Col 2:9, RVR60); «bendito sea el Dios y Padre de nuestro Señor Jesucristo, que nos bendijo con toda bendición espiritual en los lugares celestiales en Cristo» (Ef 1:3, RVR60). La adversidad pastoral no produce teología menor; en Pablo produce la más elevada. Este patrón —doxología desde el sufrimiento— es paradigmático para la teología reformada de la cruz (1 Co 1:18–25).
+          </p>
+        </div>
+      </li>
+      <li class="via">
+        <h4 class="via__title">Aplicación <em>catequética</em></h4>
+        <div class="via__body">
+          <p>
+            <strong>Cómo distinguir norma permanente de instrucción culturalmente localizada.</strong> El principio hermenéutico reformado: cuando Pablo fundamenta una instrucción en la creación, en el carácter de Dios, en el evangelio o en la estructura del pacto, la norma es permanente (1 Co 11:7–9 sobre la imagen y gloria; Ef 5:25 sobre el amor del marido «como Cristo amó a la iglesia»). Cuando la razón apela a circunstancias locales o de tropiezo (1 Co 8: la carne ofrecida a ídolos; Ro 14: días especiales y alimentos), el principio permanece pero la aplicación admite variación cultural. Este método no es relativismo bíblico —es exégesis que distingue entre el texto y su aplicación, reconociendo que la norma permanente puede tener expresiones históricamente variables.
+          </p>
+          <p>
+            <strong>El método de lectura epistolar en tres pasos para el estudiante reformado.</strong> (1) <em>Lectura narrativa</em>: leer la carta de una sola vez para captar el argumento completo. (2) <em>Lectura analítica</em>: identificar la estructura (indicativo/imperativo, argumentos principales, citas del AT, fórmulas litúrgicas como Fil 2:6–11 y Col 1:15–20 que son probablemente himnos preexistentes). (3) <em>Lectura aplicativa</em>: preguntar —¿qué conocimiento doctrinal exige este texto? ¿qué confianza personal? ¿qué obediencia práctica?— siguiendo el esquema del Catecismo Mayor P. 155. Este método protege contra la lectura devocional atomizada que extrae versículos fuera de contexto y contra la lectura puramente académica que no llega a la aplicación vital.
+          </p>
+          <p>
+            <strong>Las doxologías espontáneas de Pablo como modelo de adoración doctrinal.</strong> Pablo interrumpe frecuentemente su argumentación con explosiones doxológicas: «Oh profundidad de las riquezas de la sabiduría y del conocimiento de Dios» (Ro 11:33, RVR60); «A él sea gloria en la iglesia en Cristo Jesús por todas las edades, por los siglos de los siglos» (Ef 3:21, RVR60); «Y a Aquel que es poderoso para hacer todas las cosas mucho más abundantemente de lo que pedimos o entendemos» (Ef 3:20, RVR60). Estas doxologías no son ornamento retórico: son la respuesta espontánea del apóstol a la doctrina que acaba de articular. Enseñan al lector que la teología correctamente comprendida produce adoración, no solo información.
+          </p>
+        </div>
+      </li>
+      <li class="via">
+        <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+        <div class="via__body">
+          <p>
+            <strong>Efesios 1:3–14 como la doxología epistolar más densa del NT.</strong> Los doce versículos de apertura de Efesios son, en el griego original, una sola frase (periodo) que articula la obra trinitaria completa de la salvación: el Padre elige «antes de la fundación del mundo» (v. 4), el Hijo redime «por su sangre» (v. 7), el Espíritu Santo sella «para el día de la redención» (v. 13). El triple estribillo «para alabanza de su gloria» (vv. 6, 12, 14) articula que la meta de toda la economía salvífica es doxológica. Pablo no comienza su carta con un programa eclesiástico ni con un plan de mejora personal: comienza con la adoración al Dios que actúa trinitariamente para gloria de su nombre.
+          </p>
+          <p>
+            <strong>Romanos 11:33–36 como clímax doxológico de la teología epistolar.</strong> Después de once capítulos de la teología más densa del NT —pecado universal, justificación forense, unión con Cristo, soberanía en la elección, fidelidad de Dios a Israel— Pablo no concluye con un resumen doctrinal sino con adoración: «¡Oh profundidad de las riquezas de la sabiduría y del conocimiento de Dios! ¡Cuán insondables son sus juicios e inescrutables sus caminos!… A él sea la gloria por los siglos. Amén» (Ro 11:33, 36, RVR60). Este momento enseña la hermenéutica definitiva de toda Epístola: la doctrina es el camino; la adoración es el destino. <em>Epistolae Paulinae non sunt tractatus academici sed liturgia doctrinae: indicativus gratiae parit imperativum oboedientiae, uterque culminat in doxologia <i lang="la">coram Deo</i> Trino. <i lang="la">Soli Deo gloria</i> in secula seculorum. Amen.</em>
+          </p>
+        </div>
+      </li>
+      </ol>
+</article>
+
+
+    <!-- LECCIÓN 3.3 · Apocalipsis -->
+    <article class="lesson" id="l-3-3" aria-labelledby="l-3-3-title">
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 3.3</p>
+        <h3 id="l-3-3-title" class="lesson__title">Cómo leer el <em>Apocalipsis</em></h3>
+        <p class="lesson__abstract">
+          Las cuatro escuelas interpretativas: preterista, historicista,
+          futurista, idealista. La perspectiva reformada-amilenarista. El
+          lenguaje simbólico y la tradición profética del AT. Aplicación a
+          Apocalipsis 1:1–8.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          El Apocalipsis es libro de género apocalíptico-profético-epistolar,
+          combinación rara que produce dificultad interpretativa. La
+          historia de la Iglesia ha producido cuatro grandes escuelas:
+        </p>
+        <ul role="list">
+          <li><strong>Preterismo</strong> · todo o casi todo el libro se
+              refiere a eventos del primer siglo (caída de Jerusalén en 70
+              d.C., persecución bajo Nerón). Tiene el mérito de tomar en
+              serio el contexto histórico inmediato; el riesgo de vaciar al
+              libro de proyección escatológica.</li>
+          <li><strong>Historicismo</strong> · el libro narra la historia
+              completa de la Iglesia desde Pentecostés hasta la parusía,
+              identificando cada visión con un período histórico específico.
+              Fue la lectura mayoritaria de la Reforma. Su limitación: las
+              correspondencias con eventos históricos suelen ser forzadas y
+              cambian con cada generación.</li>
+          <li><strong>Futurismo</strong> · todo desde el capítulo 4 se
+              refiere a eventos finales (gran tribulación, anticristo,
+              milenio literal). Su forma dispensacionalista (Darby, Scofield)
+              ha dominado el evangelicalismo norteamericano del siglo XX.
+              Crítica reformada: ignora el contexto pastoral inmediato del
+              libro y produce esquemas escatológicos especulativos.</li>
+          <li><strong>Idealismo</strong> · el libro presenta principios
+              espirituales atemporales sobre el conflicto entre el bien y el
+              mal, sin referente histórico específico. Tiene el mérito de
+              reconocer el carácter simbólico; el riesgo de eliminar la
+              concreción histórica del referente escatológico.</li>
+        </ul>
+        <p>
+          La tradición reformada mayoritaria adopta una <em>síntesis
+          idealista-amilenarista</em>: el libro se dirige primero a sus
+          oyentes del primer siglo bajo persecución (Asia Menor, finales
+          del siglo I), usa imágenes apocalípticas tomadas del AT (Daniel,
+          Ezequiel, Zacarías) para confortar al pueblo de Dios bajo
+          opresión, y proyecta hacia la consumación final con el retorno
+          de Cristo. El milenio (capítulo 20) se entiende como la era
+          actual entre la primera y segunda venidas de Cristo, no como un
+          reino terrenal literal futuro.
+        </p>
+        <p>
+          Aplicación a Apocalipsis 1:1–8: las primeras palabras del libro
+          establecen su naturaleza («revelación de Jesucristo»), su origen
+          («Dios… mostró»), su mediación («por medio de su ángel a su
+          siervo Juan»), su destinatario («a los siete iglesias»), su
+          urgencia («el tiempo está cerca»), y su tema central («el Alfa y
+          la Omega… el que es y que era y que ha de venir»). El libro no
+          se trata de descifrar enigmas: se trata de Cristo glorificado y
+          reinante, dado al pueblo bajo persecución como consuelo.
+        </p>
+
+        <ol class="vias">
+          <li class="via">
+            <p class="via__label">V&iacute;a 1</p>
+            <h4 class="via__title">Formulaci&oacute;n <em>confesional</em></h4>
+            <div class="via__body">
+              <p>
+                La tradici&oacute;n confesional reformada ofrece tres
+                anclas dogm&aacute;ticas para leer el Apocalipsis con
+                rigor. <strong>La Confesi&oacute;n de Westminster I.9</strong>
+                establece la regla hermenéutica inviolable: <em>&laquo;La
+                regla infalible de interpretaci&oacute;n de la Escritura
+                es la propia Escritura misma; y por tanto, cuando hay
+                una cuesti&oacute;n sobre el verdadero y pleno sentido
+                de cualquier texto &mdash;que no es m&uacute;ltiple,
+                sino uno&mdash;, debe buscarse en otros lugares que
+                traten con mayor claridad de ello&raquo;</em>. Para el
+                Apocalipsis, esto es m&eacute;todo: su lenguaje
+                simb&oacute;lico est&aacute; tejido de citas y alusiones
+                a Daniel, Ezequiel, Is&aacute;as y Zacar&iacute;as, y
+                solo el Antiguo Testamento puede descifrarlo leg&iacute;timamente.
+                La <strong>Westminster XXXII.1&ndash;XXXIII.3</strong>
+                sobre la resurrecci&oacute;n y el juicio final fija el
+                marco escatol&oacute;gico en el que Apocalipsis 20&ndash;22
+                debe leerse: una resurrecci&oacute;n corporal universal,
+                un juicio final &uacute;nico, destinos eternos reales.
+                La <strong>Confesi&oacute;n Belga Art. 37</strong>
+                declara que en el juicio final <em>&laquo;los fieles y
+                los elegidos ser&aacute;n coronados de gloria y honra&raquo;</em>
+                &mdash;exactamente lo que Ap 21&ndash;22 dramatiza.
+                El <strong>Cat&eacute;cismo de Heidelberg P. 52</strong>
+                transforma la escatolog&iacute;a en consolaci&oacute;n
+                personal: la misma esperanza que produce el Apocalipsis
+                en las iglesias de Asia Menor perseguidas. La
+                <strong>Confesi&oacute;n Bautista de 1689 cap. 32</strong>
+                codifica el amilenarismo: un solo retorno de Cristo,
+                una sola resurrecci&oacute;n general, sin milenio literal
+                intermedio. Este marco confesional libera al lector de
+                la especulaci&oacute;n y lo ancla en la promesa concreta:
+                el Cordero vence; su pueblo habitar&aacute; con Dios
+                para siempre.
+              </p>
+            </div>
+          </li>
+
+          <li class="via">
+            <p class="via__label">V&iacute;a 2</p>
+            <h4 class="via__title">Dimensi&oacute;n <em>el&eacute;ntica</em></h4>
+            <div class="via__body">
+              <p>
+                Cuatro distorsiones hermenéuticas deben ser refutadas
+                con precisi&oacute;n. <strong>Primera: el futurismo
+                dispensacionalista</strong> (Darby, Scofield, Lindsey,
+                LaHaye&ndash;Jenkins) sostiene que Ap 4&ndash;22
+                describe &uacute;nicamente eventos futuros: rapto
+                pre&not;tribulacional, tribulaci&oacute;n de siete a&ntilde;os,
+                milenio davídico en Jerusal&eacute;n, dos resurrecciones
+                separadas. Su falla hermenéutica es triple: impone
+                un sistema doctrinal previo sobre el texto; ignora las
+                convenciones simb&oacute;licas del g&eacute;nero
+                apocap&iacute;ptico; y priva a las iglesias del siglo I
+                de cualquier mensaje pertinente convirtiendo el libro en
+                un manual para una &eacute;poca futura remota.
+                <strong>Segunda: el historicismo acumulativo</strong>
+                (Matthew Henry, Matthew Poole en versi&oacute;n
+                moderada; Joachim de Fiore en versi&oacute;n radical)
+                identifica cada sello, trompeta y copa con per&iacute;odos
+                hist&oacute;ricos precisos. Su problema es la arbitrariedad:
+                intérpretes distintos ven eventos distintos en las mismas
+                im&aacute;genes. <strong>Tercera: el preterismo
+                total</strong> (Max King, hiperpreteristas) afirma que
+                toda la escatolog&iacute;a neotestamentaria se cumpli&oacute;
+                en el 70 d.C. Esta posici&oacute;n viola Westminster
+                XXXII&ndash;XXXIII y niega la resurrecci&oacute;n
+                corporal futura &mdash;artículo del Credo Apost&oacute;lico.
+                <strong>Cuarta: el idealismo acosmista</strong> (lecturas
+                de Orígenes; algunas variantes posmodernas) reduce el
+                Apocalipsis a un poema atemporal sin referentes
+                hist&oacute;ricos. La historia redentora es real e
+                irreversible; el Apocalipsis anuncia su consumaci&oacute;n
+                objetiva, no la disuelve en alegor&iacute;a.
+              </p>
+            </div>
+          </li>
+
+          <li class="via">
+            <p class="via__label">V&iacute;a 3</p>
+            <h4 class="via__title">Perspectiva de <em>teolog&iacute;a b&iacute;blica</em></h4>
+            <div class="via__body">
+              <p>
+                El Apocalipsis es la gran recapitulaci&oacute;n
+                doxol&oacute;gica de toda la historia redentora, legible
+                solo desde la corriente prof&eacute;tica del Antiguo
+                Testamento. <strong>En su ra&iacute;z daniel&iacute;ca</strong>,
+                el libro alude a Daniel m&aacute;s de ciento cincuenta veces:
+                el Hijo del Hombre sobre las nubes (Dn 7:13 &rarr; Ap
+                1:7; 14:14), las cuatro bestias como imperios hostiles
+                al pueblo de Dios (Dn 7 &rarr; Ap 13), el tiempo,
+                tiempos y medio tiempo como per&iacute;odo de tribulaci&oacute;n
+                delimitado (Dn 7:25 &rarr; Ap 12:14). <strong>En su
+                ra&iacute;z ezequieliana</strong>, la visi&oacute;n
+                inaugural del trono (Ez 1 &rarr; Ap 4), la Nueva
+                Jerusal&eacute;n (Ez 40&ndash;48 &rarr; Ap 21&ndash;22)
+                y el r&iacute;o de vida (Ez 47 &rarr; Ap 22:1)
+                muestran que Juan reescribe el programa restaurador
+                de Ezequiel bajo la luz de la resurrecci&oacute;n de
+                Cristo. <strong>En su estructura recapitulante</strong>,
+                Geerhardus Vos (<em>The Pauline Eschatology</em>) y
+                William Hendriksen (<em>M&aacute;s que vencedores</em>)
+                demuestran que las siete s&eacute;ries de visiones
+                &mdash;sellos, trompetas, copas, etc.&mdash; son
+                paralelas y recapitulantes: describen el mismo per&iacute;odo
+                entre la primera y segunda venida de Cristo desde
+                &aacute;ngulos de intensidad creciente. Esta estructura
+                hace del Apocalipsis un libro de consolaci&oacute;n
+                perenne para toda iglesia perseguida, no un calendario
+                lineal &uacute;nicamente pertinente para una &eacute;poca
+                futura. El Cordero que fue inmolado y que vive (Ap 5:6)
+                es el centro gravitacional del libro entero y de toda
+                la historia redentora.
+              </p>
+            </div>
+          </li>
+
+          <li class="via">
+            <p class="via__label">V&iacute;a 4</p>
+            <h4 class="via__title">Aplicaci&oacute;n <em>catequ&eacute;tica</em></h4>
+            <div class="via__body">
+              <p>
+                Cinco reglas pastorales para ense&ntilde;ar el Apocalipsis
+                en la congregaci&oacute;n. <strong>Primera &mdash;
+                ense&ntilde;ar expl&iacute;citamente el g&eacute;nero</strong>:
+                el Apocalipsis pertenece al g&eacute;nero apocap&iacute;ptico-prof&eacute;tico,
+                cuyas im&aacute;genes son convencionales y simb&oacute;licas.
+                La congregaci&oacute;n que comprende esto no busca la
+                &laquo;marca de la bestia&raquo; en c&oacute;digos de
+                barras ni al &laquo;anticristo&raquo; en figuras pol&iacute;ticas
+                contempor&aacute;neas. <strong>Segunda &mdash; las siete
+                iglesias como espejo de la congregaci&oacute;n presente</strong>:
+                las cartas de Ap 2&ndash;3 son la clave pastoral del libro.
+                Si el texto no ten&iacute;a sentido para Esmirna perseguida
+                (Ap 2:10) o para Laodicea acomodada (Ap 3:17), no puede
+                tener sentido privilegiado para una audiencia futura
+                hipot&eacute;tica. <strong>Tercera &mdash; Cristo-log&iacute;a
+                antes que cronolog&iacute;a</strong>: cada visi&oacute;n
+                revela algo de Cristo glorificado (Ap 1:12&ndash;20) antes
+                que algo del futuro. La pregunta hermenéutica primaria
+                no es &laquo;&iquest;cu&aacute;ndo ocurrir&aacute; esto?&raquo;
+                sino &laquo;&iquest;qu&eacute; dice esto sobre el Cordero?&raquo;
+                <strong>Cuarta &mdash; los himnos como llave
+                interpretativa</strong>: los himno del Apocalipsis
+                (Ap 4:8&ndash;11; 5:9&ndash;14; 7:9&ndash;12; 11:15&ndash;18;
+                19:1&ndash;8) son el hueso teol&oacute;gico del libro.
+                <strong>Quinta &mdash; la consolaci&oacute;n como
+                prop&oacute;sito original</strong>: Juan escribe bajo
+                Domiciano a iglesias bajo persecuci&oacute;n. El mensaje
+                central no es &laquo;descifra el futuro&raquo; sino
+                &laquo;el Cordero vencer&aacute;; persevera&raquo; (Ap 21:4;
+                22:11&ndash;12).
+              </p>
+            </div>
+          </li>
+
+          <li class="via">
+            <p class="via__label">V&iacute;a 5</p>
+            <h4 class="via__title">Aplicaci&oacute;n <em>doxol&oacute;gica</em></h4>
+            <div class="via__body">
+              <p>
+                El Apocalipsis es, en su totalidad, un acto de adoraci&oacute;n
+                en forma literaria. Su prop&oacute;sito no es satisfacer
+                la curiosidad escatol&oacute;gica sino producir iglesias
+                que perseveren, adoren y esperen el retorno del Cordero.
+                Los himnos recapitulan toda la teolog&iacute;a b&iacute;blica
+                en doxolog&iacute;a pura: <em>&laquo;El reino del mundo
+                ha venido a ser de nuestro Se&ntilde;or y de su Cristo;
+                y &eacute;l reinar&aacute; por los siglos de los
+                siglos&raquo;</em> (Ap 11:15, RVR60). La hermenéutica
+                reformada del Apocalipsis produce una iglesia que aguarda
+                con esperanza activa &mdash;no con ansiedad especulativa&mdash;
+                porque sabe que <em>&laquo;el que da testimonio de estas
+                cosas dice: S&iacute;, vengo en breve&raquo;</em>, y
+                responde con el &uacute;ltimo verbo del Nuevo Testamento:
+                <em>&laquo;Am&eacute;n; s&iacute;, ven, Se&ntilde;or
+                Jes&uacute;s&raquo;</em> (Ap 22:20, RVR60). Este
+                <em>Maranatha</em> no es pasividad sino oraci&oacute;n
+                del pueblo que trabaja, predica y ama mientras aguarda
+                la consumaci&oacute;n. Leer bien el Apocalipsis es ya
+                adorar: reconocer que el Cordero que fue inmolado es
+                digno de recibir <em>&laquo;el poder, las riquezas, la
+                sabidur&iacute;a, la fortaleza, la honra, la gloria
+                y la alabanza&raquo;</em> (Ap 5:12, RVR60).
+                <em><i lang="la">Soli Deo gloria</i>, in consummatione historiae.</em>
+              </p>
+            </div>
+          </li>
+
+        </ol>
+
+      </div>
+    </article>
+
+
+    <!-- ============================================
+         ACTIVIDAD FINAL · Exégesis con rúbrica
+         ============================================ -->
+    <section class="rubric" aria-labelledby="final-title">
+      <h3 id="final-title" class="rubric__title">Actividad final · Exégesis aplicada</h3>
+      <p class="rubric__intro">
+        El curso culmina con un ejercicio integrador: el estudiante realiza
+        una exégesis escrita de aproximadamente quinientas palabras sobre un
+        texto asignado, aplicando todos los pasos del método
+        histórico-gramatical aprendidos. Texto sugerido: Romanos 8:28–30.
+        Estructura recomendada del trabajo:
+      </p>
+
+      <ol style="list-style: decimal; padding-inline-start: 1.5rem; max-width: 44rem; color: var(--text-secondary); font-size: var(--text-sm); line-height: var(--leading-loose); margin-block-end: var(--space-lg);">
+        <li><strong>Contexto histórico</strong> · 80 palabras: autor,
+            destinatarios, fecha, propósito, lugar en la carta a los Romanos.</li>
+        <li><strong>Contexto literario inmediato</strong> · 80 palabras:
+            cómo se conecta con Romanos 8:1–27 y 8:31–39.</li>
+        <li><strong>Análisis gramatical</strong> · 120 palabras: términos
+            clave («propósito», «llamados», «conformes a la imagen»,
+            «predestinó», «justificó», «glorificó»), tiempos verbales, sujeto
+            de cada acción.</li>
+        <li><strong>Estructura del pasaje</strong> · 60 palabras: la cadena
+            de los cinco verbos en aoristo griego (vv. 29–30) y su lógica
+            soteriológica.</li>
+        <li><strong>Análisis tipológico/teológico-bíblico</strong> · 80
+            palabras: cómo se conecta con la teología pactual del AT
+            (elección de Israel, llamado de Abraham) y con el <i lang="la">ordo salutis</i>
+            confesional.</li>
+        <li><strong>Aplicación pastoral</strong> · 80 palabras: qué consuelo
+            y qué obediencia produce el pasaje en la vida del creyente
+            contemporáneo.</li>
+      </ol>
+
+      <h4 style="font-family: var(--font-display); font-size: var(--text-h4); margin-block: var(--space-md) var(--space-sm); color: var(--text-heading);">
+        Rúbrica de evaluación
+      </h4>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Criterio</th>
+            <th scope="col">Excelente · 4</th>
+            <th scope="col">Suficiente · 3</th>
+            <th scope="col">Mínimo · 2</th>
+            <th scope="col">Insuficiente · 1</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Contextualización</th>
+            <td>Sitúa el pasaje con precisión en su contexto histórico,
+                literario y canónico.</td>
+            <td>Identifica el contexto principal sin matices.</td>
+            <td>Reconoce el género y autor pero no más.</td>
+            <td>No demuestra atención al contexto.</td>
+          </tr>
+          <tr>
+            <th scope="row">Análisis gramatical</th>
+            <td>Identifica términos clave, tiempos verbales y estructura
+                argumental con precisión.</td>
+            <td>Análisis correcto sin penetración.</td>
+            <td>Identificaciones básicas con imprecisiones.</td>
+            <td>No discrimina la gramática del contenido.</td>
+          </tr>
+          <tr>
+            <th scope="row">Sentido teológico</th>
+            <td>Conecta el pasaje con doctrinas mayores de manera
+                orgánica, sin imponer.</td>
+            <td>Reconoce las doctrinas obvias del pasaje.</td>
+            <td>Cita doctrinas sin demostrar su derivación textual.</td>
+            <td>Confunde doctrinas o las extrae de modo eiségético.</td>
+          </tr>
+          <tr>
+            <th scope="row">Aplicación responsable</th>
+            <td>Aplica el pasaje con concreción pastoral y sin
+                voluntarismo.</td>
+            <td>Aplica de manera correcta pero genérica.</td>
+            <td>La aplicación se separa del exégesis.</td>
+            <td>No aplica o aplica contra el sentido del texto.</td>
+          </tr>
+          <tr>
+            <th scope="row">Composición escrita</th>
+            <td>Argumentación clara, citas exactas, prosa cuidada.</td>
+            <td>Estructura clara con descuido menor.</td>
+            <td>Estructura confusa pero contenido recuperable.</td>
+            <td>Prosa desarticulada que dificulta la evaluación.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </section>
+
+
+  <!-- ============================================
+       NAVEGACIÓN ENTRE CURSOS
+       ============================================ -->
+  <nav class="course-nav container" aria-label="Navegación entre cursos">
+    <a class="course-nav__link" href="#/introduccion-teologia-reformada">
+      <p class="course-nav__direction">← Curso 01 · Anterior</p>
+      <p class="course-nav__title">Introducción a la Teología Reformada</p>
+    </a>
+    <a class="course-nav__link course-nav__link--next" href="#/introduccion-antiguo-testamento">
+      <p class="course-nav__direction">Curso 03 · Siguiente →</p>
+      <p class="course-nav__title">Introducción al Antiguo Testamento</p>
+    </a>
+  </nav>
+
+</div>

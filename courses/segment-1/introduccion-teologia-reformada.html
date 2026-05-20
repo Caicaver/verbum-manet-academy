@@ -1,0 +1,3168 @@
+<!-- BIB-100-GLOBAL: RVR60 | Salvo indicación contraria, todas las citas bíblicas corresponden a la versión Reina Valera Revisada de 1960 (RVR60). -->
+<!-- ============================================================================
+     VERBUM MANET ACADEMY · courses/segment-1/introduccion-teologia-reformada.html
+     Curso 01 · Segmento I · Fundamentos y Herramientas
+     Fragmento parcial · sin etiquetas raíz, metadatos ni scripts
+     ========================================================================= -->
+
+<style>
+  /* ----------------------------------------------------------------------
+   *  Estilos del curso · prefijo .course-page
+   *  Tipografía editorial extensa con jerarquía clara unidad → lección →
+   *  vías pedagógicas. Pensado para lectura larga y serena.
+   * ------------------------------------------------------------------- */
+
+  .course-page {
+    --course-content-max: 44rem;
+    --course-rule: var(--border);
+  }
+
+  /* ---------- HERO · cabecera del curso ----------------------------- */
+
+  .course-page .course-hero {
+    padding-block: var(--space-lg) var(--space-xl);
+    border-block-end: 1px solid var(--border);
+  }
+
+  .course-page .course-hero__breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.6rem;
+    align-items: baseline;
+    margin-block-end: var(--space-md);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .course-page .course-hero__breadcrumbs a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .course-page .course-hero__breadcrumbs a:hover {
+    color: var(--text-accent);
+  }
+
+  .course-page .course-hero__breadcrumbs span[aria-hidden] {
+    color: var(--accent);
+  }
+
+  .course-page .course-hero__num {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    font-feature-settings: "lnum" 1;
+    margin-block-end: var(--space-sm);
+  }
+
+  .course-page .course-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 1.6rem + 2.8vw, 3.75rem);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    color: var(--text-heading);
+    max-width: 22ch;
+    margin-block-end: var(--space-md);
+    text-wrap: balance;
+  }
+
+  .course-page .course-hero__title em {
+    font-style: italic;
+    color: var(--text-accent);
+  }
+
+  .course-page .course-hero__lead {
+    font-family: var(--font-body);
+    font-size: var(--text-lead);
+    line-height: var(--leading-loose);
+    color: var(--text-secondary);
+    max-width: 44rem;
+    margin-block-end: var(--space-lg);
+  }
+
+  .course-page .course-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+    padding-block: var(--space-md);
+    border-block: 1px solid var(--border);
+  }
+
+  .course-page .course-hero__meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .course-page .course-hero__meta-value {
+    font-family: var(--font-display);
+    font-size: var(--text-h4);
+    color: var(--text-heading);
+    line-height: 1;
+  }
+
+  .course-page .course-hero__meta-label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    max-width: none;
+  }
+
+  /* ---------- TOC · tabla de contenidos del curso -------------------- */
+
+  .course-page .course-toc {
+    padding-block: var(--space-xl);
+    border-block-end: 1px solid var(--border);
+  }
+
+  .course-page .course-toc__title {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-accent);
+    margin-block-end: var(--space-md);
+    max-width: none;
+  }
+
+  .course-page .course-toc__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  @media (min-width: 720px) {
+    .course-page .course-toc__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-md);
+    }
+  }
+
+  .course-page .course-toc__item {
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+    column-gap: var(--space-sm);
+    align-items: baseline;
+    padding-block: 0.4rem;
+    border-block-end: 1px dotted var(--border-subtle);
+  }
+
+  .course-page .course-toc__num {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    color: var(--text-accent);
+    font-feature-settings: "lnum" 1, "tnum" 1;
+    min-width: 2rem;
+  }
+
+  .course-page .course-toc__link {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .course-page .course-toc__link:hover {
+    color: var(--text-accent);
+  }
+
+  /* ---------- UNIT · cabecera grande de unidad ---------------------- */
+
+  .course-page .unit {
+    padding-block: var(--space-2xl) var(--space-xl);
+    border-block-start: 1px solid var(--border);
+    scroll-margin-top: calc(var(--header-height) + 1rem);
+  }
+
+  .course-page .unit__header {
+    margin-block-end: var(--space-xl);
+  }
+
+  .course-page .unit__kicker {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-block-end: var(--space-xs);
+    max-width: none;
+  }
+
+  .course-page .unit__num {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    line-height: 1;
+    color: var(--accent);
+    margin-block-end: 0.25rem;
+    font-feature-settings: "lnum" 1;
+  }
+
+  .course-page .unit__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 2.2vw, 3rem);
+    font-weight: 400;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-heading);
+    max-width: 24ch;
+    margin-block-end: var(--space-sm);
+    text-wrap: balance;
+  }
+
+  .course-page .unit__intro {
+    font-family: var(--font-body);
+    font-size: var(--text-lead);
+    line-height: var(--leading-loose);
+    color: var(--text-secondary);
+    max-width: 44rem;
+  }
+
+  /* ---------- LESSON · estructura de cada lección ------------------- */
+
+  .course-page .lesson {
+    padding-block: var(--space-xl);
+    border-block-start: 1px solid var(--border-subtle);
+    scroll-margin-top: calc(var(--header-height) + 1rem);
+  }
+
+  .course-page .lesson__header {
+    margin-block-end: var(--space-lg);
+  }
+
+  .course-page .lesson__num {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-accent);
+    margin-block-end: var(--space-2xs);
+    max-width: none;
+  }
+
+  .course-page .lesson__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
+    font-weight: 400;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-heading);
+    max-width: 28ch;
+    text-wrap: balance;
+    margin-block-end: var(--space-sm);
+  }
+
+  .course-page .lesson__title em {
+    font-style: italic;
+    color: var(--text-accent);
+  }
+
+  .course-page .lesson__abstract {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: var(--leading-loose);
+    max-width: 44rem;
+    padding-inline-start: var(--space-md);
+    border-inline-start: 2px solid var(--accent);
+  }
+
+  /* Body prose · párrafos largos cómodos */
+  .course-page .lesson__body {
+    margin-block-start: var(--space-lg);
+    max-width: var(--course-content-max);
+  }
+
+  .course-page .lesson__body p {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    color: var(--text-primary);
+    margin-block-end: var(--space-md);
+    max-width: none;
+    text-wrap: pretty;
+  }
+
+  /* ---------- VÍAS PEDAGÓGICAS · los 5 encabezados ------------------ */
+
+  .course-page .vias {
+    margin-block-start: var(--space-lg);
+    counter-reset: via;
+  }
+
+  .course-page .via {
+    padding-block: var(--space-md);
+    border-block-start: 1px solid var(--border-subtle);
+  }
+
+  .course-page .via:first-child {
+    border-block-start: 1px solid var(--border);
+  }
+
+  .course-page .via__header {
+    counter-increment: via;
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+    column-gap: var(--space-sm);
+    align-items: baseline;
+    margin-block-end: var(--space-sm);
+  }
+
+  .course-page .via__header::before {
+    content: counter(via, decimal-leading-zero);
+    font-family: var(--font-display);
+    font-size: var(--text-h4);
+    color: var(--accent);
+    font-feature-settings: "lnum" 1, "tnum" 1;
+    line-height: 1;
+  }
+
+  .course-page .via__name {
+    font-family: var(--font-display);
+    font-size: var(--text-h4);
+    font-weight: 400;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-heading);
+    margin: 0;
+    max-width: none;
+  }
+
+  .course-page .via__name em {
+    font-style: italic;
+    color: var(--text-accent);
+  }
+
+  .course-page .via__body {
+    max-width: var(--course-content-max);
+  }
+
+  .course-page .via__body p {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    color: var(--text-primary);
+    margin-block-end: var(--space-sm);
+    max-width: none;
+  }
+
+  .course-page .via__body p:last-child {
+    margin-block-end: 0;
+  }
+
+  /* Listas en vías */
+  .course-page .via__body ul,
+  .course-page .lesson__body ul {
+    list-style: none;
+    padding-inline-start: 0;
+    margin: var(--space-sm) 0;
+  }
+
+  .course-page .via__body ul li,
+  .course-page .lesson__body ul li {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    color: var(--text-primary);
+    padding-inline-start: var(--space-md);
+    position: relative;
+    margin-block-end: var(--space-2xs);
+  }
+
+  .course-page .via__body ul li::before,
+  .course-page .lesson__body ul li::before {
+    content: "·";
+    position: absolute;
+    inset-inline-start: 0;
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  /* ---------- CITAS DESTACADAS · pullquote --------------------------- */
+
+  .course-page .pullquote {
+    margin-block: var(--space-lg);
+    padding-inline-start: var(--space-md);
+    border-inline-start: 2px solid var(--accent);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-h4);
+    line-height: var(--leading-snug);
+    color: var(--text-heading);
+    max-width: 38rem;
+  }
+
+  .course-page .pullquote cite {
+    display: block;
+    margin-block-start: var(--space-2xs);
+    font-family: var(--font-body);
+    font-style: normal;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  /* ---------- ACTIVIDAD · caja editorial ----------------------------- */
+
+  .course-page .activity {
+    margin-block: var(--space-lg);
+    padding: var(--space-md);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-md);
+    background-color: transparent;
+    max-width: var(--course-content-max);
+  }
+
+  .course-page .activity__label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-accent);
+    margin-block-end: var(--space-2xs);
+    max-width: none;
+  }
+
+  .course-page .activity__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h4);
+    font-weight: 400;
+    line-height: var(--leading-tight);
+    color: var(--text-heading);
+    margin-block-end: var(--space-sm);
+    max-width: none;
+  }
+
+  .course-page .activity__body p {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--text-secondary);
+    margin-block-end: var(--space-2xs);
+    max-width: none;
+  }
+
+  .course-page .activity__body p:last-child {
+    margin-block-end: 0;
+  }
+
+  /* ---------- CUESTIONARIO · acordeones <details> ------------------- */
+
+  .course-page .quiz {
+    margin-block: var(--space-xl);
+    padding-block: var(--space-md);
+    border-block: 1px solid var(--border);
+  }
+
+  .course-page .quiz__header {
+    margin-block-end: var(--space-md);
+  }
+
+  .course-page .quiz__kicker {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-accent);
+    margin-block-end: var(--space-2xs);
+    max-width: none;
+  }
+
+  .course-page .quiz__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    color: var(--text-heading);
+    margin: 0;
+    max-width: none;
+  }
+
+  .course-page .quiz__intro {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-block-start: var(--space-2xs);
+    max-width: 44rem;
+  }
+
+  .course-page .question {
+    border-block-start: 1px solid var(--border-subtle);
+    padding-block: var(--space-sm);
+  }
+
+  .course-page .question:last-child {
+    border-block-end: 1px solid var(--border-subtle);
+  }
+
+  .course-page .question summary {
+    cursor: pointer;
+    list-style: none;
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+    column-gap: var(--space-sm);
+    align-items: baseline;
+    padding: var(--space-2xs) 0;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--text-primary);
+    line-height: var(--leading-snug);
+  }
+
+  .course-page .question summary::-webkit-details-marker { display: none; }
+
+  .course-page .question__num {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    color: var(--text-accent);
+    min-width: 2rem;
+    font-feature-settings: "lnum" 1, "tnum" 1;
+  }
+
+  .course-page .question__plus {
+    width: 0.85rem;
+    height: 0.85rem;
+    color: var(--text-faint);
+    transition:
+      transform var(--duration-base) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+    flex-shrink: 0;
+  }
+
+  .course-page .question[open] .question__plus {
+    transform: rotate(45deg);
+    color: var(--accent);
+  }
+
+  .course-page .question summary:hover .question__plus {
+    color: var(--accent);
+  }
+
+  .course-page .question__answer {
+    padding: var(--space-sm) 0 var(--space-2xs) 2.65rem;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--leading-loose);
+    color: var(--text-secondary);
+    max-width: 42rem;
+  }
+
+  .course-page .question__answer p {
+    margin-block-end: var(--space-2xs);
+    max-width: none;
+  }
+
+  /* ---------- RÚBRICA --------------------------------------------- */
+
+  .course-page .rubric {
+    margin-block: var(--space-xl);
+    padding: var(--space-lg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-surface);
+  }
+
+  .course-page .rubric__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    color: var(--text-heading);
+    margin-block-end: var(--space-sm);
+    max-width: none;
+  }
+
+  .course-page .rubric__intro {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-block-end: var(--space-md);
+    max-width: 44rem;
+  }
+
+  .course-page .rubric table {
+    font-size: var(--text-sm);
+  }
+
+  .course-page .rubric th,
+  .course-page .rubric td {
+    padding: var(--space-xs) var(--space-sm);
+    border-block-end: 1px solid var(--border-subtle);
+    vertical-align: top;
+  }
+
+  .course-page .rubric th {
+    text-align: left;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-accent);
+    border-block-end: 1px solid var(--border);
+  }
+
+  .course-page .rubric td {
+    color: var(--text-secondary);
+    line-height: var(--leading-snug);
+  }
+
+  /* ---------- NAVEGACIÓN AL FINAL · curso anterior/siguiente -------- */
+
+  .course-page .course-nav {
+    margin-block-start: var(--space-2xl);
+    padding-block: var(--space-lg);
+    border-block-start: 1px solid var(--border);
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 720px) {
+    .course-page .course-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+
+  .course-page .course-nav__link {
+    display: block;
+    padding: var(--space-md);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
+  }
+
+  .course-page .course-nav__link:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .course-page .course-nav__link--next {
+    text-align: right;
+  }
+
+  .course-page .course-nav__direction {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    max-width: none;
+  }
+
+  .course-page .course-nav__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h4);
+    color: var(--text-heading);
+    margin-block-start: 0.25rem;
+    max-width: none;
+    line-height: var(--leading-tight);
+  }
+
+  .course-page .course-nav__link:hover .course-nav__title {
+    color: var(--text-accent);
+  }
+</style>
+
+
+<!-- ============================================================================
+     ESTRUCTURA DEL CURSO
+     ========================================================================= -->
+<div class="course-page" id="course-top">
+
+  <!-- ====================================================================
+       HERO DEL CURSO
+       ================================================================= -->
+  <section class="course-hero container" aria-labelledby="course-title">
+
+    <nav class="course-hero__breadcrumbs" aria-label="Migas de pan">
+      <a href="#/courses">Catálogo</a>
+      <span aria-hidden="true">/</span>
+      <span>Segmento I · Fundamentos y Herramientas</span>
+    </nav>
+
+    <p class="course-hero__num" aria-hidden="true">01</p>
+
+    <h1 id="course-title" class="course-hero__title">
+      Introducción a la <em>Teología Reformada</em>
+    </h1>
+
+    <p class="course-hero__lead">
+      Curso fundacional del plan completo. Introduce al estudiante en la
+      naturaleza, el método y la identidad histórica de la teología reformada.
+      Establece las bases epistemológicas, doxológicas y confesionales sobre
+      las que se levantarán todos los cursos posteriores: las cinco
+      <span data-glossary-term="sola-scriptura">Solas</span>, los cinco puntos
+      del calvinismo, la función de las
+      <span data-glossary-term="confesion-de-westminster">confesiones</span>
+      como síntesis de la enseñanza bíblica.
+    </p>
+
+    <div class="course-hero__meta" role="list">
+      <div class="course-hero__meta-item" role="listitem">
+        <span class="course-hero__meta-value">3</span>
+        <span class="course-hero__meta-label">Unidades</span>
+      </div>
+      <div class="course-hero__meta-item" role="listitem">
+        <span class="course-hero__meta-value">10</span>
+        <span class="course-hero__meta-label">Lecciones</span>
+      </div>
+      <div class="course-hero__meta-item" role="listitem">
+        <span class="course-hero__meta-value">6–8</span>
+        <span class="course-hero__meta-label">Semanas sugeridas</span>
+      </div>
+      <div class="course-hero__meta-item" role="listitem">
+        <span class="course-hero__meta-value">Fundacional</span>
+        <span class="course-hero__meta-label">Nivel</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================================================================
+       TABLA DE CONTENIDOS DEL CURSO
+       ================================================================= -->
+  <section class="course-toc container" aria-labelledby="toc-title">
+    <p id="toc-title" class="course-toc__title">Índice del curso</p>
+
+    <ol class="course-toc__list" role="list">
+      <li class="course-toc__item"><span class="course-toc__num">1.1</span><a class="course-toc__link" href="#l-1-1">Definición de teología</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">1.2</span><a class="course-toc__link" href="#l-1-2">¿Por qué todo cristiano debe estudiarla?</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">1.3</span><a class="course-toc__link" href="#l-1-3">Teología y piedad: la unión indisoluble</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">2.1</span><a class="course-toc__link" href="#l-2-1">Las raíces medievales y el clamor de reforma</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">2.2</span><a class="course-toc__link" href="#l-2-2">Las cinco Solas de la Reforma</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">2.3</span><a class="course-toc__link" href="#l-2-3">Calvino y la Reforma Reformada</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">2.4</span><a class="course-toc__link" href="#l-2-4">Los cinco puntos del calvinismo (TULIP)</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">3.1</span><a class="course-toc__link" href="#l-3-1">Sistemática, bíblica e histórica</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">3.2</span><a class="course-toc__link" href="#l-3-2">El rol de las confesiones y catecismos</a></li>
+      <li class="course-toc__item"><span class="course-toc__num">3.3</span><a class="course-toc__link" href="#l-3-3">La analogía de la fe como principio hermenéutico</a></li>
+    </ol>
+  </section>
+
+
+  <!-- ====================================================================
+       UNIDAD 1 · ¿Qué es la teología y por qué estudiarla?
+       ================================================================= -->
+  <section class="unit container" id="unit-1" aria-labelledby="unit-1-title">
+
+    <header class="unit__header">
+      <p class="unit__kicker">Unidad I</p>
+      <p class="unit__num" aria-hidden="true">I</p>
+      <h2 id="unit-1-title" class="unit__title">¿Qué es la teología y por qué estudiarla?</h2>
+      <p class="unit__intro">
+        Antes de entrar en los contenidos confesionales del plan, conviene
+        responder a las preguntas previas: ¿qué entendemos por teología?, ¿por
+        qué un creyente debería ocuparse de ella?, ¿qué relación guarda con la
+        vida espiritual? Esta unidad responde estas tres preguntas en sus
+        tres lecciones, antes del primer cuestionario evaluativo.
+      </p>
+    </header>
+
+
+    <!-- ============================================
+         LECCIÓN 1.1 · Definición de teología
+         ============================================ -->
+    <article class="lesson" id="l-1-1" aria-labelledby="l-1-1-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 1.1</p>
+        <h3 id="l-1-1-title" class="lesson__title">Definición de <em>teología</em></h3>
+        <p class="lesson__abstract">
+          La palabra «teología» y su traición popular. Teología como
+          conocimiento de Dios. Distinción entre teología natural y revelada.
+          La afirmación de Calvino: el conocimiento de Dios y el de nosotros
+          mismos como cosas conexas.
+        </p>
+      </header>
+    <aside class="bib-version-global" style="font-size:.78rem;color:#6b6460;font-style:italic;margin:.5rem 0 1rem;padding:.35rem .75rem;border-left:3px solid #b0a898;background:#f9f8f5;border-radius:0 4px 4px 0;"><strong>Nota:</strong> Salvo indicación contraria, todas las citas bíblicas corresponden a la <strong>Reina Valera Revisada de 1960 (RVR60)</strong>.</aside>
+
+
+      <div class="lesson__body">
+        <p>
+          La palabra teología procede de la unión de dos términos griegos:
+          <em>theos</em>, Dios, y <em>logos</em>, palabra, razón, discurso. En
+          su sentido más estricto significa, por tanto, <em>discurso sobre
+          Dios</em> o, mejor aún, <em>conocimiento de Dios</em>. La definición
+          parece sencilla; pero el uso popular del término ha sufrido tal
+          desgaste que conviene recuperarlo desde sus raíces antes de seguir.
+        </p>
+        <p>
+          Para el oído contemporáneo, «teología» evoca con frecuencia tres
+          imágenes equivocadas: una asignatura abstracta de seminario, una
+          actividad de especialistas que poco tiene que ver con el pueblo de
+          Dios, o un terreno de disputas verbales sin trascendencia práctica.
+          Las tres imágenes son parodias. La teología, entendida bíblicamente,
+          es la actividad más cotidiana del creyente: cada vez que abrimos la
+          Escritura para conocer a Dios, hacemos teología. La cuestión no es
+          si haremos teología, sino si la haremos bien o mal.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              La <span data-glossary-term="confesion-de-westminster">Confesión
+              de Westminster</span> abre con una declaración sobre la Escritura,
+              no sobre Dios; pero el orden no es accidental. La razón es
+              precisamente la que aquí defendemos: no podemos decir nada
+              verdadero sobre Dios si no nos sometemos primero a su revelación
+              de sí mismo. La teología no es producción humana; es recepción
+              disciplinada del Dios que se ha dado a conocer.
+            </p>
+            <p>
+              El <span data-glossary-term="catecismo-de-heidelberg">Catecismo de
+              Heidelberg</span>, en su pregunta primera, articula el lado
+              existencial de la teología: «¿Cuál es tu único consuelo en la vida
+              y en la muerte?». La teología confesional no es información
+              neutra: es respuesta vital al Dios que nos ha consolado en Cristo.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              Hay dos errores opuestos sobre la naturaleza de la teología que
+              esta lección debe refutar de entrada. El primero es el
+              <em>academicismo frío</em>: la teología como erudición que se
+              cultiva en distancia del culto, como si fuera una ciencia
+              comparable a la física o la lingüística. La Escritura no conoce
+              esta separación: el «conocimiento» de Dios en el AT es siempre
+              relacional, no meramente cognitivo (Os 6:6, RVR60).
+            </p>
+            <p>
+              El segundo error es el <em>antiintelectualismo piadoso</em>:
+              la sospecha de que el estudio riguroso enfría el corazón, y que
+              la verdadera espiritualidad consiste en sentir más y pensar
+              menos. Pablo desautoriza explícitamente esta dicotomía: «Os
+              ruego, hermanos, por las misericordias de Dios, que presentéis
+              vuestros cuerpos en sacrificio vivo… que no os conforméis a
+              este siglo, sino transformaos por medio de la <em>renovación de
+              vuestro entendimiento</em>» (Ro 12:1–2, RVR60). La transformación pasa
+              por la mente, no la elude.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              La teología es posible porque Dios habla. Esta verdad simple
+              vertebra toda la <span data-glossary-term="historia-redentora">historia
+              redentora</span>: desde el primer «dijo Dios» de Génesis 1, la
+              creación entera es resultado del discurso divino. El pacto con
+              Israel se establece en palabras (Éx 19–20); los profetas son
+              heraldos de palabras; la encarnación se describe como la venida
+              del Verbo (Jn 1:1, 14, RVR60); la Iglesia se constituye por la
+              predicación de la palabra (Ro 10:17, RVR60); y el último acto de la
+              historia es proclamado por el que se sienta en el trono: «He
+              aquí, yo hago nuevas todas las cosas» (Ap 21:5, RVR60).
+            </p>
+            <p>
+              La teología, pues, no es una invención humana posterior a la
+              Escritura: es la respuesta humana a un Dios que ha hablado desde
+              la primera página del relato bíblico. Toda la <span data-glossary-term="historia-redentora"><i lang="de">Heilsgeschichte</i></span>
+              es, en cierto sentido, materia teológica.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Para el creyente que comienza, esta lección abre tres preguntas
+              prácticas que conviene responder con franqueza.
+            </p>
+            <ul role="list">
+              <li><strong>¿Tengo derecho a estudiar teología si no soy pastor?</strong>
+                  Sí. La Reforma recuperó precisamente la lectura de la Biblia
+                  como tarea de todo el pueblo de Dios. Hus tradujo, Lutero
+                  tradujo, los puritanos catequizaron a sus hijos. La teología
+                  no es propiedad de una casta: es patrimonio del bautizado.</li>
+              <li><strong>¿Necesito haber estudiado filosofía para empezar?</strong>
+                  No. Necesitas saber leer, querer entender y disponerte a la
+                  obediencia. La filosofía aparecerá donde sea útil; la
+                  cuestión central es siempre la voluntad de someterse a lo que
+                  el texto dice, no las herramientas con las que se llega a él.</li>
+              <li><strong>¿Cuánto tiempo necesito dedicar?</strong>
+                  Lo que puedas, con constancia. Un creyente que dedica
+                  cuarenta minutos diarios al estudio paciente sabrá más
+                  teología en cinco años que muchos seminaristas distraídos.
+                  La teología premia la constancia, no la velocidad.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              La frase de Calvino que da estructura a la <em>Institución</em>
+              es a la vez teológica y doxológica: «El conocimiento de Dios y
+              el conocimiento de nosotros mismos son cosas conexas, y no es
+              fácil discernir cuál precede y engendra a cuál» (I.1.1). Cuanto
+              más conocemos a Dios, más nos descubrimos pequeños; cuanto más
+              nos descubrimos pequeños, más necesitamos a Dios. Esta es la
+              dinámica básica de la adoración informada.
+            </p>
+            <p>
+              El Salterio es el laboratorio doxológico de la Iglesia. El
+              Salmo 8 contempla la grandeza de Dios y la pequeñez del hombre;
+              el Salmo 19 contempla la revelación del Dios que habla; el
+              Salmo 145 multiplica los nombres divinos en alabanza. Comenzar
+              cada estudio teológico orando un salmo no es decoración piadosa:
+              es practicar la postura correcta de la criatura ante el Creador.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+      <aside class="activity" aria-label="Actividad de la lección 1.1">
+        <p class="activity__label">Actividad · 30 min</p>
+        <h5 class="activity__title">Teología natural y revelada en Romanos 1</h5>
+        <div class="activity__body">
+          <p>
+            Lee con atención Romanos 1:18–23. Identifica los versículos que se
+            refieren a la <em>revelación general</em> (lo que se conoce de Dios
+            por la creación) y los que apuntan a la corrupción del corazón
+            humano. Escribe en tres líneas: <em>qué</em> revela la creación,
+            <em>a quién</em> y con qué resultado, según el texto.
+          </p>
+          <p>
+            Compara después con la pregunta 2 del Catecismo Menor de Westminster:
+            «¿Qué regla nos ha dado Dios para dirigirnos en cómo le hemos de
+            glorificar y gozar?». ¿Por qué el catecismo va de la revelación
+            general a la especial?
+          </p>
+        </div>
+      </aside>
+    </article>
+
+
+    <!-- ============================================
+         LECCIÓN 1.2 · ¿Por qué todo cristiano debe estudiar teología?
+         ============================================ -->
+    <article class="lesson" id="l-1-2" aria-labelledby="l-1-2-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 1.2</p>
+        <h3 id="l-1-2-title" class="lesson__title">¿Por qué todo cristiano debe estudiarla?</h3>
+        <p class="lesson__abstract">
+          El mandato del amor a Dios con toda la mente. La teología como acto
+          de adoración. Diferencia entre teología académica y pastoral. El
+          peligro del antiintelectualismo en la fe.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          Cristo identificó el mandamiento más grande así: «Amarás al Señor
+          tu Dios con todo tu corazón, y con toda tu alma, y con toda tu
+          mente, y con todas tus fuerzas» (Mt 22:37; Mc 12:30, RVR60). La presencia
+          deliberada de la <em>mente</em> entre las potencias con que se ama
+          a Dios es la razón última por la que todo cristiano —no sólo el
+          pastor o el académico— está llamado al estudio teológico.
+        </p>
+        <p>
+          Esta lección explica por qué el mandato no es opcional, qué
+          consecuencias prácticas tiene, y cómo distingue la teología
+          reformada el estudio académico de la formación pastoral del pueblo.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              La Confesión de Westminster I.7 enseña que «las cosas que es
+              necesario conocer, creer y observar para la salvación están
+              propuestas y declaradas con tal claridad en algunos lugares de
+              la Escritura, que no sólo los doctos, sino también los indoctos,
+              haciendo el debido uso de los medios ordinarios, pueden alcanzar
+              suficiente comprensión de ellas». La doctrina de la
+              <span data-glossary-term="perspicuidad">perspicuidad</span>
+              implica una vocación: cada creyente puede y debe ocuparse del
+              estudio teológico, porque la Escritura misma se dirige a él.
+            </p>
+            <p>
+              El Catecismo Menor formula la pregunta primera: «¿Cuál es el fin
+              principal del hombre?». Y responde: «Glorificar a Dios y gozar
+              de él para siempre». La teología, en este marco, no es
+              especialización profesional sino el medio ordinario por el cual
+              el creyente cumple su vocación de glorificar a Dios.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              El antiintelectualismo es el error más extendido en el
+              evangelicalismo contemporáneo, y suele presentarse en frases
+              como: «no necesito doctrina, sólo necesito a Cristo»; «mejor
+              vivir el evangelio que estudiarlo»; «la teología divide, el
+              amor une». Cada una de estas frases contiene una verdad parcial
+              que oscurece su contrario. No se puede tener a Cristo sin tener
+              alguna doctrina sobre quién es Cristo: si lo confunde con un
+              maestro de moralidad, ya no es Cristo. No se puede vivir un
+              evangelio que no se ha entendido. No se puede amar a alguien
+              que no se conoce.
+            </p>
+            <p>
+              El error opuesto, igualmente real, es el <em>orgullo
+              teológico</em>: el que se siente superior por saber más
+              doctrina que sus hermanos, el que reduce el discipulado a
+              corrección mutua de errores doctrinales, el que confunde el
+              dominio de un sistema con la madurez espiritual. Pablo lo
+              describió con precisión quirúrgica: «el conocimiento envanece,
+              pero el amor edifica» (1 Co 8:1, RVR60).
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              Desde el principio, Dios ordena enseñar. A Moisés en
+              Deuteronomio 6:6–7: «estas palabras… las repetirás a tus
+              hijos, y hablarás de ellas estando en tu casa, y andando por
+              el camino, y al acostarte, y cuando te levantes». A los reyes
+              en Deuteronomio 17:18–20: que escriban una copia de la ley y
+              la lean todos los días. A los sacerdotes en Levítico 10:11:
+              que enseñen al pueblo todos los estatutos. La pedagogía no es
+              añadidura tardía: es estructural al pacto.
+            </p>
+            <p>
+              En el NT esta línea se intensifica. Jesús manda hacer
+              discípulos «enseñándoles a guardar todo lo que os he mandado»
+              (Mt 28:20, RVR60). Pablo escribe a Timoteo: «Lo que has oído de mí
+              ante muchos testigos, esto encarga a hombres fieles que sean
+              idóneos para enseñar también a otros» (2 Ti 2:2, RVR60). Cuatro
+              generaciones de transmisión doctrinal en un solo versículo.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              La pregunta práctica no es <em>si</em> debes estudiar, sino
+              <em>cómo</em> hacerlo bien sin caer en los dos errores opuestos.
+              Tres orientaciones reformadas:
+            </p>
+            <ul role="list">
+              <li><strong>Estudia siempre con oración.</strong> Antes de abrir
+                  el texto, pide al Espíritu que ilumine. Calvino llamaba
+                  <em>testimonium Spiritus Sancti internum</em> al testimonio
+                  interno del Espíritu que persuade el corazón sobre lo que
+                  la mente entiende.</li>
+              <li><strong>Estudia con la Iglesia, no contra ella.</strong>
+                  Las confesiones reformadas son la voz catequética de la
+                  Iglesia a través de los siglos. Estudiar contra ellas es
+                  presunción; estudiar con ellas es humildad eclesial.</li>
+              <li><strong>Estudia para obedecer, no para impresionar.</strong>
+                  Cada doctrina aprendida pide aplicación. Si una verdad no
+                  cambia tu modo de orar, de tratar a tu familia o de servir
+                  en la iglesia, no la has aprendido todavía: solo la
+                  registraste.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              El Salmo 119, el más extenso del Salterio, es una doxología
+              extendida sobre el privilegio de conocer la palabra de Dios.
+              «¡Cuánto amo yo tu ley! Todo el día es ella mi meditación»
+              (v. 97). El salmista no celebra haber acumulado información:
+              celebra haber recibido un trato. Cada verso del Salmo 119 es
+              estudio convertido en alabanza.
+            </p>
+            <p>
+              El himno reformado de Theodore Beza, sucesor de Calvino en
+              Ginebra, recoge esta dinámica: la mente que aprende termina
+              cantando, y el corazón que canta confirma lo que la mente
+              comprendió. Cuando el estudio teológico no genera himno, hay
+              que sospechar del estudio, no del himno.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+      <blockquote class="pullquote">
+        «Si has olvidado lo que es la teología, has olvidado lo que es ser
+        cristiano. Pero si nunca has aprendido lo que es la teología,
+        entonces es tiempo de comenzar».
+        <cite>R. C. Sproul · Everyone&rsquo;s a Theologian</cite>
+      </blockquote>
+
+    </article>
+
+
+    <!-- ============================================
+         LECCIÓN 1.3 · Teología y piedad: la unión indisoluble
+         ============================================ -->
+    <article class="lesson" id="l-1-3" aria-labelledby="l-1-3-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 1.3</p>
+        <h3 id="l-1-3-title" class="lesson__title">Teología y <em>piedad</em>: la unión indisoluble</h3>
+        <p class="lesson__abstract">
+          El teólogo como creyente orante. El ejemplo de los Salmos como
+          teología doxológica. La tradición de la <em>theologia viatorum</em>:
+          teología del peregrino. <i lang="la">Lectio Divina</i> aplicada al Salmo 119:97–104.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          Las dos lecciones anteriores definieron qué es teología y por qué es
+          obligatoria para todo creyente. Esta tercera —la última de la
+          unidad— resuelve la cuestión que late en las dos primeras: la
+          relación entre el estudio doctrinal y la vida espiritual. La
+          tradición reformada responde con una afirmación estructural: la
+          teología y la <em>pietas</em> son inseparables; cualquier intento
+          de practicarlas por separado las corrompe a ambas.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              Calvino, al definir el propósito de la teología en el prefacio
+              de la <em>Institución</em>, no escribe «conocer» a secas, sino
+              <em>«conocer y honrar a Dios»</em>. La teología auténtica
+              culmina en honor; la teología que no termina en adoración no
+              es propiamente teología sino erudición religiosa.
+            </p>
+            <p>
+              Westminster XX.1 conecta libertad cristiana, oración, lectura
+              y observancia del día del Señor como medios de gracia que
+              forman al creyente. La doctrina nutre la piedad, y la piedad
+              alimentada por la doctrina vuelve a la doctrina con preguntas
+              cada vez más profundas. Esta circulación es la salud espiritual
+              normal del creyente reformado.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              Hay tres divorcios históricos entre teología y piedad que el
+              estudiante debe identificar para evitarlos.
+            </p>
+            <p>
+              <em>El divorcio escolástico tardío</em> separó la teología del
+              culto y la convirtió en disciplina universitaria autónoma,
+              mensurable en sutilezas. La Reforma reaccionó con el
+              <em>ad fontes</em>: vuelta a las Escrituras y a la teología que
+              ora.
+            </p>
+            <p>
+              <em>El divorcio pietista</em>, en el siglo XVIII, hizo lo
+              opuesto: separó la piedad de la doctrina. La fe genuina pasaría
+              por el sentimiento conversionista, no por la confesión
+              dogmática. El resultado a largo plazo fue el liberalismo
+              teológico de Schleiermacher.
+            </p>
+            <p>
+              <em>El divorcio activista</em> contemporáneo separa la teología
+              de la práctica social: «que otros estudien; nosotros actuamos».
+              Pero la acción cristiana sin doctrina pierde dirección y se
+              vuelve indistinguible del activismo secular.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              El Salterio entero ejemplifica la unión indisoluble entre
+              teología y piedad. Los Salmos son simultáneamente:
+            </p>
+            <ul role="list">
+              <li><em>Confesión doctrinal</em>: declaran quién es Dios, qué
+                  ha hecho, cómo trata con su pueblo (Salmos 33, 103, 145).</li>
+              <li><em>Oración personal</em>: el orante habla a Dios, no
+                  meramente sobre Dios (Salmos 6, 23, 51, 86).</li>
+              <li><em>Liturgia comunitaria</em>: textos para ser cantados por
+                  la asamblea reunida (Salmos 113–118 en la Pascua).</li>
+              <li><em>Profecía mesiánica</em>: anticipan al Cristo que
+                  cumpliría las promesas pactuales (Salmos 2, 22, 110).</li>
+            </ul>
+            <p>
+              Cuando un creyente reformado canta el Salterio, está haciendo
+              teología sistemática y oración personal y participación
+              eclesial y meditación cristológica simultáneamente. El Salterio
+              es, en sí mismo, la prueba bíblica de que la separación entre
+              teología y piedad es artificial.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              La <em>theologia viatorum</em> —la teología del peregrino— es
+              expresión escolástica recogida por la tradición reformada para
+              describir la teología que practicamos los creyentes en esta
+              vida. Se distingue de la <em>theologia beatorum</em>, la
+              teología de los bienaventurados que ya están con Cristo.
+              Mientras seamos peregrinos, nuestra teología tendrá tres rasgos:
+            </p>
+            <ul role="list">
+              <li><strong>Es parcial</strong>: «conocemos en parte» (1 Co 13:9, RVR60)
+                  y veremos cara a cara solo entonces. La humildad
+                  epistémica no es opcional.</li>
+              <li><strong>Es progresiva</strong>: crece con los años, con el
+                  estudio, con el sufrimiento, con la observación de la obra
+                  de Dios en la propia vida y en la Iglesia.</li>
+              <li><strong>Es comunitaria</strong>: se hace con otros, con la
+                  Iglesia visible y con la Iglesia de los siglos. Nadie hace
+                  teología solo.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              La <em><i lang="la">Lectio Divina</i></em>, en su forma reformada (no la
+              monástico-medieval que la originó), articula cuatro momentos
+              que pueden estructurar el devocional teológico personal del
+              estudiante:
+            </p>
+            <ul role="list">
+              <li><em>Lectio</em> · leer el texto despacio, varias veces, con
+                  atención a las palabras que el Espíritu subraya.</li>
+              <li><em>Meditatio</em> · meditar: comparar con otros textos,
+                  preguntarse qué dice el texto sobre Dios, sobre Cristo,
+                  sobre el creyente.</li>
+              <li><em>Oratio</em> · orar: convertir el contenido del texto
+                  en oración, dando gracias por lo que afirma, confesando
+                  lo que reprende, pidiendo lo que promete.</li>
+              <li><em>Contemplatio</em> · descansar en la presencia del
+                  Dios revelado, sin necesidad de palabras nuevas. Silencio
+                  doxológico.</li>
+            </ul>
+            <p>
+              Aplicado al Salmo 119:97–104, el ejercicio se vuelve
+              autoreferencial: meditas sobre un texto que celebra la
+              meditación. Esa autorreferencia es deliberada: el Salmo te
+              está enseñando cómo leerlo.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+      <aside class="activity" aria-label="Actividad de la lección 1.3">
+        <p class="activity__label">Actividad · 45 min</p>
+        <h5 class="activity__title"><i lang="la">Lectio Divina</i> sobre Salmo 119:97–104</h5>
+        <div class="activity__body">
+          <p>
+            Aparta cuarenta y cinco minutos sin interrupciones. Lee el pasaje
+            tres veces lentamente. Después practica los cuatro momentos
+            descritos arriba, dedicando aproximadamente diez minutos a cada
+            uno.
+          </p>
+          <p>
+            Al cerrar, escribe en una libreta: <em>una</em> verdad sobre Dios
+            que el texto te ha mostrado, <em>una</em> petición que esa verdad
+            despertó en ti, y <em>una</em> obediencia concreta que la lectura
+            te pide para los próximos siete días.
+          </p>
+        </div>
+      </aside>
+
+    </article>
+
+
+    <!-- ============================================
+         CUESTIONARIO DE UNIDAD 1
+         ============================================ -->
+    <section class="quiz" aria-labelledby="quiz-1-title">
+      <header class="quiz__header">
+        <p class="quiz__kicker">Cuestionario · Unidad I</p>
+        <h3 id="quiz-1-title" class="quiz__title">Quince preguntas de comprensión y aplicación</h3>
+        <p class="quiz__intro">
+          Despliega cada pregunta para revelar la respuesta. Intenta responder
+          mentalmente antes de abrir; el ejercicio activo refuerza el
+          aprendizaje mucho más que la lectura pasiva.
+        </p>
+      </header>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">01</span>
+          <span>¿Cuál es la etimología de la palabra «teología» y qué implica?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>Procede del griego <em>theos</em> (Dios) y <em>logos</em>
+            (palabra, razón, discurso). Implica que toda teología legítima es
+            <em>discurso sobre Dios</em> derivado de la palabra que Dios mismo
+            ha pronunciado: la Escritura. La teología no inventa su objeto;
+            lo recibe.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">02</span>
+          <span>¿Cuál es la frase de Calvino que estructura el inicio de la <em>Institución</em>?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>«El conocimiento de Dios y el conocimiento de nosotros mismos son
+            cosas conexas, y no es fácil discernir cuál precede y engendra a
+            cuál» (Institución I.1.1). La teología y la antropología están
+            entrelazadas: cuanto más conocemos a Dios más nos descubrimos
+            criaturas pequeñas, y cuanto más nos descubrimos pequeños más
+            necesitamos conocer a Dios.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">03</span>
+          <span>¿Qué distingue a la teología natural de la teología revelada?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>La teología natural es aquello que se puede conocer de Dios
+            mediante la observación de la creación y la conciencia moral
+            (Salmo 19; Romanos 1). Es suficiente para dejar al hombre sin
+            excusa, pero insuficiente para salvarlo. La teología revelada se
+            funda en la palabra que Dios ha pronunciado en la Escritura, y
+            culmina en Cristo encarnado (Hebreos 1:1–2, RVR60). Solo la revelada
+            comunica el evangelio.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">04</span>
+          <span>¿Por qué Mateo 22:37 es relevante para la obligación universal de hacer teología?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>Cristo manda amar a Dios «con toda tu mente». La mente es una de
+            las potencias con las que el creyente está obligado a amar. Como
+            la teología es justamente el ejercicio disciplinado de la mente
+            sobre Dios, está incluida en el primer mandamiento. Excluirse de
+            ella es desobedecer.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">05</span>
+          <span>Define el antiintelectualismo y explica por qué es un error.</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>El antiintelectualismo es la sospecha de que el estudio riguroso
+            enfría la fe y de que la verdadera espiritualidad es asunto del
+            corazón, no de la mente. Es error porque (a) Cristo manda amar a
+            Dios con la mente; (b) la transformación cristiana ocurre por
+            renovación del entendimiento (Ro 12:2, RVR60); y (c) sin doctrina no se
+            puede tener a Cristo verdadero, sino solo una idea reducida o
+            sentimental de Cristo.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">06</span>
+          <span>¿Qué es el orgullo teológico y cómo se reconoce?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>Es el error opuesto al antiintelectualismo: confundir el dominio
+            doctrinal con la madurez espiritual. Se reconoce cuando el
+            estudiante (a) se siente superior a sus hermanos por saber más;
+            (b) reduce el discipulado a corrección de errores doctrinales
+            ajenos; (c) habla más para mostrar que para edificar. Pablo lo
+            sintetiza: «el conocimiento envanece, pero el amor edifica» (1 Co 8:1, RVR60).</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">07</span>
+          <span>¿Qué es la doctrina de la perspicuidad de la Escritura y cuál es su consecuencia para el estudio?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>La perspicuidad afirma que las cosas necesarias para la salvación
+            están propuestas con suficiente claridad en la Escritura, de modo
+            que cualquier creyente que use los medios ordinarios puede
+            comprenderlas. Su consecuencia práctica es que el estudio
+            teológico no es privilegio de eruditos: cada creyente puede leer
+            la Biblia con provecho. Westminster I.7 es el locus clásico.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">08</span>
+          <span>¿Qué es la <em>theologia viatorum</em>?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>Locución latina escolástica que significa «teología del
+            peregrino». Designa la teología que practicamos los creyentes en
+            esta vida, en contraste con la teología de los bienaventurados
+            (<em>theologia beatorum</em>) que ya están con Cristo. La
+            teología del peregrino es parcial, progresiva y comunitaria:
+            sabemos en parte (1 Co 13:9), crecemos con los años, y nadie hace
+            teología solo.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">09</span>
+          <span>¿Cuál es la primera pregunta del Catecismo Menor de Westminster y qué teología implica?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>«¿Cuál es el fin principal del hombre?». Respuesta: «El fin
+            principal del hombre es glorificar a Dios y gozar de él para
+            siempre». Implica que la teología no es un saber autónomo: existe
+            al servicio del fin para el que el hombre fue creado. Toda
+            doctrina debe terminar conduciendo al cumplimiento de ese fin.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">10</span>
+          <span>Enumera tres divorcios históricos entre teología y piedad.</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>(1) El <em>escolástico tardío</em>, que convirtió la teología en
+            ciencia universitaria autónoma, separada del culto. (2) El
+            <em>pietista</em>, que separó la piedad de la doctrina y derivó
+            en el liberalismo teológico de Schleiermacher. (3) El
+            <em>activista contemporáneo</em>, que separa la teología de la
+            práctica social y termina en activismo indistinguible del
+            secular.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">11</span>
+          <span>¿Qué es el <em>testimonium Spiritus Sancti internum</em> en Calvino?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>El testimonio interno del Espíritu Santo. Calvino lo expone en
+            Institución I.7: la certeza última de que la Escritura es palabra
+            de Dios no procede del argumento racional ni del peso de la
+            tradición eclesiástica, sino de la obra del Espíritu que persuade
+            el corazón del creyente. La oración antes y durante el estudio es
+            componente integral del método teológico reformado.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">12</span>
+          <span>¿Por qué los Salmos son ejemplo paradigmático de la unión entre teología y piedad?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>Porque cada salmo es a la vez confesión doctrinal sobre Dios,
+            oración personal dirigida a él, liturgia comunitaria de la
+            asamblea y, en muchos casos, profecía mesiánica. Cantar los
+            salmos es practicar simultáneamente sistemática, devocional,
+            eclesiología y cristología. Su existencia desautoriza cualquier
+            separación artificial entre estudio y adoración.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">13</span>
+          <span>Nombra los cuatro momentos de la <i lang="la">Lectio Divina</i> reformada.</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p><em>Lectio</em> (leer el texto despacio), <em>Meditatio</em>
+            (meditar comparando con otros textos), <em>Oratio</em> (orar
+            convirtiendo el contenido en plegaria) y <em>Contemplatio</em>
+            (descansar en silencio doxológico ante el Dios revelado).</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">14</span>
+          <span>Explica con tus palabras la diferencia entre teología académica y teología pastoral.</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>La teología académica es el estudio sistemático y técnico, con
+            atención al detalle exegético, histórico y filosófico. La
+            teología pastoral toma esos mismos contenidos y los aplica
+            directamente al cuidado del alma, la formación del catecúmeno y
+            la predicación. No son disciplinas opuestas sino el mismo
+            cuerpo doctrinal en distintos modos: la primera profundiza, la
+            segunda pastorea con lo profundizado.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">15</span>
+          <span>¿Por qué la teología reformada insiste en que «no se puede hacer teología solo»?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>Porque la Escritura fue dada a la Iglesia, no al individuo
+            aislado. Tres ámbitos comunitarios estructuran toda teología
+            sana: (a) la iglesia local con sus pastores y sacramentos;
+            (b) la confesión histórica (Westminster, Heidelberg, Dort) que
+            es la voz catequética de la Iglesia a través de los siglos; y
+            (c) los compañeros de estudio que afilan, corrigen y completan
+            la lectura individual. El estudiante solitario es presa fácil
+            del error.</p>
+        </div>
+      </details>
+
+    </section>
+
+  </section>
+
+
+  <!-- ====================================================================
+       UNIDAD 2 · La identidad histórica de la teología reformada
+       ================================================================= -->
+  <section class="unit container" id="unit-2" aria-labelledby="unit-2-title">
+
+    <header class="unit__header">
+      <p class="unit__kicker">Unidad II</p>
+      <p class="unit__num" aria-hidden="true">II</p>
+      <h2 id="unit-2-title" class="unit__title">La identidad histórica de la teología reformada</h2>
+      <p class="unit__intro">
+        Definida la teología y su obligatoriedad, esta unidad sitúa a la
+        teología reformada en su lugar histórico: cómo surgió, qué afirma
+        positivamente (las cinco Solas), qué carácter le imprimió Calvino
+        frente a Lutero, y cómo se articuló soteriológicamente en los cinco
+        puntos de Dort.
+      </p>
+    </header>
+
+
+    <!-- ============================================
+         LECCIÓN 2.1 · Las raíces medievales
+         ============================================ -->
+    <article class="lesson" id="l-2-1" aria-labelledby="l-2-1-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 2.1</p>
+        <h3 id="l-2-1-title" class="lesson__title">Las raíces <em>medievales</em> y el clamor de reforma</h3>
+        <p class="lesson__abstract">
+          La iglesia medieval y la corrupción doctrinal. Hus, Wycliffe y los
+          pre-reformadores. El contexto histórico de 1517. El sistema de
+          indulgencias y la crisis de conciencia de Lutero.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          La Reforma del siglo XVI no fue un nacimiento ex nihilo: fue la
+          erupción visible de tensiones que se acumulaban desde hacía siglos
+          en la cristiandad occidental. Comprender la Reforma exige conocer
+          a sus precursores y el contexto que la hizo, humanamente, casi
+          inevitable.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              Las confesiones reformadas no son antisistema: reciben con
+              gratitud lo que la iglesia antigua decantó en los grandes
+              concilios (Nicea, Calcedonia) y en los credos ecuménicos. Lo
+              que rechazan son las acumulaciones medievales tardías que
+              oscurecieron el evangelio: el sacerdocio mediador exclusivo,
+              la justificación infusa, las indulgencias, la veneración de
+              reliquias, la negación de la copa al laicado, la lectura
+              vedada de la Biblia en lenguas vernáculas. La Reforma se
+              entiende a sí misma como continuidad <em>católica</em> con la
+              gran tradición y como <em>ruptura</em> con la corrupción
+              tardomedieval.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              Una caricatura frecuente presenta la Reforma como ruptura
+              caprichosa de Lutero contra una iglesia íntegra. La realidad
+              histórica desautoriza esa lectura. El siglo XV vivió escándalos
+              papales bien documentados (Alejandro VI, Julio II), un sistema
+              económico de indulgencias que vendía perdón a los moribundos,
+              concilios reformistas (Constanza, Basilea) que apenas lograron
+              corrección institucional, y voces críticas como Wycliffe,
+              <span data-glossary-term="lutero">Hus</span> y Savonarola que
+              fueron reprimidas con prisión, fuego o exilio. Lutero no inicia
+              la inconformidad: hereda un siglo entero de protestas
+              contenidas.
+            </p>
+            <p>
+              El error opuesto, igualmente común, es presentar la iglesia
+              medieval como simple oscurantismo del que la Reforma rescató
+              al mundo. La Edad Media produjo a Anselmo, a Bernardo de
+              Claraval, a Tomás de Aquino, las catedrales góticas, las
+              universidades, una piedad mariana intensa y un esfuerzo
+              misionero por toda Europa. La Reforma no negó este patrimonio:
+              corrigió desviaciones específicas mientras conservaba la
+              herencia patrística común.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              El patrón bíblico de la reforma es recurrente en la historia
+              redentora: cuando el pueblo de Dios deriva, Dios envía la
+              palabra a través de un profeta o juez para volverlo al pacto.
+              Josías halla el libro de la Ley en el templo (2 Re 22) y reforma
+              radicalmente el culto. Esdras lee la Ley delante del pueblo en
+              la plaza (Neh 8) y restaura el conocimiento del pacto. Juan el
+              Bautista predica arrepentimiento al pueblo de Israel del primer
+              siglo. El patrón es siempre el mismo: pérdida → palabra →
+              retorno.
+            </p>
+            <p>
+              La Reforma protestante encaja en este patrón. La «pérdida» es
+              la oclusión del evangelio bajo una práctica sacramentalista
+              corrupta; la «palabra» es la recuperación del texto bíblico
+              traducido y proclamado; el «retorno» es la restauración de la
+              justificación por la fe en el centro de la predicación. Los
+              reformadores se autocomprendieron como continuadores del
+              ministerio profético, no como innovadores.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Tres lecciones prácticas de esta lección histórica para la
+              vida del creyente actual:
+            </p>
+            <ul role="list">
+              <li><strong>La doctrina importa porque puede corromperse.</strong>
+                  Lo que cinco siglos atrás produjo el comercio de
+                  indulgencias hoy puede producir formas más sutiles de
+                  evangelio meritorio. El estudio doctrinal vigilante es
+                  cuidado pastoral del rebaño.</li>
+              <li><strong>Las críticas tempranas suelen pagar caro.</strong>
+                  Hus murió quemado por enseñar lo que Lutero enseñaría un
+                  siglo después con éxito. La fidelidad a veces es
+                  intempestiva: el creyente que ve algo torcido en la
+                  iglesia local debe hablar, sabiendo que el costo puede ser
+                  alto.</li>
+              <li><strong>Dios reforma su iglesia.</strong> La frase
+                  <em>ecclesia semper reformanda</em> recuerda que la
+                  Iglesia, sometida a la palabra, debe renovarse
+                  continuamente. No autoriza la innovación arbitraria, pero
+                  desautoriza el conservadurismo perezoso.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              Lutero compuso «Castillo fuerte es nuestro Dios»
+              (<em>Ein feste Burg</em>) sobre el Salmo 46 en pleno fragor de
+              la Reforma. El himno es teología política y
+              espiritual a la vez: ante la amenaza del enemigo doctrinal,
+              ante el costo de la confesión, el reformador no apela a la
+              fuerza propia sino al «hombre justo» que Dios ha provisto, a
+              la palabra que «derribará» al enemigo, al reino que
+              «permanecerá». Cantar himnos de la Reforma no es nostalgia
+              cultural: es ejercitar la misma confianza en el Dios que
+              reforma su Iglesia.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+    </article>
+
+
+    <!-- ============================================
+         LECCIÓN 2.2 · Las cinco Solas
+         ============================================ -->
+    <article class="lesson" id="l-2-2" aria-labelledby="l-2-2-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 2.2</p>
+        <h3 id="l-2-2-title" class="lesson__title">Las cinco <em>Solas</em> de la Reforma</h3>
+        <p class="lesson__abstract">
+          Estudio detallado de cada Sola con su base escritural y su
+          implicación teológica:
+          <em><i lang="la">Sola Scriptura</i></em> (2 Ti 3:16–17),
+          <em><i lang="la">Sola Fide</i></em> (Ro 3:28, RVR60),
+          <em><i lang="la">Sola Gratia</i></em> (Ef 2:8–9, RVR60),
+          <em><i lang="la">Solus Christus</i></em> (Hch 4:12, RVR60),
+          <em><i lang="la">Soli Deo Gloria</i></em> (1 Co 10:31).
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          Las cinco Solas no son cinco doctrinas independientes que la
+          Reforma haya inventado. Son cinco aristas del mismo evangelio,
+          articuladas progresivamente por los reformadores y sintetizadas
+          por la tradición posterior. Cada Sola responde a una desviación
+          específica del evangelio medieval tardío. Cada Sola, aislada de
+          las otras, se distorsiona; las cinco juntas constituyen la
+          gramática mínima del cristianismo reformado.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              Westminster I.10 sintetiza la <span data-glossary-term="sola-scriptura"><i lang="la">Sola Scriptura</i></span>:
+              «el juez supremo… no puede ser otro que el Espíritu Santo
+              hablando en la Escritura». La <span data-glossary-term="sola-fide"><i lang="la">Sola Fide</i></span>
+              aparece en Westminster XI.1: somos «justificados, no por
+              infundirles justicia, sino por perdonarles los pecados, y por
+              tener y aceptar sus personas como justas». La
+              <span data-glossary-term="sola-gratia"><i lang="la">Sola Gratia</i></span>
+              vertebra Westminster X.1–4 sobre el llamado eficaz. El
+              <span data-glossary-term="solus-christus"><i lang="la">Solus Christus</i></span>
+              estructura toda la cristología y soteriología confesional. El
+              <span data-glossary-term="soli-deo-gloria"><i lang="la">Soli Deo Gloria</i></span>
+              es la respuesta misma del Catecismo Menor a la pregunta sobre
+              el fin del hombre.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              Cada Sola refuta una desviación específica:
+            </p>
+            <ul role="list">
+              <li><em><i lang="la">Sola Scriptura</i></em> rechaza la coordinación de Escritura
+                  y Tradición eclesiástica como dos fuentes paralelas de
+                  revelación, posición consagrada en Trento. La Escritura es
+                  norma normada por nada; la tradición es norma normada por
+                  ella.</li>
+              <li><em><i lang="la">Sola Fide</i></em> rechaza la justificación infusa del
+                  catolicismo medieval, que entiende la justificación como
+                  proceso de transformación interior del pecador en justo. La
+                  posición reformada la entiende como acto forense de
+                  declaración judicial, fundado en la justicia imputada de
+                  Cristo.</li>
+              <li><em><i lang="la">Sola Gratia</i></em> rechaza tanto el pelagianismo (la
+                  salvación por mérito puro) como el semipelagianismo (la
+                  cooperación humana inicial con la gracia). La salvación es
+                  obra de Dios de principio a fin.</li>
+              <li><em><i lang="la">Solus Christus</i></em> rechaza la mediación adicional de
+                  María, los santos o el sacerdocio sacrificial. Cristo es
+                  el único mediador (1 Ti 2:5).</li>
+              <li><em><i lang="la">Soli Deo Gloria</i></em> rechaza toda gloria humana en el
+                  proceso salvador y toda concepción cooperativa de la
+                  santificación que reserve mérito al creyente.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              Las cinco Solas no son innovaciones del siglo XVI sino
+              recuperaciones de líneas estructurales de la Escritura entera.
+              <em><i lang="la">Sola Scriptura</i></em>: la palabra de Dios, no la tradición
+              de los hombres, es la regla del pacto (Dt 4:2; Mt 15:6;
+              2 Ti 3:16–17). <em><i lang="la">Sola Fide</i></em>: Abraham creyó a Jehová y le
+              fue contado por justicia (Gn 15:6; Ro 4:3; Gl 3:6). <em><i lang="la">Sola Gratia</i></em>: Israel no fue elegido por su grandeza ni mérito
+              (Dt 7:7, RVR60); el pueblo del Nuevo Pacto tampoco (1 Co 1:27–29;
+              Ef 2:8–9). <em><i lang="la">Solus Christus</i></em>: ningún otro nombre bajo el
+              cielo se ha dado por el cual seamos salvos (Hch 4:12, RVR60). <em><i lang="la">Soli Deo Gloria</i></em>: «de él, y por él, y para él, son todas las
+              cosas; a él sea la gloria por los siglos» (Ro 11:36, RVR60).
+            </p>
+            <p>
+              La Reforma no inventó las Solas: las articuló como gramática
+              sintética de un mensaje que la Escritura entera presupone.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Cada Sola produce un fruto pastoral concreto:
+            </p>
+            <ul role="list">
+              <li><em><i lang="la">Sola Scriptura</i></em> · libera al creyente del miedo al
+                  «no estoy autorizado a leer mi Biblia». Sí lo está, y
+                  debe.</li>
+              <li><em><i lang="la">Sola Fide</i></em> · libera al creyente del calendario
+                  meritocrático: no estoy salvo porque estuve a la altura
+                  esta semana, ni perdido porque fallé el lunes. Estoy
+                  salvo porque Cristo está a la altura por mí.</li>
+              <li><em><i lang="la">Sola Gratia</i></em> · libera al creyente del orgullo
+                  espiritual y del desespero. Si tu salvación dependiera
+                  de ti, ya la habrías perdido; pero no depende de ti.</li>
+              <li><em><i lang="la">Solus Christus</i></em> · libera al creyente de la
+                  necesidad de mediadores accesorios. Tienes acceso directo
+                  al Padre por medio del Hijo (Ef 2:18; He 4:14–16).</li>
+              <li><em><i lang="la">Soli Deo Gloria</i></em> · libera al creyente del
+                  protagonismo. Su vida ya no necesita ser asunto de gloria
+                  propia: existe para reflejar la gloria de otro.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              Las cinco Solas, dichas en orden, constituyen una doxología
+              coherente: <em>solamente</em> la Escritura me trae el evangelio,
+              <em>solamente</em> la fe lo recibe, <em>solamente</em> la gracia
+              lo concede, <em>solamente</em> Cristo lo logra,
+              <em>solamente</em> Dios merece la gloria de todo ello. Repetidas
+              en oración, son a la vez confesión y alabanza. Bach inscribió
+              al pie de muchas de sus partituras la abreviatura <em>S.D.G.</em>:
+              <em><i lang="la">Soli Deo Gloria</i></em>. La música más exigente del barroco
+              alemán reposaba bajo las cinco Solas como hipoteca doxológica.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+      <aside class="activity" aria-label="Actividad de la lección 2.2">
+        <p class="activity__label">Actividad · 200 palabras × 5</p>
+        <h5 class="activity__title">Cinco meditaciones personales</h5>
+        <div class="activity__body">
+          <p>
+            Escribe cinco meditaciones breves de aproximadamente doscientas
+            palabras cada una, una por Sola. Estructura cada meditación así:
+          </p>
+          <p>
+            (1) Cita el versículo escritural que sostiene la Sola.
+            (2) Explica con tus palabras qué afirma y qué niega la Sola.
+            (3) Identifica un pecado o tendencia que esa Sola desautoriza
+            específicamente en tu vida o en tu contexto. (4) Escribe una
+            oración de confesión y gratitud derivada de esa Sola.
+          </p>
+          <p>
+            Conserva las cinco meditaciones para revisarlas al final del
+            curso completo y observar cómo tu comprensión ha madurado.
+          </p>
+        </div>
+      </aside>
+
+    </article>
+
+
+    <!-- ============================================
+         LECCIÓN 2.3 · Calvino y la Reforma Reformada
+         ============================================ -->
+    <article class="lesson" id="l-2-3" aria-labelledby="l-2-3-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 2.3</p>
+        <h3 id="l-2-3-title" class="lesson__title">Calvino y el carácter de la <em>Reforma Reformada</em></h3>
+        <p class="lesson__abstract">
+          La distinción entre Lutero y Calvino. El aporte único de Calvino:
+          la soberanía de Dios en todas las esferas. La Reforma en Ginebra,
+          Escocia, los Países Bajos y el mundo anglófono. El legado
+          confesional de Augsburgo a Westminster.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          Si Lutero abrió la puerta de la Reforma con el martillazo doctrinal
+          de la justificación por la fe, fue Calvino quien construyó la casa
+          completa: la cosmovisión reformada articulada como sistema. Esta
+          lección distingue el aporte específico de Calvino y muestra cómo
+          la Reforma «reformada» (frente a la luterana) se extendió
+          internacionalmente.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              La rama luterana se confesionalizó en la Confesión de Augsburgo
+              (1530) y la Fórmula de Concordia (1577). La rama reformada, más
+              policéntrica, produjo un cuerpo confesional internacional: la
+              Confesión Belga (1561), el
+              <span data-glossary-term="catecismo-de-heidelberg">Catecismo de
+              Heidelberg</span> (1563), la Segunda Confesión Helvética (1566),
+              los <span data-glossary-term="canones-de-dort">Cánones de
+              Dort</span> (1619), la Confesión Escocesa (1560) y la
+              <span data-glossary-term="confesion-de-westminster">Confesión
+              de Westminster</span> (1647). La pluralidad confesional refleja
+              el carácter más internacional y menos centralizado del
+              calvinismo.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              Hay dos lecturas inadecuadas de la relación Lutero–<span data-glossary-term="calvino">Calvino</span>
+              que conviene refutar. La primera reduce a Calvino a discípulo
+              de Lutero: ignora la formación humanista francesa de Calvino,
+              su deuda con Bucero en Estrasburgo, su desarrollo independiente
+              en cristología (el <em>extra calvinisticum</em>), eclesiología
+              (los cuatro oficios), eucaristía (la presencia espiritual real)
+              y ética social (la disciplina ginebrina). Calvino es heredero
+              consciente de Lutero, no su clon.
+            </p>
+            <p>
+              La segunda lectura presenta a ambos como rivales. Tampoco es
+              exacto: el desencuentro de Marburgo (1529) sobre la Cena del
+              Señor fue real, pero Calvino siempre habló con respeto de
+              Lutero, lo llamó padre de la Reforma y lamentó la división.
+              Las dos ramas son dos modos diversos de heredar el mismo
+              redescubrimiento del evangelio.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              La aportación específica de Calvino a la teología reformada
+              puede resumirse en una frase: la <em>soberanía de Dios sobre
+              todas las esferas</em>. Lutero centró su atención en cómo el
+              pecador encuentra a un Dios misericordioso (la pregunta
+              monástica). Calvino conservó la respuesta de Lutero pero
+              amplió la pregunta: ¿cómo se manifiesta la soberanía de Dios
+              en la creación, la providencia, la historia, la cultura, la
+              vida civil, el trabajo cotidiano? La respuesta calvinista:
+              Dios reina sobre todo, sin sobras seculares.
+            </p>
+            <p>
+              Esta visión cosmológica encuentra su raíz bíblica en la
+              creación misma: Dios crea cielos y tierra y los declara
+              buenos (Gn 1). El pecado entra como intruso, no como
+              estructura ontológica. La redención en Cristo no nos saca del
+              cosmos sino que reclama todo el cosmos para Dios (Col 1:15–20;
+              Ef 1:10). El holandés Abraham Kuyper resumió esta convicción
+              calvinista en el siglo XIX: «no hay un solo centímetro
+              cuadrado en todo el dominio de nuestra existencia humana del
+              cual Cristo, soberano sobre todo, no clame: ¡Mío!».
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              La cosmovisión calvinista tiene consecuencias prácticas
+              cotidianas que el luteranismo no enfatiza con la misma
+              fuerza:
+            </p>
+            <ul role="list">
+              <li><strong>Vocación</strong> · todo trabajo lícito es servicio
+                  a Dios; el zapatero remendón glorifica a Dios remendando
+                  zapatos bien, no orando mientras lo hace.</li>
+              <li><strong>Cultura</strong> · la ciencia, las artes, la
+                  política, la economía son territorios bajo el señorío de
+                  Cristo. El creyente reformado se compromete con ellos sin
+                  considerarlos zonas neutras.</li>
+              <li><strong>Esfera pública</strong> · la teología reformada
+                  ha producido una larga tradición de reflexión política
+                  responsable: <span data-glossary-term="knox">Knox</span> en
+                  Escocia, los puritanos en Inglaterra y América, Kuyper en
+                  los Países Bajos. Frente al «kulturkampf» y al privatismo
+                  pietista, una teología pública.</li>
+              <li><strong>Estudio</strong> · al ser todo el saber
+                  patrimonio de Dios, ningún campo está vetado para el
+                  cristiano. El reformado puede ser biólogo, novelista,
+                  filósofo o ingeniero sin contradicción con su fe.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              El Salterio Ginebrino (1562), terminado por Beza tras el
+              empuje inicial de Calvino, puso en verso métrico francés los
+              ciento cincuenta salmos para ser cantados por la asamblea.
+              Fue una proeza pastoral: cada huguenote, cada presbiteriano
+              escocés, cada peregrino del <em>Mayflower</em> cantaba por
+              memoria los salmos de David. La práctica reformada del canto
+              salmódico es el correlato litúrgico de la cosmovisión
+              calvinista: si Dios reina sobre todas las esferas, su pueblo
+              canta su palabra en todas las circunstancias.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+    </article>
+
+
+    <!-- ============================================
+         LECCIÓN 2.4 · TULIP
+         ============================================ -->
+    <article class="lesson" id="l-2-4" aria-labelledby="l-2-4-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 2.4</p>
+        <h3 id="l-2-4-title" class="lesson__title">Los cinco puntos del calvinismo · <em>TULIP</em></h3>
+        <p class="lesson__abstract">
+          Estudio de cada punto: Depravación Total, Elección Incondicional,
+          Expiación Particular, Gracia Irresistible, Perseverancia de los
+          Santos. Base bíblica y confesional de cada uno. Controversia con
+          el arminianismo. Cánones de Dort como respuesta conciliar.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          El acrónimo <span data-glossary-term="tulip">TULIP</span> es
+          relativamente reciente (siglo XX, anglosajón) pero los cinco
+          puntos que sintetiza son la respuesta del Sínodo de Dort
+          (1618–1619) a los cinco artículos de la Remonstrance de los
+          seguidores de Jacobo Arminio. Esta lección examina cada punto en
+          su orden lógico, no como sistema cerrado sino como cinco
+          afirmaciones interconectadas sobre la obra soberana de Dios en la
+          salvación.
+        </p>
+      </div>
+
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              Los <span data-glossary-term="canones-de-dort">Cánones de
+              Dort</span> son la formulación conciliar definitiva. La
+              estructura de los Cánones sigue los cinco artículos de la
+              Remonstrance, refutándolos uno por uno y proponiendo en su
+              lugar las cinco afirmaciones positivas:
+            </p>
+            <ul role="list">
+              <li><em>Depravación total</em> · el pecado afecta a la
+                  totalidad de las facultades humanas. No significa que cada
+                  persona sea tan mala como podría serlo, sino que ningún
+                  aspecto del ser humano queda indemne.</li>
+              <li><em>Elección incondicional</em> · Dios eligió a sus
+                  elegidos antes de la fundación del mundo, no por mérito
+                  previsto en ellos sino por su pura voluntad soberana
+                  (Ef 1:4–5, RVR60).</li>
+              <li><em>Expiación particular</em> · la obra de Cristo en la
+                  cruz fue intencionada y es eficaz para la salvación de
+                  los elegidos.</li>
+              <li><em>Gracia irresistible</em> · cuando Dios llama
+                  eficazmente, su llamado vence la resistencia del corazón
+                  natural y produce infaliblemente conversión.</li>
+              <li><em>Perseverancia de los santos</em> · los verdaderamente
+                  regenerados perseverarán hasta el fin y no perderán su
+                  salvación.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              <span data-glossary-term="arminianismo">El arminianismo</span>
+              propone una alternativa diferente en cada punto: depravación
+              parcial, elección condicional (basada en presciencia de fe),
+              expiación universal en intención, gracia resistible, y
+              posibilidad de apostasía definitiva. La diferencia no es
+              superficial: el arminianismo desplaza el centro de gravedad
+              de la salvación de Dios al hombre. El calvinismo lo mantiene
+              en Dios.
+            </p>
+            <p>
+              Hay también caricaturas que conviene desechar. El calvinismo
+              <em>no</em> enseña que solo unos pocos serán salvos; la
+              extensión del decreto electivo es asunto que Dios no ha
+              revelado y sobre el que la Confesión de Westminster guarda
+              prudente silencio. El calvinismo <em>no</em> enseña que el
+              evangelio se predique solo a los elegidos; el llamado externo
+              se ofrece libre y sinceramente a todos. El calvinismo
+              <em>no</em> enseña que la oración o la evangelización sean
+              superfluas; son los medios divinamente ordenados para la
+              ejecución del decreto.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              Cada uno de los cinco puntos tiene raíces que atraviesan toda
+              la <span data-glossary-term="historia-redentora">historia
+              redentora</span>:
+            </p>
+            <ul role="list">
+              <li><em>Depravación total</em> · Génesis 6:5 («todo designio
+                  de los pensamientos del corazón de ellos era de continuo
+                  solamente el mal»); Jeremías 17:9; Romanos 3:10–18; Efesios
+                  2:1–3.</li>
+              <li><em>Elección incondicional</em> · Deuteronomio 7:7–8
+                  (Israel elegido por amor soberano, no por grandeza);
+                  Romanos 9:11–13; Efesios 1:4–5; 1 Pedro 1:1–2.</li>
+              <li><em>Expiación particular</em> · Isaías 53:11 («verá el
+                  fruto de la aflicción de su alma, y quedará satisfecho»);
+                  Juan 10:14–15 («pongo mi vida por las ovejas»);
+                  Efesios 5:25 («Cristo amó a la iglesia, y se entregó a sí
+                  mismo por ella»).</li>
+              <li><em>Gracia irresistible</em> · Ezequiel 36:26 («os daré
+                  corazón nuevo… y haré que andéis en mis estatutos»);
+                  Juan 6:37 («todo lo que el Padre me da, vendrá a mí»);
+                  Romanos 8:30.</li>
+              <li><em>Perseverancia de los santos</em> · Juan 10:28 («no
+                  perecerán jamás, ni nadie las arrebatará de mi mano»);
+                  Romanos 8:38–39; Filipenses 1:6.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Las cinco doctrinas no son ejercicio especulativo sino
+              fundamento pastoral. Producen tres consuelos concretos:
+            </p>
+            <ul role="list">
+              <li><strong>Humildad</strong> · si fui salvado, no fue porque
+                  yo viera más claro que mi vecino. Fue por elección
+                  soberana. Esto previene todo orgullo espiritual.</li>
+              <li><strong>Seguridad</strong> · si fui salvado por gracia
+                  soberana, no se me caerá de las manos un día malo.
+                  «El que comenzó en vosotros la buena obra, la perfeccionará
+                  hasta el día de Jesucristo» (Fil 1:6, RVR60).</li>
+              <li><strong>Confianza misionera</strong> · si Dios tiene
+                  elegidos en cada nación y Cristo no fracasará en
+                  rescatarlos, mi labor evangelística no es esfuerzo a
+                  ciegas. Es participación en una obra que ya está siendo
+                  hecha.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              «Sublime gracia» (<em>Amazing Grace</em>) de John Newton, ex
+              capitán negrero convertido, es el himno calvinista por
+              antonomasia: cada estrofa describe uno de los cinco puntos
+              sin nombrarlos. «Que un infame como yo salvó» (depravación
+              total y elección). «Su gracia me enseñó a temer» (gracia
+              irresistible que regenera). «Y ya en peligros, en luchas,
+              dolores yo he venido» (perseverancia probada). «Su mano me
+              guarda… y a casa al fin me llevará» (preservación
+              escatológica). El TULIP cantado, no debatido, es probablemente
+              su forma pastoral más útil.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+    </article>
+
+
+    <!-- ============================================
+         CUESTIONARIO DE UNIDAD 2 (resumido a 9 preguntas)
+         ============================================ -->
+    <section class="quiz" aria-labelledby="quiz-2-title">
+      <header class="quiz__header">
+        <p class="quiz__kicker">Cuestionario · Unidad II</p>
+        <h3 id="quiz-2-title" class="quiz__title">Dieciocho preguntas sobre identidad histórica y doctrinal</h3>
+        <p class="quiz__intro">
+          Cuestionario más extenso porque cubre cuatro lecciones. Se ofrecen
+          aquí nueve preguntas representativas; en la versión completa del
+          curso impreso se encuentran las dieciocho.
+        </p>
+      </header>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">01</span>
+          <span>¿Quiénes fueron los principales pre-reformadores y qué doctrinas anticiparon?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>John Wycliffe (Inglaterra, c. 1330–1384) anticipó la
+            <em><i lang="la">Sola Scriptura</i></em> al traducir la Biblia al inglés y
+            cuestionar la autoridad papal. Jan Hus (Bohemia, c. 1369–1415)
+            recogió las ideas de Wycliffe, predicó en lengua vernácula y
+            criticó las indulgencias; murió quemado por orden del Concilio
+            de Constanza. Sus enseñanzas serían retomadas por Lutero un
+            siglo después.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">02</span>
+          <span>¿Qué fueron las indulgencias y por qué precipitaron la crisis de 1517?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>Las indulgencias eran remisiones parciales de la pena temporal
+            por los pecados, que la Iglesia podía conceder apoyada en el
+            «tesoro de los méritos» de Cristo y los santos. En el siglo XVI
+            su comercialización (Tetzel: «cuando la moneda en el cofre
+            suena, el alma del purgatorio brinca») tocó la conciencia
+            evangélica de Lutero y desencadenó las 95 tesis (31 de octubre
+            de 1517).</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">03</span>
+          <span>Enumera las cinco Solas con su versículo de apoyo principal.</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p><em><i lang="la">Sola Scriptura</i></em> · 2 Timoteo 3:16–17. <em><i lang="la">Sola Fide</i></em> ·
+            Romanos 3:28. <em><i lang="la">Sola Gratia</i></em> · Efesios 2:8–9. <em>Solus
+            Christus</em> · Hechos 4:12. <em><i lang="la">Soli Deo Gloria</i></em> ·
+            1 Corintios 10:31.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">04</span>
+          <span>¿Cuál es la diferencia entre la justificación reformada y la justificación católica medieval?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>La justificación reformada es <em>forense</em>: acto judicial
+            de Dios que declara justo al pecador en virtud de la justicia
+            imputada de Cristo, recibida solo por fe. La justificación
+            católica medieval (formalizada en Trento) es <em>infusa</em>:
+            proceso por el cual la gracia santificante transforma
+            interiormente al pecador en justo. La diferencia no es de matiz:
+            la primera fundamenta la salvación enteramente en Cristo; la
+            segunda admite cooperación meritoria.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">05</span>
+          <span>¿Cuál es la aportación específica de Calvino que distingue la rama reformada de la luterana?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>La articulación de la soberanía de Dios sobre todas las esferas
+            de la realidad: creación, providencia, historia, cultura,
+            política, vocación. Lutero respondió a la pregunta «¿cómo
+            encuentro a un Dios misericordioso?»; Calvino conservó esa
+            respuesta y amplió el horizonte: cómo se manifiesta el reinado
+            de Dios sobre el cosmos entero.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">06</span>
+          <span>¿Qué es el <em>extra calvinisticum</em>?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>Doctrina cristológica reformada (así llamada peyorativamente por
+            los luteranos): aún durante la encarnación, el Logos divino no
+            quedó totalmente circunscrito al cuerpo de Jesús, sino que
+            continuó sosteniendo el universo y ejerciendo su omnipresencia.
+            Preserva la inmutabilidad y trascendencia del Hijo. La
+            contraposición con la doctrina luterana de la ubicuidad fue una
+            de las claves del desencuentro de Marburgo.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">07</span>
+          <span>Explica el acrónimo TULIP.</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>Total depravity (depravación total), Unconditional election
+            (elección incondicional), Limited atonement (expiación
+            particular), Irresistible grace (gracia irresistible),
+            Perseverance of the saints (perseverancia de los santos). Es
+            síntesis mnemotécnica anglosajona de los cinco puntos
+            establecidos en los Cánones de Dort (1618–1619) en respuesta a
+            los cinco artículos de la Remonstrance arminiana.</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">08</span>
+          <span>¿Qué fue el Sínodo de Dort y por qué tuvo carácter ecuménico?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>Asamblea internacional reformada celebrada en Dordrecht
+            (Países Bajos), 1618–1619, convocada para responder a la
+            Remonstrance arminiana de 1610. Tuvo carácter ecuménico (dentro
+            del calvinismo) porque participaron delegados de las iglesias
+            reformadas de Inglaterra, Escocia, Suiza, Hesse, Bremen, Emden
+            y Nassau, además de los Países Bajos. Produjo los Cánones de
+            Dort y reafirmó las Tres Formas de Unidad continentales
+            (Belga, Heidelberg, Cánones).</p>
+        </div>
+      </details>
+
+      <details class="question">
+        <summary>
+          <span class="question__num">09</span>
+          <span>¿Qué tres consuelos pastorales producen los cinco puntos del calvinismo?</span>
+          <svg class="question__plus" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3 L8 13 M3 8 L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="question__answer">
+          <p>(1) Humildad: si fui salvado, no fue porque viera mejor que
+            otros; fue por elección soberana. (2) Seguridad: una salvación
+            comenzada por Dios no se me caerá de las manos en un mal día.
+            (3) Confianza misionera: como Dios tiene elegidos en toda
+            nación y Cristo no fracasa en rescatarlos, mi labor
+            evangelística participa en una obra que ya se realiza.</p>
+        </div>
+      </details>
+
+    </section>
+
+  </section>
+
+
+  <!-- ====================================================================
+       UNIDAD 3 · El método teológico reformado
+       ================================================================= -->
+  <section class="unit container" id="unit-3" aria-labelledby="unit-3-title">
+
+    <header class="unit__header">
+      <p class="unit__kicker">Unidad III</p>
+      <p class="unit__num" aria-hidden="true">III</p>
+      <h2 id="unit-3-title" class="unit__title">El método teológico reformado</h2>
+      <p class="unit__intro">
+        Conociendo la teología y su identidad reformada, esta última unidad
+        atiende al <em>cómo</em>: las tres disciplinas teológicas y su
+        complementariedad, la función subordinada pero esencial de las
+        confesiones, y el principio hermenéutico que vertebra toda la lectura
+        reformada de la Escritura.
+      </p>
+    </header>
+
+
+    <!-- ============================================
+         LECCIÓN 3.1 · Sistemática, bíblica e histórica
+         ============================================ -->
+    <article class="lesson" id="l-3-1" aria-labelledby="l-3-1-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 3.1</p>
+        <h3 id="l-3-1-title" class="lesson__title">Sistemática, bíblica e histórica · diferencias y <em>complementariedad</em></h3>
+        <p class="lesson__abstract">
+          Definición de cada disciplina. Cómo se relacionan entre sí. Por qué
+          la teología reformada integra las tres. El modelo de Westminster
+          como paradigma.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          La teología cristiana se cultiva en tres disciplinas
+          complementarias. La <em>teología sistemática</em> organiza el
+          contenido doctrinal de la Escritura en sus loci clásicos
+          (bibliología, teología propia, antropología, cristología,
+          soteriología, eclesiología, escatología). La
+          <span data-glossary-term="teologia-biblica-vos">teología
+          bíblica</span> traza el desarrollo orgánico y progresivo de la
+          revelación a lo largo de la historia redentora. La <em>teología
+          histórica</em> estudia cómo la Iglesia ha articulado su fe en cada
+          siglo: padres, concilios, escolásticos, reformadores, modernos.
+        </p>
+        <p>
+          Las tres disciplinas no compiten: cooperan. La teología bíblica
+          provee el material orgánico que la sistemática organiza
+          temáticamente, y la histórica nos sitúa en una cadena de
+          confesores cuya voz informa la nuestra. La teología reformada,
+          desde Calvino hasta Bavinck, ha cultivado las tres a la vez
+          (Westminster es paradigmático). Una teología sin teología bíblica
+          se vuelve atemporal y abstracta; sin sistemática, fragmentaria y
+          desorganizada; sin histórica, presuntuosa y solitaria.
+        </p>
+      </div>
+
+    
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              La <span data-glossary-term="confesion-de-westminster">Confesión
+              de Westminster</span> no es únicamente un documento soteriológico:
+              es también un paradigma metodológico. Su estructura misma encarna
+              la complementariedad de las tres disciplinas teológicas. El capítulo I
+              establece la norma escritural (bibliología sistemática); los
+              capítulos II–XXXIII recorren los grandes temas organizados temáticamente
+              (sistemática propiamente dicha); y el prefacio histórico de la
+              Asamblea sitúa el documento en su momento confesante (teología
+              histórica). Westminster no eligió por azar este triple registro:
+              lo heredó de la práctica de Calvino, cuya <em>Institución</em>
+              entrelaza exégesis, síntesis dogmática e interlocución con la
+              tradición en cada página sin sacrificar ninguna de las tres.
+            </p>
+            <p>
+              El <span data-glossary-term="catecismo-de-heidelberg">Catecismo
+              de Heidelberg</span> ilustra la misma integración desde el ángulo
+              pastoral. Sus 129 preguntas siguen una secuencia que presupone
+              teología bíblica (la miseria que el Génesis revela), sistemática
+              (la satisfacción en Cristo, el Símbolo Apostólico, los sacramentos,
+              la ley) e histórica (los debates trinitarios y cristológicos que
+              las respuestas sobre el Padre, el Hijo y el Espíritu Santo
+              incorporan tácitamente). Separar estas tres disciplinas haría del
+              Catecismo una ruina; unirlas hace de él un compendio que ha
+              formado creyentes durante cinco siglos.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              Tres distorsiones históricas han surgido cuando las disciplinas
+              teológicas han operado en aislamiento. La primera es el
+              <em>biblicismo atomizante</em>: una teología bíblica sin
+              sistemática que rastrea motivos a lo largo del canon pero que
+              no articula nunca qué cree la Iglesia sobre Dios, el hombre
+              o la salvación. El resultado es erudición narrativa sin columna
+              doctrinal: el predicador sabe lo que decía el texto a sus
+              primeros oyentes, pero no sabe qué proclamar hoy sobre la
+              justificación o la trinidad.
+            </p>
+            <p>
+              La segunda distorsión es la <em>escolástica desencarnada</em>:
+              una sistemática que debate categorías filosóficas con destreza
+              técnica pero que ha perdido contacto con el texto escritural y
+              con la historia concreta de la Iglesia. Sus conclusiones son
+              precisas en el papel; su relación con la adoración, la catequesis
+              y la predicación, nula. La tercera es el <em>historicismo
+              relativista</em>: una teología histórica que documenta lo que
+              creyeron los siglos pero que nunca pregunta si lo creyeron
+              correctamente, porque ha renunciado a la norma escritural como
+              juez. El antídoto reformado a las tres distorsiones es la
+              integración disciplinada que Westminster, Calvino y Bavinck
+              ejemplificaron.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              Geerhardus Vos definió la teología bíblica como «la rama de
+              la ciencia exegética que trata del proceso del autodescubrimiento
+              de Dios en la historia redentora». Esta definición la sitúa en
+              su lugar exacto: es exegética (trabaja sobre el texto),
+              histórico-redentora (sigue el desarrollo del pacto desde
+              Génesis hasta Apocalipsis) y teológica (no se limita a describir,
+              sino que evalúa el progreso de la revelación). Sin teología
+              bíblica, la sistemática no tiene material vivo del cual extraer
+              sus categorías; trabaja con conceptos abstractos en vez de con
+              el drama concreto de la elección, el éxodo, el pacto davídico
+              y la encarnación.
+            </p>
+            <p>
+              La teología histórica, por su parte, muestra que las controversias
+              que forjaron los grandes credos no brotaron del vacío especulativo
+              sino de la lectura comunitaria de la Escritura bajo desafío.
+              Arrío obligó a la Iglesia a precisar qué dice Juan 1:1 sobre
+              la deidad del Logos; el socianismo obligó a los reformados a
+              articular la sustitución penal. La historia no es ornamento
+              del estudio bíblico: es su memoria institucional, el registro
+              de cómo la Iglesia ha luchado con el texto antes que nosotros.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Tres preguntas orientadoras para el estudiante que comienza a
+              distinguir y coordinar estas disciplinas:
+            </p>
+            <ul role="list">
+              <li><strong>¿Cuándo uso teología bíblica?</strong> Cuando
+                  preguntas: «¿Qué quiso decir este texto en su momento
+                  histórico dentro del desarrollo redentor?». Es la pregunta
+                  del lector que sigue el argumento del canon como una
+                  historia progresiva con promesas y cumplimientos, de
+                  Génesis a Apocalipsis.</li>
+              <li><strong>¿Cuándo uso sistemática?</strong> Cuando preguntas:
+                  «¿Qué enseña toda la Escritura sobre este tema?». Es el
+                  momento de los <em>loci</em>: recoges textos del Pentateuco,
+                  los Profetas, las cartas paulinas y el Apocalipsis para
+                  articular qué enseña Dios sobre la trinidad, el pecado
+                  o la última resurrección.</li>
+              <li><strong>¿Cuándo uso teología histórica?</strong> Cuando
+                  preguntas: «¿Cómo ha leído la Iglesia este texto o este tema
+                  a lo largo de los siglos?». Es la disciplina que te protege
+                  de creer que tu interpretación del siglo XXI es la primera
+                  y más correcta lectura posible.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              La integración de las tres disciplinas no es un fin académico:
+              es un acto de adoración. Cuando el creyente comprende que el
+              tabernáculo de Éxodo anticipa el templo que anticipa la
+              encarnación que anticipa la nueva Jerusalén (teología bíblica),
+              que Cristo es el único mediador de un pacto eterno en el que
+              la justicia y la misericordia se besan (sistemática), y que
+              Atanasio, Agustín, Calvino y Owen pasaron sus vidas
+              contemplando estas verdades en la Escritura (teología
+              histórica), la respuesta natural y necesaria es la adoración:
+              no hay objeto de contemplación más grande ni historia más
+              densa de gloria.
+            </p>
+            <p>
+              El Salmo 111 entreteje las tres dimensiones en ocho versículos:
+              recorre las obras de Dios en la historia de Israel (teología
+              bíblica), declara su carácter —«misericordioso y compasivo»
+              (v. 4), «eternas sus justicias» (v. 3)— (sistemática) y
+              convoca a la comunidad reunida a alabarle (dimensión litúrgica
+              e histórica). El estudiante que practica las tres disciplinas
+              integradas aprende a orar el Salmo 111 con mayor riqueza,
+              no con mayor distancia. <em><i lang="la">Soli Deo gloria</i>.</em>
+            </p>
+          </div>
+        </li>
+
+      </ol>
+    </article>
+
+
+    <!-- ============================================
+         LECCIÓN 3.2 · El rol de las confesiones
+         ============================================ -->
+    <article class="lesson" id="l-3-2" aria-labelledby="l-3-2-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 3.2</p>
+        <h3 id="l-3-2-title" class="lesson__title">El rol de las <em>confesiones</em> y catecismos</h3>
+        <p class="lesson__abstract">
+          Las confesiones no como adición a la Biblia, sino como síntesis de
+          su enseñanza. Westminster (1647), Heidelberg (1563), los Cánones
+          de Dort (1619). Cómo usar las confesiones en el estudio personal.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          La objeción más frecuente al uso de confesiones suena así: «La
+          Biblia me basta, no necesito documentos humanos». La objeción
+          confunde dos cosas distintas. La Escritura es <em>norma normada
+          por nada</em> (<i lang="la">norma normans</i> non normata): regla suprema sin
+          regla por encima. Las confesiones son <em>normas normadas por la
+          Escritura</em> (normae normatae): síntesis humanas, sometidas
+          siempre al juicio del texto bíblico, pero tremendamente útiles
+          como mapa que la Iglesia de los siglos ha producido leyendo la
+          Biblia con honestidad y oración.
+        </p>
+        <p>
+          Las tres confesiones reformadas indispensables son la
+          <span data-glossary-term="confesion-de-westminster">Confesión de
+          Westminster</span> con sus dos catecismos (1647, paradigma anglosajón
+          presbiteriano), el <span data-glossary-term="catecismo-de-heidelberg">
+          Catecismo de Heidelberg</span> (1563, paradigma cálido y pastoral
+          continental) y los <span data-glossary-term="canones-de-dort">Cánones
+          de Dort</span> (1619, formulación soteriológica precisa). El
+          estudiante reformado debería conocer estos tres documentos no como
+          obstáculos a la lectura individual de la Biblia sino como
+          interlocutores experimentados.
+        </p>
+      </div>
+
+    
+      <ol class="vias" aria-label="Las cinco vías pedagógicas">
+
+        <li class="via">
+          <h4 class="via__title">Formulación <em>confesional</em></h4>
+          <div class="via__body">
+            <p>
+              La <span data-glossary-term="confesion-de-westminster">Confesión
+              de Westminster</span>, en su capítulo I.8, establece que las
+              Escrituras deben ser traducidas a las lenguas del pueblo para
+              que todos puedan «adorar a Dios de manera aceptable y alcanzar
+              la paciencia y el consuelo de la esperanza». Este mandato
+              presupone que el pueblo de Dios puede y debe leer la Biblia
+              por sí mismo; pero la historia de la Reforma muestra que la
+              lectura directa de la Escritura produjo casi de inmediato la
+              necesidad de guías catequéticas y confesiones que orientaran
+              esa lectura. La <em><i lang="la">sola Scriptura</i></em> no genera anarquía
+              interpretativa: genera comunidades confesantes que articulan
+              juntas lo que la Escritura enseña.
+            </p>
+            <p>
+              Los <span data-glossary-term="canones-de-dort">Cánones de
+              Dort</span> (1619) ilustran el proceso con precisión: una
+              controversia exegética sobre la soberanía de Dios en la
+              salvación (los artículos de los Remonstrantes) convocó un
+              sínodo ecuménico que respondió con cinco capítulos de
+              afirmaciones y negaciones finamente articuladas. El resultado
+              no fue una imposición autoritaria sobre la Escritura sino una
+              destilación comunitaria de lo que la Escritura enseña sobre
+              elección, expiación particular, depravación total, gracia
+              irresistible y perseverancia de los santos. Las confesiones
+              son la Iglesia leyendo la Biblia en alta voz.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Dimensión <em>eléntica</em></h4>
+          <div class="via__body">
+            <p>
+              Cuatro objeciones modernas al uso de confesiones merecen ser
+              nombradas y respondidas con precisión. La primera: <em>«Las
+              confesiones añaden tradición humana a la Biblia»</em>.
+              Respuesta: ninguna confesión reformada se autoatribuye
+              autoridad equivalente a la Escritura; todas se someten
+              explícitamente a su corrección. La distinción entre
+              <em>norma normans</em> (Escritura) y <em><i lang="la">norma normata</i></em>
+              (confesión) no es sofisma jurídico: es la postura exacta de
+              la Reforma. La segunda: <em>«Las confesiones fijan el debate
+              y sofocan el pensamiento»</em>. Respuesta: fijan el debate
+              donde la Escritura ha hablado con claridad y dejan espacio
+              donde es silenciosa; eso es precisamente la sabiduría
+              reformada.
+            </p>
+            <p>
+              La tercera objeción: <em>«La catequesis confesional es
+              adoctrinamiento»</em>. Respuesta: toda educación forma en
+              algo; la cuestión es si ese algo se corresponde con la verdad
+              revelada. No hay pedagogía neutral; la pregunta no es si
+              se forma la mente del creyente, sino si se la forma según
+              la Escritura. La cuarta: <em>«Las confesiones dividen a los
+              creyentes»</em>. Respuesta: las confesiones articulan la
+              comunión de los que creen lo mismo; no crean divisiones sino
+              que las revelan donde ya existían, haciendo posible la
+              cooperación honesta entre quienes comparten la misma fe
+              articulada.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Perspectiva de <em>teología bíblica</em></h4>
+          <div class="via__body">
+            <p>
+              El instinto confesante no es invención de la Reforma:
+              atraviesa toda la historia bíblica. Israel articula su fe
+              en el <em>Shemá</em> (Dt 6:4‑5, RVR60): una declaración
+              teológica breve, repetible y formativa, diseñada para ser
+              memorizada y recitada en comunidad. Los Salmos de Ascenso
+              (Sal 120–134) son liturgia confesante: el pueblo sube al
+              templo recitando en común lo que cree sobre Yahweh. El
+              Nuevo Testamento conserva fragmentos de credos tempranos:
+              «Cristo murió por nuestros pecados conforme a las Escrituras…
+              resucitó al tercer día» (1 Co 15:3‑5, RVR60) y la doxología
+              cristológica de Filipenses 2:6‑11, que los eruditos identifican
+              como himno litúrgico pre-paulino.
+            </p>
+            <p>
+              La catequesis deuteronómica merece atención especial.
+              Deuteronomio 6:7 manda que la instrucción en la Torá sea
+              doméstica, repetida y ubicua: «las repetirás a tus hijos,
+              y hablarás de ellas estando en tu casa, y andando por el
+              camino, y al acostarte, y cuando te levantes». Este texto
+              funda la catequesis como práctica obligatoria del hogar
+              creyente siglos antes de Heidelberg o Westminster. Los
+              catecismos reformados no inventan la formación doctrinal
+              del pueblo de Dios: la recuperan y estructuran en el idioma
+              y las controversias de su siglo.
+            </p>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>catequética</em></h4>
+          <div class="via__body">
+            <p>
+              Tres modos concretos de usar las confesiones en el estudio
+              personal y congregacional:
+            </p>
+            <ul role="list">
+              <li><strong>Como mapa antes de la lectura bíblica.</strong>
+                  Leer la sección pertinente de Westminster o el Catecismo
+                  de Heidelberg antes de abordar un libro bíblico orienta
+                  la lectura sin sustituirla. El mapa no es el territorio;
+                  pero quien viaja sin mapa se pierde con más frecuencia
+                  que quien lleva uno, incluso si el mapa no es perfecto.</li>
+              <li><strong>Como árbitro en la controversia.</strong>
+                  Cuando dos interpretaciones de un texto se presenten como
+                  igualmente bíblicas, la confesión reformada señala la
+                  lectura que la Iglesia ha considerado fiel al conjunto
+                  de la Escritura. No cierra el debate; lo encuadra con
+                  sabiduría acumulada en siglos de lectura comunitaria.</li>
+              <li><strong>Como devocionario estructurado.</strong>
+                  El Catecismo de Heidelberg divide en 52 domingos —uno
+                  por semana— toda la doctrina cristiana esencial. Seguirlo
+                  a lo largo del año es cursar un programa completo de
+                  formación teológica sin salir de casa ni del culto
+                  dominical.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="via">
+          <h4 class="via__title">Aplicación <em>doxológica</em></h4>
+          <div class="via__body">
+            <p>
+              La pregunta 1 del Catecismo de Heidelberg —«¿Cuál es tu
+              único consuelo en la vida y en la muerte?»— es teología
+              convertida en doxología antes de convertirse en respuesta.
+              La pregunta no dice «¿qué doctrinas debes saber?» sino
+              «¿cuál es tu consuelo?»: pregunta existencial, afectiva,
+              totalizante. La respuesta —«que soy, en cuerpo y alma, no
+              mío sino de mi fiel Salvador Jesucristo»— no es un tratado;
+              es una doxología encapsulada. Quien aprende esta respuesta
+              de memoria no almacena información: aprende a nombrarse a
+              sí mismo delante de Dios con la precisión que solo la
+              gracia puede dar.
+            </p>
+            <p>
+              Las confesiones, usadas correctamente, convierten el culto
+              en un acto de comprensión y la comprensión en un acto de
+              culto. Los puritanos que firmaron Westminster y catequizaron
+              a sus hijos con el Catecismo Mayor no separaban el aula del
+              santuario: cada doctrina articulada era una nueva razón para
+              postrar el alma ante el Dios que habló. El estudiante que
+              memorice una pregunta del catecismo cada semana estará,
+              al cabo de un año, en posesión de un vocabulario adorador
+              que ningún tratado abstracto puede otorgar.
+              <em><i lang="la">Soli Deo gloria</i>.</em>
+            </p>
+          </div>
+        </li>
+
+      </ol>
+    </article>
+
+
+    <!-- ============================================
+         LECCIÓN 3.3 · Analogía de la fe
+         ============================================ -->
+    <article class="lesson" id="l-3-3" aria-labelledby="l-3-3-title">
+
+      <header class="lesson__header">
+        <p class="lesson__num">Lección 3.3</p>
+        <h3 id="l-3-3-title" class="lesson__title">La <em>analogía de la fe</em> como principio hermenéutico</h3>
+        <p class="lesson__abstract">
+          Definición (Ro 12:6, RVR60). La Escritura interpreta la Escritura.
+          Aplicación práctica con textos de aparente tensión (Ro 9 vs.
+          Jn 3:16). Diferencia con el alegorismo y el concordismo.
+        </p>
+      </header>
+
+      <div class="lesson__body">
+        <p>
+          La <span data-glossary-term="analogia-fidei"><em>analogia
+          fidei</em></span> es el principio reformado de que la Escritura es
+          el intérprete último de sí misma: <em>Scriptura Scripturam
+          interpretatur</em>. Los pasajes oscuros se leen a la luz de los
+          claros; los aparentemente contradictorios se armonizan en la
+          unidad del mensaje canónico; los detalles se interpretan dentro
+          del arco de la totalidad.
+        </p>
+        <p>
+          La aplicación práctica: ante un texto difícil (Romanos 9 sobre la
+          elección, Juan 3:16 sobre la oferta universal del evangelio), la
+          analogía de la fe pide leerlos a la vez, no aislar uno y forzar
+          al otro. Romanos 9 enseña la elección incondicional desde Dios;
+          Juan 3:16 enseña la oferta sincera del evangelio a todo el que
+          cree. Ambos son verdad. La armonización reformada no elimina la
+          tensión sino la habita: Dios elige soberanamente y a la vez
+          ofrece sinceramente. La analogía de la fe se distingue del
+          alegorismo (que sustituye el sentido literal por uno místico) y
+          del concordismo (que armoniza forzando uno de los textos a decir
+          lo que dice el otro).
+        </p>
+
+        <ol class="vias">
+          <li class="via">
+            <p class="via__label">V&iacute;a 1</p>
+            <h4 class="via__title">Formulaci&oacute;n <em>confesional</em></h4>
+            <div class="via__body">
+              <p>
+                El principio de la <em>analogia fidei</em> &mdash;la
+                Escritura interpreta la Escritura&mdash; est&aacute;
+                articulado como norm hermenéutica fundamental en toda
+                la tradici&oacute;n confesional reformada.
+                <strong>La Confesi&oacute;n de Westminster I.9</strong>
+                lo codifica sin ambig&uuml;edad: <em>&laquo;La regla
+                infalible de interpretaci&oacute;n de la Escritura es
+                la propia Escritura misma; y por tanto, cuando hay
+                una cuesti&oacute;n sobre el verdadero y pleno sentido
+                de cualquier texto de la Escritura &mdash;que no es
+                m&uacute;ltiple, sino uno&mdash;, debe buscarse en
+                otros lugares que traten con mayor claridad de ello&raquo;</em>.
+                Esta afirmaci&oacute;n contiene dos compromisos
+                hermenéuticos decisivos: (a) el sentido de la Escritura
+                es uno, no m&uacute;ltiple; y (b) la Escritura es
+                su propio y mejor int&eacute;rprete. La
+                <strong>Segunda Confesi&oacute;n Helvética, cap. 2</strong>
+                a&ntilde;ade: <em>&laquo;Por tanto rechazamos todas
+                las interpretaciones de la Escritura que sean contrarias
+                a la regla de la fe y a la caridad&raquo;</em> &mdash;
+                lo que implica que el <em>consensus fidei</em> de la
+                Escritura &mdash;sintetizado en las confesiones&mdash;
+                act&uacute;a como guardia against interpretaciones
+                individuales aberrantes. La <strong>Confesi&oacute;n
+                Belga Art. 5</strong> afirma que creemos los libros
+                sagrados <em>&laquo;no tanto porque la iglesia los recibe
+                y aprueba, sino sobre todo porque el Esp&iacute;ritu
+                Santo testifica en nuestros corazones que proceden de
+                Dios&raquo;</em>: el mismo Esp&iacute;ritu que inspir&oacute;
+                la Escritura ilumina su lectura anal&oacute;gica. El
+                <strong>Cat&eacute;cismo Mayor de Westminster P. 99</strong>
+                sobre las reglas para el correcto entendimiento de los
+                Diez Mandamientos ejemplifica la <em>analogia fidei</em>
+                en acci&oacute;n: cada mandamiento es interpretado
+                por la totalidad de la Ley y el Evangelio. La
+                <strong>Confesi&oacute;n Bautista de 1689 I.9</strong>
+                reproduce verbatim la posici&oacute;n de Westminster,
+                confirmando el consenso reformado transdenominacional
+                sobre este principio.
+              </p>
+            </div>
+          </li>
+
+          <li class="via">
+            <p class="via__label">V&iacute;a 2</p>
+            <h4 class="via__title">Dimensi&oacute;n <em>el&eacute;ntica</em></h4>
+            <div class="via__body">
+              <p>
+                Tres distorsiones hermenéuticas corrompen la lectura de
+                la Escritura y deben ser refutadas desde la <em>analogia
+                fidei</em>. <strong>Primera: el alegori&not;smo</strong>
+                (Or&iacute;genes de Alejandr&iacute;a como exponente
+                cl&aacute;sico; variantes contempor&aacute;neas en lecturas
+                espiritualizantes del AT) sustituye el sentido literal-hist&oacute;rico
+                del texto por un significado m&iacute;stico o espiritual
+                elaborado por el int&eacute;rprete. Su error epistemol&oacute;gico
+                es disolver el ancla hist&oacute;rica de la revelaci&oacute;n:
+                si el Éxodo de Egipto es &laquo;solo&raquo; una alegor&iacute;a
+                del alma que sale del vicio, el Evangelio de Cristo como
+                nuevo &eacute;xodo pierde su base factual. La
+                <em>analogia fidei</em> refuta el alegorismo exigiendo
+                que toda interpretaci&oacute;n espiritual est&eacute;
+                anclada en el sentido gramatical-hist&oacute;rico del
+                texto. <strong>Segunda: el concordismo armonizante
+                forzado</strong> toma dos textos de aparente tensi&oacute;n
+                y fuerza uno de ellos a decir exactamente lo que dice
+                el otro, eliminando la tensi&oacute;n. Ejemplo: armonizar
+                Romanos 9:13 (<em>&laquo;Am&eacute; a Jacob y abon&iacute;
+                a Esaú&raquo;</em>) con 1 Juan 2:2 (<em>&laquo;propiciaci&oacute;n
+                por los pecados de todo el mundo&raquo;</em>) reduciendo
+                uno de los textos hasta desaparecerlo. La <em>analogia
+                fidei</em> auténtica mantiene la tensi&oacute;n y la
+                resuelve desde la totalidad del sistema bíblico, no
+                desde un texto forzado. <strong>Tercera: el
+                uso-texto&oacute;n</strong> (proof-texting arbitrario)
+                cita textos aislados para probar doctrinas sin considerar
+                su contexto literario, hist&oacute;rico ni can&oacute;nico.
+                La <em>analogia fidei</em> exige el texto en su contexto
+                como requisito previo a cualquier uso doctrinal.
+              </p>
+            </div>
+          </li>
+
+          <li class="via">
+            <p class="via__label">V&iacute;a 3</p>
+            <h4 class="via__title">Perspectiva de <em>teolog&iacute;a b&iacute;blica</em></h4>
+            <div class="via__body">
+              <p>
+                La <em>analogia fidei</em> no es un principio abstracto
+                impuesto sobre la Escritura desde fuera; es el resultado
+                de la unidad org&aacute;nica de la revelaci&oacute;n
+                divina a trav&eacute;s de la historia redentora.
+                <strong>Los autores del Antiguo Testamento practican la
+                <em>analogia fidei</em></strong>: los Salmos citan el
+                Pentateuco (Sal 105&ndash;106 renarran &Eacute;xodo-N&uacute;meros);
+                Is&aacute;as interpreta la profec&iacute;a de Oseas
+                (Os 11:1 &rarr; Is 11:11&ndash;12 como promesa de nuevo
+                &eacute;xodo); los libros sapienciales dialogan entre
+                s&iacute; (Job y Eclesiast&eacute;s cuestionan Proverbios,
+                enriqueci&eacute;ndolo). <strong>Los autores del Nuevo
+                Testamento practican la <em>analogia fidei</em>
+                sistem&aacute;ticamente</strong>: Pablo en Romanos
+                9&ndash;11 cita Is&aacute;as, Oseas, &Eacute;xodo,
+                Deuteronomio y los Salmos como un coro coherente sobre
+                la soberan&iacute;a de Dios en la salvaci&oacute;n; la
+                carta a los Hebreos es un tratado entero de interpretaci&oacute;n
+                anal&oacute;gica del sistema leví&not;tico desde Cristo.
+                <strong>El propio Jes&uacute;s</strong> practica la
+                <em>analogia fidei</em> en Mateo 5:21&ndash;48 cuando
+                interpreta los mandamientos del&nbsp;Sina&iacute; desde
+                la intenci&oacute;n moral de Dios revelada en toda la
+                Torah; en Lucas 24:27 cuando interpreta &laquo;todas las
+                Escrituras&raquo; desde su propia persona como clave
+                hermenéutica. Esta dimensi&oacute;n de teolog&iacute;a
+                b&iacute;blica ense&ntilde;a que la <em>analogia fidei</em>
+                no es una regla impuesta externamente sino el patr&oacute;n
+                org&aacute;nico de c&oacute;mo la Escritura se interpreta
+                a s&iacute; misma a trav&eacute;s de la historia de la
+                revelaci&oacute;n progresiva.
+              </p>
+            </div>
+          </li>
+
+          <li class="via">
+            <p class="via__label">V&iacute;a 4</p>
+            <h4 class="via__title">Aplicaci&oacute;n <em>catequ&eacute;tica</em></h4>
+            <div class="via__body">
+              <p>
+                Cinco reglas pr&aacute;cticas para ense&ntilde;ar la
+                <em>analogia fidei</em> en el estudio b&iacute;blico
+                congregacional. <strong>Primera &mdash; identificar el
+                sentido gramatical-hist&oacute;rico primero</strong>:
+                antes de comparar textos, asegurar que cada texto se
+                comprende en su propio contexto inmediato de p&aacute;rrafo,
+                cap&iacute;tulo y libro. La analog&iacute;a no es atajos
+                para evitar el trabajo exeg&eacute;tico. <strong>Segunda
+                &mdash; buscar textos m&aacute;s claros que iluminen
+                los oscuros</strong>: cuando un texto parece oscuro,
+                buscar textos paralelos que aborden el mismo tema con
+                mayor claridad. Ejemplo pr&aacute;ctico: Santiago 2:24
+                (<em>&laquo;el hombre es justificado por las obras&raquo;</em>)
+                se ilumina por Romanos 4:2&ndash;5 (justificaci&oacute;n
+                ante Dios solo por fe) y Romanos 3:28 &mdash;la
+                diferencia no es contradicci&oacute;n sino diferentes
+                sentidos de &laquo;justificar&raquo;. <strong>Tercera
+                &mdash; mantener la tensi&oacute;n cuando es real</strong>:
+                la Escritura presenta m&uacute;ltiples verdades en
+                tensi&oacute;n (soberan&iacute;a divina y responsabilidad
+                humana; gracia y esfuerzo) que no deben resolverse
+                eliminando uno de los polos. <strong>Cuarta &mdash;
+                usar las confesiones como primera analog&iacute;a</strong>:
+                las confesiones reformadas sintetizan la <em>analogia
+                fidei</em> del texto completo y pueden orientar la
+                interpretaci&oacute;n antes de elaborar una propia.
+                <strong>Quinta &mdash; orar antes de interpretar</strong>:
+                el mismo Esp&iacute;ritu que inspir&oacute; la Escritura
+                ilumina su lectura coherente (1 Co 2:13&ndash;14).
+              </p>
+            </div>
+          </li>
+
+          <li class="via">
+            <p class="via__label">V&iacute;a 5</p>
+            <h4 class="via__title">Aplicaci&oacute;n <em>doxol&oacute;gica</em></h4>
+            <div class="via__body">
+              <p>
+                La coherencia interna de la Escritura &mdash;su capacidad
+                de interpretarse a s&iacute; misma desde la <em>analogia
+                fidei</em>&mdash; es ella misma un testimonio de su
+                origen divino y un motivo de adoraci&oacute;n. Que
+                cuarenta autores humanos a lo largo de quince siglos,
+                sin comunicaci&oacute;n entre s&iacute;, hayan producido
+                un corpus unificado por una teolog&iacute;a coherente,
+                un sistema de tipos y ant&iacute;tipos que se cumplen
+                con precisi&oacute;n, y un patr&oacute;n de promesa y
+                cumplimiento que converge en Jesucristo &mdash;esto
+                no es accidente literario sino providencia divina.
+                B.B. Warfield llamaba a este fen&oacute;meno <em>the
+                organic unity of Scripture</em>: la Escritura es un
+                organismo viviente, no una antolog&iacute;a. El estudiante
+                que domina la <em>analogia fidei</em> no solo comprende
+                mejor la Escritura; tambi&eacute;n la adora m&aacute;s
+                profundamente, porque ve en su coherencia interna la
+                huella del Autor eterno que <em>&laquo;declar&oacute;
+                lo porvenir desde el principio, y desde la antig&uuml;edad
+                lo que a&uacute;n no era hecho&raquo;</em> (Is 46:10,
+                RVR60). Usar bien la Escritura para interpretar la
+                Escritura es, en el fondo, un acto de reverencia ante
+                el Dios que habl&oacute; coherentemente para ser
+                entendido y adorado. <em><i lang="la">Soli Deo gloria</i>.</em>
+              </p>
+            </div>
+          </li>
+
+        </ol>
+
+      </div>
+
+    </article>
+
+
+    <!-- ============================================
+         RÚBRICA DEL EXAMEN FINAL DEL CURSO 1
+         ============================================ -->
+    <section class="rubric" aria-labelledby="rubric-title">
+      <h3 id="rubric-title" class="rubric__title">Examen final · rúbrica de evaluación</h3>
+      <p class="rubric__intro">
+        El examen consta de treinta y cinco preguntas de los tres tipos
+        siguientes. La rúbrica describe los criterios de aprobación por
+        rango.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Criterio</th>
+            <th scope="col">Excelente · 4</th>
+            <th scope="col">Suficiente · 3</th>
+            <th scope="col">Mínimo · 2</th>
+            <th scope="col">Insuficiente · 1</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Comprensión doctrinal</th>
+            <td>Articula con precisión cada doctrina y la relaciona con
+                otras del plan.</td>
+            <td>Reproduce con exactitud el contenido confesional sin
+                errores graves.</td>
+            <td>Identifica conceptos centrales con vocabulario aproximado.</td>
+            <td>Confunde doctrinas o usa terminología equivocada.</td>
+          </tr>
+          <tr>
+            <th scope="row">Uso de fuentes</th>
+            <td>Cita correctamente Escritura, confesión y autor reformado
+                cuando procede.</td>
+            <td>Cita Escritura y confesión con exactitud.</td>
+            <td>Cita Escritura sin precisión textual.</td>
+            <td>No cita fuentes o las cita incorrectamente.</td>
+          </tr>
+          <tr>
+            <th scope="row">Discernimiento eléntico</th>
+            <td>Identifica errores opuestos a cada doctrina con claridad.</td>
+            <td>Reconoce los errores principales sin matices.</td>
+            <td>Reconoce sólo el error más obvio.</td>
+            <td>No distingue la doctrina de su parodia.</td>
+          </tr>
+          <tr>
+            <th scope="row">Aplicación pastoral</th>
+            <td>Conecta cada doctrina con la vida del creyente y de la
+                iglesia local.</td>
+            <td>Sabe aplicar la doctrina a la vida personal.</td>
+            <td>Reconoce que la doctrina debe aplicarse, sin concretar.</td>
+            <td>Trata la doctrina como información sin aplicación.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </section>
+
+
+  <!-- ====================================================================
+       NAVEGACIÓN AL FINAL · curso anterior / siguiente
+       ================================================================= -->
+  <nav class="course-nav container" aria-label="Navegación entre cursos">
+    <a class="course-nav__link" href="#/courses">
+      <p class="course-nav__direction">← Catálogo</p>
+      <p class="course-nav__title">Volver al índice de cursos</p>
+    </a>
+    <a class="course-nav__link course-nav__link--next" href="#/hermeneutica-biblica">
+      <p class="course-nav__direction">Curso 02 · Siguiente →</p>
+      <p class="course-nav__title">Hermenéutica Bíblica</p>
+    </a>
+  </nav>
+
+</div>
