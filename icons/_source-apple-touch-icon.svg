@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 180 180"
+     fill="none">
+  <title>Apple Touch Icon · fuente de exportación (180×180)</title>
+  <desc>SVG fuente para apple-touch-icon.png. Fondo navy (#0d1420) sólido, marca dorada (#c9a84c) centrada ocupando aproximadamente 78 por ciento del canvas. iOS redondea las esquinas automáticamente.</desc>
+
+  <!-- Fondo navy sólido · iOS aplica su propio rounded corner, sin necesidad de redondear aquí -->
+  <rect width="180" height="180" fill="#0d1420"/>
+
+  <!-- Marca centrada · mark 140×140 desde (20,20), escala 1.4 sobre viewBox 100 -->
+  <g transform="translate(20,20) scale(1.4)">
+    <rect x="6" y="6" width="88" height="88" rx="2.5" ry="2.5"
+          stroke="#c9a84c" stroke-width="1" opacity="0.32"/>
+    <path d="M 16 21 L 84 21" stroke="#c9a84c" stroke-width="0.7" opacity="0.5"/>
+    <path d="M 16 79 L 84 79" stroke="#c9a84c" stroke-width="0.7" opacity="0.5"/>
+    <path d="M 20 29 L 34 71 L 46 29"
+          stroke="#c9a84c" stroke-width="3"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="50" cy="50" r="1.7" fill="#c9a84c"/>
+    <path d="M 54 71 L 54 29 L 66 55 L 78 29 L 78 71"
+          stroke="#c9a84c" stroke-width="3"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

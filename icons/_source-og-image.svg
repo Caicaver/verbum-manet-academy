@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1200 630"
+     fill="none">
+  <title>OG Image · fuente de exportación (1200×630)</title>
+  <desc>SVG fuente para og-image.png usado en Open Graph y tarjetas sociales. Composición editorial con marca dorada a la izquierda, wordmark tipográfico y motto latino a la derecha. Requiere Gambarino y Gambetta (Fontshare) instaladas para una exportación fiel; si no están disponibles, usa Playfair Display como sustituto cercano para Gambarino.</desc>
+
+  <!-- Fondo navy -->
+  <rect width="1200" height="630" fill="#0d1420"/>
+
+  <!-- Filete superior dorado · acento editorial -->
+  <line x1="0" y1="9" x2="1200" y2="9" stroke="#c9a84c" stroke-width="2" opacity="0.55"/>
+
+  <!-- Filete inferior dorado · balance de composición -->
+  <line x1="0" y1="621" x2="1200" y2="621" stroke="#c9a84c" stroke-width="2" opacity="0.55"/>
+
+  <!-- Marca · 400×400 centrada verticalmente, 120 px de margen izquierdo -->
+  <g transform="translate(120, 115) scale(4)">
+    <rect x="6" y="6" width="88" height="88" rx="2.5" ry="2.5"
+          stroke="#c9a84c" stroke-width="1" opacity="0.35"/>
+    <path d="M 16 21 L 84 21" stroke="#c9a84c" stroke-width="0.7" opacity="0.55"/>
+    <path d="M 16 79 L 84 79" stroke="#c9a84c" stroke-width="0.7" opacity="0.55"/>
+    <path d="M 20 29 L 34 71 L 46 29"
+          stroke="#c9a84c" stroke-width="3"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="50" cy="50" r="1.7" fill="#c9a84c"/>
+    <path d="M 54 71 L 54 29 L 66 55 L 78 29 L 78 71"
+          stroke="#c9a84c" stroke-width="3"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Columna tipográfica derecha · inicio en x=600 -->
+
+  <!-- Título principal · Verbum Manet en Gambarino display -->
+  <text x="600" y="280"
+        fill="#f4ecdc"
+        font-family="'Gambarino', 'Playfair Display', 'DM Serif Display', 'Iowan Old Style', Georgia, serif"
+        font-size="102"
+        font-weight="400"
+        letter-spacing="-1.2">Verbum Manet</text>
+
+  <!-- Subtítulo · A C A D E M Y en caps espaciadas -->
+  <text x="600" y="323"
+        fill="#c9a84c"
+        font-family="'Gambetta', 'Crimson Pro', 'Iowan Old Style', Georgia, serif"
+        font-size="22"
+        font-weight="500"
+        letter-spacing="7">A C A D E M Y</text>
+
+  <!-- Filete decorativo corto -->
+  <line x1="600" y1="365" x2="690" y2="365"
+        stroke="#c9a84c" stroke-width="1.5"/>
+
+  <!-- Motto en español · cursiva editorial -->
+  <text x="600" y="418"
+        fill="#f4ecdc"
+        font-family="'Gambetta', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif"
+        font-size="30"
+        font-style="italic"
+        letter-spacing="0.2">La Palabra permanece para siempre</text>
+
+  <!-- Cita escritural en caps espaciadas · dorado atenuado -->
+  <text x="600" y="460"
+        fill="#c9a84c"
+        opacity="0.75"
+        font-family="'Gambetta', 'Iowan Old Style', Georgia, serif"
+        font-size="17"
+        font-weight="500"
+        letter-spacing="3">ISAÍAS 40:8  ·  1 PEDRO 1:25</text>
+
+  <!-- Línea inferior discreta · autoría / dominio -->
+  <text x="600" y="545"
+        fill="#f4ecdc"
+        opacity="0.45"
+        font-family="'Gambetta', Georgia, serif"
+        font-size="16"
+        letter-spacing="1.5">Formación teológica reformada · libre y confesional</text>
+</svg>
