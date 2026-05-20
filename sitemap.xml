@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================================
+  Verbum Manet Academy · sitemap.xml
+  Mapa del sitio para buscadores
+  ============================================================================
+  Ajuste el dominio de las URLs si despliega en dominio personalizado:
+    https://verbum-manet.pages.dev/  →  https://verbummanet.org/
+  ============================================================================
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- ====== PÁGINA DE INICIO ====== -->
+  <url>
+    <loc>https://verbum-manet.pages.dev/</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- ====== PÁGINAS ESTÁTICAS PRINCIPALES ====== -->
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/courses</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/about</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/glossary</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       SEGMENTO I — PROLEGOMENA (Cursos 1-5)
+       ════════════════════════════════════════════════════════════ -->
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/intro-teologia-reformada</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/hermeneutica-biblica</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/intro-antiguo-testamento</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/intro-nuevo-testamento</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/formacion-espiritual</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       SEGMENTO II — HISTORIA DE LA IGLESIA (Cursos 6-9)
+       ════════════════════════════════════════════════════════════ -->
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/iglesia-antigua</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/iglesia-medieval</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/reforma-protestante</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/iglesia-moderna</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       SEGMENTO III — TEOLOGÍA SISTEMÁTICA (Cursos 10-15)
+       ════════════════════════════════════════════════════════════ -->
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/bibliologia</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/teologia-propia</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/antropologia</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/cristologia-soteriologia</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/eclesiologia</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/escatologia</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       SEGMENTO IV — TEOLOGÍA APLICADA (Cursos 16-20)
+       ════════════════════════════════════════════════════════════ -->
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/apologetica</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/etica-biblica</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/teologia-biblica</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/teologia-pacto</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://verbum-manet.pages.dev/#/misiones-y-evangelismo</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>

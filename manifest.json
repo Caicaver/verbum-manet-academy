@@ -1,0 +1,96 @@
+{
+  "name": "Verbum Manet Academy — Seminario Reformado",
+  "short_name": "Verbum Manet",
+  "description": "Seminario reformado en línea en español. Veinte cursos de teología confesional reformada articulados en cuatro segmentos: Prolegomena, Historia de la Iglesia, Teología Sistemática y Teología Aplicada. Acceso libre y gratuito. Verbum Domini manet in aeternum.",
+  "lang": "es",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "id": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
+  "background_color": "#0f1623",
+  "theme_color": "#c9a84c",
+  "categories": ["education", "books", "religion", "reference"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "./icons/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/verbum-manet-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/verbum-manet-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/verbum-manet-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Catálogo de cursos",
+      "short_name": "Cursos",
+      "description": "Acceso al plan de estudios completo de los veinte cursos del seminario",
+      "url": "./#/courses",
+      "icons": [
+        {
+          "src": "./icons/verbum-manet-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Glosario académico",
+      "short_name": "Glosario",
+      "description": "Glosario de términos teológicos reformados",
+      "url": "./#/glossary",
+      "icons": [
+        {
+          "src": "./icons/verbum-manet-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Acerca del seminario",
+      "short_name": "Acerca",
+      "description": "Filosofía educativa, misión y sistema pedagógico",
+      "url": "./#/about",
+      "icons": [
+        {
+          "src": "./icons/verbum-manet-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f1623">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Página no encontrada · Verbum Manet Academy</title>
+
+  <!-- Iconos PWA / favicon -->
+  <link rel="icon" href="./icons/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="./icons/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+
+  <!-- Tipografía mediante CDN -->
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cormorant-garamond@500,600,700&f[]=inter@400,500,600&display=swap">
+
+  <style>
+    /* ===========================================
+       VARIABLES DE DISEÑO (paleta VMA)
+       =========================================== */
+    :root {
+      /* Modo oscuro por defecto (consistente con el sitio principal) */
+      --vma-navy:   oklch(20% 0.04 250);
+      --vma-gold:   oklch(72% 0.13 75);
+      --vma-cream:  oklch(94% 0.02 80);
+      --vma-ink:    oklch(15% 0.02 250);
+      --vma-mist:   oklch(35% 0.02 250);
+
+      /* Tokens semánticos (modo oscuro) */
+      --bg:         var(--vma-ink);
+      --surface:    var(--vma-navy);
+      --text:       var(--vma-cream);
+      --text-muted: oklch(70% 0.02 80);
+      --accent:     var(--vma-gold);
+      --border:     oklch(30% 0.02 250);
+
+      /* Tipografía */
+      --font-display: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+      --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    /* Modo claro automático según preferencia del sistema */
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg:         var(--vma-cream);
+        --surface:    oklch(98% 0.01 80);
+        --text:       var(--vma-ink);
+        --text-muted: var(--vma-mist);
+        --accent:     oklch(58% 0.13 75);
+        --border:     oklch(85% 0.02 80);
+      }
+    }
+
+    /* ===========================================
+       RESET MÍNIMO
+       =========================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      background:
+        radial-gradient(ellipse at top, oklch(from var(--surface) calc(l + 0.04) c h) 0%, var(--bg) 60%),
+        var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    /* ===========================================
+       CONTENEDOR PRINCIPAL
+       =========================================== */
+    .error-page {
+      max-width: 640px;
+      width: 100%;
+      animation: fade-up 0.8s cubic-bezier(0.2, 0, 0.2, 1) both;
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ===========================================
+       LOGOTIPO
+       =========================================== */
+    .error-page__logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 2rem;
+      color: var(--accent);
+    }
+
+    .error-page__logo svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* ===========================================
+       NÚMERO 404
+       =========================================== */
+    .error-page__code {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 18vw, 9rem);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 24px oklch(from var(--accent) l c h / 0.25);
+    }
+
+    /* ===========================================
+       TÍTULO Y MENSAJES
+       =========================================== */
+    .error-page__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 5vw, 2.25rem);
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .error-page__message {
+      font-size: clamp(1rem, 2.5vw, 1.0625rem);
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===========================================
+       CITA ESCRITURAL (Salmo 119:105)
+       =========================================== */
+    .error-page__scripture {
+      border-left: 3px solid var(--accent);
+      padding: 1rem 1.5rem;
+      margin: 2.5rem auto;
+      max-width: 520px;
+      text-align: left;
+      background: oklch(from var(--surface) l c h / 0.5);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .error-page__scripture-text {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.125rem);
+      line-height: 1.5;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .error-page__scripture-ref {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* ===========================================
+       CITA LATINA DOXOLÓGICA
+       =========================================== */
+    .error-page__latin {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(0.95rem, 2.2vw, 1.0625rem);
+      color: var(--text-muted);
+      margin: 2rem 0;
+      letter-spacing: 0.01em;
+    }
+
+    .error-page__latin em {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ===========================================
+       BOTÓN DE RETORNO
+       =========================================== */
+    .error-page__action {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.875rem 2rem;
+      background: var(--accent);
+      color: oklch(15% 0.02 250);
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 4px 12px oklch(from var(--accent) l c h / 0.25);
+    }
+
+    .error-page__action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px oklch(from var(--accent) l c h / 0.35);
+      background: oklch(from var(--accent) calc(l + 0.05) c h);
+    }
+
+    .error-page__action:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .error-page__action:active {
+      transform: translateY(0);
+    }
+
+    /* ===========================================
+       FOOTER MÍNIMO
+       =========================================== */
+    .error-page__footer {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .error-page__footer-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="error-page" role="main">
+
+    <!-- Logotipo SVG inline (símbolo del libro abierto con cruz) -->
+    <div class="error-page__logo" aria-hidden="true">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Libro abierto -->
+        <path d="M8 18 Q8 14 12 14 L28 14 Q32 14 32 18 L32 50 Q32 46 28 46 L12 46 Q8 46 8 50 Z"/>
+        <path d="M56 18 Q56 14 52 14 L36 14 Q32 14 32 18 L32 50 Q32 46 36 46 L52 46 Q56 46 56 50 Z"/>
+        <!-- Línea central del libro -->
+        <line x1="32" y1="14" x2="32" y2="50"/>
+        <!-- Cruz dorada sobre el libro -->
+        <line x1="32" y1="22" x2="32" y2="34"/>
+        <line x1="27" y1="27" x2="37" y2="27"/>
+      </svg>
+    </div>
+
+    <!-- Número 404 grande -->
+    <h1 class="error-page__code" aria-label="Error 404">404</h1>
+
+    <!-- Título principal -->
+    <h2 class="error-page__title">Página no encontrada</h2>
+
+    <!-- Mensaje explicativo -->
+    <p class="error-page__message">
+      La página que buscas se ha extraviado, ha sido movida o nunca
+      existió. La Palabra del Señor, sin embargo, permanece para
+      siempre.
+    </p>
+
+    <!-- Cita escritural -->
+    <blockquote class="error-page__scripture">
+      <p class="error-page__scripture-text">
+        «Lámpara es a mis pies tu palabra, y lumbrera a mi camino.»
+      </p>
+      <cite class="error-page__scripture-ref">Salmo 119:105 (RV1960)</cite>
+    </blockquote>
+
+    <!-- Cita latina doxológica -->
+    <p class="error-page__latin">
+      <em>Verbum Manet in saecula saeculorum.</em>
+    </p>
+
+    <!-- Botón de retorno -->
+    <a href="./" class="error-page__action" rel="home">
+      ← Regresar al inicio
+    </a>
+
+    <!-- Footer institucional -->
+    <footer class="error-page__footer">
+      <p class="error-page__footer-name">Verbum Manet Academy</p>
+      <p>Seminario reformado en línea · Acceso libre y gratuito</p>
+    </footer>
+
+  </main>
+
+</body>
+</html>

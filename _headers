@@ -1,0 +1,95 @@
+# ============================================================================
+# Verbum Manet Academy · _headers
+# Configuración de cache y seguridad para Cloudflare Pages
+# ============================================================================
+
+# ─────────────────────────────────────────────────────────────────
+# CACHE: assets immutables (logo, iconos) — 1 año, immutable
+# Si necesita actualizar un icono o el logo, renómbrelo (cache-busting)
+# ─────────────────────────────────────────────────────────────────
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/icons/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# ─────────────────────────────────────────────────────────────────
+# CACHE: CSS y JavaScript — 1 semana
+# ─────────────────────────────────────────────────────────────────
+/css/*
+  Cache-Control: public, max-age=604800
+
+/js/*
+  Cache-Control: public, max-age=604800
+  Content-Type: application/javascript; charset=utf-8
+
+# ─────────────────────────────────────────────────────────────────
+# CACHE: datos globales (índice de cursos, glosario) — 1 día
+# Las expansiones curriculares se propagan dentro de 24 horas
+# ─────────────────────────────────────────────────────────────────
+/data/*
+  Cache-Control: public, max-age=86400
+  Content-Type: application/javascript; charset=utf-8
+
+# ─────────────────────────────────────────────────────────────────
+# CACHE: fragmentos de páginas estáticas — 1 día
+# ─────────────────────────────────────────────────────────────────
+/pages/*
+  Cache-Control: public, max-age=86400
+
+# ─────────────────────────────────────────────────────────────────
+# CACHE: fragmentos de cursos — 1 día
+# Para invalidación específica: Cloudflare dashboard → Custom Purge
+# ─────────────────────────────────────────────────────────────────
+/courses/*
+  Cache-Control: public, max-age=86400
+
+# ─────────────────────────────────────────────────────────────────
+# CACHE: descargas (PDFs de confesiones, plantillas) — 30 días
+# ─────────────────────────────────────────────────────────────────
+/downloads/*
+  Cache-Control: public, max-age=2592000
+
+# ─────────────────────────────────────────────────────────────────
+# CACHE: HTML del shell — sin cache (actualizaciones inmediatas)
+# ─────────────────────────────────────────────────────────────────
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/404.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# ─────────────────────────────────────────────────────────────────
+# Manifiesto PWA — MIME type específico requerido por la spec
+# ─────────────────────────────────────────────────────────────────
+/manifest.json
+  Cache-Control: public, max-age=86400
+  Content-Type: application/manifest+json; charset=utf-8
+
+# ─────────────────────────────────────────────────────────────────
+# robots.txt y sitemap.xml — 1 día
+# ─────────────────────────────────────────────────────────────────
+/robots.txt
+  Cache-Control: public, max-age=86400
+  Content-Type: text/plain; charset=utf-8
+
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+  Content-Type: application/xml; charset=utf-8
+
+# ─────────────────────────────────────────────────────────────────
+# HEADERS DE SEGURIDAD GLOBALES (aplicados a TODOS los recursos)
+# ─────────────────────────────────────────────────────────────────
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=(), usb=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  X-DNS-Prefetch-Control: on
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src 'self' https://fonts.gstatic.com https://api.fontshare.com https://cdn.fontshare.com data:; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; upgrade-insecure-requests

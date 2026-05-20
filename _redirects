@@ -1,0 +1,84 @@
+# ============================================================================
+# Verbum Manet Academy · _redirects
+# Reglas de routing para Cloudflare Pages
+# ============================================================================
+#
+# Sintaxis: <fuente> <destino> <código>
+#   200 → rewrite (URL no cambia, contenido del destino)
+#   301 → redirect permanente (URL cambia)
+#   302 → redirect temporal
+#   "!" al final del código fuerza la redirección incluso si existe el archivo
+#
+# La arquitectura usa HASH ROUTING (#/curso): el cliente resuelve las rutas.
+# Estas reglas cubren los casos en que el usuario llegue por una URL canónica
+# o variante.
+# ============================================================================
+
+
+# ─────────────────────────────────────────────────────────────────
+# Forzar HTTPS (Cloudflare ya lo hace, pero se deja explícito)
+# ─────────────────────────────────────────────────────────────────
+http://verbum-manet.pages.dev/*  https://verbum-manet.pages.dev/:splat  301!
+
+
+# ─────────────────────────────────────────────────────────────────
+# Canonicalización: www → no-www (recomendación SEO)
+# Si configura un dominio personalizado, descomente y ajuste:
+# ─────────────────────────────────────────────────────────────────
+# https://www.verbummanet.org/*   https://verbummanet.org/:splat   301!
+
+
+# ─────────────────────────────────────────────────────────────────
+# Aliases legibles que redirigen a las rutas hash del SPA
+# Permiten URLs limpias compartibles que el router resolverá
+# ─────────────────────────────────────────────────────────────────
+/inicio              /#/                              302
+/home                /#/                              302
+/cursos              /#/courses                       302
+/courses             /#/courses                       302
+/curricula           /#/courses                       302
+/curriculum          /#/courses                       302
+/glosario            /#/glossary                      302
+/glossary            /#/glossary                      302
+/acerca              /#/about                         302
+/about               /#/about                         302
+/sobre               /#/about                         302
+
+
+# ─────────────────────────────────────────────────────────────────
+# Aliases directos para los 20 cursos (acceso por nombre limpio)
+# Si alguien comparte /teologia-pacto recibirá #/teologia-pacto
+# ─────────────────────────────────────────────────────────────────
+# Segmento I — Prolegomena
+/intro-teologia-reformada    /#/intro-teologia-reformada    302
+/hermeneutica-biblica        /#/hermeneutica-biblica        302
+/intro-antiguo-testamento    /#/intro-antiguo-testamento    302
+/intro-nuevo-testamento      /#/intro-nuevo-testamento      302
+/formacion-espiritual        /#/formacion-espiritual        302
+
+# Segmento II — Historia de la Iglesia
+/iglesia-antigua             /#/iglesia-antigua             302
+/iglesia-medieval            /#/iglesia-medieval            302
+/reforma-protestante         /#/reforma-protestante         302
+/iglesia-moderna             /#/iglesia-moderna             302
+
+# Segmento III — Teología Sistemática
+/bibliologia                 /#/bibliologia                 302
+/teologia-propia             /#/teologia-propia             302
+/antropologia                /#/antropologia                302
+/cristologia-soteriologia    /#/cristologia-soteriologia    302
+/eclesiologia                /#/eclesiologia                302
+/escatologia                 /#/escatologia                 302
+
+# Segmento IV — Teología Aplicada
+/apologetica                 /#/apologetica                 302
+/etica-biblica               /#/etica-biblica               302
+/teologia-biblica            /#/teologia-biblica            302
+/teologia-pacto              /#/teologia-pacto              302
+/misiones-y-evangelismo      /#/misiones-y-evangelismo      302
+
+
+# ─────────────────────────────────────────────────────────────────
+# Fallback final para rutas no encontradas → 404 personalizada
+# ─────────────────────────────────────────────────────────────────
+/*  /404.html  404
