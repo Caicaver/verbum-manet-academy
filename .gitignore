@@ -86,3 +86,7 @@ notas-personales/
 !.editorconfig
 !_headers
 !_redirects
+
+.dev.vars*
+!.dev.vars.example
+!.env.example
