@@ -1,0 +1,34 @@
+Verbum Manet Academy — Licencias del proyecto
+
+Este proyecto usa DOBLE LICENCIA según el tipo de material:
+
+┌────────────────────────────────────────────────────────────────────────┐
+│  CÓDIGO FUENTE          →  Licencia MIT          →  véase LICENSE-CODE    │
+│  CONTENIDO TEOLÓGICO    →  CC BY-SA 4.0           →  véase LICENSE-CONTENT │
+└────────────────────────────────────────────────────────────────────────┘
+
+QUÉ ES CÓDIGO FUENTE (MIT):
+  - Archivos HTML de estructura (index.html, shell, plantillas).
+  - Hojas de estilo CSS (css/styles.css).
+  - JavaScript (js/app.js, js/courseLoader.js, js/study-panel.js).
+  - Datos estructurales (data/courses-index.js, data/glossary.js — la
+    ESTRUCTURA de datos, no el contenido teológico que contienen).
+  - Herramientas de desarrollo (auditor vma_audit, scripts).
+  - Archivos de configuración (manifest.json, _headers, _redirects, etc.).
+
+QUÉ ES CONTENIDO TEOLÓGICO (CC BY-SA 4.0):
+  - El texto de los 20 cursos y sus 143 lecciones.
+  - Las definiciones del glosario teológico.
+  - La documentación editorial (STYLE-GUIDE-CONTENT.md).
+  - Cualquier texto de naturaleza doctrinal, académica o pastoral.
+
+EN CASO DE DUDA:
+  Si un archivo mezcla código y contenido (por ejemplo, un fragmento HTML
+  de curso que contiene tanto marcado como texto teológico), el MARCADO se
+  rige por MIT y el TEXTO por CC BY-SA 4.0. En la práctica, para reutilizar
+  el contenido teológico aplique CC BY-SA 4.0; para reutilizar la mecánica
+  técnica aplique MIT.
+
+Ambas licencias son libres y preservan el espíritu de gratuidad del proyecto.
+
+Soli Deo gloria.
