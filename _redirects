@@ -18,7 +18,7 @@
 # ─────────────────────────────────────────────────────────────────
 # Forzar HTTPS (Cloudflare ya lo hace, pero se deja explícito)
 # ─────────────────────────────────────────────────────────────────
-http://verbum-manet.pages.dev/*  https://verbum-manet.pages.dev/:splat  301
+http://verbum-manet.pages.dev/*  https://verbum-manet.pages.dev/:splat  301!
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -81,3 +81,5 @@ http://verbum-manet.pages.dev/*  https://verbum-manet.pages.dev/:splat  301
 # ─────────────────────────────────────────────────────────────────
 # Fallback final para rutas no encontradas → 404 personalizada
 # ─────────────────────────────────────────────────────────────────
+
+/*  /404.html  404
