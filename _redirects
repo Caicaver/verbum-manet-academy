@@ -81,4 +81,3 @@ http://verbum-manet.pages.dev/*  https://verbum-manet.pages.dev/:splat  301
 # ─────────────────────────────────────────────────────────────────
 # Fallback final para rutas no encontradas → 404 personalizada
 # ─────────────────────────────────────────────────────────────────
-/*  /index.html  200
