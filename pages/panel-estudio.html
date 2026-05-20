@@ -1,0 +1,315 @@
+<!-- ============================================================================
+   VERBUM MANET ACADEMY · pages/panel-estudio.html · v5 · Paso 6
+   ----------------------------------------------------------------------------
+   Fragmento HTML inyectado por js/courseLoader.js en <main id="main-content">.
+   NO contiene <html>, <head>, <body> ni <script>.
+   Consume tokens y clases de css/styles.css (Partes A + B, §22).
+   Cumple el contrato DOM que js/study-panel.js (Paso 5) espera:
+
+     .panel-page
+     ├── .panel-page__header  (eyebrow + h1 + lead)
+     ├── .persistence-note    (aviso editorial · siempre visible)
+     ├── [data-pomodoro-mount] (FUERA del grid · siempre disponible)
+     │     Markup del Pomodoro embebido con clases visuales del flotante
+     │     (.pomodoro-panel__*) y clases-gancho que el JS busca (.pomo-*).
+     ├── [data-panel-empty]    (placeholder editorial cuando isStateEmpty)
+     └── [data-panel-grid]     (oculto cuando isStateEmpty)
+           ├── Métricas       (.panel-module · span 1/-1)
+           ├── Notas          (.panel-module · columna izquierda)
+           ├── Logros         (.panel-module · span 1/-1)
+           └── Acciones       (.panel-actions · span 1/-1)
+
+   El JS toma el control de:
+     · valores numéricos en .metric__value
+     · contenido de [data-achievement-list] y [data-note-list]
+     · visibilidad de [data-panel-empty] / [data-panel-grid]
+     · controles del Pomodoro embebido (mismo engine que el flotante)
+     · click handlers de [data-note-add], [data-export], [data-import]
+   ============================================================================ -->
+
+
+<section class="panel-page" aria-labelledby="panel-title">
+
+
+  <!-- ===================================================================
+       §1 · HEADER EDITORIAL
+       =================================================================== -->
+  <header class="panel-page__header container">
+    <p class="panel-page__eyebrow">Panel de Estudio</p>
+    <h1 id="panel-title" class="panel-page__title">Mi recorrido</h1>
+    <p class="panel-page__lead">
+      Una bitácora silenciosa de horas, ciclos y lecturas. Cada sesión que
+      complete aquí abajo deja huella en estos contadores y, con el tiempo,
+      en los siete medallones que marcan los hitos del peregrinaje académico.
+    </p>
+  </header>
+
+
+  <div class="container">
+
+
+  <!-- ===================================================================
+       §2 · AVISO EDITORIAL DE NO-PERSISTENCIA (audit §3.1)
+       =================================================================== -->
+  <aside class="persistence-note" role="note" aria-label="Sobre la persistencia del progreso">
+    <p>
+      <strong>El progreso vive en memoria durante esta sesión.</strong>
+      Al recargar o cerrar la página, los contadores y notas se reinician.
+      Para conservarlos entre visitas, exporte el archivo JSON desde el pie
+      del panel y vuelva a importarlo cuando regrese.
+    </p>
+  </aside>
+
+
+  <!-- ===================================================================
+       §3 · POMODORO EMBEBIDO (audit §3.4)
+       Fuera del grid · siempre visible · incluso cuando el panel está vacío.
+       Acumula dos roles de clases:
+         · visuales (.pomodoro-panel__*, .mode-btn) para el sistema CSS
+         · ganchos JS (.pomo-time, .pomo-phase, .pomo-start, .pomo-reset,
+           .pomo-cycles) para que study-panel.js los encuentre con
+           querySelector dentro de [data-pomodoro-mount].
+       =================================================================== -->
+  <section class="panel-module" style="margin-top: var(--sp-xl);"
+           aria-labelledby="pomo-embed-title">
+    <header class="panel-module__header">
+      <h2 class="panel-module__title" id="pomo-embed-title">Sesión de estudio</h2>
+      <span class="panel-module__meta">Ciclos · 25 / 5 / 15 minutos</span>
+    </header>
+
+    <div data-pomodoro-mount
+         class="pomodoro-panel pomodoro-panel--embedded"
+         style="max-width: 28rem; margin: 0 auto;">
+      <div class="pomodoro-panel__body">
+
+        <div class="pomodoro-panel__display">
+          <span class="pomodoro-panel__time pomo-time" aria-live="polite">25:00</span>
+          <span class="pomodoro-panel__phase pomo-phase">Enfoque</span>
+        </div>
+
+        <div class="pomodoro-panel__controls">
+          <button type="button" class="btn btn--primary pomo-start">Iniciar</button>
+          <button type="button" class="btn btn--ghost pomo-reset">Reiniciar</button>
+        </div>
+
+        <div class="pomodoro-panel__modes" role="group" aria-label="Modo de sesión">
+          <button type="button" class="mode-btn is-active" data-mode="focus" data-min="25">
+            Enfoque · 25′
+          </button>
+          <button type="button" class="mode-btn" data-mode="short" data-min="5">
+            Pausa · 5′
+          </button>
+          <button type="button" class="mode-btn" data-mode="long" data-min="15">
+            Pausa larga · 15′
+          </button>
+        </div>
+
+        <p class="pomodoro-panel__cycles">
+          Ciclos completados en esta sesión ·
+          <span class="pomo-cycles">0</span>
+        </p>
+
+        <p class="pomodoro-panel__note">
+          Tras cuatro ciclos de enfoque, la pausa será larga.
+          Las horas y ciclos acumulados se reflejan abajo, en sus métricas.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       §4 · ESTADO VACÍO EDITORIAL (audit §K.5)
+       Visible cuando isStateEmpty() devuelve true. Lo conmuta el JS.
+       =================================================================== -->
+  <div data-panel-empty class="panel-empty" hidden style="margin-top: var(--sp-xl);">
+    <svg class="panel-empty__icon" viewBox="0 0 48 48" fill="none"
+         stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+         stroke-linejoin="round" aria-hidden="true">
+      <!-- Anaquel de biblioteca con dos baldas y un libro de pie -->
+      <rect x="8" y="10" width="32" height="30"/>
+      <path d="M8 22 L40 22"/>
+      <path d="M8 31 L40 31"/>
+      <path d="M14 14 L14 19"/>
+      <path d="M18 14 L18 19"/>
+      <path d="M22 14 L22 19"/>
+      <path d="M28 12 L28 19 L32 19 L32 12 Z"/>
+      <path d="M14 25 L14 28"/>
+      <path d="M19 25 L19 28"/>
+      <path d="M26 25 L34 25 L34 28 L26 28 Z"/>
+    </svg>
+    <p class="panel-empty__title">La biblioteca está esperándole</p>
+    <p class="panel-empty__body">
+      Aún no hay ciclos completados, lecturas registradas ni notas. Inicie un
+      ciclo de enfoque arriba, lea una lección o consulte un término del
+      glosario, y este panel comenzará a contar su recorrido.
+    </p>
+  </div>
+
+
+  <!-- ===================================================================
+       §5 · GRID DEL DASHBOARD
+       Oculto cuando isStateEmpty(). Contiene métricas, notas, logros y
+       acciones. El JS muestra/oculta el bloque entero como una unidad.
+       =================================================================== -->
+  <div data-panel-grid class="panel-grid" style="margin-top: var(--sp-xl);" hidden>
+
+
+    <!-- ----------------------------------------------------------------
+         §5.1 · MÉTRICAS · full-width (span 1 / -1)
+         Cuatro celdas con tabular-nums para alineación visual.
+         ---------------------------------------------------------------- -->
+    <section class="panel-module" style="grid-column: 1 / -1;"
+             aria-labelledby="metrics-title">
+      <header class="panel-module__header">
+        <h2 class="panel-module__title" id="metrics-title">Métricas de estudio</h2>
+        <span class="panel-module__meta">Acumulado de la sesión</span>
+      </header>
+
+      <div class="metrics" role="list">
+
+        <article class="metric" data-metric="focus-hours" role="listitem">
+          <span class="metric__value">0h 00m</span>
+          <span class="metric__label">Horas de estudio</span>
+        </article>
+
+        <article class="metric" data-metric="cycles" role="listitem">
+          <span class="metric__value">0</span>
+          <span class="metric__label">Ciclos de enfoque</span>
+        </article>
+
+        <article class="metric" data-metric="streak" role="listitem">
+          <span class="metric__value">0</span>
+          <span class="metric__label">Días consecutivos</span>
+        </article>
+
+        <article class="metric" data-metric="terms" role="listitem">
+          <span class="metric__value">0</span>
+          <span class="metric__label">Términos consultados</span>
+        </article>
+
+      </div>
+    </section>
+
+
+    <!-- ----------------------------------------------------------------
+         §5.2 · NOTAS · columna izquierda (default · ocupa la columna 1)
+         JS popula data-note-list y maneja [data-note-add].
+         ---------------------------------------------------------------- -->
+    <section class="panel-module" aria-labelledby="notes-title">
+      <header class="panel-module__header">
+        <h2 class="panel-module__title" id="notes-title">Mis notas</h2>
+        <button type="button" class="btn btn--ghost btn--sm" data-note-add>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" style="width:0.9rem;height:0.9rem;">
+            <path d="M12 5 L12 19"/>
+            <path d="M5 12 L19 12"/>
+          </svg>
+          Nueva nota
+        </button>
+      </header>
+
+      <ul class="notes-list" data-note-list aria-live="polite"
+          style="list-style: none; margin: 0; padding: 0;">
+        <!-- Las .note-item las pinta study-panel.js -->
+      </ul>
+    </section>
+
+
+    <!-- ----------------------------------------------------------------
+         §5.3 · CURSOS EN PROGRESO · placeholder editorial
+         Se mantiene como módulo presentacional con el SOLO h2 + texto
+         de ayuda. La lógica de progresos por curso requiere el contrato
+         de tracking de lecciones, ya disponible en VMA.study.* pero aún
+         sin renderizador. Se prepara la caja para una iteración futura.
+         ---------------------------------------------------------------- -->
+    <section class="panel-module" aria-labelledby="progress-title">
+      <header class="panel-module__header">
+        <h2 class="panel-module__title" id="progress-title">Cursos en progreso</h2>
+        <span class="panel-module__meta">Currículo</span>
+      </header>
+
+      <p style="
+        font-family: var(--font-display);
+        font-style: italic;
+        font-size: var(--text-sm);
+        line-height: var(--lh-snug);
+        color: var(--color-text-muted);
+        padding: var(--sp-md) 0;
+        text-align: center;
+      ">
+        Cuando marque lecciones como leídas dentro de cada curso, aparecerán
+        aquí con su porcentaje de avance.
+      </p>
+    </section>
+
+
+    <!-- ----------------------------------------------------------------
+         §5.4 · LOGROS · full-width (span 1 / -1)
+         JS popula data-achievement-list con siete medallones (audit §3.7).
+         ---------------------------------------------------------------- -->
+    <section class="panel-module" style="grid-column: 1 / -1;"
+             aria-labelledby="achievements-title">
+      <header class="panel-module__header">
+        <h2 class="panel-module__title" id="achievements-title">Logros de la academia</h2>
+        <span class="panel-module__meta">Siete hitos del recorrido</span>
+      </header>
+
+      <ul class="achievements" data-achievement-list role="list"
+          aria-label="Medallones del recorrido académico"
+          style="list-style: none; margin: 0; padding-inline: 0;">
+        <!-- Las .achievement las pinta study-panel.js · siete medallones
+             (con clase .is-locked / .is-unlocked) -->
+      </ul>
+    </section>
+
+
+    <!-- ----------------------------------------------------------------
+         §5.5 · ACCIONES · full-width (span 1 / -1)
+         Export · Import · file input oculto.
+         ---------------------------------------------------------------- -->
+    <div class="panel-actions" style="grid-column: 1 / -1; margin-top: var(--sp-md);"
+         role="group" aria-label="Persistencia del progreso">
+
+      <button type="button" class="btn btn--ghost" data-export>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M12 4 L12 16"/>
+          <path d="M7 11 L12 16 L17 11"/>
+          <path d="M5 20 L19 20"/>
+        </svg>
+        Exportar progreso (JSON)
+      </button>
+
+      <button type="button" class="btn btn--ghost" data-import>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M12 20 L12 8"/>
+          <path d="M7 13 L12 8 L17 13"/>
+          <path d="M5 4 L19 4"/>
+        </svg>
+        Importar progreso (JSON)
+      </button>
+
+      <input type="file" data-import-file accept="application/json,.json" hidden
+             aria-label="Seleccionar archivo JSON de progreso">
+
+    </div>
+
+
+  </div>  <!-- /[data-panel-grid] -->
+
+
+  </div>  <!-- /.container -->
+
+
+</section>
+
+
+<!-- ============================================================================
+     FIN DE pages/panel-estudio.html · Verbum Manet Academy · v5 · Paso 6
+     ============================================================================ -->

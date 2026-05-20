@@ -1,0 +1,2944 @@
+<!-- ============================================================================
+     VERBUM MANET ACADEMY · pages/glossary.html
+     Fragmento parcial · inyectado en #main-content por CourseLoader.
+     Sin etiquetas de documento raíz, metadatos ni scripts.
+
+     Nota arquitectónica: 119 entradas pre-renderizadas a partir de
+     data/glossary.js. La coherencia con el módulo de datos la garantiza
+     el autor; si el glosario cambia, este fragmento debe regenerarse.
+     ========================================================================= -->
+
+<style>
+  /* ----------------------------------------------------------------------
+   *  Estilos de página · prefijo .page-glossary
+   * ------------------------------------------------------------------- */
+
+  .page-glossary {
+    --gloss-rule: var(--border);
+  }
+
+  /* ---------- HERO -------------------------------------------------- */
+
+  .page-glossary .hero {
+    padding-block: var(--space-lg) var(--space-xl);
+  }
+
+  .page-glossary .hero__eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-accent);
+    margin-block-end: var(--space-sm);
+    max-width: none;
+  }
+
+  .page-glossary .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 1.6rem + 2.8vw, 4rem);
+    font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    color: var(--text-heading);
+    margin-block-end: var(--space-md);
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+
+  .page-glossary .hero__title em {
+    font-style: italic;
+    color: var(--text-accent);
+  }
+
+  .page-glossary .hero__lead {
+    font-family: var(--font-body);
+    font-size: var(--text-lead);
+    line-height: var(--leading-loose);
+    color: var(--text-secondary);
+    max-width: 44rem;
+  }
+
+  /* ---------- ALPHABET INDEX · barra sticky de letras --------------- */
+
+  .page-glossary .alphabet {
+    position: sticky;
+    top: var(--header-height);
+    z-index: 10;
+    margin-block-start: var(--space-lg);
+    padding-block: var(--space-sm);
+    background-color: var(--bg-base);
+    border-block: 1px solid var(--border);
+    backdrop-filter: saturate(1.1) blur(8px);
+    -webkit-backdrop-filter: saturate(1.1) blur(8px);
+  }
+
+  .page-glossary .alphabet__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+  }
+
+  .page-glossary .alphabet__link {
+    display: inline-grid;
+    place-items: center;
+    min-width: 2.1rem;
+    height: 2.1rem;
+    padding: 0 0.4rem;
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 400;
+    line-height: 1;
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+    font-feature-settings: "lnum" 1;
+  }
+
+  .page-glossary .alphabet__link:hover {
+    background-color: var(--bg-muted);
+    color: var(--text-accent);
+  }
+
+  .page-glossary .alphabet__link--missing {
+    color: var(--text-faint);
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  /* ---------- LETTER GROUP · cabecera tipográfica --------------------- */
+
+  .page-glossary .letter {
+    padding-block: var(--space-xl);
+    border-block-start: 1px solid var(--border);
+    scroll-margin-top: calc(var(--header-height) + 4rem);
+  }
+
+  .page-glossary .letter__header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-md);
+    margin-block-end: var(--space-lg);
+    padding-block-end: var(--space-sm);
+    border-block-end: 1px solid var(--border-subtle);
+  }
+
+  .page-glossary .letter__char {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    font-feature-settings: "lnum" 1;
+  }
+
+  .page-glossary .letter__count {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    max-width: none;
+  }
+
+  /* ---------- TERM ENTRY · tipografía editorial -------------------- */
+
+  .page-glossary .terms {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-glossary .term {
+    padding-block: var(--space-lg);
+    border-block-start: 1px solid var(--border-subtle);
+    scroll-margin-top: calc(var(--header-height) + 4rem);
+  }
+
+  .page-glossary .term:first-child {
+    border-block-start: none;
+    padding-block-start: 0;
+  }
+
+  .page-glossary .term__name {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    font-weight: 400;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-heading);
+    margin: 0 0 var(--space-sm);
+    max-width: none;
+  }
+
+  .page-glossary .term__def {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    color: var(--text-primary);
+    max-width: 48rem;
+    margin-block-end: var(--space-sm);
+  }
+
+  /* Cross-references row */
+  .page-glossary .term__refs {
+    display: grid;
+    gap: var(--space-xs);
+    margin-block-start: var(--space-sm);
+  }
+
+  @media (min-width: 720px) {
+    .page-glossary .term__refs {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--space-md);
+    }
+  }
+
+  .page-glossary .term__refs-block {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: baseline;
+  }
+
+  .page-glossary .term__refs-label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-inline-end: 0.3rem;
+    max-width: none;
+    flex-shrink: 0;
+  }
+
+  .page-glossary .term__ref {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.1rem 0.55rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out),
+      background-color var(--duration-fast) var(--ease-out);
+  }
+
+  .page-glossary .term__ref:hover {
+    color: var(--text-accent);
+    border-color: var(--accent);
+    background-color: var(--bg-surface);
+  }
+
+  .page-glossary .term__ref--course {
+    color: var(--text-accent);
+    border-color: var(--accent-subtle);
+  }
+
+  /* ---------- TOP LINK · botón "volver arriba" en cada grupo ------- */
+
+  .page-glossary .letter__top {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-block-start: var(--space-md);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .page-glossary .letter__top:hover {
+    color: var(--text-accent);
+  }
+
+  /* ---------- CIERRE ----------------------------------------------- */
+
+  .page-glossary .closing {
+    margin-block-start: var(--space-xl);
+    padding-block: var(--space-xl);
+    text-align: center;
+    border-block: 1px solid var(--border);
+  }
+
+  .page-glossary .closing__symbol {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.25rem);
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    margin-block-end: var(--space-sm);
+  }
+
+  .page-glossary .closing__text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    max-width: 42rem;
+    margin-inline: auto;
+    line-height: var(--leading-snug);
+  }
+</style>
+
+
+<!-- ============================================================================
+     ESTRUCTURA · contenido envuelto en .page-glossary
+     ========================================================================= -->
+<div class="page-glossary" id="glossary-top">
+
+  <!-- ====================================================================
+       HERO
+       ================================================================= -->
+  <section class="hero container" aria-labelledby="glossary-title">
+    <p class="hero__eyebrow">Glosario académico</p>
+
+    <h1 id="glossary-title" class="hero__title">
+      Ciento diecinueve <em>conceptos clave</em>
+    </h1>
+
+    <p class="hero__lead">
+      Compendio académico transversal de la teología reformada: cinco Solas,
+      TULIP, términos latinos y griegos técnicos, doctrina de Dios, bibliología,
+      cristología, ordo salutis, eclesiología, escatología, confesiones,
+      figuras históricas, lugares y eventos, apologética y teología federal.
+      Cada entrada incluye definición académica, términos relacionados y los
+      cursos del plan donde se trata.
+    </p>
+  </section>
+
+
+  <!-- ====================================================================
+       ÍNDICE ALFABÉTICO · barra sticky
+       ================================================================= -->
+  <nav class="alphabet container" aria-label="Índice alfabético del glosario">
+    <ul class="alphabet__list" role="list">
+      <li><a class="alphabet__link" href="#letter-A" aria-label="Ir a la letra A, 15 términos">A</a></li>
+      <li><a class="alphabet__link" href="#letter-B" aria-label="Ir a la letra B, 2 términos">B</a></li>
+      <li><a class="alphabet__link" href="#letter-C" aria-label="Ir a la letra C, 10 términos">C</a></li>
+      <li><a class="alphabet__link" href="#letter-D" aria-label="Ir a la letra D, 5 términos">D</a></li>
+      <li><a class="alphabet__link" href="#letter-E" aria-label="Ir a la letra E, 8 términos">E</a></li>
+      <li><a class="alphabet__link" href="#letter-F" aria-label="Ir a la letra F, 2 términos">F</a></li>
+      <li><a class="alphabet__link" href="#letter-G" aria-label="Ir a la letra G, 4 términos">G</a></li>
+      <li><a class="alphabet__link" href="#letter-H" aria-label="Ir a la letra H, 2 términos">H</a></li>
+      <li><a class="alphabet__link" href="#letter-I" aria-label="Ir a la letra I, 6 términos">I</a></li>
+      <li><a class="alphabet__link" href="#letter-J" aria-label="Ir a la letra J, 6 términos">J</a></li>
+      <li><a class="alphabet__link" href="#letter-K" aria-label="Ir a la letra K, 1 términos">K</a></li>
+      <li><a class="alphabet__link" href="#letter-L" aria-label="Ir a la letra L, 3 términos">L</a></li>
+      <li><a class="alphabet__link" href="#letter-M" aria-label="Ir a la letra M, 4 términos">M</a></li>
+      <li><a class="alphabet__link" href="#letter-N" aria-label="Ir a la letra N, 3 términos">N</a></li>
+      <li><span class="alphabet__link alphabet__link--missing" aria-disabled="true">Ñ</span></li>
+      <li><a class="alphabet__link" href="#letter-O" aria-label="Ir a la letra O, 1 términos">O</a></li>
+      <li><a class="alphabet__link" href="#letter-P" aria-label="Ir a la letra P, 17 términos">P</a></li>
+      <li><span class="alphabet__link alphabet__link--missing" aria-disabled="true">Q</span></li>
+      <li><a class="alphabet__link" href="#letter-R" aria-label="Ir a la letra R, 6 términos">R</a></li>
+      <li><a class="alphabet__link" href="#letter-S" aria-label="Ir a la letra S, 12 términos">S</a></li>
+      <li><a class="alphabet__link" href="#letter-T" aria-label="Ir a la letra T, 9 términos">T</a></li>
+      <li><a class="alphabet__link" href="#letter-U" aria-label="Ir a la letra U, 2 términos">U</a></li>
+      <li><span class="alphabet__link alphabet__link--missing" aria-disabled="true">V</span></li>
+      <li><a class="alphabet__link" href="#letter-W" aria-label="Ir a la letra W, 1 términos">W</a></li>
+      <li><span class="alphabet__link alphabet__link--missing" aria-disabled="true">X</span></li>
+      <li><span class="alphabet__link alphabet__link--missing" aria-disabled="true">Y</span></li>
+      <li><span class="alphabet__link alphabet__link--missing" aria-disabled="true">Z</span></li>
+    </ul>
+  </nav>
+
+
+  <!-- ====================================================================
+       LETRAS Y TÉRMINOS
+       ================================================================= -->
+  <div class="container">
+
+
+    <section class="letter" id="letter-A" aria-labelledby="letter-A-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">A</span>
+        <div>
+          <h2 id="letter-A-title" class="visually-hidden">Letra A</h2>
+          <p class="letter__count">15 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-ad-fontes">
+    <h3 class="term__name">Ad fontes</h3>
+    <p class="term__def">Expresión latina que significa &quot;a las fuentes&quot;. Lema del humanismo renacentista adoptado por los reformadores para reclamar el retorno directo a los textos bíblicos originales (hebreo, arameo, griego) por encima de la Vulgata y las glosas escolásticas. Erasmo encarnó el gesto con su edición del NT griego (1516).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sola-scriptura">Sola Scriptura</a>
+        <a class="term__ref" href="#term-metodo-historico-gramatical">Método histórico-gramatical</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+        <a class="term__ref term__ref--course" href="#/hermeneutica-biblica">Hermenéutica Bíblica</a>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-medieval">Historia de la Iglesia Medieval</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-adopcion">
+    <h3 class="term__name">Adopción</h3>
+    <p class="term__def">Acto por el cual Dios, por la justificación, recibe al creyente en la familia de sus hijos, le da el Espíritu de adopción (Ro 8:15), derechos filiales, acceso al Padre y herencia eterna con Cristo. Aspecto relacional que acompaña al aspecto forense de la justificación.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-justificacion">Justificación</a>
+        <a class="term__ref" href="#term-ordo-salutis">Ordo salutis</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-agustin-de-hipona">
+    <h3 class="term__name">Agustín de Hipona (354–430)</h3>
+    <p class="term__def">Obispo norteafricano, padre de la teología occidental. Su doctrina de la gracia, forjada en la controversia pelagiana, anticipa los ejes del calvinismo: elección soberana, gracia irresistible, perseverancia. Obras principales: *Confesiones*, *La Ciudad de Dios*, *De Gratia et Libero Arbitrio*.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sola-gratia">Sola Gratia</a>
+        <a class="term__ref" href="#term-depravacion-total">Depravación total</a>
+        <a class="term__ref" href="#term-amilenarismo">Amilenarismo</a>
+        <a class="term__ref" href="#term-predestinacion">Predestinación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-antigua">Historia de la Iglesia Antigua</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-amilenarismo">
+    <h3 class="term__name">Amilenarismo</h3>
+    <p class="term__def">Posición escatológica reformada mayoritaria, defendida por Agustín y sistematizada modernamente por Vos, Berkhof, Hendriksen y Hoekema. Interpreta el milenio de Apocalipsis 20 simbólicamente como la era presente entre la primera y segunda venidas de Cristo, no como un reino terrenal literal futuro.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-postmilenarismo">Postmilenarismo</a>
+        <a class="term__ref" href="#term-premilenarismo">Premilenarismo</a>
+        <a class="term__ref" href="#term-nueva-creacion">Nueva creación</a>
+        <a class="term__ref" href="#term-vos">Geerhardus Vos (1862–1949)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/escatologia">Escatología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-analogia-fidei">
+    <h3 class="term__name">Analogia fidei</h3>
+    <p class="term__def">Analogía de la fe: principio hermenéutico reformado según el cual la Escritura es el intérprete último de sí misma (Scriptura Scripturam interpretatur). Los pasajes oscuros deben leerse a la luz de los pasajes claros y de la totalidad del mensaje bíblico (Ro 12:6). Se distingue de la alegoría y del concordismo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-perspicuidad">Perspicuidad de la Escritura</a>
+        <a class="term__ref" href="#term-metodo-historico-gramatical">Método histórico-gramatical</a>
+        <a class="term__ref" href="#term-sola-scriptura">Sola Scriptura</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/hermeneutica-biblica">Hermenéutica Bíblica</a>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-apologetica">
+    <h3 class="term__name">Apologética</h3>
+    <p class="term__def">Del griego *apologia* (&quot;defensa&quot;, 1 Pe 3:15). Disciplina teológica que articula la defensa racional de la fe cristiana ante objeciones y cosmovisiones alternativas. Combina tareas defensiva (responder objeciones), ofensiva (exponer inconsistencias de cosmovisiones rivales) y positiva (argumentar la verdad cristiana).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-presuposicionalismo">Presuposicionalismo</a>
+        <a class="term__ref" href="#term-argumento-trascendental">Argumento trascendental (TAG)</a>
+        <a class="term__ref" href="#term-problema-del-mal">Problema del mal</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/apologetica-reformada">Apologética Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-argumento-trascendental">
+    <h3 class="term__name">Argumento trascendental (TAG)</h3>
+    <p class="term__def">Estrategia argumentativa presuposicional: demuestra la verdad del teísmo cristiano mostrando que es la precondición necesaria de la inteligibilidad (lógica, ciencia, ética, lenguaje). La alternativa no es una cosmovisión alternativa coherente sino la imposibilidad misma de la razón.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-presuposicionalismo">Presuposicionalismo</a>
+        <a class="term__ref" href="#term-van-til">Cornelius Van Til (1895–1987)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/apologetica-reformada">Apologética Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-arminianismo">
+    <h3 class="term__name">Arminianismo</h3>
+    <p class="term__def">Sistema teológico derivado de Jacobo Arminio (1560–1609) que sostiene la elección condicional basada en presciencia de fe, la gracia universal resistible, la expiación universal en intención y la posibilidad de apostasía definitiva. Fue condenado por el Sínodo de Dort como desviación de la fe reformada.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-tulip">TULIP</a>
+        <a class="term__ref" href="#term-sinodo-de-dort">Sínodo de Dort (1618–1619)</a>
+        <a class="term__ref" href="#term-canones-de-dort">Cánones de Dort</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-moderna">Historia de la Iglesia Moderna</a>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-arrepentimiento">
+    <h3 class="term__name">Arrepentimiento</h3>
+    <p class="term__def">Gracia evangélica por la cual el pecador, consciente de su pecado en contraste con la santidad de Dios y la misericordia de Cristo, se aflige y aborrece su pecado, volviéndose a Dios con propósito y esfuerzo de una nueva obediencia (Westminster XV). Compañero inseparable de la fe salvadora.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-fe-salvadora">Fe salvadora</a>
+        <a class="term__ref" href="#term-regeneracion">Regeneración</a>
+        <a class="term__ref" href="#term-santificacion">Santificación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-arrianismo-cristologico">
+    <h3 class="term__name">Arrianismo</h3>
+    <p class="term__def">Herejía cristológica del siglo IV asociada a Arrio de Alejandría. Negaba la consubstancialidad del Hijo con el Padre, sosteniendo que el Hijo era la primera y más excelsa criatura. Condenado definitivamente en Nicea (325). Sobrevive en modalidades contemporáneas (Testigos de Jehová).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-homoousios">Homoousios (ὁμοούσιος)</a>
+        <a class="term__ref" href="#term-credo-niceno">Credo Niceno-Constantinopolitano</a>
+        <a class="term__ref" href="#term-atanasio">Atanasio de Alejandría (c. 296–373)</a>
+        <a class="term__ref" href="#term-trinidad">Trinidad</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-antigua">Historia de la Iglesia Antigua</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-asamblea-de-westminster">
+    <h3 class="term__name">Asamblea de Westminster (1643–1648)</h3>
+    <p class="term__def">Concilio reunido por el Parlamento inglés durante la Guerra Civil con aproximadamente 151 teólogos, para reformar la Iglesia de Inglaterra según la Palabra de Dios y las mejores iglesias reformadas. Produjo la Confesión de Fe, los Catecismos Mayor y Menor, y el Directorio de Culto.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-confesion-de-westminster">Confesión de Fe de Westminster</a>
+        <a class="term__ref" href="#term-presbiterianismo">Presbiterianismo</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-aseidad">
+    <h3 class="term__name">Aseidad</h3>
+    <p class="term__def">Del latín *a se* (&quot;de sí mismo&quot;). Atributo incomunicable por el que Dios existe por sí mismo, sin depender de ninguna causa externa y sin necesitar nada fuera de sí. Es la razón por la cual Dios puede revelarse como &quot;YO SOY&quot; (Éx 3:14). Fundamento metafísico de la distinción Creador–criatura.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-atributos-incomunicables">Atributos incomunicables</a>
+        <a class="term__ref" href="#term-simplicidad-divina">Simplicidad divina</a>
+        <a class="term__ref" href="#term-trinidad">Trinidad</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-atanasio">
+    <h3 class="term__name">Atanasio de Alejandría (c. 296–373)</h3>
+    <p class="term__def">Obispo alejandrino, campeón de la fe nicena frente al arrianismo. Su lema no oficial &quot;*Athanasius contra mundum*&quot; refleja su persistencia durante cinco exilios. *De Incarnatione* es el locus clásico sobre la lógica soteriológica de la encarnación: sólo un Dios encarnado puede deificar al hombre caído.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-homoousios">Homoousios (ὁμοούσιος)</a>
+        <a class="term__ref" href="#term-credo-niceno">Credo Niceno-Constantinopolitano</a>
+        <a class="term__ref" href="#term-trinidad">Trinidad</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-antigua">Historia de la Iglesia Antigua</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-atributos-comunicables">
+    <h3 class="term__name">Atributos comunicables</h3>
+    <p class="term__def">Perfecciones divinas de las que la criatura humana participa analógicamente como imagen de Dios: amor, santidad, justicia, misericordia, fidelidad, sabiduría, veracidad. La participación es siempre criatural, derivada y finita, nunca idéntica al atributo divino en grado o modo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-atributos-incomunicables">Atributos incomunicables</a>
+        <a class="term__ref" href="#term-imago-dei">Imago Dei</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+        <a class="term__ref term__ref--course" href="#/antropologia-hamartologia">Antropología, Pacto de Obras y Hamartología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-atributos-incomunicables">
+    <h3 class="term__name">Atributos incomunicables</h3>
+    <p class="term__def">Aquellas perfecciones divinas que, por su naturaleza, no tienen análogo alguno en la criatura: aseidad, simplicidad, inmutabilidad, eternidad, omnipresencia, omnisciencia, omnipotencia. Marcan la distinción ontológica absoluta entre Creador y criatura.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-aseidad">Aseidad</a>
+        <a class="term__ref" href="#term-simplicidad-divina">Simplicidad divina</a>
+        <a class="term__ref" href="#term-atributos-comunicables">Atributos comunicables</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-B" aria-labelledby="letter-B-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">B</span>
+        <div>
+          <h2 id="letter-B-title" class="visually-hidden">Letra B</h2>
+          <p class="letter__count">2 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-bautismo">
+    <h3 class="term__name">Bautismo</h3>
+    <p class="term__def">Sacramento del ingreso al pacto, signo y sello de la unión con Cristo, de la remisión de pecados y del lavamiento de regeneración. La tradición presbiteriano-reformada defiende el paedobautismo: continúa la señal de iniciación del pacto abrahámico (circuncisión → bautismo, Col 2:11–12), aplicada también a los hijos de creyentes.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sacramento">Sacramento</a>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+        <a class="term__ref" href="#term-pacto-abrahamico">Pacto abrahámico</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/eclesiologia-sacramentologia">Eclesiología y Sacramentología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-warfield">
+    <h3 class="term__name">Benjamin B. Warfield (1851–1921)</h3>
+    <p class="term__def">Teólogo presbiteriano de Princeton, defensor eminente de la inspiración e inerrancia bíblicas contra la crítica liberal alemana. *Inspiration and Authority of the Bible* es obra de referencia. Articuló con precisión técnica la doctrina reformada clásica de la Escritura para el contexto moderno.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-inspiracion-verbal-plenaria">Inspiración verbal plenaria</a>
+        <a class="term__ref" href="#term-inerrancia">Inerrancia</a>
+        <a class="term__ref" href="#term-machen">J. Gresham Machen (1881–1937)</a>
+        <a class="term__ref" href="#term-liberalismo-teologico">Liberalismo teológico</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-moderna">Historia de la Iglesia Moderna</a>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-C" aria-labelledby="letter-C-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">C</span>
+        <div>
+          <h2 id="letter-C-title" class="visually-hidden">Letra C</h2>
+          <p class="letter__count">10 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-calcedonia">
+    <h3 class="term__name">Calcedonia · Concilio y Definición (451)</h3>
+    <p class="term__def">Cuarto concilio ecuménico, que estableció la definición cristológica clásica: Cristo es una sola persona (contra el nestorianismo) en dos naturalezas (contra el eutiquianismo), divina y humana, unidas &quot;sin confusión, sin cambio, sin división, sin separación&quot;. Base de toda cristología ortodoxa posterior.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-definicion-de-calcedonia">Definición de Calcedonia</a>
+        <a class="term__ref" href="#term-hipostatica-union">Unión hipostática</a>
+        <a class="term__ref" href="#term-dos-naturalezas">Doctrina de las dos naturalezas</a>
+        <a class="term__ref" href="#term-logos">Logos (λόγος)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-antigua">Historia de la Iglesia Antigua</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-canon">
+    <h3 class="term__name">Canon</h3>
+    <p class="term__def">Del griego *kanōn* (&quot;regla&quot;). La lista autorizada de libros que constituyen la Sagrada Escritura. La posición reformada reconoce 39 libros del AT (canon hebreo) y 27 del NT, excluyendo los Deuterocanónicos admitidos por Roma en Trento (1546). Westminster I.2 enumera ambos cánones.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sola-scriptura">Sola Scriptura</a>
+        <a class="term__ref" href="#term-confesion-de-westminster">Confesión de Fe de Westminster</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+        <a class="term__ref term__ref--course" href="#/introduccion-antiguo-testamento">Introducción al Antiguo Testamento</a>
+        <a class="term__ref term__ref--course" href="#/introduccion-nuevo-testamento">Introducción al Nuevo Testamento</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-canones-de-dort">
+    <h3 class="term__name">Cánones de Dort</h3>
+    <p class="term__def">Documento conciliar producido por el Sínodo de Dort (1618–1619) como respuesta punto por punto a los cinco artículos de la Remonstrance arminiana. De aquí surge históricamente el acrónimo TULIP. Junto con Heidelberg y la Confesión Belga forman las &quot;Tres Formas de Unidad&quot; reformadas continentales.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sinodo-de-dort">Sínodo de Dort (1618–1619)</a>
+        <a class="term__ref" href="#term-tulip">TULIP</a>
+        <a class="term__ref" href="#term-arminianismo">Arminianismo</a>
+        <a class="term__ref" href="#term-catecismo-de-heidelberg">Catecismo de Heidelberg</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-moderna">Historia de la Iglesia Moderna</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-catecismo-de-heidelberg">
+    <h3 class="term__name">Catecismo de Heidelberg</h3>
+    <p class="term__def">Catecismo producido en 1563 por Zacarías Ursino y Gaspar Oleviano bajo el auspicio del Elector Federico III del Palatinado. Estructurado en 129 preguntas y respuestas organizadas en miseria, redención y gratitud; el estándar confesional continental más cálido y pastoralmente próximo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-confesion-de-westminster">Confesión de Fe de Westminster</a>
+        <a class="term__ref" href="#term-canones-de-dort">Cánones de Dort</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/introduccion-teologia-reformada">Introducción a la Teología Reformada</a>
+        <a class="term__ref term__ref--course" href="#/etica-biblica-reformada">Ética Bíblica Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-cena-del-senor">
+    <h3 class="term__name">Cena del Señor</h3>
+    <p class="term__def">Sacramento del progreso en el pacto, por el cual el creyente se alimenta espiritualmente del cuerpo y la sangre de Cristo para su nutrición y crecimiento en gracia (1 Co 10:16). La posición reformada (Calvino) sostiene la presencia espiritual real, frente a la transubstanciación romana, la consubstanciación luterana y el memorialismo zuingliano extremo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sacramento">Sacramento</a>
+        <a class="term__ref" href="#term-presencia-espiritual-real">Presencia espiritual real</a>
+        <a class="term__ref" href="#term-calvino">Juan Calvino (1509–1564)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/eclesiologia-sacramentologia">Eclesiología y Sacramentología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-concurrencia">
+    <h3 class="term__name">Concurrencia</h3>
+    <p class="term__def">Aspecto de la providencia divina: Dios coopera con toda causa segunda en cada uno de sus actos. Sin anular la eficacia de la causa segunda ni convertirla en mera apariencia, el decreto divino es simultáneamente la causa última de todo lo que ocurre. Preserva tanto la soberanía divina como la responsabilidad humana.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-providencia">Providencia</a>
+        <a class="term__ref" href="#term-decretos-divinos">Decretos divinos</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-confesion-de-westminster">
+    <h3 class="term__name">Confesión de Fe de Westminster</h3>
+    <p class="term__def">Confesión producida por la Asamblea de Westminster (1643–1648) junto al Catecismo Mayor y el Catecismo Menor. Estándar doctrinal de las iglesias presbiterianas anglófonas, estructurada en 33 capítulos que cubren desde la doctrina de las Escrituras hasta la consumación. Cumbre del teologizar reformado de habla inglesa.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-asamblea-de-westminster">Asamblea de Westminster (1643–1648)</a>
+        <a class="term__ref" href="#term-catecismo-de-heidelberg">Catecismo de Heidelberg</a>
+        <a class="term__ref" href="#term-canones-de-dort">Cánones de Dort</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/introduccion-teologia-reformada">Introducción a la Teología Reformada</a>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-van-til">
+    <h3 class="term__name">Cornelius Van Til (1895–1987)</h3>
+    <p class="term__def">Apologeta presbiteriano neerlandés-estadounidense, catedrático en Westminster. Formuló la apologética presuposicional reformada: toda mente parte de presuposiciones últimas, y sólo la cosmovisión cristiana provee las precondiciones para la inteligibilidad de la ciencia, la lógica y la ética. Obras: *The Defense of the Faith*, *A Christian Theory of Knowledge*.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-presuposicionalismo">Presuposicionalismo</a>
+        <a class="term__ref" href="#term-argumento-trascendental">Argumento trascendental (TAG)</a>
+        <a class="term__ref" href="#term-aquino">Tomás de Aquino (c. 1225–1274)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/apologetica-reformada">Apologética Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-credo-atanasiano">
+    <h3 class="term__name">Credo Atanasiano</h3>
+    <p class="term__def">Confesión trinitaria y cristológica de fines del siglo IV o principios del V, erróneamente atribuida a Atanasio. Articula con precisión técnica la distinción de las personas sin división de la esencia, y la unión de las dos naturalezas en Cristo. Se recita solemnemente en la liturgia occidental.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-trinidad">Trinidad</a>
+        <a class="term__ref" href="#term-credo-niceno">Credo Niceno-Constantinopolitano</a>
+        <a class="term__ref" href="#term-calcedonia">Calcedonia · Concilio y Definición (451)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-antigua">Historia de la Iglesia Antigua</a>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-credo-niceno">
+    <h3 class="term__name">Credo Niceno-Constantinopolitano</h3>
+    <p class="term__def">Confesión trinitaria formulada en Nicea (325 d.C.) y ampliada en Constantinopla (381 d.C.). Confiesa la plena divinidad del Hijo (*homoousios* con el Padre) contra el arrianismo y la plena divinidad del Espíritu Santo contra los pneumatómacos. Credo ecuménico recibido por todas las ramas de la ortodoxia cristiana.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-homoousios">Homoousios (ὁμοούσιος)</a>
+        <a class="term__ref" href="#term-trinidad">Trinidad</a>
+        <a class="term__ref" href="#term-atanasio">Atanasio de Alejandría (c. 296–373)</a>
+        <a class="term__ref" href="#term-credo-atanasiano">Credo Atanasiano</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-antigua">Historia de la Iglesia Antigua</a>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-D" aria-labelledby="letter-D-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">D</span>
+        <div>
+          <h2 id="letter-D-title" class="visually-hidden">Letra D</h2>
+          <p class="letter__count">5 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-decretos-divinos">
+    <h3 class="term__name">Decretos divinos</h3>
+    <p class="term__def">El plan eterno, sabio, libre y soberano de Dios por el cual preordena todo cuanto sucede (Ef 1:11). Los decretos son inmutables, absolutamente eficaces y se ejecutan en el tiempo mediante la creación y la providencia. Westminster III articula el debate supra/infralapsario sobre su orden lógico.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-predestinacion">Predestinación</a>
+        <a class="term__ref" href="#term-providencia">Providencia</a>
+        <a class="term__ref" href="#term-eleccion-incondicional">Elección incondicional</a>
+        <a class="term__ref" href="#term-confesion-de-westminster">Confesión de Fe de Westminster</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-definicion-de-calcedonia">
+    <h3 class="term__name">Definición de Calcedonia</h3>
+    <p class="term__def">Formulación cristológica producida en el Concilio de Calcedonia (451 d.C.) que estableció los límites de la ortodoxia: Cristo es una sola persona en dos naturalezas —divina y humana—, unidas sin confusión, sin cambio, sin división y sin separación. Base incontestada de toda cristología ortodoxa posterior.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-calcedonia">Calcedonia · Concilio y Definición (451)</a>
+        <a class="term__ref" href="#term-hipostatica-union">Unión hipostática</a>
+        <a class="term__ref" href="#term-dos-naturalezas">Doctrina de las dos naturalezas</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-antigua">Historia de la Iglesia Antigua</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-depravacion-total">
+    <h3 class="term__name">Depravación total</h3>
+    <p class="term__def">Doctrina de que la caída corrompió al ser humano en la totalidad de sus facultades (mente, voluntad, afectos, cuerpo), no en la máxima extensión posible. No significa que cada persona sea tan mala como podría serlo, sino que ningún aspecto de la naturaleza humana queda indemne, incluido el libre albedrío respecto a Dios.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-pecado-original">Pecado original</a>
+        <a class="term__ref" href="#term-servo-arbitrio">Servo arbitrio</a>
+        <a class="term__ref" href="#term-imago-dei">Imago Dei</a>
+        <a class="term__ref" href="#term-tulip">TULIP</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/antropologia-hamartologia">Antropología, Pacto de Obras y Hamartología</a>
+        <a class="term__ref term__ref--course" href="#/introduccion-teologia-reformada">Introducción a la Teología Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-disciplina-eclesiastica">
+    <h3 class="term__name">Disciplina eclesiástica</h3>
+    <p class="term__def">Tercera marca de la iglesia reformada: ejercicio pastoral de corrección, amonestación y, si necesario, excomunión, conforme al procedimiento de Mateo 18:15–20. Sus fines son la restauración del pecador, la pureza de la iglesia y el honor de Cristo. Su debilitamiento es síntoma eclesiológico crítico.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-marcas-de-la-iglesia">Marcas de la iglesia</a>
+        <a class="term__ref" href="#term-presbiterianismo">Presbiterianismo</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/eclesiologia-sacramentologia">Eclesiología y Sacramentología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-dos-naturalezas">
+    <h3 class="term__name">Doctrina de las dos naturalezas</h3>
+    <p class="term__def">Cristo posee simultáneamente una naturaleza plenamente divina y una naturaleza plenamente humana, cada una con sus atributos propios, unidas en su persona sin mezcla ni confusión. Necesaria soteriológicamente: sólo Dios puede salvar, sólo un hombre puede representar a los hombres (He 2:14–17).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-calcedonia">Calcedonia · Concilio y Definición (451)</a>
+        <a class="term__ref" href="#term-hipostatica-union">Unión hipostática</a>
+        <a class="term__ref" href="#term-extra-calvinisticum">Extra calvinisticum</a>
+        <a class="term__ref" href="#term-kenosis">Kénosis</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-E" aria-labelledby="letter-E-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">E</span>
+        <div>
+          <h2 id="letter-E-title" class="visually-hidden">Letra E</h2>
+          <p class="letter__count">8 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-ecclesia-semper-reformanda">
+    <h3 class="term__name">Ecclesia semper reformanda</h3>
+    <p class="term__def">&quot;La Iglesia siempre debe reformarse&quot;. Axioma reformado de origen neerlandés del siglo XVII: la Iglesia no es una institución estática sino un cuerpo que, sometido a la Palabra, debe renovarse continuamente. No autoriza innovación arbitraria; reforma siempre significa *ad normam Verbi Dei*, conforme a la Escritura.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sola-scriptura">Sola Scriptura</a>
+        <a class="term__ref" href="#term-marcas-de-la-iglesia">Marcas de la iglesia</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/eclesiologia-sacramentologia">Eclesiología y Sacramentología</a>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-eisegesis">
+    <h3 class="term__name">Eiségesis</h3>
+    <p class="term__def">Del griego *eis-ēgeomai* (&quot;meter en&quot;). Error interpretativo consistente en leer en el texto presupuestos, ideas o conclusiones que no se derivan de él. Toda lectura riesga la eiségesis; la disciplina exegética existe precisamente para evitarla mediante controles metodológicos explícitos.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-exegesis">Exégesis</a>
+        <a class="term__ref" href="#term-metodo-historico-gramatical">Método histórico-gramatical</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/hermeneutica-biblica">Hermenéutica Bíblica</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-eleccion-incondicional">
+    <h3 class="term__name">Elección incondicional</h3>
+    <p class="term__def">Dios eligió desde antes de la fundación del mundo a quienes serían salvados, no en vista de fe, mérito o condición alguna prevista en ellos, sino según el puro beneplácito de su voluntad (Ef 1:4–5). Se distingue de la elección condicional arminiana basada en presciencia de fe.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-predestinacion">Predestinación</a>
+        <a class="term__ref" href="#term-decretos-divinos">Decretos divinos</a>
+        <a class="term__ref" href="#term-arminianismo">Arminianismo</a>
+        <a class="term__ref" href="#term-tulip">TULIP</a>
+        <a class="term__ref" href="#term-pactum-salutis">Pactum salutis</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-estado-intermedio">
+    <h3 class="term__name">Estado intermedio</h3>
+    <p class="term__def">Condición del alma humana entre la muerte y la resurrección corporal. La posición reformada afirma la presencia consciente del creyente con Cristo (Fil 1:23; Lc 23:43) y la consciencia del incrédulo bajo juicio, rechazando tanto el purgatorio romano como el &quot;sueño del alma&quot; anabaptista.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-resurreccion">Resurrección corporal</a>
+        <a class="term__ref" href="#term-glorificacion">Glorificación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/escatologia">Escatología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-estados-de-cristo">
+    <h3 class="term__name">Estados de Cristo</h3>
+    <p class="term__def">Los dos grandes momentos de la obra mediadora: (1) estado de humillación (encarnación, sufrimiento, muerte, sepultura, descenso), en que el Hijo se despojó voluntariamente del uso pleno de sus prerrogativas divinas; (2) estado de exaltación (resurrección, ascensión, sesión, retorno glorioso).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-kenosis">Kénosis</a>
+        <a class="term__ref" href="#term-hipostatica-union">Unión hipostática</a>
+        <a class="term__ref" href="#term-tres-oficios">Tres oficios de Cristo</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-exegesis">
+    <h3 class="term__name">Exégesis</h3>
+    <p class="term__def">Del griego *ex-ēgeomai* (&quot;sacar de&quot;). La práctica disciplinada de extraer el sentido del texto bíblico mediante el análisis lingüístico, contextual y literario. Se distingue de la hermenéutica (teoría) y se contrapone a la eiségesis (introducir en el texto lo que no dice).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-eisegesis">Eiségesis</a>
+        <a class="term__ref" href="#term-metodo-historico-gramatical">Método histórico-gramatical</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/hermeneutica-biblica">Hermenéutica Bíblica</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-expiacion-particular">
+    <h3 class="term__name">Expiación particular</h3>
+    <p class="term__def">También llamada expiación definida o limitada. La obra expiatoria de Cristo fue intencionada específicamente para los elegidos y es eficaz para todos ellos, sin posibilidad de fracasar en su diseño. Argumentada clásicamente por John Owen en *La muerte de la muerte en la muerte de Cristo* (1647).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-satisfaccion">Satisfacción</a>
+        <a class="term__ref" href="#term-propiciacion">Propiciación</a>
+        <a class="term__ref" href="#term-eleccion-incondicional">Elección incondicional</a>
+        <a class="term__ref" href="#term-owen">John Owen (1616–1683)</a>
+        <a class="term__ref" href="#term-tulip">TULIP</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-extra-calvinisticum">
+    <h3 class="term__name">Extra calvinisticum</h3>
+    <p class="term__def">Doctrina cristológica reformada (rechazada por los luteranos que la bautizaron con este nombre): aún durante la encarnación, el Logos divino no quedó totalmente circunscrito al cuerpo de Jesús sino que continuó sosteniendo el universo y ejerciendo su omnipresencia. Preserva la inmutabilidad y la trascendencia del Hijo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-hipostatica-union">Unión hipostática</a>
+        <a class="term__ref" href="#term-dos-naturalezas">Doctrina de las dos naturalezas</a>
+        <a class="term__ref" href="#term-calvino">Juan Calvino (1509–1564)</a>
+        <a class="term__ref" href="#term-logos">Logos (λόγος)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-F" aria-labelledby="letter-F-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">F</span>
+        <div>
+          <h2 id="letter-F-title" class="visually-hidden">Letra F</h2>
+          <p class="letter__count">2 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-fe-salvadora">
+    <h3 class="term__name">Fe salvadora</h3>
+    <p class="term__def">Disposición receptiva producida por el Espíritu en el regenerado, compuesta clásicamente por tres elementos: *notitia* (conocimiento del contenido del evangelio), *assensus* (asentimiento intelectual a su verdad) y *fiducia* (confianza personal en la persona y obra de Cristo). Don de Dios, no mérito humano.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-arrepentimiento">Arrepentimiento</a>
+        <a class="term__ref" href="#term-regeneracion">Regeneración</a>
+        <a class="term__ref" href="#term-sola-fide">Sola Fide</a>
+        <a class="term__ref" href="#term-justificacion">Justificación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-fides-quaerens-intellectum">
+    <h3 class="term__name">Fides quaerens intellectum</h3>
+    <p class="term__def">Fórmula de Anselmo de Canterbury (1033–1109): &quot;la fe que busca entender&quot;. Expresa la prioridad de la fe como punto de partida del razonamiento teológico: no se cree para entender primero, sino que se cree, y en el creer se busca comprender. Anticipa la crítica reformada al racionalismo ilustrado.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-aquino">Tomás de Aquino (c. 1225–1274)</a>
+        <a class="term__ref" href="#term-fe-salvadora">Fe salvadora</a>
+        <a class="term__ref" href="#term-apologetica">Apologética</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-medieval">Historia de la Iglesia Medieval</a>
+        <a class="term__ref term__ref--course" href="#/apologetica-reformada">Apologética Reformada</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-G" aria-labelledby="letter-G-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">G</span>
+        <div>
+          <h2 id="letter-G-title" class="visually-hidden">Letra G</h2>
+          <p class="letter__count">4 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-vos">
+    <h3 class="term__name">Geerhardus Vos (1862–1949)</h3>
+    <p class="term__def">Teólogo neerlandés-estadounidense, catedrático en Princeton, padre fundador de la teología bíblica reformada como disciplina. Obras: *Biblical Theology*, *The Pauline Eschatology*. Mostró cómo la historia redentora culmina en Cristo y cómo la escatología no es mero apéndice sino estructura de toda la revelación bíblica.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-teologia-biblica-vos">Teología bíblica</a>
+        <a class="term__ref" href="#term-amilenarismo">Amilenarismo</a>
+        <a class="term__ref" href="#term-nueva-creacion">Nueva creación</a>
+        <a class="term__ref" href="#term-tipologia">Tipología</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-biblica">Teología Bíblica</a>
+        <a class="term__ref term__ref--course" href="#/escatologia">Escatología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-ginebra">
+    <h3 class="term__name">Ginebra</h3>
+    <p class="term__def">Ciudad-estado suiza donde Calvino ejerció ministerio pastoral y pedagógico (1536–1538; 1541–1564). Bajo su influencia se convirtió en centro mundial del protestantismo reformado: modelo de gobierno eclesiástico (cuatro oficios), sede de la Academia (1559) y refugio de protestantes exiliados de toda Europa.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-calvino">Juan Calvino (1509–1564)</a>
+        <a class="term__ref" href="#term-knox">John Knox (c. 1514–1572)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-glorificacion">
+    <h3 class="term__name">Glorificación</h3>
+    <p class="term__def">Consumación final del *ordo salutis*: en la resurrección, el creyente recibe un cuerpo incorruptible (1 Co 15:42–44), es liberado plenamente del pecado y hecho semejante a Cristo (1 Jn 3:2). La santificación alcanza su meta; la adopción, su plenitud manifiesta.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-resurreccion">Resurrección corporal</a>
+        <a class="term__ref" href="#term-santificacion">Santificación</a>
+        <a class="term__ref" href="#term-nueva-creacion">Nueva creación</a>
+        <a class="term__ref" href="#term-ordo-salutis">Ordo salutis</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+        <a class="term__ref term__ref--course" href="#/escatologia">Escatología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-gracia-irresistible">
+    <h3 class="term__name">Gracia irresistible</h3>
+    <p class="term__def">También llamada gracia eficaz. La obra regenerativa del Espíritu Santo en los elegidos es siempre eficaz: vence la resistencia del corazón carnal y produce infaliblemente la fe salvadora. No anula la voluntad humana; la renueva para que desee libremente lo que antes rechazaba.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-regeneracion">Regeneración</a>
+        <a class="term__ref" href="#term-llamado-eficaz">Llamado eficaz</a>
+        <a class="term__ref" href="#term-tulip">TULIP</a>
+        <a class="term__ref" href="#term-servo-arbitrio">Servo arbitrio</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-H" aria-labelledby="letter-H-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">H</span>
+        <div>
+          <h2 id="letter-H-title" class="visually-hidden">Letra H</h2>
+          <p class="letter__count">2 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-historia-redentora">
+    <h3 class="term__name">Historia redentora (Heilsgeschichte)</h3>
+    <p class="term__def">Concepto central de la teología bíblica reformada: la historia narrada por la Escritura no es cronología plana sino trama orgánica en la que Dios va desplegando progresivamente su plan de redención, desde la creación hasta la nueva creación, culminando en Cristo como punto focal.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-teologia-biblica-vos">Teología bíblica</a>
+        <a class="term__ref" href="#term-tipologia">Tipología</a>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+        <a class="term__ref" href="#term-nueva-creacion">Nueva creación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-biblica">Teología Bíblica</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-homoousios">
+    <h3 class="term__name">Homoousios (ὁμοούσιος)</h3>
+    <p class="term__def">Término griego central del Credo Niceno (325 d.C.) que confiesa que el Hijo es &quot;de la misma sustancia&quot; que el Padre. Frente al arrianismo, que lo consideraba meramente *homoiousios* (de sustancia semejante), el término garantiza la plena divinidad del Hijo y, por tanto, la validez salvífica de su obra.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-credo-niceno">Credo Niceno-Constantinopolitano</a>
+        <a class="term__ref" href="#term-trinidad">Trinidad</a>
+        <a class="term__ref" href="#term-atanasio">Atanasio de Alejandría (c. 296–373)</a>
+        <a class="term__ref" href="#term-arrianismo-cristologico">Arrianismo</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-antigua">Historia de la Iglesia Antigua</a>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-I" aria-labelledby="letter-I-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">I</span>
+        <div>
+          <h2 id="letter-I-title" class="visually-hidden">Letra I</h2>
+          <p class="letter__count">6 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-iluminacion">
+    <h3 class="term__name">Iluminación</h3>
+    <p class="term__def">Obra del Espíritu Santo por la cual abre el entendimiento del creyente para recibir la verdad de la Escritura (1 Co 2:14). Se distingue de la inspiración (obra concluida en la producción del texto) y de la revelación misma: no añade contenido nuevo, sólo capacita subjetivamente para la recepción del contenido dado.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-testimonium-spiritus-sancti-internum">Testimonium Spiritus Sancti internum</a>
+        <a class="term__ref" href="#term-perspicuidad">Perspicuidad de la Escritura</a>
+        <a class="term__ref" href="#term-regeneracion">Regeneración</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/hermeneutica-biblica">Hermenéutica Bíblica</a>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-imago-dei">
+    <h3 class="term__name">Imago Dei</h3>
+    <p class="term__def">La condición del ser humano como imagen de Dios (Gn 1:26–28), que incluye dimensiones estructurales (racionalidad, moralidad, espiritualidad) y funcionales (dominio cultural, vicerregencia). La caída dañó la imagen pero no la destruyó; es restaurada en el creyente por la conformidad a Cristo (2 Co 3:18), imagen perfecta del Padre.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-pacto-de-obras">Pacto de obras</a>
+        <a class="term__ref" href="#term-pecado-original">Pecado original</a>
+        <a class="term__ref" href="#term-atributos-comunicables">Atributos comunicables</a>
+        <a class="term__ref" href="#term-santificacion">Santificación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/antropologia-hamartologia">Antropología, Pacto de Obras y Hamartología</a>
+        <a class="term__ref term__ref--course" href="#/etica-biblica-reformada">Ética Bíblica Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-imputacion">
+    <h3 class="term__name">Imputación</h3>
+    <p class="term__def">Acto legal divino de atribuir a una persona los méritos o deméritos de otra. Opera en tres dimensiones soteriológicas fundamentales: el pecado de Adán imputado a la humanidad (Ro 5:12–19), el pecado del creyente imputado a Cristo (2 Co 5:21a), y la justicia de Cristo imputada al creyente (2 Co 5:21b). Distinta de la infusión.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-imputacion-doble">Imputación doble</a>
+        <a class="term__ref" href="#term-justificacion">Justificación</a>
+        <a class="term__ref" href="#term-pacto-de-obras">Pacto de obras</a>
+        <a class="term__ref" href="#term-satisfaccion">Satisfacción</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+        <a class="term__ref term__ref--course" href="#/antropologia-hamartologia">Antropología, Pacto de Obras y Hamartología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-imputacion-doble">
+    <h3 class="term__name">Imputación doble</h3>
+    <p class="term__def">El doble movimiento forense central a la justificación reformada: (1) el pecado del creyente imputado a Cristo en la cruz, de modo que allí recibe la condenación que le correspondía; (2) la justicia activa y pasiva de Cristo imputada al creyente, de modo que ante Dios es declarado perfectamente justo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-imputacion">Imputación</a>
+        <a class="term__ref" href="#term-justificacion">Justificación</a>
+        <a class="term__ref" href="#term-simul-iustus-et-peccator">Simul iustus et peccator</a>
+        <a class="term__ref" href="#term-sola-fide">Sola Fide</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-inerrancia">
+    <h3 class="term__name">Inerrancia</h3>
+    <p class="term__def">Propiedad de la Escritura por la cual, en los manuscritos originales, no afirma nada contrario a la verdad en todo lo que enseña. Formalizada en la Declaración de Chicago sobre la Inerrancia Bíblica (1978). Se distingue técnicamente de la infalibilidad (imposibilidad de engañar).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-inspiracion-verbal-plenaria">Inspiración verbal plenaria</a>
+        <a class="term__ref" href="#term-canon">Canon</a>
+        <a class="term__ref" href="#term-warfield">Benjamin B. Warfield (1851–1921)</a>
+        <a class="term__ref" href="#term-machen">J. Gresham Machen (1881–1937)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-inspiracion-verbal-plenaria">
+    <h3 class="term__name">Inspiración verbal plenaria</h3>
+    <p class="term__def">Doctrina reformada de la inspiración: Dios inspiró no sólo las ideas generales sino las palabras mismas (verbal) en la totalidad de la Escritura (plenaria), utilizando orgánicamente a los autores humanos sin anular su personalidad ni estilo. Base: 2 Ti 3:16 (theopneustos); 2 Pe 1:20–21.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-theopneustos">Theopneustos (θεόπνευστος)</a>
+        <a class="term__ref" href="#term-inerrancia">Inerrancia</a>
+        <a class="term__ref" href="#term-canon">Canon</a>
+        <a class="term__ref" href="#term-warfield">Benjamin B. Warfield (1851–1921)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-J" aria-labelledby="letter-J-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">J</span>
+        <div>
+          <h2 id="letter-J-title" class="visually-hidden">Letra J</h2>
+          <p class="letter__count">6 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-machen">
+    <h3 class="term__name">J. Gresham Machen (1881–1937)</h3>
+    <p class="term__def">Sucesor intelectual de Warfield en Princeton; autor de *Christianity and Liberalism* (1923), donde argumenta que el liberalismo teológico no es una variante del cristianismo sino una religión distinta. Fundó el Seminario Westminster (1929) y la Iglesia Presbiteriana Ortodoxa (1936) tras su expulsión del presbiterianismo mainline.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-warfield">Benjamin B. Warfield (1851–1921)</a>
+        <a class="term__ref" href="#term-inerrancia">Inerrancia</a>
+        <a class="term__ref" href="#term-liberalismo-teologico">Liberalismo teológico</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-moderna">Historia de la Iglesia Moderna</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-knox">
+    <h3 class="term__name">John Knox (c. 1514–1572)</h3>
+    <p class="term__def">Reformador escocés, formado teológicamente junto a Calvino en Ginebra. De regreso a Escocia (1559) llevó la Reforma a su triunfo nacional. Redactó la Confesión Escocesa (1560). Figura fundadora del presbiterianismo moderno y de la teología política reformada sobre la resistencia a tiranos impíos.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-presbiterianismo">Presbiterianismo</a>
+        <a class="term__ref" href="#term-calvino">Juan Calvino (1509–1564)</a>
+        <a class="term__ref" href="#term-ginebra">Ginebra</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-owen">
+    <h3 class="term__name">John Owen (1616–1683)</h3>
+    <p class="term__def">Teólogo puritano inglés, el más riguroso sistemático reformado del siglo XVII. Sus obras clásicas incluyen *La muerte de la muerte en la muerte de Cristo* (defensa de la expiación particular), *Comunión con Dios* y *La mortificación del pecado*. Sintetiza el rigor doctrinal con la profundidad devocional puritana.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-expiacion-particular">Expiación particular</a>
+        <a class="term__ref" href="#term-puritanismo">Puritanismo</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-moderna">Historia de la Iglesia Moderna</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-edwards">
+    <h3 class="term__name">Jonathan Edwards (1703–1758)</h3>
+    <p class="term__def">Pastor y teólogo congregacional norteamericano, figura central del Gran Despertar. Autor de *Las afecciones religiosas*, *Libertad de la voluntad*, *La naturaleza de la verdadera virtud* y del célebre sermón &quot;Pecadores en manos de un Dios airado&quot;. Integración sin par de metafísica, soteriología reformada y avivamiento.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-postmilenarismo">Postmilenarismo</a>
+        <a class="term__ref" href="#term-puritanismo">Puritanismo</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-moderna">Historia de la Iglesia Moderna</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-calvino">
+    <h3 class="term__name">Juan Calvino (1509–1564)</h3>
+    <p class="term__def">Reformador francés radicado en Ginebra; figura clave de la segunda generación de la Reforma. Autor de la *Institución de la Religión Cristiana* (1536–1559), comentarios a casi todos los libros de la Biblia y miles de sermones. Modeló la teología, la liturgia, el gobierno eclesiástico y la vida comunitaria reformadas. Su acento distintivo: la soberanía de Dios en todas las esferas.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-ginebra">Ginebra</a>
+        <a class="term__ref" href="#term-solus-christus">Solus Christus</a>
+        <a class="term__ref" href="#term-presencia-espiritual-real">Presencia espiritual real</a>
+        <a class="term__ref" href="#term-knox">John Knox (c. 1514–1572)</a>
+        <a class="term__ref" href="#term-tres-oficios">Tres oficios de Cristo</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+        <a class="term__ref term__ref--course" href="#/introduccion-teologia-reformada">Introducción a la Teología Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-justificacion">
+    <h3 class="term__name">Justificación</h3>
+    <p class="term__def">Acto forense, judicial y puntual de Dios por el cual, sólo por su gracia y mediante la sola fe, declara justo al pecador perdonando sus pecados y aceptándolo como justo en virtud de la justicia imputada de Cristo (Westminster XI). Se distingue radicalmente de la santificación y de la justificación infusa romana.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sola-fide">Sola Fide</a>
+        <a class="term__ref" href="#term-imputacion-doble">Imputación doble</a>
+        <a class="term__ref" href="#term-sola-gratia">Sola Gratia</a>
+        <a class="term__ref" href="#term-adopcion">Adopción</a>
+        <a class="term__ref" href="#term-simul-iustus-et-peccator">Simul iustus et peccator</a>
+        <a class="term__ref" href="#term-santificacion">Santificación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-K" aria-labelledby="letter-K-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">K</span>
+        <div>
+          <h2 id="letter-K-title" class="visually-hidden">Letra K</h2>
+          <p class="letter__count">1 término</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-kenosis">
+    <h3 class="term__name">Kénosis</h3>
+    <p class="term__def">Del griego *kenoō* (&quot;vaciarse&quot;), en Filipenses 2:7. La ortodoxia reformada la interpreta no como abandono de atributos divinos (kenoticismo moderno) sino como un velamiento voluntario del uso manifiesto de las prerrogativas divinas durante el estado de humillación. El Hijo nunca dejó de ser plenamente Dios.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-estados-de-cristo">Estados de Cristo</a>
+        <a class="term__ref" href="#term-extra-calvinisticum">Extra calvinisticum</a>
+        <a class="term__ref" href="#term-hipostatica-union">Unión hipostática</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-L" aria-labelledby="letter-L-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">L</span>
+        <div>
+          <h2 id="letter-L-title" class="visually-hidden">Letra L</h2>
+          <p class="letter__count">3 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-liberalismo-teologico">
+    <h3 class="term__name">Liberalismo teológico</h3>
+    <p class="term__def">Tradición teológica surgida de Schleiermacher (1768–1834) que, bajo la presión del racionalismo ilustrado y del romanticismo, redefinió el cristianismo en términos de experiencia religiosa subjetiva o de ética del reino. Machen argumentó en 1923 que es religión distinta, no variante dentro del cristianismo ortodoxo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-machen">J. Gresham Machen (1881–1937)</a>
+        <a class="term__ref" href="#term-neo-ortodoxia">Neo-ortodoxia</a>
+        <a class="term__ref" href="#term-warfield">Benjamin B. Warfield (1851–1921)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-moderna">Historia de la Iglesia Moderna</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-llamado-eficaz">
+    <h3 class="term__name">Llamado eficaz</h3>
+    <p class="term__def">Obra sobrenatural del Espíritu Santo por la cual, mediante la predicación del evangelio, conduce infaliblemente al elegido a Cristo (Ro 8:30; Westminster X). Se distingue del llamado externo o general (la oferta del evangelio a todos los oyentes), que puede ser rechazada. El eficaz produce siempre conversión.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-gracia-irresistible">Gracia irresistible</a>
+        <a class="term__ref" href="#term-regeneracion">Regeneración</a>
+        <a class="term__ref" href="#term-ordo-salutis">Ordo salutis</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-logos">
+    <h3 class="term__name">Logos (λόγος)</h3>
+    <p class="term__def">Término griego con que Juan designa al Hijo eterno en el prólogo de su evangelio (Jn 1:1–18): &quot;En el principio era el Verbo, y el Verbo era con Dios, y el Verbo era Dios.&quot; Afirma simultáneamente la distinción personal del Hijo respecto al Padre y su plena deidad. Raíz joánica de toda cristología trinitaria.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-trinidad">Trinidad</a>
+        <a class="term__ref" href="#term-hipostatica-union">Unión hipostática</a>
+        <a class="term__ref" href="#term-dos-naturalezas">Doctrina de las dos naturalezas</a>
+        <a class="term__ref" href="#term-extra-calvinisticum">Extra calvinisticum</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+        <a class="term__ref term__ref--course" href="#/introduccion-nuevo-testamento">Introducción al Nuevo Testamento</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-M" aria-labelledby="letter-M-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">M</span>
+        <div>
+          <h2 id="letter-M-title" class="visually-hidden">Letra M</h2>
+          <p class="letter__count">4 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-marcas-de-la-iglesia">
+    <h3 class="term__name">Marcas de la iglesia</h3>
+    <p class="term__def">Las tres *notae ecclesiae* por las cuales la tradición reformada reconoce a una comunidad como iglesia verdadera: predicación pura de la Palabra, administración correcta de los sacramentos, y ejercicio fiel de la disciplina eclesiástica. Articuladas por Calvino (Institución IV.1) y Juan Knox.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sacramento">Sacramento</a>
+        <a class="term__ref" href="#term-disciplina-eclesiastica">Disciplina eclesiástica</a>
+        <a class="term__ref" href="#term-presbiterianismo">Presbiterianismo</a>
+        <a class="term__ref" href="#term-calvino">Juan Calvino (1509–1564)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/eclesiologia-sacramentologia">Eclesiología y Sacramentología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-lutero">
+    <h3 class="term__name">Martín Lutero (1483–1546)</h3>
+    <p class="term__def">Monje agustino alemán, detonante de la Reforma con las 95 tesis (1517) y la Dieta de Worms (1521). Redescubrió la justificación por la fe sola en Romanos 1:17. Tradujo la Biblia al alemán y escribió los catecismos mayor y menor. Diferenció fuertemente ley y evangelio; su cristología de la ubicuidad lo separó de los reformados en Marburgo (1529).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-wittenberg">Wittenberg</a>
+        <a class="term__ref" href="#term-sola-fide">Sola Fide</a>
+        <a class="term__ref" href="#term-simul-iustus-et-peccator">Simul iustus et peccator</a>
+        <a class="term__ref" href="#term-servo-arbitrio">Servo arbitrio</a>
+        <a class="term__ref" href="#term-zwinglio">Ulrico Zwinglio (1484–1531)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-medieval">Historia de la Iglesia Medieval</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-metodo-historico-gramatical">
+    <h3 class="term__name">Método histórico-gramatical</h3>
+    <p class="term__def">Método interpretativo reformado que busca el sentido que el texto tuvo en su contexto histórico original, aplicando rigurosamente las reglas gramaticales, el análisis de género literario y el estudio del contexto socio-cultural del autor y los receptores. Se opone al alegorismo medieval y al historicismo moderno.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-ad-fontes">Ad fontes</a>
+        <a class="term__ref" href="#term-analogia-fidei">Analogia fidei</a>
+        <a class="term__ref" href="#term-tipologia">Tipología</a>
+        <a class="term__ref" href="#term-exegesis">Exégesis</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/hermeneutica-biblica">Hermenéutica Bíblica</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-missio-dei">
+    <h3 class="term__name">Missio Dei</h3>
+    <p class="term__def">Locución latina para &quot;la misión de Dios&quot;. Expresa la convicción de que la misión no es primordialmente una actividad de la Iglesia sino una propiedad de Dios mismo: el Padre envía al Hijo, el Padre y el Hijo envían al Espíritu, y la Iglesia es enviada al mundo como participación en ese movimiento trinitario.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-trinidad">Trinidad</a>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/misiones-evangelismo-local">Misiones y Evangelismo Local</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-N" aria-labelledby="letter-N-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">N</span>
+        <div>
+          <h2 id="letter-N-title" class="visually-hidden">Letra N</h2>
+          <p class="letter__count">3 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-neo-ortodoxia">
+    <h3 class="term__name">Neo-ortodoxia</h3>
+    <p class="term__def">Movimiento teológico del siglo XX asociado principalmente a Karl Barth (1886–1968) y Emil Brunner. Critica el liberalismo clásico y busca recuperar la trascendencia divina, pero sustituye la inerrancia por una doctrina de la revelación como encuentro-evento. Van Til la criticó severamente en *The New Modernism* como retención del subjetivismo liberal con envoltura ortodoxa.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-van-til">Cornelius Van Til (1895–1987)</a>
+        <a class="term__ref" href="#term-liberalismo-teologico">Liberalismo teológico</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-moderna">Historia de la Iglesia Moderna</a>
+        <a class="term__ref term__ref--course" href="#/apologetica-reformada">Apologética Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-nueva-creacion">
+    <h3 class="term__name">Nueva creación</h3>
+    <p class="term__def">Meta final de la historia redentora: cielos nuevos y tierra nueva donde mora la justicia (2 Pe 3:13; Ap 21–22). No es aniquilación del cosmos actual sino su renovación gloriosa, liberado de la maldición y habitación eterna del pueblo redimido con Dios. Vos mostró cómo toda la escatología reformada converge aquí.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-glorificacion">Glorificación</a>
+        <a class="term__ref" href="#term-amilenarismo">Amilenarismo</a>
+        <a class="term__ref" href="#term-teologia-biblica-vos">Teología bíblica</a>
+        <a class="term__ref" href="#term-vos">Geerhardus Vos (1862–1949)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/escatologia">Escatología</a>
+        <a class="term__ref term__ref--course" href="#/teologia-biblica">Teología Bíblica</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-nuevo-pacto">
+    <h3 class="term__name">Nuevo Pacto</h3>
+    <p class="term__def">Alianza anunciada en Jeremías 31:31–34 y cumplida por Cristo (Lc 22:20; He 8–10): ley escrita en el corazón, conocimiento directo de Dios, perdón definitivo de pecados. No cancela el pacto de gracia sino que lo lleva a su plenitud escatológica, bajo la mediación del Cristo glorificado.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+        <a class="term__ref" href="#term-pacto-abrahamico">Pacto abrahámico</a>
+        <a class="term__ref" href="#term-cena-del-senor">Cena del Señor</a>
+        <a class="term__ref" href="#term-teologia-federal">Teología federal</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-del-pacto">Teología del Pacto</a>
+        <a class="term__ref term__ref--course" href="#/introduccion-nuevo-testamento">Introducción al Nuevo Testamento</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-O" aria-labelledby="letter-O-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">O</span>
+        <div>
+          <h2 id="letter-O-title" class="visually-hidden">Letra O</h2>
+          <p class="letter__count">1 término</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-ordo-salutis">
+    <h3 class="term__name">Ordo salutis</h3>
+    <p class="term__def">Locución latina para &quot;orden de la salvación&quot;: el orden lógico (no necesariamente cronológico) en que Dios aplica la redención de Cristo al elegido. El esquema reformado clásico: elección → llamado eficaz → regeneración → fe y arrepentimiento → justificación → adopción → santificación → glorificación.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-regeneracion">Regeneración</a>
+        <a class="term__ref" href="#term-justificacion">Justificación</a>
+        <a class="term__ref" href="#term-llamado-eficaz">Llamado eficaz</a>
+        <a class="term__ref" href="#term-santificacion">Santificación</a>
+        <a class="term__ref" href="#term-adopcion">Adopción</a>
+        <a class="term__ref" href="#term-glorificacion">Glorificación</a>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-P" aria-labelledby="letter-P-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">P</span>
+        <div>
+          <h2 id="letter-P-title" class="visually-hidden">Letra P</h2>
+          <p class="letter__count">17 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-pacto-abrahamico">
+    <h3 class="term__name">Pacto abrahámico</h3>
+    <p class="term__def">Alianza establecida por Dios con Abraham (Gn 12, 15, 17), con tres promesas centrales: tierra, descendencia y bendición universal. Su cumplimiento final está en Cristo, descendencia prometida (Gl 3:16), cuya obra extiende la bendición a todas las naciones. Los hijos del pacto reciben la señal en bautismo como continuidad de la circuncisión.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+        <a class="term__ref" href="#term-nuevo-pacto">Nuevo Pacto</a>
+        <a class="term__ref" href="#term-bautismo">Bautismo</a>
+        <a class="term__ref" href="#term-teologia-federal">Teología federal</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-del-pacto">Teología del Pacto</a>
+        <a class="term__ref term__ref--course" href="#/introduccion-antiguo-testamento">Introducción al Antiguo Testamento</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-pacto-de-gracia">
+    <h3 class="term__name">Pacto de gracia</h3>
+    <p class="term__def">Respuesta de Dios a la ruptura del pacto de obras: alianza por la cual ofrece vida y salvación mediante Cristo al pecador elegido, requiriendo fe en él como única condición instrumental. Revelado progresivamente desde el proto-evangelio (Gn 3:15) y culminado en el Nuevo Pacto. Una sustancia, administraciones distintas.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-pactum-salutis">Pactum salutis</a>
+        <a class="term__ref" href="#term-nuevo-pacto">Nuevo Pacto</a>
+        <a class="term__ref" href="#term-teologia-federal">Teología federal</a>
+        <a class="term__ref" href="#term-pacto-de-obras">Pacto de obras</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-del-pacto">Teología del Pacto</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-pacto-de-obras">
+    <h3 class="term__name">Pacto de obras</h3>
+    <p class="term__def">También llamado pacto de la creación o pacto de vida. Arreglo original entre Dios y Adán como cabeza federal de la humanidad (Os 6:7; Ro 5:12–21): Adán, por obediencia perfecta, habría obtenido vida eterna confirmada; por su transgresión, introdujo muerte y condenación en todos los que representaba.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-teologia-federal">Teología federal</a>
+        <a class="term__ref" href="#term-imputacion">Imputación</a>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+        <a class="term__ref" href="#term-pecado-original">Pecado original</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/antropologia-hamartologia">Antropología, Pacto de Obras y Hamartología</a>
+        <a class="term__ref term__ref--course" href="#/teologia-del-pacto">Teología del Pacto</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-pactum-salutis">
+    <h3 class="term__name">Pactum salutis</h3>
+    <p class="term__def">Pacto de Redención: acuerdo eterno intratrinitario, anterior al tiempo y a la creación, en el que el Padre designó al Hijo como mediador de los elegidos y el Hijo aceptó la obra, con el Espíritu como aplicador de sus beneficios. Fundamento eterno del pacto de gracia temporal. Desarrollado por los teólogos federales del siglo XVII.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-teologia-federal">Teología federal</a>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+        <a class="term__ref" href="#term-eleccion-incondicional">Elección incondicional</a>
+        <a class="term__ref" href="#term-trinidad">Trinidad</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-del-pacto">Teología del Pacto</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-pecado-original">
+    <h3 class="term__name">Pecado original</h3>
+    <p class="term__def">Doctrina que describe dos realidades conectadas: (1) la imputación del primer pecado de Adán a toda su posteridad, quedando toda la humanidad legalmente condenada en su representante federal; (2) la corrupción heredada de la naturaleza humana, de modo que cada descendiente nace en estado de depravación.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-imputacion">Imputación</a>
+        <a class="term__ref" href="#term-depravacion-total">Depravación total</a>
+        <a class="term__ref" href="#term-pacto-de-obras">Pacto de obras</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/antropologia-hamartologia">Antropología, Pacto de Obras y Hamartología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-perseverancia-de-los-santos">
+    <h3 class="term__name">Perseverancia de los santos</h3>
+    <p class="term__def">Quienes han sido verdaderamente regenerados por Dios perseverarán en la fe hasta el fin y no podrán perder definitivamente la salvación. Se distingue del eterno seguro sin fruto, pues la perseverancia reformada exige evidencia de santificación progresiva (He 12:14).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-santificacion">Santificación</a>
+        <a class="term__ref" href="#term-glorificacion">Glorificación</a>
+        <a class="term__ref" href="#term-tulip">TULIP</a>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-perspicuidad">
+    <h3 class="term__name">Perspicuidad de la Escritura</h3>
+    <p class="term__def">Doctrina reformada según la cual la Escritura es suficientemente clara en lo esencial para que cualquier creyente, usando los medios ordinarios, pueda comprender lo necesario para la salvación y la vida cristiana (Westminster I.7). No afirma que todo texto sea igualmente fácil, sino que el mensaje central lo es.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-analogia-fidei">Analogia fidei</a>
+        <a class="term__ref" href="#term-sola-scriptura">Sola Scriptura</a>
+        <a class="term__ref" href="#term-iluminacion">Iluminación</a>
+        <a class="term__ref" href="#term-testimonium-spiritus-sancti-internum">Testimonium Spiritus Sancti internum</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/hermeneutica-biblica">Hermenéutica Bíblica</a>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-postmilenarismo">
+    <h3 class="term__name">Postmilenarismo</h3>
+    <p class="term__def">Posición escatológica que sostiene que Cristo volverá después de un período extenso de triunfo progresivo del evangelio sobre la tierra (el &quot;milenio&quot;). Influyente entre los puritanos y en el Princeton del siglo XIX. Se distingue del amilenarismo por su optimismo histórico sobre el éxito del evangelio pre-parusía.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-amilenarismo">Amilenarismo</a>
+        <a class="term__ref" href="#term-premilenarismo">Premilenarismo</a>
+        <a class="term__ref" href="#term-edwards">Jonathan Edwards (1703–1758)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/escatologia">Escatología</a>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-moderna">Historia de la Iglesia Moderna</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-predestinacion">
+    <h3 class="term__name">Predestinación</h3>
+    <p class="term__def">Parte de los decretos divinos referida específicamente al destino eterno de las criaturas racionales. Incluye elección (al pueblo destinado a la gracia salvadora) y reprobación (al que Dios, por su justicia soberana, deja en su condición caída). Ro 9:11–13 es el locus clásico.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-eleccion-incondicional">Elección incondicional</a>
+        <a class="term__ref" href="#term-decretos-divinos">Decretos divinos</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-premilenarismo">
+    <h3 class="term__name">Premilenarismo</h3>
+    <p class="term__def">Posición escatológica que afirma que Cristo volverá antes del milenio, inaugurando personalmente un reino terrenal literal de mil años. Se divide en histórico (clásico) y dispensacional (Darby, Scofield). La forma dispensacional, dominante en el evangelicalismo norteamericano del siglo XX, es criticada desde la escatología reformada.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-amilenarismo">Amilenarismo</a>
+        <a class="term__ref" href="#term-postmilenarismo">Postmilenarismo</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/escatologia">Escatología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-presbiterianismo">
+    <h3 class="term__name">Presbiterianismo</h3>
+    <p class="term__def">Forma de gobierno eclesiástico que la tradición reformada considera prescrita en el NT (Hch 15; 1 Ti 3; Tit 1): la iglesia local es gobernada por un consistorio de ancianos (presbíteros), y las iglesias se interconectan en asambleas graduales (presbiterio, sínodo, asamblea general). Se distingue del episcopalismo y del congregacionalismo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-marcas-de-la-iglesia">Marcas de la iglesia</a>
+        <a class="term__ref" href="#term-disciplina-eclesiastica">Disciplina eclesiástica</a>
+        <a class="term__ref" href="#term-knox">John Knox (c. 1514–1572)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/eclesiologia-sacramentologia">Eclesiología y Sacramentología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-presencia-espiritual-real">
+    <h3 class="term__name">Presencia espiritual real</h3>
+    <p class="term__def">Doctrina calviniana de la Cena del Señor: Cristo se halla verdadera y realmente presente en el sacramento, no en los elementos (pan y vino) sino para el comulgante de fe, que se nutre de él por la obra del Espíritu Santo que eleva al creyente hasta el Cristo glorificado. Vía media entre Roma y Zwinglio.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-cena-del-senor">Cena del Señor</a>
+        <a class="term__ref" href="#term-sacramento">Sacramento</a>
+        <a class="term__ref" href="#term-calvino">Juan Calvino (1509–1564)</a>
+        <a class="term__ref" href="#term-extra-calvinisticum">Extra calvinisticum</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/eclesiologia-sacramentologia">Eclesiología y Sacramentología</a>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-presuposicionalismo">
+    <h3 class="term__name">Presuposicionalismo</h3>
+    <p class="term__def">Método apologético reformado desarrollado por Cornelius Van Til. Sostiene que toda argumentación parte de presuposiciones últimas, y que el apologeta cristiano no debe aceptar como neutral el terreno del incrédulo. Expone la incoherencia de la cosmovisión no cristiana y la inevitabilidad epistemológica de Dios para la racionalidad.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-argumento-trascendental">Argumento trascendental (TAG)</a>
+        <a class="term__ref" href="#term-van-til">Cornelius Van Til (1895–1987)</a>
+        <a class="term__ref" href="#term-problema-del-mal">Problema del mal</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/apologetica-reformada">Apologética Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-problema-del-mal">
+    <h3 class="term__name">Problema del mal</h3>
+    <p class="term__def">Objeción filosófica clásica al teísmo: si Dios es omnipotente, omnisciente y bueno, ¿por qué existe el mal? La respuesta reformada articula una teodicea centrada en el decreto soberano, la cruz como punto de reconciliación de justicia y misericordia, y la distinción entre explicación filosófica y consuelo pastoral.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-decretos-divinos">Decretos divinos</a>
+        <a class="term__ref" href="#term-providencia">Providencia</a>
+        <a class="term__ref" href="#term-presuposicionalismo">Presuposicionalismo</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/apologetica-reformada">Apologética Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-propiciacion">
+    <h3 class="term__name">Propiciación</h3>
+    <p class="term__def">Una de las cuatro facetas de la expiación: la obra de Cristo aparta la ira santa de Dios contra el pecado (Ro 3:25; 1 Jn 2:2). No es una manipulación mitológica de la deidad, sino el cumplimiento del propio plan amoroso del Padre para que la justicia se satisfaga sin comprometer la misericordia.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-satisfaccion">Satisfacción</a>
+        <a class="term__ref" href="#term-redencion">Redención</a>
+        <a class="term__ref" href="#term-reconciliacion">Reconciliación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-providencia">
+    <h3 class="term__name">Providencia</h3>
+    <p class="term__def">Obra por la cual Dios preserva, gobierna y conduce a toda criatura y toda acción hacia sus fines soberanamente decretados (Westminster V). Se distingue la providencia ordinaria (mediante causas segundas) y la extraordinaria (milagros). Coexiste sin contradicción con la responsabilidad humana.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-decretos-divinos">Decretos divinos</a>
+        <a class="term__ref" href="#term-concurrencia">Concurrencia</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-puritanismo">
+    <h3 class="term__name">Puritanismo</h3>
+    <p class="term__def">Movimiento de renovación en la tradición reformada anglófona (siglos XVI–XVII) que buscó purificar la Iglesia de Inglaterra conforme al patrón bíblico más allá de los límites del compromiso isabelino. Combinó rigor doctrinal, intensidad experiencial y ética comunitaria. Produjo figuras como Owen, Baxter, Bunyan, Watson y Edwards.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-owen">John Owen (1616–1683)</a>
+        <a class="term__ref" href="#term-edwards">Jonathan Edwards (1703–1758)</a>
+        <a class="term__ref" href="#term-confesion-de-westminster">Confesión de Fe de Westminster</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-moderna">Historia de la Iglesia Moderna</a>
+        <a class="term__ref term__ref--course" href="#/formacion-espiritual-piedad-reformada">Formación Espiritual y Piedad Reformada</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-R" aria-labelledby="letter-R-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">R</span>
+        <div>
+          <h2 id="letter-R-title" class="visually-hidden">Letra R</h2>
+          <p class="letter__count">6 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-reconciliacion">
+    <h3 class="term__name">Reconciliación</h3>
+    <p class="term__def">Cuarta faceta de la expiación: la obra de Cristo restaura la relación quebrantada entre Dios y el pecador, removiendo la enemistad y estableciendo paz (Ro 5:10–11; 2 Co 5:18–21). Objetivamente cumplida en la cruz; subjetivamente aplicada en la justificación.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-satisfaccion">Satisfacción</a>
+        <a class="term__ref" href="#term-propiciacion">Propiciación</a>
+        <a class="term__ref" href="#term-redencion">Redención</a>
+        <a class="term__ref" href="#term-justificacion">Justificación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-redencion">
+    <h3 class="term__name">Redención</h3>
+    <p class="term__def">Faceta de la expiación: Cristo, mediante el pago de su sangre, libera al elegido del cautiverio del pecado, de la maldición de la ley y del poder de la muerte (Gl 3:13; Ef 1:7). Imagen tomada del rescate de esclavos y prisioneros en el mundo antiguo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-satisfaccion">Satisfacción</a>
+        <a class="term__ref" href="#term-propiciacion">Propiciación</a>
+        <a class="term__ref" href="#term-reconciliacion">Reconciliación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-regeneracion">
+    <h3 class="term__name">Regeneración</h3>
+    <p class="term__def">Obra soberana e instantánea del Espíritu Santo por la cual Dios imparte vida espiritual al pecador muerto (Ef 2:4–5; Jn 3:3–8), creando un corazón nuevo capaz de fe y arrepentimiento. En el orden lógico reformado, la regeneración precede a la fe: el muerto no puede creer para vivir; vive para poder creer.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-llamado-eficaz">Llamado eficaz</a>
+        <a class="term__ref" href="#term-gracia-irresistible">Gracia irresistible</a>
+        <a class="term__ref" href="#term-fe-salvadora">Fe salvadora</a>
+        <a class="term__ref" href="#term-ordo-salutis">Ordo salutis</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-resurreccion">
+    <h3 class="term__name">Resurrección corporal</h3>
+    <p class="term__def">Doctrina de que todos los muertos, justos e injustos, resucitarán corporalmente en el último día (Jn 5:28–29; Hch 24:15). La resurrección de Cristo es primicia y garantía (1 Co 15:20–28). El cuerpo resucitado, aunque continuo con el actual, será glorificado: incorruptible, poderoso, espiritual (no inmaterial).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-glorificacion">Glorificación</a>
+        <a class="term__ref" href="#term-nueva-creacion">Nueva creación</a>
+        <a class="term__ref" href="#term-estado-intermedio">Estado intermedio</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/escatologia">Escatología</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-revelacion-especial">
+    <h3 class="term__name">Revelación especial</h3>
+    <p class="term__def">La autocomunicación particular de Dios mediante actos redentores (Éxodo, encarnación), palabras proféticas y, culminantemente, la persona de Cristo (He 1:1–2). La Escritura es el registro inspirado e infalible de la revelación especial; es necesaria para conocer el evangelio de la salvación.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-revelacion-general">Revelación general</a>
+        <a class="term__ref" href="#term-inspiracion-verbal-plenaria">Inspiración verbal plenaria</a>
+        <a class="term__ref" href="#term-logos">Logos (λόγος)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-revelacion-general">
+    <h3 class="term__name">Revelación general</h3>
+    <p class="term__def">La autocomunicación de Dios a toda la humanidad mediante la creación, la conciencia moral y el gobierno providencial de la historia (Sal 19; Ro 1:18–32). Es suficiente para dejar sin excusa al pagano, pero insuficiente para salvar: manifiesta existencia y atributos de Dios, no el evangelio de Cristo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-revelacion-especial">Revelación especial</a>
+        <a class="term__ref" href="#term-apologetica">Apologética</a>
+        <a class="term__ref" href="#term-providencia">Providencia</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+        <a class="term__ref term__ref--course" href="#/apologetica-reformada">Apologética Reformada</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-S" aria-labelledby="letter-S-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">S</span>
+        <div>
+          <h2 id="letter-S-title" class="visually-hidden">Letra S</h2>
+          <p class="letter__count">12 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-sacramento">
+    <h3 class="term__name">Sacramento</h3>
+    <p class="term__def">Signo y sello visible de la gracia del pacto, instituido por Cristo, por el cual se representa, confirma y aplica a los creyentes lo que Cristo obró por ellos (Westminster XXVII). La tradición reformada reconoce dos: el bautismo y la Cena del Señor. Se distingue del *ex opere operato* romano y del mero memorialismo zuingliano extremo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-bautismo">Bautismo</a>
+        <a class="term__ref" href="#term-cena-del-senor">Cena del Señor</a>
+        <a class="term__ref" href="#term-presencia-espiritual-real">Presencia espiritual real</a>
+        <a class="term__ref" href="#term-marcas-de-la-iglesia">Marcas de la iglesia</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/eclesiologia-sacramentologia">Eclesiología y Sacramentología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-santificacion">
+    <h3 class="term__name">Santificación</h3>
+    <p class="term__def">Obra progresiva de Dios en el regenerado por la cual, mediante la Palabra y el Espíritu, muere al pecado y vive para la justicia, siendo transformado más y más a la imagen de Cristo (2 Co 3:18). A diferencia de la justificación, es progresiva, sinérgica en su manifestación y completada sólo en la glorificación.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-justificacion">Justificación</a>
+        <a class="term__ref" href="#term-glorificacion">Glorificación</a>
+        <a class="term__ref" href="#term-perseverancia-de-los-santos">Perseverancia de los santos</a>
+        <a class="term__ref" href="#term-simul-iustus-et-peccator">Simul iustus et peccator</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+        <a class="term__ref term__ref--course" href="#/formacion-espiritual-piedad-reformada">Formación Espiritual y Piedad Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-satisfaccion">
+    <h3 class="term__name">Satisfacción</h3>
+    <p class="term__def">Doctrina de la expiación según la cual Cristo, en la cruz, satisfizo plenamente las demandas de la justicia divina contra el pecado de los elegidos. La formuló clásicamente Anselmo en *Cur Deus Homo* (1098) y la desarrolló la soteriología reformada como sustitución penal vicaria.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-propiciacion">Propiciación</a>
+        <a class="term__ref" href="#term-redencion">Redención</a>
+        <a class="term__ref" href="#term-reconciliacion">Reconciliación</a>
+        <a class="term__ref" href="#term-expiacion-particular">Expiación particular</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-medieval">Historia de la Iglesia Medieval</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-servo-arbitrio">
+    <h3 class="term__name">Servo arbitrio</h3>
+    <p class="term__def">Doctrina defendida por Lutero en *De Servo Arbitrio* (1525) contra Erasmo: la voluntad humana caída, aunque libre de coacción externa (libertad natural), no tiene capacidad espiritual (libertad moral) para elegir el bien salvífico. No es libre voluntad sino voluntad esclava al pecado; sólo la gracia la libera.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-depravacion-total">Depravación total</a>
+        <a class="term__ref" href="#term-gracia-irresistible">Gracia irresistible</a>
+        <a class="term__ref" href="#term-lutero">Martín Lutero (1483–1546)</a>
+        <a class="term__ref" href="#term-regeneracion">Regeneración</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/antropologia-hamartologia">Antropología, Pacto de Obras y Hamartología</a>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-simplicidad-divina">
+    <h3 class="term__name">Simplicidad divina</h3>
+    <p class="term__def">Atributo incomunicable por el que Dios no está compuesto de partes: sus atributos no son componentes yuxtapuestos sino manifestaciones de su única e indivisible esencia. Dios *es* su sabiduría, *es* su amor, *es* su justicia. Fundamental para entender la unidad divina frente al politeísmo y al panteísmo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-aseidad">Aseidad</a>
+        <a class="term__ref" href="#term-atributos-incomunicables">Atributos incomunicables</a>
+        <a class="term__ref" href="#term-trinidad">Trinidad</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-simul-iustus-et-peccator">
+    <h3 class="term__name">Simul iustus et peccator</h3>
+    <p class="term__def">Fórmula luterana: &quot;al mismo tiempo justo y pecador&quot;. Expresa la tensión soteriológica fundamental: el creyente es declarado plenamente justo por la justicia imputada de Cristo (forense), mientras sigue siendo pecador en su condición inherente (la santificación es progresiva, no instantánea).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-justificacion">Justificación</a>
+        <a class="term__ref" href="#term-santificacion">Santificación</a>
+        <a class="term__ref" href="#term-imputacion-doble">Imputación doble</a>
+        <a class="term__ref" href="#term-lutero">Martín Lutero (1483–1546)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-sinodo-de-dort">
+    <h3 class="term__name">Sínodo de Dort (1618–1619)</h3>
+    <p class="term__def">Asamblea internacional reformada convocada en los Países Bajos para responder a la Remonstrance arminiana. Con delegados de iglesias reformadas de toda Europa, produjo los Cánones de Dort. Su carácter ecuménico (dentro de la tradición reformada) le da peso catolicidad a su decisión.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-canones-de-dort">Cánones de Dort</a>
+        <a class="term__ref" href="#term-arminianismo">Arminianismo</a>
+        <a class="term__ref" href="#term-tulip">TULIP</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-moderna">Historia de la Iglesia Moderna</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-sola-fide">
+    <h3 class="term__name">Sola Fide</h3>
+    <p class="term__def">Principio material de la Reforma: el pecador es justificado únicamente por la fe, apartada de toda obra propia. La fe es el instrumento receptivo que descansa en la justicia imputada de Cristo, no el mérito ni la causa de la justificación. Pablo la articula en Romanos 3:28 y Gálatas 2:15–16.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sola-scriptura">Sola Scriptura</a>
+        <a class="term__ref" href="#term-sola-gratia">Sola Gratia</a>
+        <a class="term__ref" href="#term-justificacion">Justificación</a>
+        <a class="term__ref" href="#term-fe-salvadora">Fe salvadora</a>
+        <a class="term__ref" href="#term-imputacion-doble">Imputación doble</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/introduccion-teologia-reformada">Introducción a la Teología Reformada</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-sola-gratia">
+    <h3 class="term__name">Sola Gratia</h3>
+    <p class="term__def">La salvación es obra exclusivamente de la gracia divina, desde el decreto eterno de elección hasta la glorificación final. El pecador, muerto en delitos y pecados (Ef 2:1–5), no contribuye con mérito alguno. La gracia sola se opone tanto al pelagianismo como al semipelagianismo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sola-fide">Sola Fide</a>
+        <a class="term__ref" href="#term-eleccion-incondicional">Elección incondicional</a>
+        <a class="term__ref" href="#term-gracia-irresistible">Gracia irresistible</a>
+        <a class="term__ref" href="#term-ordo-salutis">Ordo salutis</a>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/introduccion-teologia-reformada">Introducción a la Teología Reformada</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-antigua">Historia de la Iglesia Antigua</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-sola-scriptura">
+    <h3 class="term__name">Sola Scriptura</h3>
+    <p class="term__def">Principio formal de la Reforma: la Sagrada Escritura es la única regla suficiente, final e infalible de fe y práctica. No niega el valor de la tradición, la razón o los concilios, pero los somete a todos al juicio del texto bíblico. Se distingue de la nuda Scriptura (la Biblia aislada de toda ayuda interpretativa) y se articula en Westminster I.6–10.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sola-fide">Sola Fide</a>
+        <a class="term__ref" href="#term-sola-gratia">Sola Gratia</a>
+        <a class="term__ref" href="#term-solus-christus">Solus Christus</a>
+        <a class="term__ref" href="#term-soli-deo-gloria">Soli Deo Gloria</a>
+        <a class="term__ref" href="#term-canon">Canon</a>
+        <a class="term__ref" href="#term-perspicuidad">Perspicuidad de la Escritura</a>
+        <a class="term__ref" href="#term-confesion-de-westminster">Confesión de Fe de Westminster</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/introduccion-teologia-reformada">Introducción a la Teología Reformada</a>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-soli-deo-gloria">
+    <h3 class="term__name">Soli Deo Gloria</h3>
+    <p class="term__def">Principio teleológico de la Reforma: toda la obra de la salvación y toda la vida del creyente existen para la sola gloria de Dios (1 Co 10:31). Articula la cosmovisión reformada como gobierno absoluto de Dios sobre todas las esferas de la realidad, no solo sobre la liturgia.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sola-gratia">Sola Gratia</a>
+        <a class="term__ref" href="#term-decretos-divinos">Decretos divinos</a>
+        <a class="term__ref" href="#term-providencia">Providencia</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/introduccion-teologia-reformada">Introducción a la Teología Reformada</a>
+        <a class="term__ref term__ref--course" href="#/etica-biblica-reformada">Ética Bíblica Reformada</a>
+        <a class="term__ref term__ref--course" href="#/formacion-espiritual-piedad-reformada">Formación Espiritual y Piedad Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-solus-christus">
+    <h3 class="term__name">Solus Christus</h3>
+    <p class="term__def">Cristo es el único mediador entre Dios y los hombres (1 Ti 2:5), y sólo su persona y su obra consumada bastan para la salvación. Excluye toda mediación sacerdotal humana, la intercesión de los santos y la suficiencia de cualquier obra ajena al sacrificio de la cruz.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-sola-fide">Sola Fide</a>
+        <a class="term__ref" href="#term-tres-oficios">Tres oficios de Cristo</a>
+        <a class="term__ref" href="#term-satisfaccion">Satisfacción</a>
+        <a class="term__ref" href="#term-hipostatica-union">Unión hipostática</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/introduccion-teologia-reformada">Introducción a la Teología Reformada</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-T" aria-labelledby="letter-T-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">T</span>
+        <div>
+          <h2 id="letter-T-title" class="visually-hidden">Letra T</h2>
+          <p class="letter__count">9 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-teologia-biblica-vos">
+    <h3 class="term__name">Teología bíblica</h3>
+    <p class="term__def">Disciplina teológica, definida por Geerhardus Vos, que estudia el proceso histórico-redentor de la revelación de Dios conforme se despliega orgánicamente en el tiempo. Complementa a la sistemática: mientras ésta organiza el contenido doctrinal atemporalmente, la bíblica traza su desarrollo progresivo por épocas.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-vos">Geerhardus Vos (1862–1949)</a>
+        <a class="term__ref" href="#term-tipologia">Tipología</a>
+        <a class="term__ref" href="#term-historia-redentora">Historia redentora (Heilsgeschichte)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-biblica">Teología Bíblica</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-teologia-federal">
+    <h3 class="term__name">Teología federal</h3>
+    <p class="term__def">Articulación reformada de la historia redentora bajo la categoría de *foedus* (pacto). Distingue el pacto eterno intratrinitario (*pactum salutis*), el pacto de obras con Adán como cabeza federal de la humanidad, y el pacto de gracia con Cristo como nuevo Adán. Desarrollada por los ortodoxos reformados del siglo XVII (Cocceius, Witsius).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-pactum-salutis">Pactum salutis</a>
+        <a class="term__ref" href="#term-pacto-de-obras">Pacto de obras</a>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+        <a class="term__ref" href="#term-imputacion">Imputación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-del-pacto">Teología del Pacto</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-testimonium-spiritus-sancti-internum">
+    <h3 class="term__name">Testimonium Spiritus Sancti internum</h3>
+    <p class="term__def">El testimonio interno del Espíritu Santo. Doctrina calviniana (Institución I.7) según la cual la certeza última de que la Escritura es Palabra de Dios no procede del argumento racional ni del peso de la tradición eclesiástica, sino de la obra iluminadora del Espíritu que persuade el corazón del creyente.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-perspicuidad">Perspicuidad de la Escritura</a>
+        <a class="term__ref" href="#term-calvino">Juan Calvino (1509–1564)</a>
+        <a class="term__ref" href="#term-iluminacion">Iluminación</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+        <a class="term__ref term__ref--course" href="#/hermeneutica-biblica">Hermenéutica Bíblica</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-theopneustos">
+    <h3 class="term__name">Theopneustos (θεόπνευστος)</h3>
+    <p class="term__def">Término griego que Pablo emplea en 2 Timoteo 3:16 para describir la Escritura: literalmente &quot;respirada por Dios&quot; o &quot;exhalada por Dios&quot;. Fundamenta la doctrina reformada de la inspiración verbal plenaria: el aliento de Dios no se posa sobre conceptos generales, sino sobre las palabras del texto mismo.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-inspiracion-verbal-plenaria">Inspiración verbal plenaria</a>
+        <a class="term__ref" href="#term-inerrancia">Inerrancia</a>
+        <a class="term__ref" href="#term-canon">Canon</a>
+        <a class="term__ref" href="#term-warfield">Benjamin B. Warfield (1851–1921)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/bibliologia">Bibliología · Doctrina de la Escritura</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-tipologia">
+    <h3 class="term__name">Tipología</h3>
+    <p class="term__def">Ciencia interpretativa que identifica las correspondencias divinamente establecidas entre personas, instituciones o eventos del AT (tipos) y sus realidades cumplidas en Cristo (antitipos): Adán, Noé, Moisés, David, el templo, el éxodo. Se distingue de la alegoría por requerir inauguración, escalada y cumplimiento canónicamente verificable.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-metodo-historico-gramatical">Método histórico-gramatical</a>
+        <a class="term__ref" href="#term-teologia-biblica-vos">Teología bíblica</a>
+        <a class="term__ref" href="#term-pacto-de-gracia">Pacto de gracia</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/hermeneutica-biblica">Hermenéutica Bíblica</a>
+        <a class="term__ref term__ref--course" href="#/teologia-biblica">Teología Bíblica</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-aquino">
+    <h3 class="term__name">Tomás de Aquino (c. 1225–1274)</h3>
+    <p class="term__def">Dominico italiano, el mayor sintetizador escolástico. Su *Summa Theologiae* articula una filosofía tomista-aristotélica del ser y una teología de la analogía. Recibido selectivamente por algunos reformados; rechazado como fundamento por presuposicionalistas como Van Til, quienes critican la *analogia entis*.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-fides-quaerens-intellectum">Fides quaerens intellectum</a>
+        <a class="term__ref" href="#term-presuposicionalismo">Presuposicionalismo</a>
+        <a class="term__ref" href="#term-van-til">Cornelius Van Til (1895–1987)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-medieval">Historia de la Iglesia Medieval</a>
+        <a class="term__ref term__ref--course" href="#/apologetica-reformada">Apologética Reformada</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-tres-oficios">
+    <h3 class="term__name">Tres oficios de Cristo</h3>
+    <p class="term__def">Esquema calviniano para articular la obra mediadora: profético (revela la voluntad de Dios de manera final, Jn 1:18), sacerdotal (ofrece el sacrificio expiatorio y ejerce intercesión perpetua, He 7:25) y real (gobierna a su Iglesia y al cosmos, cabeza del reino mesiánico). Corresponde a los tres oficios del AT ungidos con aceite.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-solus-christus">Solus Christus</a>
+        <a class="term__ref" href="#term-satisfaccion">Satisfacción</a>
+        <a class="term__ref" href="#term-calvino">Juan Calvino (1509–1564)</a>
+        <a class="term__ref" href="#term-estados-de-cristo">Estados de Cristo</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-trinidad">
+    <h3 class="term__name">Trinidad</h3>
+    <p class="term__def">Doctrina fundacional del cristianismo: Dios es uno en esencia y tres en personas (Padre, Hijo y Espíritu Santo), distintas pero consustanciales, coeternas y coiguales. Articulada contra el modalismo, el arrianismo y el triteísmo en Nicea (325), Constantinopla (381) y el Credo Atanasiano.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-homoousios">Homoousios (ὁμοούσιος)</a>
+        <a class="term__ref" href="#term-credo-niceno">Credo Niceno-Constantinopolitano</a>
+        <a class="term__ref" href="#term-credo-atanasiano">Credo Atanasiano</a>
+        <a class="term__ref" href="#term-simplicidad-divina">Simplicidad divina</a>
+        <a class="term__ref" href="#term-pactum-salutis">Pactum salutis</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/teologia-propia">Teología Propia · Doctrina de Dios</a>
+        <a class="term__ref term__ref--course" href="#/historia-iglesia-antigua">Historia de la Iglesia Antigua</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-tulip">
+    <h3 class="term__name">TULIP</h3>
+    <p class="term__def">Acrónimo mnemotécnico anglosajón que resume los cinco puntos del calvinismo establecidos por los Cánones de Dort (1618–1619): Total depravity, Unconditional election, Limited atonement, Irresistible grace, Perseverance of the saints. Constituyen una respuesta conciliar a los cinco artículos de la Remonstrance arminiana.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-depravacion-total">Depravación total</a>
+        <a class="term__ref" href="#term-eleccion-incondicional">Elección incondicional</a>
+        <a class="term__ref" href="#term-expiacion-particular">Expiación particular</a>
+        <a class="term__ref" href="#term-gracia-irresistible">Gracia irresistible</a>
+        <a class="term__ref" href="#term-perseverancia-de-los-santos">Perseverancia de los santos</a>
+        <a class="term__ref" href="#term-arminianismo">Arminianismo</a>
+        <a class="term__ref" href="#term-canones-de-dort">Cánones de Dort</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/introduccion-teologia-reformada">Introducción a la Teología Reformada</a>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-U" aria-labelledby="letter-U-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">U</span>
+        <div>
+          <h2 id="letter-U-title" class="visually-hidden">Letra U</h2>
+          <p class="letter__count">2 términos</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-zwinglio">
+    <h3 class="term__name">Ulrico Zwinglio (1484–1531)</h3>
+    <p class="term__def">Reformador suizo de Zúrich, contemporáneo de Lutero pero de desarrollo independiente. Impulsó una reforma litúrgica más radical y sostuvo una concepción memorialista de la Cena del Señor que chocó con Lutero en Marburgo. Su influencia se extendió por la Segunda Confesión Helvética (Bullinger, 1566).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-lutero">Martín Lutero (1483–1546)</a>
+        <a class="term__ref" href="#term-calvino">Juan Calvino (1509–1564)</a>
+        <a class="term__ref" href="#term-cena-del-senor">Cena del Señor</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="term" id="term-hipostatica-union">
+    <h3 class="term__name">Unión hipostática</h3>
+    <p class="term__def">La unión de las dos naturalezas (divina y humana) en la única persona (*hypostasis*) del Hijo eterno de Dios. No hay mezcla de las naturalezas ni división de la persona. El atributo de cada naturaleza puede predicarse de la única persona (communicatio idiomatum), pero no se comunican entre sí.</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-calcedonia">Calcedonia · Concilio y Definición (451)</a>
+        <a class="term__ref" href="#term-dos-naturalezas">Doctrina de las dos naturalezas</a>
+        <a class="term__ref" href="#term-extra-calvinisticum">Extra calvinisticum</a>
+        <a class="term__ref" href="#term-logos">Logos (λόγος)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/cristologia-soteriologia">Cristología y Soteriología</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+    <section class="letter" id="letter-W" aria-labelledby="letter-W-title">
+      <header class="letter__header">
+        <span class="letter__char" aria-hidden="true">W</span>
+        <div>
+          <h2 id="letter-W-title" class="visually-hidden">Letra W</h2>
+          <p class="letter__count">1 término</p>
+        </div>
+      </header>
+
+      <div class="terms">
+
+  <article class="term" id="term-wittenberg">
+    <h3 class="term__name">Wittenberg</h3>
+    <p class="term__def">Ciudad sajona donde Lutero enseñaba Escritura cuando clavó las 95 tesis en la puerta de la iglesia del castillo el 31 de octubre de 1517. Epicentro simbólico del inicio de la Reforma y de la consolidación de la teología luterana clásica (Melanchthon).</p>
+    <div class="term__refs">
+      <div class="term__refs-block">
+        <span class="term__refs-label">Relacionados</span>
+        <a class="term__ref" href="#term-lutero">Martín Lutero (1483–1546)</a>
+      </div>
+      <div class="term__refs-block">
+        <span class="term__refs-label">En cursos</span>
+        <a class="term__ref term__ref--course" href="#/reforma-protestante">La Reforma Protestante</a>
+      </div>
+    </div>
+  </article>
+      </div>
+
+      <a class="letter__top" href="#glossary-top" aria-label="Volver al inicio del glosario">
+        <svg width="0.75rem" height="0.75rem" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 13 L8 3 M3 8 L 8 3 L 13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al índice
+      </a>
+    </section>
+
+  </div>
+
+
+  <!-- ====================================================================
+       CIERRE
+       ================================================================= -->
+  <section class="closing container">
+    <div class="closing__symbol" aria-hidden="true">A · M · Ω</div>
+    <p class="closing__text">
+      «Yo soy el Alfa y la Omega, principio y fin, dice el Señor: el que es y
+      que era y que ha de venir, el Todopoderoso».
+    </p>
+    <p style="margin-block-start:var(--space-xs); font-size:var(--text-xs); letter-spacing:var(--tracking-widest); text-transform:uppercase; color:var(--text-faint);">
+      Apocalipsis 1:8
+    </p>
+  </section>
+
+</div>

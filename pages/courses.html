@@ -1,0 +1,1084 @@
+<!-- ============================================================================
+     VERBUM MANET ACADEMY · pages/courses.html
+     Fragmento parcial · inyectado en #main-content por CourseLoader.
+     Sin etiquetas de documento raíz, metadatos ni scripts.
+
+     Nota arquitectónica: el contenido de este fragmento está pre-renderizado
+     a partir de COURSES_INDEX y SEGMENTS (en data/courses-index.js). No se
+     consume el índice en runtime dentro del fragmento; la coherencia con el
+     índice la garantiza el autor. Esta decisión prioriza robustez (el catálogo
+     renderiza incluso con JS fallando) sobre DRY (evitar duplicación). Si el
+     índice cambia, este fragmento debe regenerarse en sincronía.
+     ========================================================================= -->
+
+<style>
+  /* ----------------------------------------------------------------------
+   *  Estilos de página · prefijo .page-courses
+   * ------------------------------------------------------------------- */
+
+  .page-courses {
+    --course-card-gap: var(--space-md);
+  }
+
+  /* ---------- HERO · cabecera editorial ------------------------------ */
+
+  .page-courses .hero {
+    padding-block: var(--space-lg) var(--space-xl);
+  }
+
+  .page-courses .hero__eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-accent);
+    margin-block-end: var(--space-sm);
+    max-width: none;
+  }
+
+  .page-courses .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 1.6rem + 2.8vw, 4rem);
+    font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    color: var(--text-heading);
+    margin-block-end: var(--space-md);
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+
+  .page-courses .hero__title em {
+    font-style: italic;
+    color: var(--text-accent);
+  }
+
+  .page-courses .hero__lead {
+    font-family: var(--font-body);
+    font-size: var(--text-lead);
+    line-height: var(--leading-loose);
+    color: var(--text-secondary);
+    max-width: 44rem;
+  }
+
+  .page-courses .hero__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+    margin-block-start: var(--space-lg);
+    padding-block: var(--space-md);
+    border-block: 1px solid var(--border);
+  }
+
+  .page-courses .hero__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .page-courses .hero__stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 1.3rem + 1.3vw, 2.25rem);
+    line-height: 1;
+    color: var(--text-heading);
+    font-feature-settings: "lnum" 1, "tnum" 1;
+  }
+
+  .page-courses .hero__stat-label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    max-width: none;
+  }
+
+  /* ---------- SEGMENT · cabecera editorial grande -------------------- */
+
+  .page-courses .segment {
+    padding-block: var(--space-xl);
+    border-block-start: 1px solid var(--border);
+  }
+
+  .page-courses .segment__header {
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+    column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+    align-items: start;
+    margin-block-end: var(--space-xl);
+  }
+
+  .page-courses .segment__numeral {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 2.5rem + 5vw, 7rem);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    font-feature-settings: "lnum" 1;
+    margin-block-start: -0.2rem;
+  }
+
+  .page-courses .segment__kicker {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    max-width: none;
+  }
+
+  .page-courses .segment__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 1.3rem + 1.7vw, 2.75rem);
+    font-weight: 400;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-heading);
+    margin-block: 0.25rem;
+    max-width: none;
+  }
+
+  .page-courses .segment__subtitle {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-lead);
+    color: var(--text-secondary);
+    max-width: none;
+    margin-block-end: var(--space-sm);
+  }
+
+  .page-courses .segment__desc {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: var(--leading-loose);
+    max-width: 46rem;
+  }
+
+  /* ---------- COURSES GRID · dos columnas editoriales ---------------- */
+
+  .page-courses .courses-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--course-card-gap);
+  }
+
+  @media (min-width: 880px) {
+    .page-courses .courses-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* ---------- COURSE CARD · tipográfica, sin left-border de color ---- */
+
+  .page-courses .course {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
+  }
+
+  .page-courses .course:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .page-courses .course:hover .course__title {
+    color: var(--text-accent);
+  }
+
+  /* Top row: número + flagship mark */
+  .page-courses .course__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-sm);
+  }
+
+  .page-courses .course__num {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    line-height: 1;
+    color: var(--accent);
+    font-feature-settings: "lnum" 1, "tnum" 1;
+    letter-spacing: -0.015em;
+  }
+
+  .page-courses .course__flagship {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-accent);
+  }
+
+  .page-courses .course__flagship-mark {
+    width: 0.7rem;
+    height: 0.7rem;
+  }
+
+  .page-courses .course__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    font-weight: 400;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-heading);
+    max-width: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .page-courses .course__desc {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--text-secondary);
+    max-width: none;
+  }
+
+  /* Tags · inline pills */
+  .page-courses .course__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .page-courses .course__tag {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: var(--tracking-wide);
+    padding: 0.12rem 0.5rem;
+    color: var(--text-faint);
+    background-color: transparent;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+  }
+
+  /* Footer meta · nivel · duración · lecciones */
+  .page-courses .course__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+    padding-block-start: var(--space-sm);
+    border-block-start: 1px solid var(--border-subtle);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    max-width: none;
+  }
+
+  .page-courses .course__level {
+    color: var(--text-accent);
+    font-weight: 500;
+  }
+
+  .page-courses .course__meta span:not(:first-child)::before {
+    content: "·";
+    display: inline-block;
+    margin-inline-end: 0.65rem;
+    color: var(--accent);
+    font-weight: normal;
+  }
+
+  /* Arrow indicator · discreto, aparece en hover */
+  .page-courses .course__arrow {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    width: 1rem;
+    height: 1rem;
+    color: var(--text-faint);
+    opacity: 0;
+    transform: translate(-4px, 0);
+    transition:
+      opacity var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+    pointer-events: none;
+  }
+
+  .page-courses .course:hover .course__arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+    color: var(--accent);
+  }
+
+  /* Cuando hay flagship, el arrow se reubica para no solapar */
+  .page-courses .course:has(.course__flagship) .course__arrow {
+    top: calc(var(--space-md) + 2.5rem);
+  }
+
+  /* ---------- CIERRE ------------------------------------------------- */
+
+  .page-courses .closing {
+    margin-block-start: var(--space-xl);
+    padding-block: var(--space-xl);
+    text-align: center;
+    border-block: 1px solid var(--border);
+  }
+
+  .page-courses .closing__symbol {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.25rem);
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    margin-block-end: var(--space-sm);
+  }
+
+  .page-courses .closing__text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-lead);
+    color: var(--text-heading);
+    max-width: 42rem;
+    margin-inline: auto;
+    line-height: var(--leading-snug);
+  }
+</style>
+
+
+<!-- ============================================================================
+     ESTRUCTURA DEL CATÁLOGO
+     ========================================================================= -->
+<div class="page-courses">
+
+  <!-- ========================================================================
+       HERO · cabecera editorial del catálogo
+       ===================================================================== -->
+  <section class="hero container" aria-labelledby="courses-title">
+    <p class="hero__eyebrow">Catálogo completo</p>
+
+    <h1 id="courses-title" class="hero__title">
+      Veinte cursos para un plan de <em>cinco siglos</em>
+    </h1>
+
+    <p class="hero__lead">
+      Cada curso del plan se detalla a continuación con su descripción académica,
+      sus descriptores temáticos, el nivel sugerido y la duración prevista para
+      un autoestudio serio. Dos de los cursos se destacan como obras ancla por su
+      extensión y centralidad doctrinal: el de la Reforma Protestante, pivote
+      histórico; y el de Cristología y Soteriología, pivote doctrinal.
+    </p>
+
+    <div class="hero__stats" role="list" aria-label="Estadísticas del plan">
+      <div class="hero__stat" role="listitem">
+        <span class="hero__stat-value">20</span>
+        <span class="hero__stat-label">Cursos</span>
+      </div>
+      <div class="hero__stat" role="listitem">
+        <span class="hero__stat-value">135</span>
+        <span class="hero__stat-label">Lecciones</span>
+      </div>
+      <div class="hero__stat" role="listitem">
+        <span class="hero__stat-value">4</span>
+        <span class="hero__stat-label">Segmentos</span>
+      </div>
+      <div class="hero__stat" role="listitem">
+        <span class="hero__stat-value">2</span>
+        <span class="hero__stat-label">Obras ancla</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       SEGMENTO I · Fundamentos y Herramientas · 5 cursos
+       ===================================================================== -->
+  <section class="segment container" aria-labelledby="segment-1-title">
+
+    <header class="segment__header">
+      <span class="segment__numeral" aria-hidden="true">I</span>
+      <div>
+        <p class="segment__kicker">Segmento I · Prolegómena · 5 cursos</p>
+        <h2 id="segment-1-title" class="segment__title">Fundamentos y Herramientas</h2>
+        <p class="segment__subtitle">El umbral del plan</p>
+        <p class="segment__desc">
+          Asienta el método teológico reformado, la hermenéutica bíblica, el
+          panorama canónico de ambos Testamentos y la piedad que sustenta toda
+          labor académica ulterior.
+        </p>
+      </div>
+    </header>
+
+    <div class="courses-grid">
+
+      <a class="course" href="#/introduccion-teologia-reformada">
+        <div class="course__top">
+          <span class="course__num">01</span>
+        </div>
+        <h3 class="course__title">Introducción a la Teología Reformada</h3>
+        <p class="course__desc">
+          Naturaleza, método e identidad histórica de la teología reformada.
+          Bases epistemológicas, doxológicas y confesionales del plan completo:
+          las cinco Solas, los cinco puntos del calvinismo, la función de las
+          confesiones como síntesis confesional de la Escritura.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Solas</li>
+          <li class="course__tag">TULIP</li>
+          <li class="course__tag">Confesiones</li>
+          <li class="course__tag">Método teológico</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Fundacional</span>
+          <span>6–8 semanas</span>
+          <span>10 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/hermeneutica-biblica">
+        <div class="course__top">
+          <span class="course__num">02</span>
+        </div>
+        <h3 class="course__title">Hermenéutica Bíblica</h3>
+        <p class="course__desc">
+          Principios y métodos para la correcta interpretación de las Escrituras,
+          con énfasis en el método histórico-gramatical-canónico. Perspicuidad,
+          iluminación del Espíritu, géneros literarios y tipología cristológica.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Método histórico-gramatical</li>
+          <li class="course__tag">Perspicuidad</li>
+          <li class="course__tag">Géneros literarios</li>
+          <li class="course__tag">Tipología</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Fundacional</span>
+          <span>6–8 semanas</span>
+          <span>11 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/introduccion-antiguo-testamento">
+        <div class="course__top">
+          <span class="course__num">03</span>
+        </div>
+        <h3 class="course__title">Introducción al Antiguo Testamento</h3>
+        <p class="course__desc">
+          Panorama canónico, histórico, literario y teológico del Antiguo
+          Testamento como primera parte de la revelación progresiva de Dios,
+          unificada en Cristo. Pentateuco, históricos, poesía y sabiduría,
+          profetas mayores y menores.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Pentateuco</li>
+          <li class="course__tag">Profetas</li>
+          <li class="course__tag">Salmos</li>
+          <li class="course__tag">Canon</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Fundacional</span>
+          <span>6–8 semanas</span>
+          <span>10 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/introduccion-nuevo-testamento">
+        <div class="course__top">
+          <span class="course__num">04</span>
+        </div>
+        <h3 class="course__title">Introducción al Nuevo Testamento</h3>
+        <p class="course__desc">
+          Panorama canónico, histórico, literario y teológico del Nuevo
+          Testamento como cumplimiento y consumación de la revelación
+          veterotestamentaria en la persona y obra de Jesucristo. Evangelios,
+          Hechos, Epístolas, Apocalipsis.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Evangelios</li>
+          <li class="course__tag">Epístolas paulinas</li>
+          <li class="course__tag">Hebreos</li>
+          <li class="course__tag">Apocalipsis</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Fundacional</span>
+          <span>6–8 semanas</span>
+          <span>10 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/formacion-espiritual-piedad-reformada">
+        <div class="course__top">
+          <span class="course__num">05</span>
+        </div>
+        <h3 class="course__title">Formación Espiritual y Piedad Reformada</h3>
+        <p class="course__desc">
+          Examina las disciplinas espirituales, la comunión con Dios, la
+          adoración y la formación del carácter a la luz de la cosmovisión
+          reformada. Oración, meditación bíblica, Día del Señor, vida en la
+          iglesia local.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Disciplinas espirituales</li>
+          <li class="course__tag">Oración</li>
+          <li class="course__tag">Puritanismo</li>
+          <li class="course__tag">Medios de gracia</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Fundacional</span>
+          <span>6–8 semanas</span>
+          <span>6 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       SEGMENTO II · Historia de la Iglesia · 4 cursos
+       ===================================================================== -->
+  <section class="segment container" aria-labelledby="segment-2-title">
+
+    <header class="segment__header">
+      <span class="segment__numeral" aria-hidden="true">II</span>
+      <div>
+        <p class="segment__kicker">Segmento II · Dos mil años bajo la providencia · 4 cursos</p>
+        <h2 id="segment-2-title" class="segment__title">Historia de la Iglesia</h2>
+        <p class="segment__subtitle">De Pentecostés al presente</p>
+        <p class="segment__desc">
+          Recorrido desde Pentecostés hasta el presente siguiendo las
+          controversias trinitarias y cristológicas, el despliegue medieval, la
+          Reforma del siglo XVI y el itinerario moderno del protestantismo
+          confesional.
+        </p>
+      </div>
+    </header>
+
+    <div class="courses-grid">
+
+      <a class="course" href="#/historia-iglesia-antigua">
+        <div class="course__top">
+          <span class="course__num">06</span>
+        </div>
+        <h3 class="course__title">Historia de la Iglesia Antigua</h3>
+        <p class="course__desc">
+          Desde Pentecostés (30 d.C.) hasta Gregorio I (590 d.C.). Expansión
+          de la iglesia primitiva, persecuciones romanas, controversias
+          trinitarias y cristológicas, los concilios ecuménicos, Agustín y
+          la doctrina de la gracia.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Padres apostólicos</li>
+          <li class="course__tag">Concilios</li>
+          <li class="course__tag">Nicea</li>
+          <li class="course__tag">Agustín</li>
+          <li class="course__tag">Calcedonia</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Intermedio</span>
+          <span>6–8 semanas</span>
+          <span>10 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/historia-iglesia-medieval">
+        <div class="course__top">
+          <span class="course__num">07</span>
+        </div>
+        <h3 class="course__title">Historia de la Iglesia Medieval</h3>
+        <p class="course__desc">
+          De Gregorio I (590) a las puertas de Wittenberg (1517). Consolidación
+          papal, escolasticismo y Aquino, Cruzadas, pre-reformadores
+          (Wycliffe, Hus), humanismo renacentista y las semillas intelectuales
+          de la Reforma.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Escolasticismo</li>
+          <li class="course__tag">Aquino</li>
+          <li class="course__tag">Cruzadas</li>
+          <li class="course__tag">Pre-reformadores</li>
+          <li class="course__tag">Humanismo</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Intermedio</span>
+          <span>6–8 semanas</span>
+          <span>7 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/reforma-protestante">
+        <div class="course__top">
+          <span class="course__num">08</span>
+          <span class="course__flagship" aria-label="Obra ancla del plan">
+            <svg class="course__flagship-mark" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M6 1 L 7.4 4.4 L 11 4.8 L 8.3 7.2 L 9.1 10.8 L 6 9 L 2.9 10.8 L 3.7 7.2 L 1 4.8 L 4.6 4.4 Z"
+                    fill="currentColor"/>
+            </svg>
+            Obra ancla
+          </span>
+        </div>
+        <h3 class="course__title">La Reforma Protestante</h3>
+        <p class="course__desc">
+          El siglo de la Reforma (1517–1600): Lutero y la crisis de la
+          justificación, Zwinglio en Zúrich, Calvino en Ginebra y la
+          Institución, Knox y Escocia, el Sínodo de Dort, la Asamblea de
+          Westminster, la contrarreforma tridentina.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Lutero</li>
+          <li class="course__tag">Calvino</li>
+          <li class="course__tag">Zwinglio</li>
+          <li class="course__tag">Dort</li>
+          <li class="course__tag">Westminster</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Intermedio</span>
+          <span>6–8 semanas</span>
+          <span>10 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/historia-iglesia-moderna">
+        <div class="course__top">
+          <span class="course__num">09</span>
+        </div>
+        <h3 class="course__title">Historia de la Iglesia Moderna</h3>
+        <p class="course__desc">
+          De 1600 al presente: puritanismo inglés, pietismo continental, los
+          Avivamientos, la crisis del liberalismo teológico, la respuesta de
+          Princeton (Hodge, Warfield, Machen), neo-ortodoxia, el siglo XX y
+          los movimientos contemporáneos del calvinismo reformado.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Puritanismo</li>
+          <li class="course__tag">Avivamientos</li>
+          <li class="course__tag">Liberalismo</li>
+          <li class="course__tag">Princeton</li>
+          <li class="course__tag">Siglo XX</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Intermedio</span>
+          <span>6–8 semanas</span>
+          <span>9 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       SEGMENTO III · Teología Sistemática · 6 cursos
+       ===================================================================== -->
+  <section class="segment container" aria-labelledby="segment-3-title">
+
+    <header class="segment__header">
+      <span class="segment__numeral" aria-hidden="true">III</span>
+      <div>
+        <p class="segment__kicker">Segmento III · Locus por locus · 6 cursos</p>
+        <h2 id="segment-3-title" class="segment__title">Teología Sistemática</h2>
+        <p class="segment__subtitle">El corpus doctrinal reformado</p>
+        <p class="segment__desc">
+          El corpus doctrinal reformado articulado por loci: Escritura, Dios,
+          antropología y pecado, Cristo y salvación, Iglesia y sacramentos,
+          consumación. El núcleo extenso del plan.
+        </p>
+      </div>
+    </header>
+
+    <div class="courses-grid">
+
+      <a class="course" href="#/bibliologia">
+        <div class="course__top">
+          <span class="course__num">10</span>
+        </div>
+        <h3 class="course__title">Bibliología · Doctrina de la Escritura</h3>
+        <p class="course__desc">
+          Estudio exhaustivo de la naturaleza, origen, autoridad y propiedades
+          de la Sagrada Escritura como Palabra de Dios escrita. Revelación
+          general y especial, inspiración verbal plenaria, inerrancia, canon
+          y suficiencia.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Inspiración</li>
+          <li class="course__tag">Inerrancia</li>
+          <li class="course__tag">Canon</li>
+          <li class="course__tag">Sola Scriptura</li>
+          <li class="course__tag">Revelación</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Avanzado</span>
+          <span>8–10 semanas</span>
+          <span>4 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/teologia-propia">
+        <div class="course__top">
+          <span class="course__num">11</span>
+        </div>
+        <h3 class="course__title">Teología Propia · Doctrina de Dios</h3>
+        <p class="course__desc">
+          Los nombres divinos, los atributos comunicables e incomunicables, el
+          misterio de la Trinidad (generación eterna, procesión, Credo
+          Atanasiano), los decretos divinos, predestinación y el debate
+          supra/infralapsario.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Trinidad</li>
+          <li class="course__tag">Atributos divinos</li>
+          <li class="course__tag">Decretos</li>
+          <li class="course__tag">Predestinación</li>
+          <li class="course__tag">Aseidad</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Avanzado</span>
+          <span>8–10 semanas</span>
+          <span>4 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/antropologia-hamartologia">
+        <div class="course__top">
+          <span class="course__num">12</span>
+        </div>
+        <h3 class="course__title">Antropología, Pacto de Obras y Hamartología</h3>
+        <p class="course__desc">
+          El ser humano como Imago Dei, el Pacto de Obras como clave federal,
+          la Caída y el pecado original, depravación total y esclavitud de la
+          voluntad (Erasmo–Lutero, De Servo Arbitrio). Los cuatro estados del
+          hombre.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Imago Dei</li>
+          <li class="course__tag">Pacto de Obras</li>
+          <li class="course__tag">Depravación</li>
+          <li class="course__tag">Teología federal</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Avanzado</span>
+          <span>8–10 semanas</span>
+          <span>4 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/cristologia-soteriologia">
+        <div class="course__top">
+          <span class="course__num">13</span>
+          <span class="course__flagship" aria-label="Obra ancla del plan">
+            <svg class="course__flagship-mark" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M6 1 L 7.4 4.4 L 11 4.8 L 8.3 7.2 L 9.1 10.8 L 6 9 L 2.9 10.8 L 3.7 7.2 L 1 4.8 L 4.6 4.4 Z"
+                    fill="currentColor"/>
+            </svg>
+            Obra ancla
+          </span>
+        </div>
+        <h3 class="course__title">Cristología y Soteriología</h3>
+        <p class="course__desc">
+          El curso ancla del plan. La persona de Cristo (Calcedonia, dos
+          naturalezas), los estados de humillación y exaltación, los tres
+          oficios, la obra expiatoria (satisfacción, propiciación, redención),
+          expiación particular, y el ordo salutis completo: elección, llamado,
+          fe, justificación, adopción, santificación, glorificación.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Calcedonia</li>
+          <li class="course__tag">Expiación</li>
+          <li class="course__tag">Justificación</li>
+          <li class="course__tag">Ordo salutis</li>
+          <li class="course__tag">Pacto de Gracia</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Cima</span>
+          <span>10–12 semanas</span>
+          <span>10 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/eclesiologia-sacramentologia">
+        <div class="course__top">
+          <span class="course__num">14</span>
+        </div>
+        <h3 class="course__title">Eclesiología y Sacramentología</h3>
+        <p class="course__desc">
+          La naturaleza de la Iglesia (visible e invisible), las tres marcas
+          reformadas, el gobierno presbiteriano, la disciplina eclesiástica;
+          los dos sacramentos del Nuevo Pacto: bautismo (paedo vs. credo) y
+          Cena del Señor (las cuatro posiciones).
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Marcas de la iglesia</li>
+          <li class="course__tag">Presbiterianismo</li>
+          <li class="course__tag">Bautismo</li>
+          <li class="course__tag">Cena del Señor</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Avanzado</span>
+          <span>8–10 semanas</span>
+          <span>6 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/escatologia">
+        <div class="course__top">
+          <span class="course__num">15</span>
+        </div>
+        <h3 class="course__title">Escatología</h3>
+        <p class="course__desc">
+          La doctrina de las últimas cosas: muerte y estado intermedio,
+          resurrección corporal, retorno de Cristo, juicio final, cielo e
+          infierno; las cuatro posiciones milenarias y la defensa del
+          amilenarismo reformado. La Nueva Creación consumada.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Estado intermedio</li>
+          <li class="course__tag">Resurrección</li>
+          <li class="course__tag">Milenio</li>
+          <li class="course__tag">Amilenarismo</li>
+          <li class="course__tag">Nueva creación</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Avanzado</span>
+          <span>8–10 semanas</span>
+          <span>4 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       SEGMENTO IV · Teología Aplicada · 5 cursos
+       ===================================================================== -->
+  <section class="segment container" aria-labelledby="segment-4-title">
+
+    <header class="segment__header">
+      <span class="segment__numeral" aria-hidden="true">IV</span>
+      <div>
+        <p class="segment__kicker">Segmento IV · Ciencia, vida y misión · 5 cursos</p>
+        <h2 id="segment-4-title" class="segment__title">Teología Aplicada</h2>
+        <p class="segment__subtitle">La teología que vuelve al mundo</p>
+        <p class="segment__desc">
+          El giro práctico: defensa racional de la fe, ética bíblica, historia
+          redentora, arquitectura pactual y misión de la Iglesia. La teología
+          que vuelve al mundo desde el aula.
+        </p>
+      </div>
+    </header>
+
+    <div class="courses-grid">
+
+      <a class="course" href="#/apologetica-reformada">
+        <div class="course__top">
+          <span class="course__num">16</span>
+        </div>
+        <h3 class="course__title">Apologética Reformada</h3>
+        <p class="course__desc">
+          La defensa racional de la fe desde la presuposición de la revelación
+          divina. Método presuposicional de Cornelius Van Til, el argumento
+          trascendental, el problema del mal, respuesta al nuevo ateísmo, al
+          relativismo y al Islam.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Presuposicionalismo</li>
+          <li class="course__tag">Van Til</li>
+          <li class="course__tag">Problema del mal</li>
+          <li class="course__tag">Cosmovisiones</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Avanzado</span>
+          <span>4–6 semanas</span>
+          <span>8 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/etica-biblica-reformada">
+        <div class="course__top">
+          <span class="course__num">17</span>
+        </div>
+        <h3 class="course__title">Ética Bíblica Reformada</h3>
+        <p class="course__desc">
+          La ley y el evangelio en la ética reformada, el triple uso de la ley,
+          los Diez Mandamientos como estructura ética (Heidelberg), casos
+          éticos contemporáneos: bioética, sexualidad, matrimonio, trabajo
+          como vocación (Beruf).
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Triple uso de la ley</li>
+          <li class="course__tag">Decálogo</li>
+          <li class="course__tag">Bioética</li>
+          <li class="course__tag">Vocación</li>
+          <li class="course__tag">Matrimonio</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Avanzado</span>
+          <span>4–6 semanas</span>
+          <span>3 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/teologia-biblica">
+        <div class="course__top">
+          <span class="course__num">18</span>
+        </div>
+        <h3 class="course__title">Teología Bíblica</h3>
+        <p class="course__desc">
+          La historia progresiva de la redención desde la creación hasta la
+          nueva creación, siguiendo el método histórico-redentor de Geerhardus
+          Vos. Unidad de los Testamentos a través de la tipología cristológica
+          y la promesa cumplida.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Vos</li>
+          <li class="course__tag">Historia redentora</li>
+          <li class="course__tag">Tipología</li>
+          <li class="course__tag">Unidad bíblica</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Avanzado</span>
+          <span>4–6 semanas</span>
+          <span>3 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/teologia-del-pacto">
+        <div class="course__top">
+          <span class="course__num">19</span>
+        </div>
+        <h3 class="course__title">Teología del Pacto</h3>
+        <p class="course__desc">
+          La arquitectura pactual de la historia redentora: Pacto de Redención
+          intratrinitario, Pacto Noético, Abrahámico, Mosaico, Davídico y
+          Nuevo Pacto. Continuidad y discontinuidad entre los Testamentos
+          desde la teología federal reformada.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Pactum salutis</li>
+          <li class="course__tag">Pacto Abrahámico</li>
+          <li class="course__tag">Nuevo Pacto</li>
+          <li class="course__tag">Teología federal</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Avanzado</span>
+          <span>4–6 semanas</span>
+          <span>3 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a class="course" href="#/misiones-evangelismo-local">
+        <div class="course__top">
+          <span class="course__num">20</span>
+        </div>
+        <h3 class="course__title">Misiones y Evangelismo Local</h3>
+        <p class="course__desc">
+          La Missio Dei y la misión como propósito de Dios (Gn 12 → Ap 7). La
+          compatibilidad de la soberanía divina con el celo evangelístico, la
+          iglesia local como columna y fundamento de la verdad,
+          contextualización sin sincretismo en el contexto latinoamericano.
+        </p>
+        <ul class="course__tags" role="list">
+          <li class="course__tag">Missio Dei</li>
+          <li class="course__tag">Evangelismo</li>
+          <li class="course__tag">Iglesia local</li>
+          <li class="course__tag">Contextualización</li>
+        </ul>
+        <div class="course__meta">
+          <span class="course__level">Avanzado</span>
+          <span>4–6 semanas</span>
+          <span>4 lecciones</span>
+        </div>
+        <svg class="course__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12 h14 M13 6 l6 6 l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       CIERRE
+       ===================================================================== -->
+  <section class="closing container">
+    <div class="closing__symbol" aria-hidden="true">I · II · III · IV</div>
+    <p class="closing__text">
+      «Hasta que todos lleguemos a la unidad de la fe y del conocimiento del
+      Hijo de Dios, a un varón perfecto, a la medida de la estatura de la
+      plenitud de Cristo».
+    </p>
+    <p style="margin-block-start:var(--space-xs); font-size:var(--text-xs); letter-spacing:var(--tracking-widest); text-transform:uppercase; color:var(--text-faint);">
+      Efesios 4:13
+    </p>
+  </section>
+
+</div>

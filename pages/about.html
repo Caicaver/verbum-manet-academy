@@ -1,0 +1,298 @@
+<!-- ============================================================================
+   VERBUM MANET ACADEMY · pages/about.html · v5 · Paso 7
+   ----------------------------------------------------------------------------
+   Fragmento HTML inyectado por js/courseLoader.js en <main id="main-content">.
+   NO contiene <html>, <head>, <body> ni <script>.
+   Consume tokens y clases de css/styles.css (Partes A + B).
+
+   Estructura editorial · resuelve la carencia v5.H
+   ("About vacío a la derecha en pantallas grandes"):
+     §1  Header full-width  · eyebrow + h1 + lead
+     §2  Composición de dos columnas (.about-grid · 3fr 2fr en desktop):
+           · Columna principal · prosa editorial estructurada en seis
+             secciones temáticas, con ol de lower-roman, blockquote y
+             cita bíblica inline
+           · Columna sello · .about-seal sticky con numeral, motto, tag
+             y SDG · llena visualmente el espacio derecho
+
+   Nota sobre la reutilización de clases:
+     .panel-page__header / __eyebrow / __title / __lead son utilitarios
+     de header de página (no específicos del Panel de Estudio). Aquí se
+     emplean para no duplicar CSS de cabecera editorial.
+   ============================================================================ -->
+
+
+<section class="about-page" aria-labelledby="about-title">
+  <div class="container">
+
+
+    <!-- ===================================================================
+         §1 · HEADER FULL-WIDTH
+         =================================================================== -->
+    <header class="panel-page__header" style="max-width: 56rem;">
+      <p class="panel-page__eyebrow">Acerca de</p>
+      <h1 id="about-title" class="panel-page__title">
+        Una academia reformada, <em style="font-style: italic; color: var(--color-accent);">libre</em> y confesional.
+      </h1>
+      <p class="panel-page__lead">
+        Verbum Manet Academy nace de una convicción simple: la formación 
+        teológica sin barreras: veinte cursos de teología reformada, 
+        ciento treinta y cinco lecciones y un glosario académico abierto 
+        a quien quiera entrar. La Iglesia de habla hispana merece acceso 
+        pleno a los recursos que hicieron florecer la piedad puritana, 
+        la ortodoxia de Westminster y la recuperación del siglo XX que 
+        produjeron Warfield, Machen, Vos y Van Til.
+        La plataforma se construye sobre un compromiso doble: rigor 
+        académico de nivel y fidelidad confesional sin ambigüedad.                  
+        Las lecciones no se simplifican hasta el devocional ligero 
+        ni se inflan con jerga tecnocrática: buscan el tono de un seminario         
+        que también sabe orar.
+      </p>
+    </header>
+
+
+    <!-- ===================================================================
+         §2 · COMPOSICIÓN EDITORIAL DE DOS COLUMNAS
+         =================================================================== -->
+    <div class="about-grid">
+
+
+      <!-- ----------------------------------------------------------------
+           §2.1 · COLUMNA PRINCIPAL · prosa editorial
+           ---------------------------------------------------------------- -->
+      <article class="prose about-main">
+
+        <!-- § La misión ------------------------------------------------- -->
+        <section aria-labelledby="about-mission">
+          <h2 id="about-mission">La misión</h2>
+
+          <p>
+            La academia nace de una convicción: el conocimiento riguroso de
+            la fe no debería tener barreras económicas, geográficas ni
+            institucionales. Demasiados creyentes hispanohablantes encuentran
+            que la teología bíblica de calidad pertenece a otro idioma, otra
+            ciudad y otro presupuesto. Verbum Manet existe para cerrar esa
+            brecha.
+          </p>
+
+          <p>
+            La academia no reemplaza a la iglesia local ni al seminario
+            presencial. Los precede: prepara la mente para escuchar mejor
+            la predicación, leer mejor las Escrituras y orar con mayor
+            claridad doctrinal. El estudio aquí es preparación, no
+            sustitución.
+          </p>
+
+          <p>
+            Todo el contenido es gratuito y siempre lo será. Sin inscripción,
+            sin pago, sin <em>paywall</em>.
+          </p>
+        </section>
+
+
+        <!-- § Una pedagogía heredada ------------------------------------ -->
+        <section aria-labelledby="about-pedagogy">
+          <h2 id="about-pedagogy">Una pedagogía heredada</h2>
+
+          <p>
+            El método pedagógico no es un experimento. Hereda directamente
+            la mejor tradición confesional reformada: el rigor exegético de
+            Princeton, la claridad catequética de Heidelberg, la profundidad
+            pastoral de Westminster y la elegancia narrativa de Calvino.
+            Cada curso está pensado como una conversación dirigida con
+            maestros antiguos.
+          </p>
+
+          <p>
+            La academia confía en la palabra, no en el espectáculo. Aquí no
+            hay vídeo con música, ni gamificación con insignias coloridas.
+            Hay texto, atribuciones, fuentes verificables, glosario
+            académico y un panel de estudio sereno. La estética sirve al
+            contenido, no al revés.
+          </p>
+        </section>
+
+
+        <!-- § Cuatro convicciones --------------------------------------- -->
+        <section aria-labelledby="about-creed">
+          <h2 id="about-creed">Cuatro convicciones que nos preceden</h2>
+
+          <p>
+            Las opciones editoriales que sostienen esta academia no son
+            originales. Las recibimos:
+          </p>
+
+          <ol>
+            <li>
+              <strong>Sola Scriptura como suelo.</strong>
+              La Escritura es la regla suprema y autosuficiente de fe y
+              conducta. Ninguna tradición, magisterio ni experiencia
+              espiritual se le impone.
+            </li>
+            <li>
+              <strong>La confesión histórica como guía.</strong>
+              Los símbolos de Westminster, Dort y Heidelberg son recibidos
+              no como un añadido a la Biblia, sino como síntesis fiel de
+              su enseñanza.
+            </li>
+            <li>
+              <strong>El acceso libre como justicia.</strong>
+              La verdad doctrinal es bien común de la Iglesia; encerrarla
+              tras un muro de pago traiciona su naturaleza.
+            </li>
+            <li>
+              <strong>La excelencia académica como adoración.</strong>
+              Pensar bien sobre Dios es un acto litúrgico. El rigor
+              intelectual es ofrenda.
+            </li>
+          </ol>
+        </section>
+
+
+        <!-- § El método de cada curso ----------------------------------- -->
+        <section aria-labelledby="about-method">
+          <h2 id="about-method">El método de cada curso</h2>
+
+          <p>
+            Cada uno de los veinte cursos se recorre con el mismo patrón en
+            cuatro pasos: leer la Escritura en su contexto, comprender la
+            doctrina con los recursos clásicos, confesar la verdad recibida
+            con la Iglesia universal y vivir lo aprendido en la familia, el
+            trabajo y la iglesia local. La explicación detallada de este
+            camino vive en <a href="#/" data-nav>la página de inicio</a>.
+          </p>
+
+          <p>
+            El currículo está dividido en cuatro segmentos: Fundamentos y
+            herramientas (I), Historia de la Iglesia (II), Teología
+            Sistemática (III) y Teología Aplicada (IV). Cinco, cuatro, seis
+            y cinco cursos respectivamente. Quien empieza por el principio
+            llega, tras dos o tres años de lectura constante, a una base
+            equivalente a la de un programa de máster en teología
+            sistemática.
+          </p>
+        </section>
+
+
+        <!-- § Cita bíblica central -------------------------------------- -->
+        <blockquote>
+          La hierba se seca, la flor se marchita; mas la palabra de nuestro
+          Dios permanece para siempre.
+          <cite>Isaías 40:8</cite>
+        </blockquote>
+
+
+        <!-- § Coordinador editorial ------------------------------------- -->
+        <section aria-labelledby="about-editor">
+          <h2 id="about-editor">Coordinador editorial y arquitectura web</h2>
+
+          <p>
+            Verbum Manet Academy nace como una obra unipersonal del 
+            Hno. Calet Cáceres Vergara, al servicio de la Iglesia de habla 
+            hispana: cada curso, cada glosario, cada línea de código ha sido
+            revisada, editada y respaldada por esa convicción.
+
+            Con formación en Administración y Educación, ha combinado el 
+            trabajo sistemático del planificador con la vocación del catequista. 
+            Con todo, no es el único autor: buena parte del contenido descansa 
+            sobre la herencia confesional reformada y sobre comentaristas, 
+            teólogos y fuentes verificables citadas en cada bibliografía.
+
+            Su rol, en concreto, es editorial y arquitectónico: selecciona 
+            las fuentes, organiza el currículo, redacta el material introductorio 
+            y mantiene viva la plataforma web — sin patrocinio institucional, 
+            sin equipo editorial remunerado y sin modelo de negocio. 
+            Es un ofrecimiento: teología reformada de nivel serio, en español, 
+            sin precio. Lo que aquí se enseña debe estar disponible con la misma 
+            libertad con la que se predica el evangelio — gratis accepistis, gratis date.
+          </p>
+
+          <p>
+            Cualquier observación, corrección de fuentes o conversación
+            sobre el contenido puede dirigirse a su cuenta de Instagram:
+            <a href="https://instagram.com/cicv.94"
+               target="_blank"
+               rel="noopener noreferrer">@cicv.94 <span aria-hidden="true">↗</span></a>.
+            El intercambio se valora y se cuida.
+          </p>
+        </section>
+
+
+        <!-- § Sobre el lema --------------------------------------------- -->
+        <section aria-labelledby="about-motto">
+          <h2 id="about-motto">Sobre el lema</h2>
+
+          <p>
+            <em>Verbum Manet</em> — «La Palabra permanece» — toma del
+            profeta Isaías una sola promesa
+            <span class="bible-ref">(Is 40:8)</span>. Es un acto de fe en la
+            durabilidad de lo que enseñamos. Los soportes técnicos cambian,
+            las plataformas mueren, los proyectos digitales caducan; pero
+            la Palabra que esta academia intenta servir no caduca.
+          </p>
+
+          <p>
+            Si algún día esta web desaparece, la Palabra que se enseñó en
+            ella seguirá viva en quienes la recibieron, en las iglesias
+            donde se predica y en la providencia que cuida su transmisión
+            a través de los siglos.
+          </p>
+
+          <p style="margin-top: var(--sp-lg);
+                    font-family: var(--font-display);
+                    font-style: italic;
+                    color: var(--color-accent);
+                    font-size: var(--text-md);">
+            Soli Deo Gloria.
+          </p>
+        </section>
+
+      </article>
+
+
+      <!-- ----------------------------------------------------------------
+           §2.2 · COLUMNA SELLO · sticky en desktop
+           Resuelve la carencia v5.H · llena visualmente el espacio derecho
+           con composición tipográfica densa pero sobria.
+           ---------------------------------------------------------------- -->
+      <aside class="about-seal"
+             aria-label="Sello editorial de Verbum Manet Academy">
+        <div class="about-seal__inner">
+
+          <!-- Numeral decorativo · inicial italic de "Verbum" -->
+          <p class="about-seal__numeral" aria-hidden="true">V</p>
+
+          <!-- Motto principal -->
+          <p class="about-seal__motto">Verbum Manet</p>
+
+          <!-- Traducción · taglines -->
+          <p class="about-seal__tag">La Palabra Permanece</p>
+
+          <!-- Filete sutil decorativo (no border antipatrón:
+               es un divisor central · 1px · neutro) -->
+          <span aria-hidden="true" style="
+            display: block;
+            width: 2.5rem;
+            height: 1px;
+            background-color: var(--color-accent);
+            margin: var(--sp-sm) auto;
+            opacity: 0.6;
+          "></span>
+
+          <!-- Atribución doxológica final -->
+          <p class="about-seal__sdg">Soli Deo Gloria</p>
+
+        </div>
+      </aside>
+
+
+    </div>
+
+
+  </div>
+</section>
+
+
+<!-- ============================================================================
+     FIN DE pages/about.html · Verbum Manet Academy · v5 · Paso 7
+     ============================================================================ -->

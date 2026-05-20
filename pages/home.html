@@ -1,0 +1,445 @@
+<!-- ============================================================================
+   VERBUM MANET ACADEMY · pages/home.html · v5 · Paso 3
+   ----------------------------------------------------------------------------
+   Fragmento HTML inyectado por js/courseLoader.js en <main id="main-content">.
+   NO contiene <html>, <head>, <body> ni <script>. Tampoco re-declara estilos.
+   Consume tokens y clases definidos en css/styles.css (Partes A + B).
+
+   Estructura editorial · seis bandas en orden narrativo:
+     §1  Hero editorial · grid asimétrico 7-5 · lede + sumario de IV segmentos
+     §2  Banda de citas alternantes · rotador con tres entradas (G)
+     §3  Cinco Solas · principio y fundamento · grid de cinco emblemas (B)
+     §4  ¿Por qué estudiar? · tres razones · numerales romanos (C)
+     §5  Metodología · stepper de cuatro pasos (D)
+     §6  Cierre · pliego doble navy/crema (G final)
+
+   Atributos data-nav en enlaces internos: el router (js/app.js) los emplea
+   para marcar .is-active. Los SVG decorativos se silencian con aria-hidden
+   sobre el wrapper .sola__icon; el contenido textual ya conduce a screen
+   readers la semántica de cada Sola.
+   ============================================================================ -->
+
+
+<!-- ===================================================================
+     §1 · HERO EDITORIAL
+     Layout 7-5 · rail tipográfico izquierda · sumario de IV segmentos
+     =================================================================== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container">
+    <div class="hero__grid">
+
+      <!-- Rail tipográfico izquierdo -->
+      <div class="hero__lede">
+        <p class="hero__eyebrow">Seminario reformado · Acceso libre</p>
+
+        <h1 id="hero-title" class="hero__title">
+          Una academia para la <em>Palabra</em> que permanece.
+        </h1>
+
+        <p class="hero__lead">
+          Veinte cursos de teología reformada en español. Ciento treinta y cinco
+          lecciones, glosario académico y biblioteca confesional. Sin costos,
+          sin inscripción, sin barreras.
+        </p>
+
+        <div class="hero__cta">
+          <div class="btn-group">
+            <a href="#/courses" class="btn btn--primary btn--lg" data-nav>
+              Explorar los cursos
+            </a>
+            <a href="#/about" class="btn btn--ghost btn--lg" data-nav>
+              Conocer la academia
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sumario derecho · cuatro segmentos del currículo -->
+      <aside class="hero__summary" aria-label="Cuatro segmentos del currículo">
+        <p class="hero__summary-label">Los cuatro segmentos del currículo</p>
+
+        <div class="hero__segments">
+
+          <div class="hero-segment">
+            <span class="hero-segment__num" aria-hidden="true">I</span>
+            <div class="hero-segment__body">
+              <p class="hero-segment__title">Fundamentos y herramientas</p>
+              <p class="hero-segment__meta">Cinco cursos · Prolegómena teológica</p>
+            </div>
+          </div>
+
+          <div class="hero-segment">
+            <span class="hero-segment__num" aria-hidden="true">II</span>
+            <div class="hero-segment__body">
+              <p class="hero-segment__title">Historia de la Iglesia</p>
+              <p class="hero-segment__meta">Cuatro cursos · De Pentecostés al presente</p>
+            </div>
+          </div>
+
+          <div class="hero-segment">
+            <span class="hero-segment__num" aria-hidden="true">III</span>
+            <div class="hero-segment__body">
+              <p class="hero-segment__title">Teología sistemática</p>
+              <p class="hero-segment__meta">Seis cursos · Loci doctrinales</p>
+            </div>
+          </div>
+
+          <div class="hero-segment">
+            <span class="hero-segment__num" aria-hidden="true">IV</span>
+            <div class="hero-segment__body">
+              <p class="hero-segment__title">Teología aplicada</p>
+              <p class="hero-segment__meta">Cinco cursos · Vida y ministerio</p>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     §2 · BANDA DE CITAS ALTERNANTES (G)
+     La primera entrada lleva .is-active; study-panel.js (Paso 5)
+     gestiona la rotación con fade+rise cada 8 s. prefers-reduced-motion
+     desactiva el ciclo y muestra las tres en pila estática.
+     =================================================================== -->
+<section class="quote-rotator" aria-label="Citas teológicas alternantes">
+  <div class="quote-rotator__inner">
+
+    <blockquote class="quote-item is-active">
+      <p class="quote-item__text">
+        La finalidad principal del hombre es glorificar a Dios y gozar de Él para siempre.
+      </p>
+      <cite class="quote-item__source">Catecismo Menor de Westminster · Pregunta 1</cite>
+    </blockquote>
+
+    <blockquote class="quote-item">
+      <p class="quote-item__text">
+        Porque de Él, por Él y para Él son todas las cosas. A Él sea la gloria para siempre.
+      </p>
+      <cite class="quote-item__source">Romanos 11:36 · Nueva Biblia de las Américas</cite>
+    </blockquote>
+
+    <blockquote class="quote-item">
+      <p class="quote-item__text">
+        El conocimiento de Dios y el conocimiento de nosotros mismos son cosas conexas.
+      </p>
+      <cite class="quote-item__source">Juan Calvino · Institución I.1.1</cite>
+    </blockquote>
+
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     §3 · PRINCIPIO Y FUNDAMENTO · CINCO SOLAS (B)
+     Cinco columnas emblema con separadores filiformes (CSS).
+     SVG inline · monocromáticos · currentColor · viewBox 0 0 48 48.
+     Cada emblema corresponde al concepto fijado en la auditoría v5 §3.6.
+     =================================================================== -->
+<section class="solas" aria-labelledby="solas-title">
+  <div class="container">
+
+    <header class="solas__header">
+      <p class="solas__eyebrow">Principio y fundamento</p>
+      <h2 id="solas-title" class="solas__title">Las Cinco Solas</h2>
+      <p class="solas__lead">
+        Cinco afirmaciones que distinguieron a la Reforma del siglo XVI y que
+        siguen siendo el principio y el fundamento de toda la enseñanza de
+        esta academia.
+      </p>
+    </header>
+
+    <div class="solas__grid">
+
+      <!-- Sola I · Scriptura · libro abierto con marca lectora -->
+      <article class="sola">
+        <div class="sola__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48">
+            <!-- Lomo central -->
+            <path d="M24 14 L24 36"/>
+            <!-- Página izquierda -->
+            <path d="M24 14 Q18 12 10 14 L10 36 Q18 34 24 36"/>
+            <!-- Página derecha -->
+            <path d="M24 14 Q30 12 38 14 L38 36 Q30 34 24 36"/>
+            <!-- Líneas de texto · izquierda -->
+            <path d="M14 22 L20 22"/>
+            <path d="M14 26 L20 26"/>
+            <!-- Líneas de texto · derecha -->
+            <path d="M28 22 L34 22"/>
+            <path d="M28 26 L34 26"/>
+            <!-- Marca lectora colgante desde el lomo -->
+            <path d="M24 36 L24 42 L22.5 40.5 L24 39 L25.5 40.5 L24 42"/>
+          </svg>
+        </div>
+        <p class="sola__name">Sola Scriptura</p>
+        <p class="sola__translation">Solo la Escritura</p>
+        <p class="sola__gloss">
+          La Sagrada Escritura es la única regla suprema de fe y conducta para la Iglesia.
+        </p>
+        <p class="sola__ref">2 Timoteo 3:16–17</p>
+      </article>
+
+      <!-- Sola II · Fide · figura con corazón en el pecho -->
+      <article class="sola">
+        <div class="sola__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48">
+            <!-- Cabeza -->
+            <circle cx="24" cy="13" r="4"/>
+            <!-- Torso · silueta de busto -->
+            <path d="M14 40 L14 28 Q14 21 24 21 Q34 21 34 28 L34 40"/>
+            <!-- Corazón sobre el pecho -->
+            <path d="M20 30 Q20 27 22.5 27 Q24 27 24 28.5 Q24 27 25.5 27 Q28 27 28 30 Q28 32 24 35 Q20 32 20 30 Z"/>
+          </svg>
+        </div>
+        <p class="sola__name">Sola Fide</p>
+        <p class="sola__translation">Solo por la fe</p>
+        <p class="sola__gloss">
+          El pecador es justificado únicamente por la fe en Cristo, sin obras de la ley.
+        </p>
+        <p class="sola__ref">Romanos 3:28</p>
+      </article>
+
+      <!-- Sola III · Gratia · corona descendiendo -->
+      <article class="sola">
+        <div class="sola__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48">
+            <!-- Perfil de corona · tres picos -->
+            <path d="M10 24 L14 14 L18 22 L24 12 L30 22 L34 14 L38 24"/>
+            <!-- Base de la corona -->
+            <path d="M10 24 L38 24 L37 32 L11 32 Z"/>
+            <!-- Joyas en los picos -->
+            <circle cx="14" cy="14" r="1.2" fill="currentColor" stroke="none"/>
+            <circle cx="24" cy="12" r="1.4" fill="currentColor" stroke="none"/>
+            <circle cx="34" cy="14" r="1.2" fill="currentColor" stroke="none"/>
+            <!-- Líneas de descenso bajo la corona -->
+            <path d="M16 36 L16 40"/>
+            <path d="M24 36 L24 42"/>
+            <path d="M32 36 L32 40"/>
+          </svg>
+        </div>
+        <p class="sola__name">Sola Gratia</p>
+        <p class="sola__translation">Solo por gracia</p>
+        <p class="sola__gloss">
+          La salvación es un don soberano de Dios, no merecido ni alcanzado por mérito humano.
+        </p>
+        <p class="sola__ref">Efesios 2:8–9</p>
+      </article>
+
+      <!-- Sola IV · Christus · cruz latina inscrita en círculo -->
+      <article class="sola">
+        <div class="sola__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48">
+            <!-- Círculo exterior -->
+            <circle cx="24" cy="24" r="14"/>
+            <!-- Cruz latina · brazo horizontal en tercio superior -->
+            <path d="M24 12 L24 36"/>
+            <path d="M17 19 L31 19"/>
+          </svg>
+        </div>
+        <p class="sola__name">Solus Christus</p>
+        <p class="sola__translation">Solo Cristo</p>
+        <p class="sola__gloss">
+          Cristo es el único Mediador entre Dios y los hombres, suficiente y eterno.
+        </p>
+        <p class="sola__ref">1 Timoteo 2:5</p>
+      </article>
+
+      <!-- Sola V · Deo Gloria · sol con rayos -->
+      <article class="sola">
+        <div class="sola__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48">
+            <!-- Disco central -->
+            <circle cx="24" cy="24" r="6"/>
+            <!-- Ocho rayos · cardinales + diagonales -->
+            <path d="M24 8 L24 12"/>
+            <path d="M24 36 L24 40"/>
+            <path d="M8 24 L12 24"/>
+            <path d="M36 24 L40 24"/>
+            <path d="M12.5 12.5 L15.5 15.5"/>
+            <path d="M32.5 32.5 L35.5 35.5"/>
+            <path d="M35.5 12.5 L32.5 15.5"/>
+            <path d="M15.5 32.5 L12.5 35.5"/>
+          </svg>
+        </div>
+        <p class="sola__name">Soli Deo Gloria</p>
+        <p class="sola__translation">Solo a Dios la gloria</p>
+        <p class="sola__gloss">
+          Toda la obra de la redención es para la alabanza de la gloria de Dios.
+        </p>
+        <p class="sola__ref">Romanos 11:36</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     §4 · ¿POR QUÉ ESTUDIAR? (C)
+     Tres tarjetas con numeral romano gigante de fondo (decorativo).
+     El cuerpo de cada tarjeta queda alineado a la izquierda (default).
+     =================================================================== -->
+<section class="why-study" aria-labelledby="why-title">
+  <div class="container">
+
+    <header class="why-study__header">
+      <div>
+        <p class="why-study__eyebrow">¿Por qué estudiar?</p>
+        <h2 id="why-title" class="why-study__title">
+          Tres razones que nos preceden
+        </h2>
+      </div>
+      <p class="why-study__intro">
+        El estudio teológico no es un lujo intelectual ni un ornamento eclesial.
+        Es un mandato, un deber pastoral y una vocación del alma redimida.
+      </p>
+    </header>
+
+    <div class="why-study__grid">
+
+      <article class="reason">
+        <span class="reason__numeral" aria-hidden="true">I</span>
+        <p class="reason__kicker">Primer mandamiento</p>
+        <h3 class="reason__title">Por amor a Dios</h3>
+        <p class="reason__body">
+          Cristo enseñó que el gran mandamiento incluye amar a Dios con toda
+          la mente. El estudio teológico no es ornamental: es obediencia y
+          adoración de quien se sabe creado para conocerle.
+        </p>
+        <cite class="reason__cite">Mateo 22:37</cite>
+      </article>
+
+      <article class="reason">
+        <span class="reason__numeral" aria-hidden="true">II</span>
+        <p class="reason__kicker">Defensa de la fe</p>
+        <h3 class="reason__title">Para dar razón de la esperanza</h3>
+        <p class="reason__body">
+          El apóstol Pedro instruye a estar siempre preparados para presentar
+          defensa ante todo el que pida razón de la esperanza que hay en
+          nosotros. La Iglesia necesita creyentes formados.
+        </p>
+        <cite class="reason__cite">1 Pedro 3:15</cite>
+      </article>
+
+      <article class="reason">
+        <span class="reason__numeral" aria-hidden="true">III</span>
+        <p class="reason__kicker">Santificación</p>
+        <h3 class="reason__title">Para ser transformados por la verdad</h3>
+        <p class="reason__body">
+          La doctrina, recibida con oración y humildad, conforma el alma a la
+          imagen de Cristo. La mente renovada es el camino bíblico de la
+          transformación interior.
+        </p>
+        <cite class="reason__cite">Romanos 12:2</cite>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     §5 · METODOLOGÍA · STEPPER DE CUATRO PASOS (D)
+     Numerales romanos circulares · línea conectora horizontal en desktop ·
+     en móvil se reconfigura en vertical (regla CSS responsiva).
+     =================================================================== -->
+<section class="method" aria-labelledby="method-title">
+  <div class="container">
+
+    <header class="method__header">
+      <p class="method__eyebrow">Metodología</p>
+      <h2 id="method-title" class="method__title">
+        Cuatro pasos de un mismo camino
+      </h2>
+      <p class="method__lead">
+        Cada curso se recorre con una pedagogía heredada de la mejor tradición
+        escolástica y reformada: leer, comprender, confesar, vivir.
+      </p>
+    </header>
+
+    <ol class="stepper" aria-label="Pasos del método de estudio">
+
+      <li class="step">
+        <span class="step__num" aria-hidden="true">I</span>
+        <h3 class="step__title">Leer</h3>
+        <p class="step__body">
+          Cada lección parte de la lectura atenta de la Escritura en su contexto
+          histórico, gramatical y canónico, como primera y última autoridad.
+        </p>
+      </li>
+
+      <li class="step">
+        <span class="step__num" aria-hidden="true">II</span>
+        <h3 class="step__title">Comprender</h3>
+        <p class="step__body">
+          La doctrina se articula con los recursos clásicos de la Iglesia:
+          confesiones reformadas, padres, lenguas bíblicas y exégesis histórica.
+        </p>
+      </li>
+
+      <li class="step">
+        <span class="step__num" aria-hidden="true">III</span>
+        <h3 class="step__title">Confesar</h3>
+        <p class="step__body">
+          La verdad comprendida se confiesa con la Iglesia universal. El
+          conocimiento permanece estéril si no se profesa con humildad y
+          firmeza ante Dios y la comunidad de fe.
+        </p>
+      </li>
+
+      <li class="step">
+        <span class="step__num" aria-hidden="true">IV</span>
+        <h3 class="step__title">Vivir</h3>
+        <p class="step__body">
+          La teología verdadera transforma la conducta, la oración, la familia,
+          el trabajo y la iglesia local. Conocer a Dios es vivir para Él.
+        </p>
+      </li>
+
+    </ol>
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     §6 · BANDA DE CIERRE · PLIEGO DOBLE (G final)
+     Mitad navy oscura + mitad crema clara con filete dorado entre ambas
+     (vertical en desktop · horizontal en móvil, gestionado por CSS).
+     =================================================================== -->
+<section class="closing-banner" aria-label="Pliego doble de cierre">
+
+  <!-- Pliego oscuro · meditación bíblica -->
+  <div class="closing-banner__side closing-banner__side--dark">
+    <p class="closing-banner__eyebrow">Isaías 40:8</p>
+    <p class="closing-banner__text">
+      La hierba se seca, la flor se marchita; mas la palabra de nuestro Dios
+      permanece para siempre.
+    </p>
+    <p class="closing-banner__cite">Verbum Manet</p>
+  </div>
+
+  <!-- Pliego claro · invitación a comenzar -->
+  <div class="closing-banner__side closing-banner__side--light">
+    <p class="closing-banner__eyebrow">Soli Deo Gloria</p>
+    <p class="closing-banner__text">
+      El currículo está abierto. Sin barreras, sin costo, sin inscripción.
+      Veinte cursos, ciento treinta y cinco lecciones, cuatro segmentos.
+    </p>
+    <p class="closing-banner__cite">Comencemos</p>
+    <div class="btn-group" style="margin-top: var(--sp-md);">
+      <a href="#/courses" class="btn btn--primary btn--lg" data-nav>
+        Explorar el currículo
+      </a>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ============================================================================
+     FIN DE pages/home.html · Verbum Manet Academy · v5 · Paso 3
+     ============================================================================ -->
