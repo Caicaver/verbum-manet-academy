@@ -1,0 +1,3261 @@
+/* ============================================================================
+   VERBUM MANET ACADEMY · css/styles.css · v5 · Parte A
+   ----------------------------------------------------------------------------
+   Contenido de esta parte:
+     §1  Tokens (color OKLCH, tipografía, escala fluida, ritmo, transiciones)
+     §2  Modo claro / modo oscuro (tokens semánticos por tema)
+     §3  Sistema --fs-scale controlado por [data-fs]
+     §4  Reset y base CSS (sin opiniones cromáticas)
+     §5  Tipografía y elementos básicos
+     §6  Container y utilidades
+     §7  Skip link y :focus-visible
+     §8  Header (brand, primary-nav, toolbar, drawer)
+     §9  Footer (tres columnas + franja editorial)
+     §10 Panel Pomodoro flotante (oculto por defecto)
+     §11 Modal de búsqueda (Ctrl+K)
+     §12 Portal de tooltip del glosario
+     §13 Skeleton loader (respeta prefers-reduced-motion)
+     §14 Utilidades de accesibilidad
+   ----------------------------------------------------------------------------
+   La Parte B (entrega siguiente) aporta los componentes de las secciones
+   nuevas v5 (hero editorial, PRINCIPIO+FUNDAMENTOS, citas alternantes,
+   "¿Por qué estudiar?", Metodología, Panel de Estudio, Logros) y el pase
+   de QA responsive final.
+   ============================================================================ */
+
+
+/* ============================================================
+   §1 · TOKENS DE DISEÑO (paleta OKLCH base + tipografía + ritmo)
+   ============================================================ */
+:root {
+
+  /* ---- Paleta base en OKLCH (perceptualmente uniforme) ----
+     Hue navy = 256  ·  Hue gold = 78  ·  Hue cream = 78 (low chroma)
+     Las escalas guardan ~12pp de luminancia entre tonos hermanos. */
+
+  /* Navy · azul tinta editorial */
+  --vma-navy-50:   oklch(96% 0.010 256);
+  --vma-navy-100:  oklch(92% 0.012 256);
+  --vma-navy-300:  oklch(70% 0.030 256);
+  --vma-navy-500:  oklch(40% 0.045 256);
+  --vma-navy-700:  oklch(28% 0.040 256);
+  --vma-navy-900:  oklch(18% 0.030 256);
+
+  /* Gold · dorado antiguo */
+  --vma-gold-50:   oklch(96% 0.020 78);
+  --vma-gold-100:  oklch(90% 0.045 78);
+  --vma-gold-300:  oklch(76% 0.075 78);
+  --vma-gold-500:  oklch(62% 0.100 78);
+  --vma-gold-700:  oklch(50% 0.090 78);
+  --vma-gold-900:  oklch(36% 0.070 78);
+
+  /* Cream · pergamino · tonos cálidos de baja saturación */
+  --vma-cream-50:  oklch(96% 0.012 78);
+  --vma-cream-100: oklch(98% 0.008 78);
+  --vma-cream-200: oklch(94% 0.015 78);
+  --vma-cream-300: oklch(88% 0.020 78);
+
+  /* Ink · grises tipográficos (croma teñido hacia navy)
+     ink-500 a L=44% para asegurar contraste AA (≥4.5:1) en muted-text */
+  --vma-ink-50:    oklch(98% 0.005 256);
+  --vma-ink-100:   oklch(92% 0.008 256);
+  --vma-ink-300:   oklch(72% 0.012 256);
+  --vma-ink-500:   oklch(44% 0.018 256);
+  --vma-ink-700:   oklch(32% 0.018 256);
+  --vma-ink-900:   oklch(18% 0.015 256);
+
+  /* Estados (success / warn / danger) — uso reservado, no decorativo */
+  --vma-success:   oklch(58% 0.10 145);
+  --vma-warn:      oklch(72% 0.13 60);
+  --vma-danger:    oklch(56% 0.16 26);
+
+
+  /* ---- Tipografía ---- */
+  --font-display: "Cormorant Garamond", "Cormorant", Georgia, "Iowan Old Style", serif;
+  --font-body:    "Satoshi", "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:    ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+
+
+  /* ---- Escala tipográfica fluida (modular 1.250) ---- */
+  /* Cada tamaño se multiplica por --fs-scale (§3) */
+  --fs-scale: 1;
+
+  --text-xs:   clamp(0.75rem,  0.72rem + 0.15vw, 0.825rem);
+  --text-sm:   clamp(0.85rem,  0.82rem + 0.18vw, 0.95rem);
+  --text-base: clamp(1rem,     0.96rem + 0.22vw, 1.125rem);
+  --text-md:   clamp(1.125rem, 1.08rem + 0.28vw, 1.25rem);
+  --text-lg:   clamp(1.35rem,  1.28rem + 0.36vw, 1.55rem);
+  --text-xl:   clamp(1.7rem,   1.58rem + 0.62vw, 2.05rem);
+  --text-2xl:  clamp(2.1rem,   1.88rem + 1.10vw, 2.85rem);
+  --text-3xl:  clamp(2.7rem,   2.30rem + 2.00vw, 3.85rem);
+  --text-4xl:  clamp(3.3rem,   2.70rem + 3.20vw, 5.00rem);
+
+  /* Line heights */
+  --lh-tight:   1.15;
+  --lh-snug:    1.30;
+  --lh-normal:  1.55;
+  --lh-relaxed: 1.70;
+
+  /* Letter spacing */
+  --ls-tight:   -0.018em;
+  --ls-snug:    -0.008em;
+  --ls-normal:   0;
+  --ls-wide:     0.04em;
+  --ls-wider:    0.12em;
+
+
+  /* ---- Ritmo espacial (fluido) ---- */
+  --sp-2xs: clamp(0.25rem, 0.22rem + 0.15vw, 0.35rem);
+  --sp-xs:  clamp(0.5rem,  0.45rem + 0.25vw, 0.65rem);
+  --sp-sm:  clamp(0.75rem, 0.68rem + 0.35vw, 0.95rem);
+  --sp-md:  clamp(1rem,    0.90rem + 0.50vw, 1.30rem);
+  --sp-lg:  clamp(1.5rem,  1.32rem + 0.90vw, 2.10rem);
+  --sp-xl:  clamp(2.25rem, 1.95rem + 1.50vw, 3.20rem);
+  --sp-2xl: clamp(3.5rem,  2.95rem + 2.75vw, 5.00rem);
+  --sp-3xl: clamp(5rem,    4.10rem + 4.50vw, 7.50rem);
+
+  /* Anchos de columna editorial */
+  --measure-narrow: 38ch;   /* lead, citas */
+  --measure-base:   62ch;   /* cuerpo prosa */
+  --measure-wide:   72ch;   /* layouts amplios */
+  --container-max:  78rem;  /* 1248px */
+
+  /* Radios */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+
+  /* Bordes */
+  --border-thin: 1px;
+  --border-mid:  1.5px;
+  --border-thick: 2px;
+
+  /* Transiciones (curvas editoriales) */
+  --ease-out-quad:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out-quart:   cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0.05, 0.36, 1);
+  --t-fast:  120ms;
+  --t-base:  220ms;
+  --t-slow:  340ms;
+
+  /* Z-index escala */
+  --z-base:     1;
+  --z-sticky:   100;
+  --z-drawer:   200;
+  --z-tooltip:  300;
+  --z-modal:    400;
+  --z-toast:    500;
+
+  /* Sombras (no usan negro puro: croma teñido hacia navy) */
+  --shadow-sm:  0 1px 2px oklch(20% 0.03 256 / 0.08);
+  --shadow-md:  0 6px 18px oklch(20% 0.03 256 / 0.10);
+  --shadow-lg:  0 18px 42px oklch(20% 0.03 256 / 0.14);
+}
+
+
+/* ============================================================
+   §2 · TEMAS · tokens semánticos por modo
+   ============================================================ */
+
+/* Modo claro (default · v5.A.1) */
+:root,
+[data-theme="light"] {
+  --color-bg:           var(--vma-cream-50);
+  --color-bg-elevated:  var(--vma-cream-100);
+  --color-bg-sunken:    var(--vma-cream-200);
+  --color-surface:      var(--vma-cream-100);
+  --color-border:       oklch(86% 0.015 78);
+  --color-border-soft:  oklch(91% 0.012 78);
+  --color-text:         var(--vma-ink-900);
+  --color-text-muted:   var(--vma-ink-500);
+  --color-text-soft:    var(--vma-ink-300);
+  --color-heading:      var(--vma-navy-700);
+  --color-accent:       var(--vma-gold-700);   /* mejor contraste sobre crema */
+  --color-accent-soft:  var(--vma-gold-300);
+  --color-link:         var(--vma-navy-700);
+  --color-link-hover:   var(--vma-gold-700);
+  --color-focus:        var(--vma-gold-700);
+
+  /* CTAs */
+  --color-btn-primary-bg:       var(--vma-navy-700);
+  --color-btn-primary-bg-hover: var(--vma-navy-900);
+  --color-btn-primary-text:     var(--vma-cream-50);
+  --color-btn-ghost-text:       var(--vma-navy-700);
+  --color-btn-ghost-border:     var(--vma-navy-300);
+  --color-btn-ghost-bg-hover:   oklch(28% 0.04 256 / 0.06);
+
+  /* Header / overlay */
+  --color-header-bg:    oklch(96% 0.012 78 / 0.85);   /* cream con velo */
+  --color-header-border: var(--color-border);
+  --color-overlay-bg:   oklch(28% 0.04 256 / 0.50);
+
+  /* Shadows ajustadas a fondos cálidos */
+  --shadow-card: 0 1px 2px oklch(40% 0.03 78 / 0.06),
+                 0 8px 24px oklch(40% 0.03 78 / 0.08);
+}
+
+/* Modo oscuro */
+[data-theme="dark"] {
+  --color-bg:           var(--vma-ink-900);
+  --color-bg-elevated:  oklch(22% 0.020 256);
+  --color-bg-sunken:    oklch(14% 0.018 256);
+  --color-surface:      oklch(22% 0.020 256);
+  --color-border:       oklch(32% 0.020 256);
+  --color-border-soft:  oklch(26% 0.018 256);
+  --color-text:         oklch(94% 0.008 78);
+  --color-text-muted:   oklch(72% 0.012 78);
+  --color-text-soft:    oklch(56% 0.010 78);
+  --color-heading:      oklch(96% 0.012 78);
+  --color-accent:       var(--vma-gold-300);
+  --color-accent-soft:  var(--vma-gold-500);
+  --color-link:         var(--vma-gold-300);
+  --color-link-hover:   var(--vma-gold-100);
+  --color-focus:        var(--vma-gold-300);
+
+  --color-btn-primary-bg:       var(--vma-gold-500);
+  --color-btn-primary-bg-hover: var(--vma-gold-300);
+  --color-btn-primary-text:     var(--vma-navy-900);
+  --color-btn-ghost-text:       var(--vma-gold-300);
+  --color-btn-ghost-border:     oklch(50% 0.040 256);
+  --color-btn-ghost-bg-hover:   oklch(76% 0.075 78 / 0.10);
+
+  --color-header-bg:    oklch(18% 0.025 256 / 0.85);
+  --color-header-border: oklch(28% 0.022 256);
+  --color-overlay-bg:   oklch(8% 0.020 256 / 0.70);
+
+  --shadow-card: 0 1px 2px oklch(0% 0 0 / 0.30),
+                 0 12px 36px oklch(0% 0 0 / 0.45);
+}
+
+
+/* ============================================================
+   §3 · SISTEMA --fs-scale (control de tamaño de fuente)
+   ============================================================ */
+:root[data-fs="1"] { --fs-scale: 1; }
+:root[data-fs="2"] { --fs-scale: 1.125; }
+:root[data-fs="3"] { --fs-scale: 1.25; }
+
+/* Aplica scale al html root para que afecte rem en cascada */
+html {
+  font-size: calc(100% * var(--fs-scale));
+}
+
+
+/* ============================================================
+   §4 · RESET Y BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--lh-normal);
+  font-feature-settings: "ss01", "ss02", "kern";
+  transition: background-color var(--t-base) var(--ease-in-out-soft),
+              color var(--t-base) var(--ease-in-out-soft);
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+  display: block;
+  max-width: 100%;
+}
+
+img { height: auto; }
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color var(--t-fast) var(--ease-out-quad);
+}
+a:hover { color: var(--color-link-hover); }
+
+ul, ol { list-style: none; }
+
+
+/* ============================================================
+   §5 · TIPOGRAFÍA Y ELEMENTOS BÁSICOS
+   ============================================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--color-heading);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-snug);
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--text-4xl); letter-spacing: var(--ls-tight); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+h5 { font-size: var(--text-lg); }
+h6 { font-size: var(--text-md); }
+
+p { max-width: var(--measure-base); }
+em, i { font-family: var(--font-display); font-style: italic; }
+strong, b { font-weight: 700; }
+small { font-size: var(--text-sm); }
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+hr {
+  border: none;
+  border-top: var(--border-thin) solid var(--color-border);
+  margin: var(--sp-lg) 0;
+}
+
+
+/* ============================================================
+   §6 · CONTAINER Y UTILIDADES BÁSICAS
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+.container--narrow {
+  max-width: 56rem;
+}
+
+
+/* ============================================================
+   §7 · SKIP LINK Y :focus-visible
+   ============================================================ */
+.skip-link {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: var(--z-toast);
+  padding: 0.6rem 1rem;
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  border-radius: var(--radius-sm);
+  transform: translateY(-150%);
+  transition: transform var(--t-base) var(--ease-out-quart);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+
+/* ============================================================
+   §8 · HEADER (brand, nav, toolbar, drawer móvil)
+   ============================================================ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background-color: var(--color-header-bg);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border-bottom: var(--border-thin) solid var(--color-header-border);
+  transition: background-color var(--t-base) var(--ease-in-out-soft),
+              border-color var(--t-base) var(--ease-in-out-soft);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  min-height: 4rem;
+  padding-block: 0.75rem;
+}
+
+/* ---- Brand ---- */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-heading);
+  flex-shrink: 0;
+}
+.brand:hover { color: var(--color-accent); }
+
+.brand__mark {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  transition: transform var(--t-base) var(--ease-out-quart),
+              color var(--t-base) var(--ease-out-quad);
+}
+.brand:hover .brand__mark {
+  transform: rotate(-2deg) scale(1.02);
+}
+
+.brand__wordmark {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+.brand__name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-snug);
+}
+.brand__sub {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  color: var(--vma-gold-900);   /* AA · L=36% sobre crema L=96% → 6.78:1 */
+  text-transform: uppercase;
+  margin-top: 0.1rem;
+}
+[data-theme="dark"] .brand__sub {
+  color: var(--vma-gold-300);   /* AA en oscuro */
+}
+
+/* ---- Primary nav ---- */
+.primary-nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.primary-nav__list {
+  display: flex;
+  gap: clamp(0.5rem, 1.5vw, 1.25rem);
+}
+
+.primary-nav__list a {
+  position: relative;
+  display: inline-block;
+  padding: 0.5rem 0.25rem;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+}
+
+.primary-nav__list a::after {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  right: 0.25rem;
+  bottom: 0.25rem;
+  height: 1px;
+  background-color: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-base) var(--ease-out-quart);
+}
+
+.primary-nav__list a:hover,
+.primary-nav__list a.is-active {
+  color: var(--color-heading);
+}
+.primary-nav__list a:hover::after,
+.primary-nav__list a.is-active::after {
+  transform: scaleX(1);
+}
+
+/* ---- Toolbar (herramientas a la derecha) ---- */
+.site-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.tool-btn {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  transition: color var(--t-fast) var(--ease-out-quad),
+              background-color var(--t-fast) var(--ease-out-quad);
+}
+
+.tool-btn:hover {
+  color: var(--color-heading);
+  background-color: var(--color-btn-ghost-bg-hover);
+}
+
+.tool-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Tooltip nativo simple via data-tooltip */
+.tool-btn[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  padding: 0.35rem 0.7rem;
+  background-color: var(--vma-navy-900);
+  color: var(--vma-cream-50);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: var(--ls-wide);
+  white-space: nowrap;
+  border-radius: var(--radius-xs);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-fast) var(--ease-out-quad),
+              transform var(--t-fast) var(--ease-out-quad);
+}
+
+.tool-btn:hover::before,
+.tool-btn:focus-visible::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---- Font-size cycler: tres puntos indicadores ---- */
+.tool-btn--fs .fs-dot { opacity: 0.18; transition: opacity var(--t-fast); }
+:root[data-fs="1"] .tool-btn--fs .fs-dot--1 { opacity: 1; }
+:root[data-fs="2"] .tool-btn--fs .fs-dot--1,
+:root[data-fs="2"] .tool-btn--fs .fs-dot--2 { opacity: 1; }
+:root[data-fs="3"] .tool-btn--fs .fs-dot--1,
+:root[data-fs="3"] .tool-btn--fs .fs-dot--2,
+:root[data-fs="3"] .tool-btn--fs .fs-dot--3 { opacity: 1; }
+
+/* ---- Theme toggle: muestra sol o luna según tema ---- */
+.tool-btn--theme .icon-sun,
+.tool-btn--theme .icon-moon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+[data-theme="light"] .tool-btn--theme .icon-sun  { display: block; }
+[data-theme="light"] .tool-btn--theme .icon-moon { display: none; }
+[data-theme="dark"]  .tool-btn--theme .icon-sun  { display: none; }
+[data-theme="dark"]  .tool-btn--theme .icon-moon { display: block; }
+
+/* ---- Pomodoro launcher state ---- */
+.tool-btn--pomodoro[aria-expanded="true"] {
+  color: var(--color-accent);
+  background-color: var(--color-btn-ghost-bg-hover);
+}
+
+/* ---- Hamburguesa: solo móvil + animación a X ---- */
+.tool-btn--menu { display: none; }
+
+.tool-btn--menu .menu-line {
+  transition: transform var(--t-base) var(--ease-out-quart),
+              opacity var(--t-base) var(--ease-out-quad);
+  transform-origin: center;
+}
+.tool-btn--menu[aria-expanded="true"] .menu-line--1 { transform: translateY(5px) rotate(45deg); }
+.tool-btn--menu[aria-expanded="true"] .menu-line--2 { opacity: 0; }
+.tool-btn--menu[aria-expanded="true"] .menu-line--3 { transform: translateY(-5px) rotate(-45deg); }
+
+
+/* ---- Drawer móvil (overlay con nav primaria) ---- */
+@media (max-width: 63.99rem) {
+  .tool-btn--menu { display: inline-flex; }
+
+  .primary-nav {
+    position: fixed;
+    inset: 4rem 0 0 0;
+    background-color: var(--color-bg);
+    border-top: var(--border-thin) solid var(--color-header-border);
+    transform: translateY(-100%);
+    transition: transform var(--t-slow) var(--ease-out-quart);
+    z-index: var(--z-drawer);
+    overflow-y: auto;
+  }
+
+  .primary-nav.is-open {
+    transform: translateY(0);
+  }
+
+  .primary-nav__list {
+    flex-direction: column;
+    gap: 0;
+    padding: var(--sp-lg) clamp(1rem, 6vw, 2rem);
+  }
+
+  .primary-nav__list li {
+    border-bottom: var(--border-thin) solid var(--color-border-soft);
+  }
+
+  .primary-nav__list a {
+    display: block;
+    padding: 1rem 0;
+    font-size: var(--text-md);
+  }
+
+  /* Oculto el tooltip flotante en móvil */
+  .tool-btn[data-tooltip]::before { display: none; }
+}
+
+
+/* ============================================================
+   §9 · FOOTER
+   ============================================================ */
+.site-footer {
+  margin-top: var(--sp-3xl);
+  padding-block: var(--sp-2xl) var(--sp-lg);
+  background-color: var(--color-bg-elevated);
+  border-top: var(--border-thin) solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.site-footer__top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-xl);
+  padding-bottom: var(--sp-lg);
+  border-bottom: var(--border-thin) solid var(--color-border-soft);
+}
+
+@media (min-width: 48rem) {
+  .site-footer__top {
+    grid-template-columns: 1.2fr 2fr;
+  }
+}
+
+.site-footer__motto {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--color-heading);
+}
+.site-footer__motto em {
+  color: var(--color-accent);
+  font-style: italic;
+}
+
+.site-footer__tag {
+  margin-top: 0.5rem;
+  font-size: var(--text-sm);
+  letter-spacing: var(--ls-wide);
+}
+
+.site-footer__nav {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-lg);
+}
+
+@media (min-width: 36rem) {
+  .site-footer__nav {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.site-footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.site-footer__col-title {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+  margin-bottom: 0.4rem;
+}
+
+.site-footer__col a {
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  letter-spacing: var(--ls-snug);
+}
+.site-footer__col a:hover {
+  color: var(--color-accent);
+}
+
+.site-footer__bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding-top: var(--sp-lg);
+  text-align: center;
+}
+
+.site-footer__sdg {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  color: var(--color-accent);
+  letter-spacing: var(--ls-snug);
+}
+
+.site-footer__attr {
+  font-size: var(--text-xs);
+  color: var(--color-text-soft);
+  letter-spacing: var(--ls-wide);
+}
+
+.site-footer__attr a {
+  color: inherit;
+  border-bottom: 1px dotted currentColor;
+}
+.site-footer__attr a:hover {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+
+/* ============================================================
+   §10 · POMODORO PANEL (anclado en esquina inferior derecha)
+   ============================================================ */
+.pomodoro-panel {
+  position: fixed;
+  right: var(--sp-md);
+  bottom: var(--sp-md);
+  z-index: var(--z-tooltip);
+  width: min(22rem, calc(100vw - 2 * var(--sp-md)));
+  background-color: var(--color-bg-elevated);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transform-origin: bottom right;
+  animation: pomodoro-enter var(--t-slow) var(--ease-out-quart);
+}
+
+.pomodoro-panel[hidden] { display: none; }
+
+@keyframes pomodoro-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pomodoro-panel { animation: none; }
+}
+
+.pomodoro-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-bg-sunken);
+  border-bottom: var(--border-thin) solid var(--color-border-soft);
+}
+
+.pomodoro-panel__title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 500;
+  color: var(--color-heading);
+  letter-spacing: var(--ls-snug);
+}
+
+.pomodoro-panel__close {
+  width: 1.75rem;
+  height: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-xs);
+}
+.pomodoro-panel__close:hover {
+  color: var(--color-heading);
+  background-color: var(--color-btn-ghost-bg-hover);
+}
+.pomodoro-panel__close svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.pomodoro-panel__body {
+  padding: 1.25rem;
+}
+
+.pomodoro-panel__display {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.pomodoro-panel__time {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 8vw, 3.5rem);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-heading);
+  line-height: 1;
+  letter-spacing: var(--ls-tight);
+}
+
+.pomodoro-panel__phase {
+  display: block;
+  margin-top: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.pomodoro-panel__controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.pomodoro-panel__controls .btn {
+  flex: 1;
+  padding: 0.65rem 0.75rem;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--t-fast) var(--ease-out-quad),
+              color var(--t-fast) var(--ease-out-quad),
+              border-color var(--t-fast) var(--ease-out-quad);
+}
+
+.pomodoro-panel__controls .btn--primary {
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+}
+.pomodoro-panel__controls .btn--primary:hover {
+  background-color: var(--color-btn-primary-bg-hover);
+}
+
+.pomodoro-panel__controls .btn--ghost {
+  background-color: transparent;
+  border: var(--border-thin) solid var(--color-btn-ghost-border);
+  color: var(--color-btn-ghost-text);
+}
+.pomodoro-panel__controls .btn--ghost:hover {
+  background-color: var(--color-btn-ghost-bg-hover);
+}
+
+.pomodoro-panel__modes {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+  padding: 0.25rem;
+  background-color: var(--color-bg-sunken);
+  border-radius: var(--radius-sm);
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 0.45rem 0.4rem;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  border-radius: var(--radius-xs);
+  text-align: center;
+  white-space: nowrap;
+  transition: background-color var(--t-fast),
+              color var(--t-fast);
+}
+.mode-btn:hover { color: var(--color-heading); }
+.mode-btn.is-active {
+  background-color: var(--color-bg-elevated);
+  color: var(--color-heading);
+  box-shadow: var(--shadow-sm);
+}
+
+.pomodoro-panel__cycles {
+  font-size: 0.72rem;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  text-align: center;
+  padding-block: 0.5rem;
+}
+.pomodoro-panel__cycles span {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-sm);
+  color: var(--color-heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.pomodoro-panel__note {
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: var(--border-thin) solid var(--color-border-soft);
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--color-text-soft);
+  line-height: var(--lh-snug);
+  text-align: center;
+}
+
+/* Modo "compacto" cuando vive dentro del Panel de Estudio (Parte B) */
+.pomodoro-panel--embedded {
+  position: static;
+  width: 100%;
+  box-shadow: none;
+  border-radius: 0;
+  animation: none;
+}
+
+
+/* ============================================================
+   §11 · MODAL DE BÚSQUEDA (Ctrl+K)
+   ============================================================ */
+.search-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: clamp(4rem, 12vh, 8rem);
+  padding-inline: 1rem;
+}
+
+.search-modal[hidden] { display: none; }
+
+.search-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-overlay-bg);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: fade-in var(--t-base) var(--ease-out-quad);
+}
+
+.search-modal__panel {
+  position: relative;
+  width: 100%;
+  max-width: 38rem;
+  background-color: var(--color-bg-elevated);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: search-enter var(--t-slow) var(--ease-out-quart);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes search-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-modal__backdrop,
+  .search-modal__panel { animation: none; }
+}
+
+.search-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: var(--border-thin) solid var(--color-border-soft);
+}
+
+.search-modal__title {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.search-modal__close {
+  width: 1.75rem;
+  height: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-xs);
+}
+.search-modal__close:hover { color: var(--color-heading); }
+.search-modal__close svg { width: 1rem; height: 1rem; }
+
+.search-modal__input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: var(--border-thin) solid var(--color-border-soft);
+}
+
+.search-modal__icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--color-text-soft);
+  flex-shrink: 0;
+}
+
+.search-modal__input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  color: var(--color-text);
+}
+.search-modal__input::placeholder {
+  color: var(--color-text-soft);
+}
+
+.search-modal__kbd {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.2rem 0.45rem;
+  background-color: var(--color-bg-sunken);
+  border: var(--border-thin) solid var(--color-border-soft);
+  border-radius: var(--radius-xs);
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.search-modal__results {
+  max-height: min(50vh, 28rem);
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.search-modal__hint {
+  padding: 1.5rem;
+  text-align: center;
+  font-size: var(--text-sm);
+  font-style: italic;
+  color: var(--color-text-soft);
+}
+
+/* Filas de resultado (renderiza app.js) */
+.search-result {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  transition: background-color var(--t-fast);
+}
+.search-result:hover,
+.search-result:focus-visible {
+  background-color: var(--color-bg-sunken);
+  color: var(--color-heading);
+  outline: none;
+}
+
+.search-result__kind {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.2rem;
+}
+
+.search-result__title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--color-heading);
+  margin-bottom: 0.1rem;
+}
+
+.search-result__excerpt {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--lh-snug);
+}
+
+.search-result__excerpt mark {
+  background-color: oklch(76% 0.075 78 / 0.30);
+  color: inherit;
+  padding-inline: 0.15em;
+  border-radius: 2px;
+}
+
+
+/* ============================================================
+   §12 · GLOSSARY TOOLTIP PORTAL
+   ============================================================ */
+[data-glossary-term] {
+  border-bottom: 1px dotted var(--color-accent);
+  cursor: help;
+  color: inherit;
+  transition: color var(--t-fast) var(--ease-out-quad),
+              border-color var(--t-fast) var(--ease-out-quad);
+}
+[data-glossary-term]:hover,
+[data-glossary-term]:focus-visible {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.glossary-tooltip {
+  position: absolute;
+  z-index: var(--z-tooltip);
+  max-width: 22rem;
+  padding: 0.9rem 1.1rem;
+  background-color: var(--vma-navy-900);
+  color: var(--vma-cream-50);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--lh-snug);
+  pointer-events: none;
+  animation: tooltip-enter var(--t-fast) var(--ease-out-quad);
+}
+
+.glossary-tooltip[hidden] { display: none; }
+
+.glossary-tooltip__term {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--vma-gold-300);
+  font-size: var(--text-md);
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+@keyframes tooltip-enter {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glossary-tooltip { animation: none; }
+}
+
+
+/* ============================================================
+   §13 · SKELETON LOADER (respeta prefers-reduced-motion)
+   ============================================================ */
+.skeleton-wrap {
+  padding: var(--sp-2xl) clamp(1rem, 4vw, 2.5rem);
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-sunken) 0%,
+    var(--color-border-soft) 50%,
+    var(--color-bg-sunken) 100%
+  );
+  background-size: 200% 100%;
+  border-radius: var(--radius-xs);
+  animation: skeleton-shimmer 1.6s linear infinite;
+}
+
+.skeleton-heading {
+  height: 2.5rem;
+  width: 65%;
+  margin-bottom: 1.25rem;
+}
+
+.skeleton-text {
+  height: 0.85rem;
+  margin-bottom: 0.65rem;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: var(--color-bg-sunken);
+  }
+}
+
+
+/* ============================================================
+   §14 · UTILIDADES DE ACCESIBILIDAD
+   ============================================================ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+[hidden] { display: none !important; }
+
+/* Reducir todas las transiciones globalmente cuando se solicita */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* ============================================================================
+   ▼ PARTE B · COMPONENTES DE SECCIONES v5
+   ----------------------------------------------------------------------------
+     §15 · Sistema de botones (.btn y variantes)
+     §16 · Hero editorial (A.2–A.4)
+     §17 · Banda de citas alternantes (G)
+     §18 · Banda PRINCIPIO+FUNDAMENTOS · Cinco Solas (B)
+     §19 · Tarjetas "¿Por qué estudiar?" (C)
+     §20 · Stepper de Metodología (D)
+     §21 · Banda de cierre · Pliego doble (G final)
+     §22 · Panel de Estudio · dashboard, logros, export/import (E)
+     §23 · Catálogo de cursos (refuerzo)
+     §24 · Prosa editorial y componentes de contenido común
+     §25 · Pase responsive QA · breakpoints 375/768/1024/1280 (I)
+     §26 · Print styles
+   ============================================================================ */
+
+
+/* ============================================================
+   §15 · SISTEMA DE BOTONES
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: var(--border-thin) solid transparent;
+  transition: background-color var(--t-base) var(--ease-out-quad),
+              color var(--t-base) var(--ease-out-quad),
+              border-color var(--t-base) var(--ease-out-quad),
+              transform var(--t-fast) var(--ease-out-quad);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn:active { transform: translateY(1px); }
+
+/* ---- Primary · navy sólido / gold sólido según tema ---- */
+.btn--primary {
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+}
+.btn--primary:hover {
+  background-color: var(--color-btn-primary-bg-hover);
+  color: var(--color-btn-primary-text);
+}
+
+/* ---- Ghost · contorno fino, transparente ---- */
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-btn-ghost-text);
+  border-color: var(--color-btn-ghost-border);
+}
+.btn--ghost:hover {
+  background-color: var(--color-btn-ghost-bg-hover);
+  color: var(--color-heading);
+}
+
+/* ---- Link · subrayado animado, sin fondo ---- */
+.btn--link {
+  padding-inline: 0;
+  background: none;
+  color: var(--color-accent);
+  border: none;
+  border-radius: 0;
+  position: relative;
+  text-transform: none;
+  letter-spacing: var(--ls-snug);
+  font-size: var(--text-base);
+  font-weight: 500;
+}
+.btn--link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0.6);
+  transform-origin: left;
+  transition: transform var(--t-base) var(--ease-out-quart);
+}
+.btn--link:hover::after { transform: scaleX(1); }
+
+/* ---- Tamaños ---- */
+.btn--lg {
+  padding: 1rem 1.85rem;
+  font-size: var(--text-base);
+}
+.btn--sm {
+  padding: 0.55rem 1rem;
+  font-size: 0.78rem;
+}
+
+/* ---- Iconografía dentro de botón ---- */
+.btn svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* ---- Grupo de botones (hero CTA) ---- */
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+
+/* ============================================================
+   §16 · HERO EDITORIAL (A.2–A.4)
+   Layout asimétrico 7-5: rail tipográfico izquierda, sumario derecha
+   ============================================================ */
+.hero {
+  position: relative;
+  padding-block: clamp(3rem, 8vh, 6rem) clamp(2rem, 5vh, 3.5rem);
+  overflow: hidden;
+}
+
+/* Marco editorial sutil: filetes superior/inferior */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: clamp(1rem, 4vw, 2.5rem);
+  right: clamp(1rem, 4vw, 2.5rem);
+  height: 1px;
+  background-color: var(--color-border-soft);
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-xl);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .hero__grid {
+    grid-template-columns: 7fr 5fr;
+    gap: var(--sp-2xl);
+  }
+}
+
+/* ---- Lado izquierdo: rail tipográfico ---- */
+.hero__lede {
+  position: relative;
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: var(--sp-md);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.hero__eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background-color: currentColor;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: var(--ls-tight);
+  color: var(--color-heading);
+  margin-bottom: var(--sp-md);
+  text-wrap: balance;
+}
+
+.hero__title em {
+  font-style: italic;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.hero__lead {
+  max-width: 38ch;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 400;
+  line-height: var(--lh-snug);
+  color: var(--color-text);
+  margin-bottom: var(--sp-lg);
+  font-feature-settings: "kern", "liga", "calt";
+}
+
+.hero__lead::first-letter {
+  font-family: var(--font-display);
+  font-size: 1.35em;
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+.hero__cta {
+  margin-top: var(--sp-lg);
+}
+
+/* ---- Lado derecho: sumario de los IV Segmentos ---- */
+.hero__summary {
+  position: relative;
+  padding-top: var(--sp-sm);
+}
+
+@media (min-width: 64rem) {
+  .hero__summary {
+    border-left: var(--border-thin) solid var(--color-border);
+    padding-left: var(--sp-lg);
+  }
+}
+
+.hero__summary-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+  margin-bottom: var(--sp-md);
+}
+
+.hero__segments {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-md);
+}
+
+.hero-segment {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.9rem;
+  align-items: baseline;
+  padding-bottom: var(--sp-md);
+  border-bottom: var(--border-thin) solid var(--color-border-soft);
+}
+.hero-segment:last-child { border-bottom: none; padding-bottom: 0; }
+
+.hero-segment__num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-xl);
+  font-weight: 500;
+  color: var(--color-accent);
+  line-height: 1;
+  letter-spacing: var(--ls-tight);
+  min-width: 1.6rem;
+}
+
+.hero-segment__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.hero-segment__title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 500;
+  color: var(--color-heading);
+  line-height: var(--lh-tight);
+}
+
+.hero-segment__meta {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+}
+
+
+/* ============================================================
+   §17 · BANDA DE CITAS ALTERNANTES (G)
+   Rotador fade+rise · una cita visible a la vez
+   ============================================================ */
+.quote-rotator {
+  position: relative;
+  padding-block: var(--sp-xl);
+  background-color: var(--color-bg-elevated);
+  border-block: var(--border-thin) solid var(--color-border-soft);
+}
+
+.quote-rotator__inner {
+  position: relative;
+  max-width: 56rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+  min-height: 8rem;
+}
+
+.quote-item {
+  position: absolute;
+  inset: 0;
+  padding-inline: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 600ms var(--ease-out-quart),
+              transform 600ms var(--ease-out-quart);
+}
+
+.quote-item.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.quote-item__text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: var(--lh-snug);
+  color: var(--color-heading);
+  letter-spacing: var(--ls-snug);
+  margin-inline: auto;
+  max-width: 50ch;
+  text-wrap: balance;
+}
+
+.quote-item__text::before { content: "« "; color: var(--color-accent); }
+.quote-item__text::after  { content: " »"; color: var(--color-accent); }
+
+.quote-item__source {
+  margin-top: var(--sp-md);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* Lista estática cuando reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .quote-rotator__inner { min-height: 0; }
+  .quote-item {
+    position: static;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    padding-block: var(--sp-md);
+    border-bottom: var(--border-thin) dashed var(--color-border-soft);
+  }
+  .quote-item:last-child { border-bottom: none; }
+}
+
+
+/* ============================================================
+   §18 · BANDA PRINCIPIO+FUNDAMENTOS · CINCO SOLAS (B)
+   Cinco columnas emblema · separadores filiformes
+   ============================================================ */
+.solas {
+  padding-block: var(--sp-3xl);
+}
+
+.solas__header {
+  text-align: center;
+  margin-bottom: var(--sp-2xl);
+  max-width: 38rem;
+  margin-inline: auto;
+}
+
+.solas__eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--sp-sm);
+}
+
+.solas__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  color: var(--color-heading);
+  margin-bottom: var(--sp-md);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+}
+
+.solas__lead {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  font-weight: 400;
+  line-height: var(--lh-snug);
+  color: var(--color-text-muted);
+  margin-inline: auto;
+  max-width: 50ch;
+}
+
+/* Grilla de 5 columnas con separadores filiformes */
+.solas__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (min-width: 36rem) {
+  .solas__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64rem) {
+  .solas__grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.sola {
+  position: relative;
+  padding: var(--sp-lg) var(--sp-md);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  border-bottom: var(--border-thin) solid var(--color-border-soft);
+}
+
+@media (min-width: 36rem) {
+  .sola { border-bottom: var(--border-thin) solid var(--color-border-soft); }
+  .sola:nth-child(2n)  { border-right: none; }
+  .sola:nth-child(2n+1) { border-right: var(--border-thin) solid var(--color-border-soft); }
+}
+
+@media (min-width: 64rem) {
+  .sola {
+    border-bottom: none;
+    border-right: var(--border-thin) solid var(--color-border-soft);
+  }
+  .sola:last-child { border-right: none; }
+}
+
+.sola__icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  color: var(--color-accent);
+  margin-bottom: 0.25rem;
+}
+
+.sola__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sola__name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-heading);
+  letter-spacing: var(--ls-snug);
+  line-height: 1.1;
+}
+
+.sola__translation {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.sola__gloss {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--lh-snug);
+  color: var(--color-text);
+  max-width: 22ch;
+  margin: 0 auto;
+}
+
+.sola__ref {
+  margin-top: auto;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-accent);
+  letter-spacing: var(--ls-snug);
+}
+
+
+/* ============================================================
+   §19 · TARJETAS "¿POR QUÉ ESTUDIAR?" (C)
+   Tres columnas · numeral romano grande de fondo
+   ============================================================ */
+.why-study {
+  padding-block: var(--sp-3xl);
+  background-color: var(--color-bg-elevated);
+  border-block: var(--border-thin) solid var(--color-border-soft);
+}
+
+.why-study__header {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-lg);
+  margin-bottom: var(--sp-2xl);
+  align-items: end;
+}
+
+@media (min-width: 48rem) {
+  .why-study__header {
+    grid-template-columns: 2fr 3fr;
+  }
+}
+
+.why-study__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--sp-xs);
+}
+
+.why-study__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  color: var(--color-heading);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+}
+
+.why-study__intro {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  font-weight: 400;
+  line-height: var(--lh-snug);
+  color: var(--color-text-muted);
+  max-width: 48ch;
+}
+
+.why-study__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-md);
+}
+
+@media (min-width: 48rem) {
+  .why-study__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.reason {
+  position: relative;
+  padding: var(--sp-lg);
+  background-color: var(--color-bg);
+  border: var(--border-thin) solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: border-color var(--t-base) var(--ease-out-quad),
+              transform var(--t-base) var(--ease-out-quart);
+}
+
+.reason:hover {
+  border-color: var(--color-accent-soft);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reason:hover { transform: none; }
+}
+
+/* Numeral romano gigante de fondo, decorativo */
+.reason__numeral {
+  position: absolute;
+  top: -0.25rem;
+  right: 0.5rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(5rem, 12vw, 8rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-accent);
+  opacity: 0.10;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.04em;
+}
+
+.reason__kicker {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--sp-sm);
+  position: relative;
+}
+
+.reason__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  color: var(--color-heading);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-snug);
+  margin-bottom: var(--sp-sm);
+  position: relative;
+}
+
+.reason__body {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--lh-normal);
+  color: var(--color-text);
+  position: relative;
+}
+
+.reason__cite {
+  display: block;
+  margin-top: var(--sp-md);
+  padding-top: var(--sp-sm);
+  border-top: var(--border-thin) solid var(--color-border-soft);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  position: relative;
+}
+
+
+/* ============================================================
+   §20 · STEPPER DE METODOLOGÍA (D)
+   Cuatro pasos · numerales romanos · línea conectora horizontal
+   ============================================================ */
+.method {
+  padding-block: var(--sp-3xl);
+}
+
+.method__header {
+  text-align: center;
+  margin-bottom: var(--sp-2xl);
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.method__eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--sp-sm);
+}
+
+.method__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  color: var(--color-heading);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  margin-bottom: var(--sp-md);
+}
+
+.method__lead {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  line-height: var(--lh-snug);
+  color: var(--color-text-muted);
+  max-width: 50ch;
+  margin-inline: auto;
+}
+
+/* Stepper container */
+.stepper {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-lg);
+}
+
+@media (min-width: 64rem) {
+  .stepper {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  /* Línea conectora horizontal entre numerales */
+  .stepper::before {
+    content: "";
+    position: absolute;
+    top: 1.85rem;        /* centrada al numeral romano */
+    left: 12.5%;
+    right: 12.5%;
+    height: 1px;
+    background-color: var(--color-border);
+    z-index: 0;
+  }
+}
+
+.step {
+  position: relative;
+  padding: 0 var(--sp-md);
+  text-align: center;
+  z-index: 1;
+}
+
+.step__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: var(--sp-md);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.45rem;
+  font-weight: 500;
+  color: var(--color-accent);
+  background-color: var(--color-bg);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: 50%;
+  letter-spacing: var(--ls-tight);
+  line-height: 1;
+}
+
+[data-theme="light"] .step__num {
+  background-color: var(--color-bg);
+  box-shadow: 0 0 0 4px var(--color-bg);  /* máscara contra la línea */
+}
+[data-theme="dark"] .step__num {
+  background-color: var(--color-bg);
+  box-shadow: 0 0 0 4px var(--color-bg);
+}
+
+.step__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-heading);
+  line-height: var(--lh-tight);
+  margin-bottom: var(--sp-sm);
+  letter-spacing: var(--ls-snug);
+}
+
+.step__body {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--lh-normal);
+  color: var(--color-text-muted);
+  max-width: 28ch;
+  margin-inline: auto;
+}
+
+/* Móvil: stepper vertical con barra lateral en lugar de circular conectada */
+@media (max-width: 63.99rem) {
+  .step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--sp-md);
+    text-align: left;
+    padding: 0;
+    padding-bottom: var(--sp-md);
+    border-bottom: var(--border-thin) solid var(--color-border-soft);
+  }
+  .step:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .step__num {
+    margin-bottom: 0;
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.25rem;
+    box-shadow: none;
+  }
+  .step__title { margin-bottom: 0.4rem; }
+  .step__body { max-width: none; }
+  .step > * { grid-column: 2; }
+  .step__num { grid-column: 1; grid-row: 1 / span 2; align-self: start; }
+}
+
+
+/* ============================================================
+   §21 · BANDA DE CIERRE · PLIEGO DOBLE (G final)
+   Mitad navy oscuro + mitad crema · filete dorado entre ambas
+   ============================================================ */
+.closing-banner {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: var(--sp-3xl);
+}
+
+@media (min-width: 56rem) {
+  .closing-banner {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.closing-banner__side {
+  padding: var(--sp-2xl) clamp(1.5rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 18rem;
+  position: relative;
+}
+
+.closing-banner__side--dark {
+  background-color: var(--vma-navy-900);
+  color: var(--vma-cream-50);
+}
+
+.closing-banner__side--light {
+  background-color: var(--vma-cream-100);
+  color: var(--vma-navy-900);
+  position: relative;
+}
+
+/* Filete dorado entre ambos paneles */
+@media (min-width: 56rem) {
+  .closing-banner__side--light::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 15%;
+    bottom: 15%;
+    width: 1px;
+    background-color: var(--vma-gold-500);
+  }
+}
+
+@media (max-width: 55.99rem) {
+  .closing-banner__side--light::before {
+    content: "";
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    top: 0;
+    height: 1px;
+    background-color: var(--vma-gold-500);
+  }
+}
+
+.closing-banner__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-md);
+}
+.closing-banner__side--dark  .closing-banner__eyebrow { color: var(--vma-gold-300); }
+.closing-banner__side--light .closing-banner__eyebrow { color: var(--vma-gold-700); }
+
+.closing-banner__text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-snug);
+  text-wrap: balance;
+  max-width: 30ch;
+}
+
+.closing-banner__cite {
+  margin-top: var(--sp-md);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+
+/* ============================================================
+   §22 · PANEL DE ESTUDIO (E)
+   Dashboard · métricas · logros · export/import · Pomodoro embebido
+   ============================================================ */
+.panel-page {
+  padding-block: var(--sp-2xl);
+}
+
+.panel-page__header {
+  margin-bottom: var(--sp-xl);
+  padding-bottom: var(--sp-lg);
+  border-bottom: var(--border-thin) solid var(--color-border);
+}
+
+.panel-page__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--sp-xs);
+}
+
+.panel-page__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  color: var(--color-heading);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  margin-bottom: var(--sp-sm);
+}
+
+.panel-page__lead {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  line-height: var(--lh-snug);
+  color: var(--color-text-muted);
+  max-width: 56ch;
+}
+
+/* Layout 1+2: barra de acciones + grilla de módulos */
+.panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: var(--sp-xl);
+}
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-lg);
+}
+
+@media (min-width: 64rem) {
+  .panel-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* ---- Módulo (caja base reutilizable) ---- */
+.panel-module {
+  padding: var(--sp-lg);
+  background-color: var(--color-bg-elevated);
+  border: var(--border-thin) solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
+}
+
+.panel-module__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-md);
+  padding-bottom: var(--sp-sm);
+  border-bottom: var(--border-thin) solid var(--color-border-soft);
+}
+
+.panel-module__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-heading);
+  letter-spacing: var(--ls-snug);
+}
+
+.panel-module__meta {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+}
+
+/* ---- Métricas (tres celdas) ---- */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-md);
+}
+
+@media (min-width: 48rem) {
+  .metrics { grid-template-columns: repeat(4, 1fr); }
+}
+
+.metric {
+  padding: var(--sp-md) 0;
+}
+
+.metric__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  color: var(--color-heading);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--ls-tight);
+  margin-bottom: 0.35rem;
+}
+
+.metric__label {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* ---- Lista de cursos en progreso ---- */
+.progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.progress-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-md);
+  padding: var(--sp-md) 0;
+  border-bottom: var(--border-thin) dashed var(--color-border-soft);
+  align-items: center;
+}
+.progress-row:last-child { border-bottom: none; }
+
+.progress-row__title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 500;
+  color: var(--color-heading);
+  margin-bottom: 0.4rem;
+  letter-spacing: var(--ls-snug);
+  line-height: var(--lh-tight);
+}
+
+.progress-row__meta {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-bg-sunken);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background-color: var(--color-accent);
+  border-radius: 2px;
+  transition: width var(--t-slow) var(--ease-out-quart);
+}
+
+.progress-row__pct {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 500;
+  color: var(--color-heading);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--ls-tight);
+  min-width: 3rem;
+  text-align: right;
+}
+
+/* ---- Logros (medallones académicos) ---- */
+.achievements {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: var(--sp-md);
+  padding-block: var(--sp-sm);
+}
+
+.achievement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: var(--sp-sm) 0.5rem;
+  transition: transform var(--t-base) var(--ease-out-quart);
+}
+
+.achievement:hover {
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .achievement:hover { transform: none; }
+}
+
+.achievement__medal {
+  width: 3.75rem;
+  height: 3.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 30% 25%,
+                    var(--vma-gold-300) 0%,
+                    var(--vma-gold-500) 45%,
+                    var(--vma-gold-700) 100%);
+  border: var(--border-thin) solid var(--vma-gold-700);
+  border-radius: 50%;
+  position: relative;
+  color: var(--vma-navy-900);
+  flex-shrink: 0;
+}
+
+/* Anillo grabado decorativo dentro de la medalla */
+.achievement__medal::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid var(--vma-gold-900);
+  border-radius: 50%;
+  opacity: 0.45;
+}
+
+.achievement__medal svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  position: relative;
+  z-index: 1;
+}
+
+/* Estado bloqueado */
+.achievement.is-locked .achievement__medal {
+  filter: grayscale(85%) opacity(0.45);
+}
+.achievement.is-locked .achievement__name { color: var(--color-text-soft); }
+
+.achievement__name {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text);
+  line-height: var(--lh-snug);
+  max-width: 14ch;
+}
+
+/* ---- Lista de notas personales ---- */
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+.note-item {
+  padding: var(--sp-md);
+  background-color: var(--color-bg);
+  border: var(--border-thin) solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
+}
+
+.note-item__meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.note-item__lesson {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.note-item__body {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  line-height: var(--lh-snug);
+  color: var(--color-text);
+  font-style: italic;
+}
+
+/* ---- Estado vacío ---- */
+.panel-empty {
+  padding: var(--sp-2xl) var(--sp-md);
+  text-align: center;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+}
+
+.panel-empty__icon {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto var(--sp-md);
+  color: var(--color-text-soft);
+}
+
+.panel-empty__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  margin-bottom: var(--sp-xs);
+  font-weight: 500;
+}
+
+.panel-empty__body {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-soft);
+  max-width: 36ch;
+  margin: 0 auto var(--sp-md);
+  line-height: var(--lh-snug);
+}
+
+/* ---- Aviso editorial sobre persistencia ---- */
+.persistence-note {
+  margin-top: var(--sp-xl);
+  padding: var(--sp-md) var(--sp-lg);
+  background-color: var(--color-bg-sunken);
+  border-left: 2px solid var(--color-accent);
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--lh-snug);
+  color: var(--color-text-muted);
+}
+
+.persistence-note strong {
+  color: var(--color-heading);
+  font-weight: 600;
+}
+
+/* Nota: el border-left es UNA línea fina filiforme, no decorativa.
+   El antipatrón v5 prohíbe border-left de COLOR pleno en tarjetas;
+   este uso editorial (callout informativo) es distinto: <2px, fino,
+   semánticamente justificado, no en una grilla decorativa. */
+
+
+/* ============================================================
+   §23 · CATÁLOGO DE CURSOS (refuerzo)
+   ============================================================ */
+.courses-page {
+  padding-block: var(--sp-2xl);
+}
+
+.courses-page__header {
+  margin-bottom: var(--sp-xl);
+}
+
+.courses-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: var(--sp-xl);
+  padding-bottom: var(--sp-lg);
+  border-bottom: var(--border-thin) solid var(--color-border-soft);
+}
+
+.filter-chip {
+  padding: 0.45rem 0.95rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  background-color: transparent;
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: 999px;
+  transition: all var(--t-fast) var(--ease-out-quad);
+  cursor: pointer;
+}
+
+.filter-chip:hover {
+  border-color: var(--color-accent-soft);
+  color: var(--color-heading);
+}
+
+.filter-chip.is-active {
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  border-color: var(--color-btn-primary-bg);
+}
+
+.course-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-md);
+}
+
+@media (min-width: 48rem) {
+  .course-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 80rem) {
+  .course-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.course-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+  padding: var(--sp-lg);
+  background-color: var(--color-bg-elevated);
+  border: var(--border-thin) solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--t-base) var(--ease-out-quad),
+              transform var(--t-base) var(--ease-out-quart),
+              box-shadow var(--t-base);
+}
+
+.course-card:hover {
+  border-color: var(--color-accent-soft);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-card:hover { transform: none; }
+}
+
+.course-card__segment {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.course-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-heading);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-snug);
+}
+
+.course-card__desc {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--lh-normal);
+  color: var(--color-text-muted);
+  flex: 1;
+}
+
+.course-card__footer {
+  display: flex;
+  gap: var(--sp-md);
+  padding-top: var(--sp-sm);
+  border-top: var(--border-thin) solid var(--color-border-soft);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-soft);
+}
+
+
+/* ============================================================
+   §24 · PROSA EDITORIAL Y COMPONENTES DE CONTENIDO COMÚN
+   Para fragmentos de páginas: about, declaración, lecciones
+   ============================================================ */
+.prose {
+  max-width: var(--measure-base);
+}
+
+.prose > * + * {
+  margin-top: var(--sp-md);
+}
+
+.prose h2 {
+  margin-top: var(--sp-xl);
+  font-size: var(--text-2xl);
+}
+
+.prose h3 {
+  margin-top: var(--sp-lg);
+  font-size: var(--text-xl);
+}
+
+.prose h4 {
+  margin-top: var(--sp-md);
+  font-size: var(--text-lg);
+  color: var(--color-accent);
+}
+
+.prose p {
+  font-size: var(--text-base);
+  line-height: var(--lh-relaxed);
+  color: var(--color-text);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5rem;
+  max-width: var(--measure-base);
+}
+
+.prose ul li,
+.prose ol li {
+  margin-top: 0.5rem;
+  line-height: var(--lh-normal);
+  list-style-position: outside;
+}
+
+.prose ul li { list-style-type: "— "; }
+.prose ol { list-style-type: lower-roman; }
+.prose ol li { padding-left: 0.4rem; }
+
+.prose a {
+  color: var(--color-accent);
+  border-bottom: 1px solid currentColor;
+}
+
+.prose blockquote {
+  margin: var(--sp-lg) 0;
+  padding: var(--sp-md) var(--sp-lg);
+  border-left: 2px solid var(--color-accent);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  line-height: var(--lh-snug);
+  color: var(--color-text-muted);
+}
+
+.prose blockquote cite {
+  display: block;
+  margin-top: var(--sp-sm);
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: 0.78rem;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Cita bíblica inline */
+.bible-ref {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95em;
+  color: var(--color-accent);
+  letter-spacing: var(--ls-snug);
+  white-space: nowrap;
+}
+
+/* Página About — composición editorial con sello (H) */
+.about-page {
+  padding-block: var(--sp-2xl);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-2xl);
+}
+
+@media (min-width: 64rem) {
+  .about-grid {
+    grid-template-columns: 3fr 2fr;
+    gap: var(--sp-3xl);
+    align-items: start;
+  }
+}
+
+.about-seal {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-elevated);
+  border: var(--border-thin) solid var(--color-border-soft);
+  padding: var(--sp-xl);
+  overflow: hidden;
+}
+
+@media (min-width: 64rem) {
+  .about-seal { position: sticky; top: 6rem; }
+}
+
+.about-seal__inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+  align-items: center;
+}
+
+.about-seal__numeral {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 400;
+  color: var(--color-accent);
+  letter-spacing: var(--ls-tight);
+  line-height: 1;
+}
+
+.about-seal__motto {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-xl);
+  font-weight: 500;
+  color: var(--color-heading);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-snug);
+}
+
+.about-seal__tag {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.about-seal__sdg {
+  margin-top: var(--sp-md);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  color: var(--color-accent);
+}
+
+
+/* ============================================================================
+   VERBUM MANET ACADEMY · css/styles.css · v5 · PASO 8
+   ----------------------------------------------------------------------------
+   PASE RESPONSIVE QA · PARCHE LOCALIZADO
+
+   Cómo aplicar este parche en css/styles.css:
+     1. Localice el §25 actual (líneas ~2848–2911 aprox.) y elimínelo
+        completo, dejando intacto el §26 (Print) que viene después.
+     2. Pegue todo este bloque EN SU LUGAR, justo antes del §26.
+     3. Las tres correcciones puntuales (Bloque A) son adiciones que
+        sobrescriben reglas previas mediante mayor especificidad o
+        ámbito de media query. No hay que tocar el resto del CSS.
+
+   Bugs corregidos (auditoría v5):
+     · §K.2 — skip-link sin separación visual suficiente al recibir foco
+     · NUEVO — .sola:last-child con border-right fantasma en 2 columnas
+     · NUEVO — .about-seal aspect-ratio 3/4 excesivamente alto en tablet
+
+   El §25 original cubría los breakpoints pero faltaba reforzar:
+     · Pomodoro embebido en panel-estudio en pantallas < 480px
+     · btn-group del hero CTA en móvil estrecho (botones full-width)
+     · panel-grid con dos columnas en pantallas medianas (768–1024)
+     · about-grid gap más generoso en desktop amplio
+     · persistence-note padding en móvil estrecho
+   ============================================================================ */
+
+
+/* ============================================================
+   BLOQUE A · TRES CORRECCIONES PUNTUALES (fuera de breakpoints)
+   ============================================================ */
+
+
+/* --------------------------------------------------------------------------
+   A.1 · Skip-link · contraste y flotación al recibir foco (audit §K.2)
+   --------------------------------------------------------------------------
+   La regla previa cubría color + outline pero el skip-link aparecía pegado
+   al borde superior izquierdo sin sombra de elevación. En modo claro,
+   sobre fondo cream, la pieza navy podía leerse como decoración pegada al
+   header. Añadimos box-shadow y un ajuste de posición al revelarse.
+   -------------------------------------------------------------------------- */
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+  box-shadow:
+    0 10px 24px oklch(20% 0.03 256 / 0.30),
+    0 2px 4px  oklch(20% 0.03 256 / 0.15);
+  z-index: var(--z-toast);
+}
+
+/* En modo oscuro, la sombra es más profunda */
+[data-theme="dark"] .skip-link:focus,
+[data-theme="dark"] .skip-link:focus-visible {
+  box-shadow:
+    0 12px 28px oklch(0% 0 0 / 0.55),
+    0 2px 6px  oklch(0% 0 0 / 0.35);
+}
+
+
+/* --------------------------------------------------------------------------
+   A.2 · Solas · last-child sin border-right fantasma en 2 columnas
+   --------------------------------------------------------------------------
+   Con 5 elementos en grid de 2 cols, la disposición es [1,2][3,4][5,_].
+   El item 5 es nth-child(2n+1) (impar) y la regla previa le aplicaba
+   border-right · pero no hay nada a su derecha. La regla previa también
+   le da border-bottom porque no aplica el "no border" del :last-child del
+   default. Solución: cuando el último está solo en su fila (last-child
+   también es odd), span las 2 columnas y elimina border-right.
+   -------------------------------------------------------------------------- */
+@media (min-width: 36rem) and (max-width: 63.99rem) {
+  .sola:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    border-right: none;
+    border-bottom: none;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   A.3 · About-seal · aspect-ratio adaptable
+   --------------------------------------------------------------------------
+   Con aspect-ratio 3/4, cuando el grid colapsa a 1 columna en tablet, el
+   sello queda más alto que ancho de forma exagerada, ocupando media
+   pantalla. Cuando hay una sola columna soltamos el aspect-ratio y
+   damos una altura mínima razonable. En desktop ≥64rem el aspect-ratio
+   original (3/4) se mantiene para llenar el espacio derecho del grid.
+   -------------------------------------------------------------------------- */
+@media (max-width: 63.99rem) {
+  .about-seal {
+    aspect-ratio: auto;
+    min-height: 14rem;
+    padding: var(--sp-xl) var(--sp-lg);
+  }
+  .about-seal__numeral {
+    font-size: clamp(2.5rem, 7vw, 3.75rem);
+  }
+}
+
+
+/* ============================================================================
+   BLOQUE B · §25 · PASE RESPONSIVE QA (REEMPLAZA AL §25 ORIGINAL)
+   Breakpoints: 375 / 480 / 768 / 1024 / 1280 / 1600
+   ============================================================================ */
+
+
+/* ---------------------------------------------------------------------------
+   §25.1 · < 375px (móvil mínimo · iPhone SE 1ª gen, dispositivos antiguos)
+   Ajustes defensivos: nada se rompe en pantallas estrechas
+   --------------------------------------------------------------------------- */
+@media (max-width: 23.4375rem) {
+
+  .container { padding-inline: 0.85rem; }
+
+  /* Header compacto */
+  .site-header__inner { gap: 0.5rem; }
+  .brand__sub { display: none; }
+  .brand__name { font-size: 1.1rem; }
+  .tool-btn { width: 2.25rem; height: 2.25rem; }
+  .tool-btn svg { width: 1.1rem; height: 1.1rem; }
+
+  /* Hero: numerales y title más conservadores */
+  .hero { padding-block: var(--sp-xl) var(--sp-lg); }
+  .hero__title { font-size: clamp(2.2rem, 11vw, 2.8rem); }
+  .hero__lead { font-size: var(--text-base); }
+
+  /* Hero CTA: botones a ancho completo para tap target generoso */
+  .hero__cta .btn-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero__cta .btn { width: 100%; }
+
+  /* Pomodoro flotante: pegado a ambos bordes con margen mínimo */
+  .pomodoro-panel {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: calc(100vw - 1.5rem);
+  }
+  .pomodoro-panel__time { font-size: clamp(2.4rem, 12vw, 3rem); }
+
+  /* Pomodoro embebido (panel-estudio): padding reducido */
+  .pomodoro-panel--embedded .pomodoro-panel__body { padding: 1rem; }
+
+  /* Persistence note: padding más estrecho */
+  .persistence-note { padding: var(--sp-sm) var(--sp-md); }
+
+  /* Cierre · pliego doble: alturas más modestas */
+  .closing-banner__side {
+    min-height: 12rem;
+    padding: var(--sp-lg) var(--sp-md);
+  }
+  .closing-banner__text { font-size: var(--text-md); }
+
+  /* Métricas en 2 cols puede ser apretado en < 320px: el valor en text-2xl
+     se reduce un grado para que no salte de línea con "0h 00m" */
+  .metric__value { font-size: var(--text-xl); }
+
+  /* Logros: medallones más pequeños */
+  .achievement__medal { width: 3rem; height: 3rem; }
+  .achievement__medal svg { width: 1.25rem; height: 1.25rem; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   §25.2 · 375–480px (móvil estándar · iPhone 12 mini → SE 3ª gen)
+   --------------------------------------------------------------------------- */
+@media (min-width: 23.4375rem) and (max-width: 29.99rem) {
+
+  /* Hero CTA en columna pero permitiendo botones de su ancho natural */
+  .hero__cta .btn-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero__cta .btn { width: 100%; }
+
+  /* About: numeral del sello más comedido */
+  .about-seal__numeral { font-size: clamp(2.75rem, 8vw, 4rem); }
+
+  /* Pomodoro embebido: max-width ajustada (no quita el inline del HTML,
+     solo el contenedor padre) */
+  .pomodoro-panel--embedded { max-width: 100%; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   §25.3 · < 768px (móvil estándar)
+   La mayoría del CSS ya es mobile-first; aquí confirmamos selectivamente.
+   --------------------------------------------------------------------------- */
+@media (max-width: 47.99rem) {
+
+  /* Padding vertical más comedido en secciones largas */
+  .hero          { padding-block: var(--sp-2xl) var(--sp-xl); }
+  .quote-rotator { padding-block: var(--sp-lg); }
+  .solas         { padding-block: var(--sp-2xl); }
+  .why-study     { padding-block: var(--sp-2xl); }
+  .method        { padding-block: var(--sp-2xl); }
+
+  /* Títulos de sección un grado más pequeños */
+  .solas__title,
+  .why-study__title,
+  .method__title,
+  .panel-page__title {
+    font-size: var(--text-2xl);
+  }
+
+  /* About: lead más compacto */
+  .panel-page__lead { font-size: var(--text-base); line-height: var(--lh-snug); }
+
+  /* Solas: gap interno entre celdas más pequeño */
+  .sola { padding: var(--sp-md) var(--sp-sm); gap: 0.65rem; }
+  .sola__icon { width: 3rem; height: 3rem; }
+  .sola__gloss { font-size: 0.85rem; }
+
+  /* Stepper vertical: ya gestionado por la regla de §20, aquí solo refuerzo
+     de la separación con el siguiente bloque */
+  .stepper { gap: var(--sp-md); }
+
+  /* Panel-grid: una columna (default) · margen del bloque reducido */
+  .panel-grid { gap: var(--sp-md); }
+  .panel-module { padding: var(--sp-md); }
+  .panel-module__header { margin-bottom: var(--sp-sm); padding-bottom: var(--sp-xs); }
+
+  /* Hero segments: separación más sutil */
+  .hero__segments { gap: var(--sp-sm); }
+  .hero-segment   { padding-bottom: var(--sp-sm); }
+
+  /* Cierre · pliego doble (vertical en móvil) */
+  .closing-banner__side {
+    min-height: 13rem;
+    padding: var(--sp-xl) var(--sp-lg);
+  }
+  .closing-banner__text { font-size: var(--text-md); }
+
+  /* Persistence note: padding más compacto */
+  .persistence-note {
+    padding: var(--sp-sm) var(--sp-md);
+    margin-top: var(--sp-md);
+  }
+
+  /* Modal de búsqueda: padding lateral ligeramente menor */
+  .search-modal { padding: 0.75rem; }
+
+  /* Footer: motto y tag más compactos */
+  .site-footer__motto { font-size: var(--text-md); }
+  .site-footer__tag   { font-size: 0.85rem; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   §25.4 · 768–1024px (tablet · iPad mini, iPad estándar portrait)
+   El header pasa a horizontal completo, las solas a 2 cols, el stepper sigue
+   vertical hasta 1024px. La novedad importante: panel-grid en 2 cols suaves.
+   --------------------------------------------------------------------------- */
+@media (min-width: 48rem) and (max-width: 63.99rem) {
+
+  /* Hero: gap intermedio (no tan compacto como móvil, no tan amplio como
+     desktop). Mantiene una columna porque grid-template-columns: 7fr 5fr
+     se activa en 64rem */
+  .hero__grid { gap: var(--sp-xl); }
+
+  /* About-grid: una columna (el media query del CSS original se activa en
+     64rem). Aquí solo aseguramos margen entre las dos zonas apiladas. */
+  .about-grid { gap: var(--sp-2xl); }
+  .about-main { max-width: var(--measure-wide); }
+
+  /* Panel-grid en 2 cols moderadas — opcional: permitir 2 columnas más
+     ajustadas en tablet (default era 64rem). Esto da uso al ancho extra. */
+  .panel-grid {
+    grid-template-columns: 1.7fr 1fr;
+    gap: var(--sp-lg);
+  }
+  /* Mantener métricas/logros/acciones en span completo */
+  .panel-module[style*="grid-column: 1 / -1"],
+  .panel-actions {
+    grid-column: 1 / -1 !important;
+  }
+
+  /* Stepper vertical (ya cubierto en §20 con max-width: 63.99rem) */
+  /* No tocar */
+
+  /* Closing-banner sigue colapsado a 1 col hasta 56rem; aquí ya está en 2 */
+  .closing-banner__side { min-height: 14rem; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   §25.5 · 1024–1280px (laptop · iPad pro, MacBook 13")
+   --------------------------------------------------------------------------- */
+@media (min-width: 64rem) and (max-width: 79.99rem) {
+
+  .container { padding-inline: 2rem; }
+  .site-header__inner { gap: var(--sp-lg); }
+
+  /* Hero: ya en 7-5 desde 64rem; aquí solo aseguramos respiración */
+  .hero__grid { gap: var(--sp-2xl); }
+
+  /* About-grid: dos columnas activadas, gap intermedio */
+  .about-grid { gap: var(--sp-2xl); }
+
+  /* Panel-grid: dos columnas con la proporción de §22 (2fr 1fr) */
+  /* (default desde 64rem · no se reasigna) */
+}
+
+
+/* ---------------------------------------------------------------------------
+   §25.6 · ≥ 1280px (desktop amplio · MacBook 14"/16", monitores externos)
+   --------------------------------------------------------------------------- */
+@media (min-width: 80rem) {
+
+  .container { padding-inline: 2.5rem; }
+
+  /* Hero: respiración generosa */
+  .hero {
+    padding-block: clamp(4rem, 10vh, 7rem) clamp(3rem, 6vh, 4rem);
+  }
+  .hero__grid { gap: clamp(3rem, 6vw, 5rem); }
+
+  /* About-grid: gap más generoso para que el sello respire */
+  .about-grid { gap: var(--sp-3xl); }
+}
+
+
+/* ---------------------------------------------------------------------------
+   §25.7 · ≥ 1600px (ultra-wide · monitores 4K, externos amplios)
+   No estiramos el contenido: container fijo en --container-max (78rem · 1248px)
+   y el espacio extra queda como aire editorial a los lados.
+   --------------------------------------------------------------------------- */
+@media (min-width: 100rem) {
+  /* Sin cambios: el container ya tiene max-width: 78rem en §6
+     y el contenido respira bien sin estirarse. */
+}
+
+
+/* ---------------------------------------------------------------------------
+   §25.8 · Ajustes específicos por orientación
+   En landscape de móvil (alturas pequeñas), reducimos el padding vertical
+   del hero y secciones largas para que la primera vista quepa.
+   --------------------------------------------------------------------------- */
+@media (max-height: 32rem) and (orientation: landscape) {
+  .hero { padding-block: var(--sp-lg) var(--sp-md); }
+  .hero__title { font-size: clamp(1.8rem, 5vh, 2.5rem); }
+  .closing-banner__side { min-height: auto; padding-block: var(--sp-lg); }
+}
+
+
+/* ---------------------------------------------------------------------------
+   §25.9 · Hover deshabilitado en touch devices
+   Algunos componentes con transform en :hover (achievement, reason) pueden
+   "quedarse pegados" en touch si el usuario los toca brevemente. Los
+   neutralizamos cuando no hay puntero fino.
+   --------------------------------------------------------------------------- */
+@media (hover: none) {
+  .achievement:hover,
+  .reason:hover,
+  .course-card:hover {
+    transform: none;
+  }
+}
+
+
+/* ============================================================================
+   FIN DEL PASE QA RESPONSIVE v5 · §25 + correcciones puntuales
+   El §26 (Print styles) del archivo original se conserva intacto.
+   ============================================================================ */
+
+
+/* ============================================================
+   §26 · PRINT STYLES
+   Para que Mis Notas y los fragmentos de lecciones impriman dignamente
+   ============================================================ */
+@media print {
+  *, *::before, *::after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  body { font-size: 11pt; line-height: 1.5; }
+
+  .site-header,
+  .site-footer,
+  .site-toolbar,
+  .pomodoro-panel,
+  .search-modal,
+  .glossary-tooltip,
+  .panel-actions,
+  .skip-link {
+    display: none !important;
+  }
+
+  main, .container { max-width: 100%; padding: 0; }
+
+  a { text-decoration: underline; color: #000 !important; }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    font-style: italic;
+  }
+  a[href^="#"]::after { content: ""; }
+
+  h1, h2, h3 { page-break-after: avoid; }
+  blockquote, .note-item { page-break-inside: avoid; }
+
+  @page { margin: 2cm; }
+}
+
+
+/* ============================================================
+   FIN DE Verbum Manet Academy · css/styles.css · v5
+   Parte A: §1–§14 · Parte B: §15–§26
+   ============================================================ */
