@@ -1,45 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 100 100"
-     fill="none"
-     role="img"
-     aria-label="Verbum Manet Academy — La Palabra permanece">
-  <title>Verbum Manet Academy</title>
-  <desc>Logotipo monocromático de Verbum Manet Academy. Monograma V·M compuesto por capitales romanas flanqueando un interpunct clásico, enmarcado en una placa inscripcional con dos filetes horizontales que evocan las inscripciones lapidarias romanas. Adaptación automática de color mediante currentColor.</desc>
+<?xml version="1.0"?>
 
-  <!-- Marco exterior · placa inscripcional con esquinas ligeramente redondeadas -->
-  <rect x="6" y="6"
-        width="88" height="88"
-        rx="2.5" ry="2.5"
-        stroke="currentColor"
-        stroke-width="1"
-        opacity="0.32"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 96" fill="currentColor" role="img" aria-label="Verbum Manet Academy" font-family="&#39;Cormorant Garamond&#39;, &#39;Cormorant&#39;, Garamond, &#39;Adobe Garamond Pro&#39;, &#39;EB Garamond&#39;, serif">
+  <g class="vma-logo__isotipo">
+    <path d="M5.5 20 H16 V24 H4 V21.5 Z"></path>
+    <path d="M20 20 H30.5 L32 21.5 V24 H20 Z"></path>
+    <path d="M8 24 H14 L22 76 H18 Z"></path>
+    <path d="M22 24 H28 L22 76 H18 Z"></path>
+    <path d="M43.5 20 H54 V24 H42 V21.5 Z"></path>
+    <path d="M70 20 H80.5 L82 21.5 V24 H70 Z"></path>
+    <path d="M44 24 H52 V72 H44 Z"></path>
+    <path d="M72 24 H80 V72 H72 Z"></path>
+    <path d="M52 24 H58 L63 46 H61 Z"></path>
+    <path d="M66 24 H72 L63 46 H61 Z"></path>
+    <path d="M42 72 H54 V76 H43.5 L42 74.5 Z"></path>
+    <path d="M70 72 H82 V74.5 L80.5 76 H70 Z"></path>
+  </g>
 
-  <!-- Filetes horizontales · bandas que encierran el campo inscripcional,
-       al modo de las placas epigráficas romanas (tabulae ansatae) -->
-  <path d="M 16 21 L 84 21"
-        stroke="currentColor"
-        stroke-width="0.7"
-        opacity="0.5"/>
-  <path d="M 16 79 L 84 79"
-        stroke="currentColor"
-        stroke-width="0.7"
-        opacity="0.5"/>
+  <g class="vma-logo__separator">
+    <circle cx="92" cy="48" r="2.4" fill="#A88820"></circle>
+  </g>
 
-  <!-- Letra V · capital romana cuadrada con ápice bajo -->
-  <path d="M 20 29 L 34 71 L 46 29"
-        stroke="currentColor"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"/>
-
-  <!-- Interpunct · punto medio epigráfico clásico (·) -->
-  <circle cx="50" cy="50" r="1.7" fill="currentColor"/>
-
-  <!-- Letra M · capital romana con valle interior moderado -->
-  <path d="M 54 71 L 54 29 L 66 55 L 78 29 L 78 71"
-        stroke="currentColor"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"/>
+  <g class="vma-logo__wordmark">
+    <text x="104" y="43" font-size="36" font-weight="600" letter-spacing="4.32">VERBUM<tspan dx="9" font-weight="700">MANET</tspan></text>
+    <text x="104" y="76" font-size="36" font-weight="600" letter-spacing="4.32">ACADEMY</text>
+  </g>
 </svg>

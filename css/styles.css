@@ -1,3 +1,75 @@
+/* ════════════════════════════════════════════════════════════════════
+   VERBUM MANET ACADEMY — tokens de marca (§3 paleta · §9 tipografía)
+   Importa este archivo, o pega su contenido, en el CSS raíz de tu
+   VDMA Project. Valores OKLCH con fallback HEX para navegadores viejos.
+   ════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ─── Navy (escala) ─── */
+  --vma-navy-700: oklch(35% 0.095 256);   /* #243B65  superficies elevadas (dark) */
+  --vma-navy-800: oklch(26% 0.075 256);   /* #1A2B4A  surface secundaria (dark)   */
+  --vma-navy-900: oklch(18% 0.055 256);   /* #101B33  surface principal (dark)     */
+
+  /* ─── Gold (acento — solo tipografía, filetes, hover) ─── */
+  --vma-gold-500: oklch(68% 0.115 85);    /* #A88820  acento claro    */
+  --vma-gold-700: oklch(50% 0.095 85);    /* #785F10  acento sobre cream */
+
+  /* ─── Cream / pergamino (modo claro) ─── */
+  --vma-cream:      oklch(96% 0.015 78);  /* #F5F0E8  surface principal (light) */
+  --vma-cream-dark: oklch(92% 0.020 78);  /* #EBE3D2  surface secundaria        */
+
+  /* ─── Tinta (texto) ─── */
+  --vma-ink:      oklch(22% 0.020 256);   /* #1D2330  texto principal   */
+  --vma-ink-soft: oklch(38% 0.018 256);   /* #444C5C  texto secundario  */
+  --vma-mist:     oklch(88% 0.005 256);   /* #DDDFE3  separadores       */
+
+  /* ─── Familias tipográficas ─── */
+  --vma-font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --vma-font-ui: "Satoshi", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ─── Roles semánticos (modo claro por defecto) ─── */
+  --vma-bg:       var(--vma-cream);
+  --vma-bg-elev:  #FFFFFF;
+  --vma-text:     var(--vma-ink);
+  --vma-text-mut: var(--vma-ink-soft);
+  --vma-accent:   var(--vma-gold-700);
+}
+
+/* Fallback HEX para navegadores sin soporte OKLCH */
+@supports not (color: oklch(0% 0 0)) {
+  :root {
+    --vma-navy-700: #243B65;
+    --vma-navy-800: #1A2B4A;
+    --vma-navy-900: #101B33;
+    --vma-gold-500: #A88820;
+    --vma-gold-700: #785F10;
+    --vma-cream:      #F5F0E8;
+    --vma-cream-dark: #EBE3D2;
+    --vma-ink:      #1D2330;
+    --vma-ink-soft: #444C5C;
+    --vma-mist:     #DDDFE3;
+  }
+}
+
+/* ─── Modo oscuro ─── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --vma-bg:       var(--vma-navy-900);
+    --vma-bg-elev:  var(--vma-navy-800);
+    --vma-text:     var(--vma-cream);
+    --vma-text-mut: var(--vma-mist);
+    --vma-accent:   var(--vma-gold-500);
+  }
+}
+
+:root[data-theme="dark"] {
+  --vma-bg:       var(--vma-navy-900);
+  --vma-bg-elev:  var(--vma-navy-800);
+  --vma-text:     var(--vma-cream);
+  --vma-text-mut: var(--vma-mist);
+  --vma-accent:   var(--vma-gold-500);
+}
+
 /* ============================================================================
    VERBUM MANET ACADEMY · css/styles.css · v5 · Parte A
    ----------------------------------------------------------------------------

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" role="img" aria-label="Verbum Manet Academy">
+  <g class="vma-sello__envolvente">
+    <path d="M112 67 H424 A21 21 0 0 1 445 88 V400 A45 45 0 0 1 400 445 H88 A21 21 0 0 1 67 424 V112 A45 45 0 0 1 112 67 Z" fill="none" stroke="currentColor" stroke-width="6"></path>
+  </g>
+  <g class="vma-sello__filete">
+    <path d="M112 80.5 H424 A7.5 7.5 0 0 1 431.5 88 V400 A31.5 31.5 0 0 1 400 431.5 H88 A7.5 7.5 0 0 1 80.5 424 V112 A31.5 31.5 0 0 1 112 80.5 Z" fill="none" stroke="#A88820" stroke-width="1"></path>
+  </g>
+  <g class="vma-sello__isotipo" transform="translate(94.75 76) scale(3.75)">
+    <path d="M5.5 20 H16 V24 H4 V21.5 Z"></path>
+    <path d="M20 20 H30.5 L32 21.5 V24 H20 Z"></path>
+    <path d="M8 24 H14 L22 76 H18 Z"></path>
+    <path d="M22 24 H28 L22 76 H18 Z"></path>
+    <path d="M43.5 20 H54 V24 H42 V21.5 Z"></path>
+    <path d="M70 20 H80.5 L82 21.5 V24 H70 Z"></path>
+    <path d="M44 24 H52 V72 H44 Z"></path>
+    <path d="M72 24 H80 V72 H72 Z"></path>
+    <path d="M52 24 H58 L63 46 H61 Z"></path>
+    <path d="M66 24 H72 L63 46 H61 Z"></path>
+    <path d="M42 72 H54 V76 H43.5 L42 74.5 Z"></path>
+    <path d="M70 72 H82 V74.5 L80.5 76 H70 Z"></path>
+  </g>
+</svg>
