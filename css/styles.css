@@ -1,100 +1,31 @@
 /* ════════════════════════════════════════════════════════════════════
-   VERBUM MANET ACADEMY — tokens de marca (§3 paleta · §9 tipografía)
-   Importa este archivo, o pega su contenido, en el CSS raíz de tu
-   VDMA Project. Valores OKLCH con fallback HEX para navegadores viejos.
-   ════════════════════════════════════════════════════════════════════ */
+   VERBUM MANET ACADEMY · css/styles.css · v5
+   ────────────────────────────────────────────────────────────────────
+   Sistema de diseño completo. Sigue rigurosamente los principios de
+   docs/BRANDING-CLAUDE-DESIGN.md (paleta OKLCH, tipografía, ritmo)
+   y docs/ARCHITECTURE.md §10 (sistema de diseño técnico).
 
-:root {
-  /* ─── Navy (escala) ─── */
-  --vma-navy-700: oklch(35% 0.095 256);   /* #243B65  superficies elevadas (dark) */
-  --vma-navy-800: oklch(26% 0.075 256);   /* #1A2B4A  surface secundaria (dark)   */
-  --vma-navy-900: oklch(18% 0.055 256);   /* #101B33  surface principal (dark)     */
-
-  /* ─── Gold (acento — solo tipografía, filetes, hover) ─── */
-  --vma-gold-500: oklch(68% 0.115 85);    /* #A88820  acento claro    */
-  --vma-gold-700: oklch(50% 0.095 85);    /* #785F10  acento sobre cream */
-
-  /* ─── Cream / pergamino (modo claro) ─── */
-  --vma-cream:      oklch(96% 0.015 78);  /* #F5F0E8  surface principal (light) */
-  --vma-cream-dark: oklch(92% 0.020 78);  /* #EBE3D2  surface secundaria        */
-
-  /* ─── Tinta (texto) ─── */
-  --vma-ink:      oklch(22% 0.020 256);   /* #1D2330  texto principal   */
-  --vma-ink-soft: oklch(38% 0.018 256);   /* #444C5C  texto secundario  */
-  --vma-mist:     oklch(88% 0.005 256);   /* #DDDFE3  separadores       */
-
-  /* ─── Familias tipográficas ─── */
-  --vma-font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --vma-font-ui: "Satoshi", system-ui, -apple-system, "Segoe UI", sans-serif;
-
-  /* ─── Roles semánticos (modo claro por defecto) ─── */
-  --vma-bg:       var(--vma-cream);
-  --vma-bg-elev:  #FFFFFF;
-  --vma-text:     var(--vma-ink);
-  --vma-text-mut: var(--vma-ink-soft);
-  --vma-accent:   var(--vma-gold-700);
-}
-
-/* Fallback HEX para navegadores sin soporte OKLCH */
-@supports not (color: oklch(0% 0 0)) {
-  :root {
-    --vma-navy-700: #243B65;
-    --vma-navy-800: #1A2B4A;
-    --vma-navy-900: #101B33;
-    --vma-gold-500: #A88820;
-    --vma-gold-700: #785F10;
-    --vma-cream:      #F5F0E8;
-    --vma-cream-dark: #EBE3D2;
-    --vma-ink:      #1D2330;
-    --vma-ink-soft: #444C5C;
-    --vma-mist:     #DDDFE3;
-  }
-}
-
-/* ─── Modo oscuro ─── */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --vma-bg:       var(--vma-navy-900);
-    --vma-bg-elev:  var(--vma-navy-800);
-    --vma-text:     var(--vma-cream);
-    --vma-text-mut: var(--vma-mist);
-    --vma-accent:   var(--vma-gold-500);
-  }
-}
-
-:root[data-theme="dark"] {
-  --vma-bg:       var(--vma-navy-900);
-  --vma-bg-elev:  var(--vma-navy-800);
-  --vma-text:     var(--vma-cream);
-  --vma-text-mut: var(--vma-mist);
-  --vma-accent:   var(--vma-gold-500);
-}
-
-/* ============================================================================
-   VERBUM MANET ACADEMY · css/styles.css · v5 · Parte A
-   ----------------------------------------------------------------------------
-   Contenido de esta parte:
+   Contenido:
      §1  Tokens (color OKLCH, tipografía, escala fluida, ritmo, transiciones)
      §2  Modo claro / modo oscuro (tokens semánticos por tema)
      §3  Sistema --fs-scale controlado por [data-fs]
-     §4  Reset y base CSS (sin opiniones cromáticas)
+     §4  Reset y base CSS
      §5  Tipografía y elementos básicos
      §6  Container y utilidades
      §7  Skip link y :focus-visible
      §8  Header (brand, primary-nav, toolbar, drawer)
      §9  Footer (tres columnas + franja editorial)
-     §10 Panel Pomodoro flotante (oculto por defecto)
+     §10 Panel Pomodoro flotante
      §11 Modal de búsqueda (Ctrl+K)
      §12 Portal de tooltip del glosario
      §13 Skeleton loader (respeta prefers-reduced-motion)
      §14 Utilidades de accesibilidad
-   ----------------------------------------------------------------------------
-   La Parte B (entrega siguiente) aporta los componentes de las secciones
-   nuevas v5 (hero editorial, PRINCIPIO+FUNDAMENTOS, citas alternantes,
-   "¿Por qué estudiar?", Metodología, Panel de Estudio, Logros) y el pase
-   de QA responsive final.
-   ============================================================================ */
 
+   Tokens base verificados contra BRANDING-CLAUDE-DESIGN.md:
+     Navy   hue 256 · gold hue 78 · cream hue 78 (low chroma)
+     ink-500 a L=44% asegura contraste AA (≥4.5:1)
+     Sombras con croma navy (no negro puro)
+   ════════════════════════════════════════════════════════════════════ */
 
 /* ============================================================
    §1 · TOKENS DE DISEÑO (paleta OKLCH base + tipografía + ritmo)
@@ -223,6 +154,40 @@
   --shadow-sm:  0 1px 2px oklch(20% 0.03 256 / 0.08);
   --shadow-md:  0 6px 18px oklch(20% 0.03 256 / 0.10);
   --shadow-lg:  0 18px 42px oklch(20% 0.03 256 / 0.14);
+}
+
+
+/* ─── Fallback HEX para navegadores sin soporte OKLCH ────────────────────
+   Valores extraídos de BRANDING-CLAUDE-DESIGN.md (paleta canónica).
+   Se aplican solo si el navegador NO entiende oklch(). */
+@supports not (color: oklch(0% 0 0)) {
+  :root {
+    --vma-navy-50:   #E9EDF4;
+    --vma-navy-100:  #D6DDE9;
+    --vma-navy-300:  #95A3BE;
+    --vma-navy-500:  #4E5E80;
+    --vma-navy-700:  #2D3A56;
+    --vma-navy-900:  #101B33;
+
+    --vma-gold-50:   #F5EBD2;
+    --vma-gold-100:  #E8D6A0;
+    --vma-gold-300:  #C9A84C;
+    --vma-gold-500:  #A88820;
+    --vma-gold-700:  #785F10;
+    --vma-gold-900:  #5A4708;
+
+    --vma-cream-50:  #F4EFE4;
+    --vma-cream-100: #FBF8F0;
+    --vma-cream-200: #EDE6D5;
+    --vma-cream-300: #DCCFB1;
+
+    --vma-ink-50:    #F7F8FA;
+    --vma-ink-100:   #E6E8EC;
+    --vma-ink-300:   #B0B5BD;
+    --vma-ink-500:   #5E6573;
+    --vma-ink-700:   #3D424E;
+    --vma-ink-900:   #1D2330;
+  }
 }
 
 
