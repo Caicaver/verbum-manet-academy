@@ -4,116 +4,89 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- ============================================================ -->
-  <!-- TITLE & META                                                  -->
-  <!-- ============================================================ -->
+  <!-- ════════════════════════════════════════════════════════════════════
+       TITLE & META PRINCIPALES
+       ════════════════════════════════════════════════════════════════════ -->
   <title>Verbum Manet Academy · Seminario Reformado en español</title>
   <meta name="description" content="Formación teológica reformada en español: 20 cursos, 4 segmentos, 135 lecciones, glosario académico. Sin costos, sin inscripción, sin barreras. Soli Deo Gloria.">
   <meta name="author" content="Hno. Calet Cáceres Vergara">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://verbum-manet.pages.dev/">
+  <link rel="canonical" href="https://verbum-manet-academy.pages.dev/">
 
-  <!-- theme-color (actualizado dinámicamente por app.js al conmutar tema) -->
-  <meta name="theme-color" id="theme-color-meta" content="#F4EFE4" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0F1623" media="(prefers-color-scheme: dark)">
+  <!-- ════════════════════════════════════════════════════════════════════
+       PWA · ICONS · MANIFEST
+       (consolidado del head-snippet de Claude Design)
+       ════════════════════════════════════════════════════════════════════ -->
 
-  <!-- ============================================================ -->
-  <!-- OPEN GRAPH & SOCIAL                                           -->
-  <!-- ============================================================ -->
+  <!-- Favicons / iconos -->
+  <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+
+  <!-- PWA manifest + theme color (un único manifest) -->
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#F4EFE4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101B33" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-title" content="Verbum Manet">
+  <meta name="application-name" content="Verbum Manet Academy">
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       OPEN GRAPH · TWITTER CARD
+       ════════════════════════════════════════════════════════════════════ -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Verbum Manet Academy">
   <meta property="og:site_name" content="Verbum Manet Academy">
-  <meta property="og:description" content="Seminario reformado en español: 20 cursos, 135 lecciones, glosario académico. Acceso libre.">
-  <meta property="og:url" content="https://verbum-manet.pages.dev/">
-  <meta property="og:image" content="https://verbum-manet.pages.dev/icons/og-image.png">
+  <meta property="og:title" content="Verbum Manet Academy">
+  <meta property="og:description" content="Seminario reformado en español: 20 cursos, 135 lecciones, glosario académico. La Palabra Permanece.">
+  <meta property="og:url" content="https://verbum-manet-academy.pages.dev/">
+  <meta property="og:image" content="https://verbum-manet-academy.pages.dev/icons/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Verbum Manet Academy — La Palabra Permanece">
   <meta property="og:locale" content="es_ES">
+
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Verbum Manet Academy">
+  <meta name="twitter:description" content="La Palabra Permanece.">
+  <meta name="twitter:image" content="https://verbum-manet-academy.pages.dev/icons/og-image.png">
 
-  <!-- ============================================================ -->
-  <!-- PWA & ICONS                                                   -->
-  <!-- ============================================================ -->
-  <link rel="manifest" href="./manifest.json">
-  <link rel="icon" type="image/svg+xml" href="./icons/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+  <!-- ════════════════════════════════════════════════════════════════════
+       TIPOGRAFÍAS — Estrategia híbrida resiliente
+       ────────────────────────────────────────────────────────────────────
+       Cormorant Garamond: Google Fonts (más estable, alto uptime)
+       Satoshi:            Fontshare (Google Fonts no la ofrece)
 
-  <!-- ============================================================ -->
-  <!-- FONTS — Fontshare prioritario (v4)                            -->
-  <!-- Cormorant Garamond (display serif) + Satoshi (UI sans)        -->
-  <!-- ============================================================ -->
+       Esta separación protege la identidad visual: si Fontshare cae,
+       Cormorant sigue cargando desde Google y la familia display se
+       preserva; el fallback de Satoshi a system-ui/Segoe UI es aceptable
+       para la UI sans.
+       ════════════════════════════════════════════════════════════════════ -->
+
+  <!-- Cormorant Garamond (display serif) — Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+
+  <!-- Satoshi (UI sans) — Fontshare -->
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
-  <link href="https://api.fontshare.com/v2/css?f[]=cormorant-garamond@400,500,600,700i,400i&f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
 
-  <!-- ============================================================ -->
-  <!-- STYLES                                                        -->
-  <!-- ============================================================ -->
+  <!-- ════════════════════════════════════════════════════════════════════
+       ESTILOS DEL PROYECTO
+       ════════════════════════════════════════════════════════════════════ -->
   <link rel="stylesheet" href="./css/styles.css">
 
-<!-- ════════════════════════════════════════════════════════════════════
-     VERBUM MANET ACADEMY — bloque <head> de integración
-     Copia este bloque dentro del <head> de tu VDMA Project.
-     Ajusta el dominio (https://tudominio.com) y las rutas si no sirves
-     los assets desde la raíz (/).
-     ════════════════════════════════════════════════════════════════════ -->
-
-<!-- ─── Favicons / iconos ─── -->
-<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
-<link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png" />
-<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
-
-<!-- ─── PWA manifest + theme ─── -->
-<link rel="manifest" href="/site.webmanifest" />
-<meta name="theme-color" content="#101B33" />
-<meta name="apple-mobile-web-app-title" content="Verbum Manet" />
-<meta name="application-name" content="Verbum Manet Academy" />
-
-<!-- ─── Open Graph / redes sociales ─── -->
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Verbum Manet Academy" />
-<meta property="og:title" content="Verbum Manet Academy" />
-<meta property="og:description" content="La Palabra Permanece." />
-<meta property="og:image" content="https://verbum-manet-academy.pages.dev/icons/og-image.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Verbum Manet Academy — La Palabra Permanece" />
-<meta property="og:url" content="https://tudominio.com/" />
-
-<!-- ─── Twitter / X (usa la misma imagen 1.91:1) ─── -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Verbum Manet Academy" />
-<meta name="twitter:description" content="La Palabra Permanece." />
-<meta name="twitter:image" content="https://verbum-manet-academy.pages.dev/icons/og-image.png" /> 
-
-<!-- ─── Fuentes: preconnect + carga (§9.1 / §9.2) ─── -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="preconnect" href="https://api.fontshare.com" />
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
-/>
-<link
-  rel="stylesheet"
-  href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap"
-/>
-
-</head>
-<body>
-  ...
-</body>
-</html>
 </head>
 <body>
 
-  <!-- ============================================================ -->
-  <!-- SKIP LINK (primer elemento enfocable)                         -->
-  <!-- ============================================================ -->
+  <!-- ════════════════════════════════════════════════════════════════════
+       SKIP LINK (primer elemento enfocable)
+       ════════════════════════════════════════════════════════════════════ -->
   <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
-  <!-- ============================================================ -->
-  <!-- HEADER                                                        -->
-  <!-- ============================================================ -->
+  <!-- ════════════════════════════════════════════════════════════════════
+       HEADER
+       ════════════════════════════════════════════════════════════════════ -->
   <header class="site-header" role="banner">
     <div class="container site-header__inner">
 
@@ -158,60 +131,46 @@
         <button type="button" class="tool-btn tool-btn--fs" id="fs-cycle"
                 aria-label="Tamaño del texto: normal · pulsar para aumentar"
                 data-tooltip="Tamaño del texto">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M6 18 L10 6 L14 18" />
-            <path d="M7.3 14 L12.7 14" />
-            <text x="17.5" y="11" font-family="Cormorant Garamond, serif" font-size="7" font-weight="600" fill="currentColor" stroke="none">A</text>
-            <g class="fs-dots" stroke="none" fill="currentColor">
-              <circle class="fs-dot fs-dot--1" cx="8" cy="21.2" r="1.05"/>
-              <circle class="fs-dot fs-dot--2" cx="12" cy="21.2" r="1.05"/>
-              <circle class="fs-dot fs-dot--3" cx="16" cy="21.2" r="1.05"/>
-            </g>
-          </svg>
+          <span class="fs-dot fs-dot--1"></span>
+          <span class="fs-dot fs-dot--2"></span>
+          <span class="fs-dot fs-dot--3"></span>
         </button>
 
-        <!-- Tema (sol / luna) -->
+        <!-- Tema claro/oscuro -->
         <button type="button" class="tool-btn tool-btn--theme" id="theme-toggle"
-                aria-label="Cambiar a modo oscuro" data-tooltip="Tema">
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                aria-label="Cambiar tema claro u oscuro"
+                data-tooltip="Tema · ☀ / ☾">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
             <circle cx="12" cy="12" r="4"/>
             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
           </svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
         </button>
 
-        <!-- Pomodoro (lanzador del panel flotante) -->
-        <button type="button" class="tool-btn tool-btn--pomodoro" id="pomodoro-open"
-                aria-label="Abrir temporizador de estudio" aria-expanded="false" aria-controls="pomodoro-panel"
-                data-tooltip="Sesión de estudio">
+        <!-- Pomodoro -->
+        <button type="button" class="tool-btn" id="pomodoro-open" aria-label="Sesión de estudio · Pomodoro" data-tooltip="Sesión de estudio">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="13" r="8"/>
-            <path d="M12 9v4l2.5 2"/>
-            <path d="M9 2h6"/>
-            <path d="M12 2v3"/>
-          </svg>
-        </button>
-
-        <!-- Hamburguesa (solo móvil) -->
-        <button type="button" class="tool-btn tool-btn--menu" id="nav-toggle"
-                aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="primary-nav">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
-            <path class="menu-line menu-line--1" d="M4 7h16"/>
-            <path class="menu-line menu-line--2" d="M4 12h16"/>
-            <path class="menu-line menu-line--3" d="M4 17h16"/>
+            <path d="M12 9v4l3 2"/>
+            <path d="M9 2h6M12 5v-2"/>
           </svg>
         </button>
 
       </div>
 
+      <!-- Menú móvil (hamburguesa) -->
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-drawer">
+        <span></span><span></span><span></span>
+      </button>
+
     </div>
   </header>
 
-  <!-- ============================================================ -->
-  <!-- MAIN (inyectado por CourseLoader)                             -->
-  <!-- ============================================================ -->
+  <!-- ════════════════════════════════════════════════════════════════════
+       MAIN · CONTENEDOR DE FRAGMENTOS DINÁMICOS
+       ════════════════════════════════════════════════════════════════════ -->
   <main id="main-content" tabindex="-1" aria-live="polite">
     <!-- Skeleton inicial mientras carga el primer fragmento -->
     <div class="skeleton-wrap" aria-busy="true" aria-label="Cargando contenido…">
@@ -222,9 +181,9 @@
     </div>
   </main>
 
-  <!-- ============================================================ -->
-  <!-- FOOTER                                                        -->
-  <!-- ============================================================ -->
+  <!-- ════════════════════════════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════════════════════════════ -->
   <footer class="site-footer" role="contentinfo">
     <div class="container">
 
@@ -270,10 +229,10 @@
     </div>
   </footer>
 
-  <!-- ============================================================ -->
-  <!-- POMODORO · Panel flotante (oculto por defecto)                -->
-  <!-- Lógica: js/study-panel.js (Paso 5)                            -->
-  <!-- ============================================================ -->
+  <!-- ════════════════════════════════════════════════════════════════════
+       POMODORO · Panel flotante (oculto por defecto)
+       Lógica: js/study-panel.js
+       ════════════════════════════════════════════════════════════════════ -->
   <aside class="pomodoro-panel" id="pomodoro-panel" hidden role="complementary" aria-labelledby="pomodoro-title">
     <header class="pomodoro-panel__header">
       <h2 class="pomodoro-panel__title" id="pomodoro-title">Sesión de estudio</h2>
@@ -318,10 +277,10 @@
     </div>
   </aside>
 
-  <!-- ============================================================ -->
-  <!-- SEARCH MODAL · Ctrl+K                                         -->
-  <!-- Lógica: js/app.js                                             -->
-  <!-- ============================================================ -->
+  <!-- ════════════════════════════════════════════════════════════════════
+       SEARCH MODAL · Ctrl+K
+       Lógica: js/app.js
+       ════════════════════════════════════════════════════════════════════ -->
   <div class="search-modal" id="search-modal" hidden role="dialog" aria-modal="true" aria-labelledby="search-title">
     <div class="search-modal__backdrop" data-search-dismiss></div>
     <div class="search-modal__panel">
@@ -349,22 +308,22 @@
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- GLOSSARY TOOLTIP PORTAL                                       -->
-  <!-- Activado por initFragmentComponents en courseLoader.js        -->
-  <!-- ============================================================ -->
+  <!-- ════════════════════════════════════════════════════════════════════
+       GLOSSARY TOOLTIP PORTAL
+       Activado por initFragmentComponents en courseLoader.js
+       ════════════════════════════════════════════════════════════════════ -->
   <div class="glossary-tooltip" id="glossary-tooltip" hidden role="tooltip" aria-live="polite"></div>
 
-  <!-- ============================================================ -->
-  <!-- DATA (clásicos, exponen globales antes de los módulos)        -->
-  <!-- ============================================================ -->
+  <!-- ════════════════════════════════════════════════════════════════════
+       DATA (clásicos, exponen globales antes de los módulos)
+       ════════════════════════════════════════════════════════════════════ -->
   <script src="./data/courses-index.js"></script>
   <script src="./data/glossary.js"></script>
 
-  <!-- ============================================================ -->
-  <!-- APP (deferidos, ejecutan tras parsear el DOM)                 -->
-  <!-- Orden topológico: loader → panel → app                        -->
-  <!-- ============================================================ -->
+  <!-- ════════════════════════════════════════════════════════════════════
+       APP (deferidos, ejecutan tras parsear el DOM)
+       Orden topológico: loader → panel → app
+       ════════════════════════════════════════════════════════════════════ -->
   <script src="./js/courseLoader.js" defer></script>
   <script src="./js/study-panel.js" defer></script>
   <script src="./js/app.js" defer></script>
