@@ -3608,6 +3608,13 @@ a:focus:not(:focus-visible) {
   border-block-start: var(--border-thin) solid var(--color-border-soft);
 }
 .course-page .via:first-child { border-block-start: var(--border-thin) solid var(--color-border); }
+/* Etiqueta de vía: algunos cursos traen <p class="via__label">Vía N</p>
+   en el HTML; otros no. Para numerar de forma uniforme en los 20 cursos
+   sin duplicar, se OCULTA el via__label del HTML y la numeración la
+   genera el counter del título (abajo). Así todos muestran "Vía N"
+   consistentemente, exista o no el label en el marcado. */
+.course-page .via__label { display: none; }
+
 .course-page .via__title,
 .course-page .via__name {
   counter-increment: via;
@@ -3617,7 +3624,7 @@ a:focus:not(:focus-visible) {
 }
 .course-page .via__title::before,
 .course-page .via__name::before {
-  content: counter(via) ". ";
+  content: "Vía " counter(via) " · ";
   color: var(--color-accent); font-feature-settings: "lnum" 1, "tnum" 1;
 }
 .course-page .via__title em,
@@ -3670,6 +3677,12 @@ a:focus:not(:focus-visible) {
   border-style: solid; background-color: var(--color-bg-elevated);
   box-shadow: var(--shadow-card); max-width: none;
 }
+/* Contención de desborde dentro de la actividad: las tablas anchas
+   (rúbrica) hacen scroll horizontal dentro de su envoltorio en vez de
+   ensanchar toda la actividad y romper los márgenes de la página. */
+.course-page .activity { overflow-wrap: break-word; }
+.course-page .activity > * { min-width: 0; max-width: 100%; }
+.course-page .activity .rubric__table-wrap { max-width: 100%; overflow-x: auto; }
 .course-page .activity__label,
 .course-page .activity__kicker {
   font-family: var(--font-body); font-size: var(--text-xs); font-weight: 500;
@@ -3893,9 +3906,13 @@ a:focus:not(:focus-visible) {
   max-width: 44rem; margin-inline: auto;
 }
 .course-page .seminary-closing__signature {
-  margin-block-start: var(--sp-md); font-family: var(--font-body);
-  font-size: var(--text-xs); letter-spacing: var(--ls-wider);
-  text-transform: uppercase; color: var(--color-text-muted);
+  margin-block-start: var(--sp-lg); text-align: center;
+  font-family: var(--font-display); font-style: italic;
+  font-size: var(--text-base); line-height: var(--lh-snug);
+  color: var(--color-text-muted);
+}
+.course-page .seminary-closing__signature em {
+  font-style: italic; color: var(--color-accent);
 }
 
 
