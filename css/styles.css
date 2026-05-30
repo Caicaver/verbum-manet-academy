@@ -3400,6 +3400,24 @@ a:focus:not(:focus-visible) {
   --course-content-max: 44rem;
 }
 
+/* Respaldo de ancho de lectura: algunos cursos (los de introducción)
+   no envuelven sus secciones en .container, lo que dejaba el contenido
+   pegado al borde. Estas reglas dan a las secciones de primer nivel el
+   mismo centrado y padding lateral que .container, SOLO cuando no la
+   tienen ya (los demás cursos no se ven afectados, evitando doble límite). */
+.course-page > .course-hero:not(.container),
+.course-page > .course-toc:not(.container),
+.course-page > .unit:not(.container),
+.course-page > .quiz:not(.container),
+.course-page > .activity:not(.container),
+.course-page > .course-footer:not(.container),
+.course-page > .seminary-closing:not(.container) {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
 /* ---- HERO ---- */
 .course-page .course-hero {
   padding-block: var(--sp-lg) var(--sp-xl);
@@ -3724,11 +3742,17 @@ a:focus:not(:focus-visible) {
 .course-page .question:last-child { border-block-end: var(--border-thin) solid var(--color-border-soft); }
 .course-page .question summary {
   cursor: pointer; list-style: none;
-  display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
-  column-gap: var(--sp-sm); align-items: baseline; padding: var(--sp-2xs) 0;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--sp-sm);
+  padding: var(--sp-2xs) 0;
   font-family: var(--font-body); font-size: var(--text-base);
   color: var(--color-text); line-height: var(--lh-snug);
 }
+/* El número (si existe como span hijo directo) no se encoge */
+.course-page .question summary > .question__num { flex: 0 0 auto; }
+/* El prompt como hijo directo del summary (familia con spans) crece */
+.course-page .question summary > .question__prompt { flex: 1 1 12rem; }
+/* El "+" (si existe) se empuja al extremo derecho */
+.course-page .question summary > .question__plus { margin-inline-start: auto; }
 .course-page .question summary::-webkit-details-marker { display: none; }
 .course-page .question__num,
 .course-page .quiz__num {
