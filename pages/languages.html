@@ -1,0 +1,273 @@
+<!-- ============================================================================
+   VERBUM MANET ACADEMY · pages/languages.html · v5 · ETAPA 2 (ampliado)
+   ----------------------------------------------------------------------------
+   Fragmento HTML inyectado por js/courseLoader.js en <main id="main-content">.
+   NO contiene <html>, <head>, <body> ni <script>.
+   Estilo scoped .page-languages con tokens reales de styles.css.
+
+   Lenguas bíblicas · orientación + alfabetos completos (hebreo y griego)
+   para iniciar la lectura. Términos en lengua original con <i lang="...">;
+   hebreo/arameo con dir="rtl". Un curso completo con paradigmas y ejercicios
+   queda propuesto como mejora posterior (futuro curso del currículo).
+   ============================================================================ -->
+
+<style>
+  .page-languages .container > * + * { margin-top: var(--sp-xl); }
+
+  .page-languages .alpha-wrap { overflow-x: auto; }
+  .page-languages .alpha-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--sp-md);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+  }
+  .page-languages .alpha-table caption {
+    text-align: left;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--sp-xs);
+  }
+  .page-languages .alpha-table th,
+  .page-languages .alpha-table td {
+    text-align: left;
+    padding: var(--sp-xs) var(--sp-sm);
+    border-bottom: var(--border-thin) solid var(--color-border-soft);
+    vertical-align: baseline;
+  }
+  .page-languages .alpha-table thead th {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  .page-languages .alpha-letter {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: 1;
+    color: var(--color-heading);
+  }
+  .page-languages .alpha-table tbody tr:hover { background-color: var(--color-bg-elevated); }
+</style>
+
+
+<section class="panel-page page-languages" aria-labelledby="lang-title">
+  <div class="container">
+
+
+    <!-- §1 · CABECERA -->
+    <header class="panel-page__header" style="max-width: 56rem;">
+      <p class="panel-page__eyebrow">Lenguas bíblicas</p>
+      <h1 id="lang-title" class="panel-page__title">
+        Las lenguas en que Dios habló
+        <em style="font-style: italic; color: var(--color-accent);">primero</em>.
+      </h1>
+      <p class="panel-page__lead">
+        Hebreo, arameo y griego: no para presumir erudición, sino para acercar
+        el oído al texto tal como fue inspirado. Una orientación &mdash;con los
+        alfabetos completos&mdash; para empezar a leer.
+      </p>
+    </header>
+
+
+    <!-- §2 · POR QUÉ IMPORTAN -->
+    <div class="prose">
+      <h2>Por qué importan las lenguas originales</h2>
+      <p>
+        La Confesión de Westminster afirma que el Antiguo Testamento en hebreo y
+        el Nuevo en griego fueron inspirados inmediatamente por Dios y, por su
+        singular cuidado y providencia, guardados puros a través de los siglos;
+        por ello, en toda controversia de religión, la Iglesia ha de apelar
+        finalmente a ellos <span class="bible-ref">(WCF 1.8)</span>.
+      </p>
+      <p>
+        Esto no hace inferiores a las traducciones &mdash;son verdaderamente la
+        Palabra de Dios para el pueblo&mdash;, pero coloca el texto original como
+        tribunal último de apelación. Toda traducción es ya, en parte, una
+        interpretación; conocer aunque sea los rudimentos de las lenguas
+        originales ayuda a leer con humildad, a entender por qué difieren las
+        versiones y a sopesar mejor los comentarios.
+      </p>
+      <p>
+        Esta página no es un curso completo, pero sí lo suficiente para dar el
+        primer paso real: aprender a leer las letras.
+      </p>
+    </div>
+
+
+    <!-- §3 · HEBREO -->
+    <div class="prose">
+      <h2>Hebreo bíblico</h2>
+      <p>
+        Lengua de casi todo el Antiguo Testamento. Se escribe y se lee de
+        derecha a izquierda, con un alfabeto de veintidós consonantes; las
+        vocales (los <i lang="he" dir="rtl">נִקּוּד</i>, <em>niqud</em>) son
+        puntos y rayas añadidos después por los masoretas, bajo, sobre o dentro
+        de las consonantes. Es una lengua concreta y verbal, más dada a la
+        imagen que a la abstracción.
+      </p>
+    </div>
+
+    <div class="alpha-wrap">
+      <table class="alpha-table">
+        <caption>El alfabeto hebreo &middot; 22 consonantes (orden alfabético)</caption>
+        <thead>
+          <tr><th scope="col">Letra</th><th scope="col">Nombre</th><th scope="col">Sonido aproximado</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">א</span></td><td>Álef</td><td>muda / golpe glotal</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ב</span></td><td>Bet</td><td>b / v</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ג</span></td><td>Guímel</td><td>g (de «gato»)</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ד</span></td><td>Dálet</td><td>d</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ה</span></td><td>He</td><td>h aspirada (de «hello»)</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ו</span></td><td>Vav</td><td>v (a veces w)</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ז</span></td><td>Zayin</td><td>z sonora</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ח</span></td><td>Jet</td><td>j fuerte (gutural)</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ט</span></td><td>Tet</td><td>t</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">י</span></td><td>Yod</td><td>y (de «yo»)</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">כ</span></td><td>Kaf</td><td>k / j fuerte</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ל</span></td><td>Lámed</td><td>l</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">מ</span></td><td>Mem</td><td>m</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">נ</span></td><td>Nun</td><td>n</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ס</span></td><td>Sámej</td><td>s</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ע</span></td><td>Ayin</td><td>gutural (muda para el lector moderno)</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">פ</span></td><td>Pe</td><td>p / f</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">צ</span></td><td>Tsade</td><td>ts</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ק</span></td><td>Qof</td><td>k (gutural, atrás)</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ר</span></td><td>Resh</td><td>r</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">שׁ</span></td><td>Shin / Sin</td><td>sh / s</td></tr>
+          <tr><td><span class="alpha-letter" lang="he" dir="rtl">ת</span></td><td>Tav</td><td>t</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <p>
+        Cinco letras cambian de forma al final de palabra (las
+        <em>sofit</em>): <i lang="he" dir="rtl">ך</i> (kaf),
+        <i lang="he" dir="rtl">ם</i> (mem), <i lang="he" dir="rtl">ן</i> (nun),
+        <i lang="he" dir="rtl">ף</i> (pe) y <i lang="he" dir="rtl">ץ</i>
+        (tsade). Algunas palabras que el estudiante encontrará una y otra vez:
+      </p>
+      <ul>
+        <li><i lang="he" dir="rtl">בְּרֵאשִׁית</i> (<em>bereshit</em>) &mdash; «en el principio», la primera palabra de Génesis.</li>
+        <li><i lang="he" dir="rtl">חֶסֶד</i> (<em>jésed</em>) &mdash; el amor leal y pactual de Dios.</li>
+        <li><i lang="he" dir="rtl">תּוֹרָה</i> (<em>torá</em>) &mdash; «instrucción, enseñanza», más que mera «ley».</li>
+        <li><i lang="he" dir="rtl">שָׁלוֹם</i> (<em>shalom</em>) &mdash; plenitud, integridad, paz restaurada.</li>
+      </ul>
+    </div>
+
+
+    <!-- §4 · ARAMEO -->
+    <div class="prose">
+      <h2>Arameo</h2>
+      <p>
+        Lengua hermana del hebreo, hablada en gran parte del antiguo Cercano
+        Oriente y, en tiempos de Jesús, en Judea. Comparte con el hebreo el
+        mismo alfabeto, de modo que quien lee hebreo ya puede leer arameo.
+        Algunas porciones del Antiguo Testamento se escribieron en arameo
+        &mdash;secciones de Daniel y de Esdras&mdash;, y el Nuevo Testamento
+        conserva palabras arameas en labios de Jesús, como
+        <i lang="arc">talitha cumi</i> <span class="bible-ref">(Mr 5:41)</span>
+        o el clamor de la cruz <span class="bible-ref">(Mr 15:34)</span>. Su
+        estudio suele abordarse después del hebreo, por su cercanía.
+      </p>
+    </div>
+
+
+    <!-- §5 · GRIEGO -->
+    <div class="prose">
+      <h2>Griego koiné</h2>
+      <p>
+        Lengua del Nuevo Testamento. No el griego clásico de los filósofos, sino
+        el <i lang="grc">koiné</i> &mdash;el griego «común» del mundo
+        mediterráneo helenizado&mdash;, providencialmente extendido por las
+        conquistas de Alejandro para que el evangelio corriera de una punta a
+        otra del Imperio. Se escribe de izquierda a derecha y es una lengua
+        precisa, rica en matices verbales.
+      </p>
+    </div>
+
+    <div class="alpha-wrap">
+      <table class="alpha-table">
+        <caption>El alfabeto griego &middot; 24 letras</caption>
+        <thead>
+          <tr><th scope="col">Mayús. / minús.</th><th scope="col">Nombre</th><th scope="col">Sonido aproximado</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="alpha-letter" lang="grc">Α α</span></td><td>alfa</td><td>a</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Β β</span></td><td>beta</td><td>b</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Γ γ</span></td><td>gamma</td><td>g (de «gato»)</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Δ δ</span></td><td>delta</td><td>d</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Ε ε</span></td><td>épsilon</td><td>e breve</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Ζ ζ</span></td><td>dseta</td><td>ds / z</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Η η</span></td><td>eta</td><td>e larga</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Θ θ</span></td><td>theta</td><td>z española / th inglesa</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Ι ι</span></td><td>iota</td><td>i</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Κ κ</span></td><td>kappa</td><td>k</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Λ λ</span></td><td>lambda</td><td>l</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Μ μ</span></td><td>my</td><td>m</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Ν ν</span></td><td>ny</td><td>n</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Ξ ξ</span></td><td>xi</td><td>x (ks)</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Ο ο</span></td><td>ómicron</td><td>o breve</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Π π</span></td><td>pi</td><td>p</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Ρ ρ</span></td><td>rho</td><td>r</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Σ σ / ς</span></td><td>sigma</td><td>s (ς al final de palabra)</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Τ τ</span></td><td>tau</td><td>t</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Υ υ</span></td><td>ípsilon</td><td>u / i (francesa)</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Φ φ</span></td><td>fi</td><td>f</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Χ χ</span></td><td>ji</td><td>j (de «jota»)</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Ψ ψ</span></td><td>psi</td><td>ps</td></tr>
+          <tr><td><span class="alpha-letter" lang="grc">Ω ω</span></td><td>omega</td><td>o larga</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <p>
+        El griego marca además espíritus (suave o áspero, sobre la vocal
+        inicial) y acentos, que guían la pronunciación. Algunos términos que
+        vale la pena reconocer de vista:
+      </p>
+      <ul>
+        <li><i lang="grc">λόγος</i> (<em>lógos</em>) &mdash; «palabra, razón»; título de Cristo en Juan 1.</li>
+        <li><i lang="grc">χάρις</i> (<em>járis</em>) &mdash; «gracia», el favor inmerecido de Dios.</li>
+        <li><i lang="grc">πίστις</i> (<em>pistis</em>) &mdash; «fe, confianza».</li>
+        <li><i lang="grc">θεόπνευστος</i> (<em>theópneustos</em>) &mdash; «inspirado por Dios», literalmente «soplado por Dios» <span class="bible-ref">(2 Ti 3:16)</span>.</li>
+      </ul>
+    </div>
+
+
+    <!-- §6 · RUTA DE ESTUDIO -->
+    <div class="prose">
+      <h2>Una ruta de estudio sugerida</h2>
+      <ol>
+        <li>Comienza por el <strong>alfabeto griego</strong>: de gramática más cercana al castellano y con abundante material para principiantes.</li>
+        <li>Aprende a usar una <strong>Biblia interlineal</strong> y un <strong>léxico</strong> desde el primer día; permiten consultar el original con provecho aun antes de dominar la gramática.</li>
+        <li>Incorpora el <strong>hebreo</strong>, dedicando tiempo extra a memorizar el alfabeto y a leer en voz alta de derecha a izquierda.</li>
+        <li>Deja el <strong>arameo</strong> para una etapa posterior, apoyándote en lo aprendido del hebreo.</li>
+      </ol>
+      <p>
+        Las herramientas en línea para trabajar el texto original
+        &mdash;interlineales, léxicos y concordancias gratuitas&mdash; están en
+        los <a href="#/resources" data-nav>Recursos externos</a>.
+      </p>
+
+      <blockquote>
+        Toda la Escritura es inspirada por Dios, y útil para enseñar, para
+        redargüir, para corregir, para instruir en justicia.
+        <cite>2 Timoteo 3:16</cite>
+      </blockquote>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- ============================================================================
+     FIN DE pages/languages.html · Verbum Manet Academy · v5 · ETAPA 2 (ampliado)
+     ============================================================================ -->

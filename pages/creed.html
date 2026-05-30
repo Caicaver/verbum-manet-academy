@@ -1,0 +1,531 @@
+<!-- ============================================================================
+   VERBUM MANET ACADEMY · pages/creed.html · v5 · ETAPA 2 (enriquecido)
+   ----------------------------------------------------------------------------
+   Fragmento HTML inyectado por js/courseLoader.js en <main id="main-content">.
+   NO contiene <html>, <head>, <body> ni <script>.
+   Estilo scoped con <style> .page-creed (patrón de courses.html) usando los
+   TOKENS REALES de styles.css (--sp-*, --color-*, --shadow-card, --t-*, etc.).
+
+   Declaración de Fe reformada confesional · paedobautista ·
+   Westminster + Tres Formas de Unidad (sin la 1689). Subordinada a la
+   Escritura (Sola Scriptura). Enlaces a los documentos históricos en
+   es.ligonier.org (URLs verificadas).
+   ============================================================================ -->
+
+<style>
+  /* Ritmo vertical entre bloques mayores */
+  .page-creed .container > * + * { margin-top: var(--sp-xl); }
+
+  /* ---- Rejilla de Solas ---- */
+  .page-creed .solas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--sp-md);
+  }
+  .page-creed .sola {
+    padding: var(--sp-md);
+    background-color: var(--color-bg-elevated);
+    border: var(--border-thin) solid var(--color-border-soft);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+  .page-creed .sola__name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-lg);
+    line-height: var(--lh-tight);
+    color: var(--color-accent);
+  }
+  .page-creed .sola__gloss {
+    margin-top: var(--sp-2xs);
+    font-size: var(--text-sm);
+    line-height: var(--lh-normal);
+    color: var(--color-text);
+  }
+  .page-creed .sola__ref {
+    display: block;
+    margin-top: var(--sp-xs);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* ---- Rejilla de documentos confesionales (tarjetas-enlace) ---- */
+  .page-creed .doc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-md);
+  }
+  @media (min-width: 40rem) {
+    .page-creed .doc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 64rem) {
+    .page-creed .doc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  .page-creed .doc-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2xs);
+    padding: var(--sp-md);
+    background-color: var(--color-bg-elevated);
+    border: var(--border-thin) solid var(--color-border-soft);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color var(--t-fast) var(--ease-out-quad),
+                transform var(--t-base) var(--ease-out-quart),
+                box-shadow var(--t-base) var(--ease-out-quart);
+  }
+  .page-creed a.doc-card:hover,
+  .page-creed a.doc-card:focus-visible {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .page-creed .doc-card__date {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    line-height: 1;
+    color: var(--color-accent);
+    font-feature-settings: "lnum" 1, "tnum" 1;
+  }
+  .page-creed .doc-card__title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: var(--lh-tight);
+    color: var(--color-heading);
+  }
+  .page-creed a.doc-card:hover .doc-card__title { color: var(--color-accent); }
+  .page-creed .doc-card__cue {
+    margin-top: auto;
+    padding-top: var(--sp-xs);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-creed a.doc-card { transition: none; }
+    .page-creed a.doc-card:hover { transform: none; }
+  }
+</style>
+
+
+<section class="panel-page page-creed" aria-labelledby="creed-title">
+  <div class="container">
+
+
+    <!-- §1 · CABECERA -->
+    <header class="panel-page__header" style="max-width: 56rem;">
+      <p class="panel-page__eyebrow">Declaración de Fe</p>
+      <h1 id="creed-title" class="panel-page__title">
+        Lo que esta academia <em style="font-style: italic; color: var(--color-accent);">cree</em>,
+        enseña y confiesa.
+      </h1>
+      <p class="panel-page__lead">
+        Una confesión breve, reformada y subordinada a la Escritura: no añade
+        nada a la Palabra, sino que procura sintetizar con fidelidad lo que
+        la Iglesia ha recibido de ella a lo largo de los siglos.
+      </p>
+    </header>
+
+
+    <!-- §2 · PREÁMBULO -->
+    <div class="prose">
+      <h2>Preámbulo</h2>
+      <p>
+        Verbum Manet Academy enseña dentro de los límites de la fe cristiana
+        histórica y de la tradición reformada confesional. Esta Declaración no
+        pretende sustituir a las grandes confesiones ni competir con ellas; las
+        resume para que el estudiante sepa, desde la primera lección, sobre qué
+        suelo doctrinal pisa.
+      </p>
+      <p>
+        Toda esta declaración está sujeta a una sola autoridad final: las
+        Sagradas Escrituras del Antiguo y Nuevo Testamento. Lo que aquí se
+        afirma se afirma porque creemos que la Escritura lo enseña; donde esta
+        declaración se apartara de la Palabra de Dios, la Palabra de Dios
+        prevalece <span class="bible-ref">(Hch 17:11)</span>.
+      </p>
+      <h3>Normas que recibimos</h3>
+      <p>
+        Confesamos los credos ecuménicos de la Iglesia antigua &mdash;el de los
+        Apóstoles, el Niceno-Constantinopolitano, el Atanasiano y la Definición
+        de Calcedonia&mdash; y recibimos como fieles exposiciones de la
+        Escritura los Estándares de Westminster y las Tres Formas de Unidad.
+        Estas confesiones no son una segunda fuente de revelación: son la voz
+        de la Iglesia leyendo su Biblia, <em>norma normata</em> bajo la única
+        <em>norma normans</em>, que es la Escritura. Puedes leer cada documento
+        completo a continuación.
+      </p>
+    </div>
+
+    <!-- Rejilla de documentos (enlaces verificados a es.ligonier.org) -->
+    <div class="doc-grid">
+      <a class="doc-card" href="https://es.ligonier.org/recursos/credos-confesiones/el-credo-apostolico/" target="_blank" rel="noopener noreferrer">
+        <span class="doc-card__date" aria-hidden="true">s. IV</span>
+        <span class="doc-card__title">El Credo Apostólico</span>
+        <span class="doc-card__cue">Leer en Ligonier &#8599;</span>
+      </a>
+      <a class="doc-card" href="https://es.ligonier.org/recursos/credos-confesiones/el-credo-niceno/" target="_blank" rel="noopener noreferrer">
+        <span class="doc-card__date" aria-hidden="true">325 &middot; 381</span>
+        <span class="doc-card__title">El Credo Niceno</span>
+        <span class="doc-card__cue">Leer en Ligonier &#8599;</span>
+      </a>
+      <a class="doc-card" href="https://es.ligonier.org/recursos/credos-confesiones/la-definicion-de-fe-de-calcedonia/" target="_blank" rel="noopener noreferrer">
+        <span class="doc-card__date" aria-hidden="true">451</span>
+        <span class="doc-card__title">La Definición de Calcedonia</span>
+        <span class="doc-card__cue">Leer en Ligonier &#8599;</span>
+      </a>
+      <a class="doc-card" href="https://es.ligonier.org/recursos/credos-confesiones/el-catecismo-de-heidelberg/" target="_blank" rel="noopener noreferrer">
+        <span class="doc-card__date" aria-hidden="true">1563</span>
+        <span class="doc-card__title">Catecismo de Heidelberg</span>
+        <span class="doc-card__cue">Leer en Ligonier &#8599;</span>
+      </a>
+      <a class="doc-card" href="https://es.ligonier.org/recursos/credos-confesiones/la-confesion-belga/" target="_blank" rel="noopener noreferrer">
+        <span class="doc-card__date" aria-hidden="true">1561</span>
+        <span class="doc-card__title">La Confesión Belga</span>
+        <span class="doc-card__cue">Leer en Ligonier &#8599;</span>
+      </a>
+      <a class="doc-card" href="https://es.ligonier.org/recursos/credos-confesiones/los-canones-de-dort/" target="_blank" rel="noopener noreferrer">
+        <span class="doc-card__date" aria-hidden="true">1619</span>
+        <span class="doc-card__title">Los Cánones de Dort</span>
+        <span class="doc-card__cue">Leer en Ligonier &#8599;</span>
+      </a>
+      <a class="doc-card" href="https://es.ligonier.org/recursos/credos-confesiones/la-confesion-de-fe-de-westminster/" target="_blank" rel="noopener noreferrer">
+        <span class="doc-card__date" aria-hidden="true">1647</span>
+        <span class="doc-card__title">Confesión de Fe de Westminster</span>
+        <span class="doc-card__cue">Leer en Ligonier &#8599;</span>
+      </a>
+      <a class="doc-card" href="https://es.ligonier.org/recursos/credos-confesiones/el-catecismo-mayor-de-westminster/" target="_blank" rel="noopener noreferrer">
+        <span class="doc-card__date" aria-hidden="true">1647</span>
+        <span class="doc-card__title">Catecismo Mayor de Westminster</span>
+        <span class="doc-card__cue">Leer en Ligonier &#8599;</span>
+      </a>
+      <a class="doc-card" href="https://es.ligonier.org/recursos/credos-confesiones/el-catecismo-menor-de-westminster/" target="_blank" rel="noopener noreferrer">
+        <span class="doc-card__date" aria-hidden="true">1647</span>
+        <span class="doc-card__title">Catecismo Menor de Westminster</span>
+        <span class="doc-card__cue">Leer en Ligonier &#8599;</span>
+      </a>
+    </div>
+
+
+    <!-- §3 · LAS CINCO SOLAS -->
+    <div class="prose">
+      <h2>Las cinco Solas de la Reforma</h2>
+      <p>El corazón del evangelio recuperado en la Reforma, en sus cinco afirmaciones clásicas:</p>
+    </div>
+
+    <div class="solas-grid">
+      <div class="sola">
+        <p class="sola__name">Sola Scriptura</p>
+        <p class="sola__gloss">Solo la Escritura es la autoridad suprema e infalible para la fe y la vida.</p>
+        <span class="sola__ref">2 Timoteo 3:16&ndash;17</span>
+      </div>
+      <div class="sola">
+        <p class="sola__name">Solus Christus</p>
+        <p class="sola__gloss">Solo Cristo es el Mediador entre Dios y los hombres, y la base de la salvación.</p>
+        <span class="sola__ref">Hechos 4:12</span>
+      </div>
+      <div class="sola">
+        <p class="sola__name">Sola gratia</p>
+        <p class="sola__gloss">La salvación es enteramente por gracia, sin mérito alguno de la criatura.</p>
+        <span class="sola__ref">Efesios 2:8&ndash;9</span>
+      </div>
+      <div class="sola">
+        <p class="sola__name">Sola fide</p>
+        <p class="sola__gloss">El pecador es justificado solo por la fe, que recibe a Cristo y descansa en Él.</p>
+        <span class="sola__ref">Romanos 3:28</span>
+      </div>
+      <div class="sola">
+        <p class="sola__name">Soli Deo gloria</p>
+        <p class="sola__gloss">Todo, de la elección eterna a la gloria final, es para la sola gloria de Dios.</p>
+        <span class="sola__ref">1 Corintios 10:31</span>
+      </div>
+    </div>
+
+
+    <!-- §4 · ARTÍCULOS -->
+    <div class="prose">
+
+      <section aria-labelledby="creed-art1">
+        <h2 id="creed-art1">I &middot; De las Sagradas Escrituras</h2>
+        <p>
+          Creemos que las Escrituras del Antiguo y Nuevo Testamento son la
+          Palabra de Dios escrita, dada por inspiración del Espíritu Santo y,
+          por tanto, sin error en todo lo que afirma
+          <span class="bible-ref">(2 Ti 3:16; 2 P 1:20&ndash;21)</span>. Son
+          plenamente suficientes para enseñarnos cuanto Dios requiere para su
+          gloria y para nuestra salvación, de modo que nada debe añadirse a
+          ellas, sea por nuevas revelaciones del Espíritu o por tradiciones de
+          los hombres.
+        </p>
+        <p>
+          Confesamos su autoridad soberana, su claridad en lo necesario para la
+          salvación y su unidad: la Escritura es su propia intérprete, y los
+          pasajes oscuros se entienden a la luz de los claros. El testimonio
+          interno del Espíritu Santo persuade al creyente de que estos libros
+          son, en efecto, la Palabra de Dios.
+        </p>
+      </section>
+
+      <section aria-labelledby="creed-art2">
+        <h2 id="creed-art2">II &middot; De Dios y de la Santísima Trinidad</h2>
+        <p>
+          Hay un solo Dios vivo y verdadero, infinito en su ser y perfecciones,
+          espíritu purísimo, eterno, inmutable, todopoderoso, santísimo,
+          sapientísimo, libre y absoluto
+          <span class="bible-ref">(Dt 6:4; Éx 3:14)</span>. En la unidad de la
+          Deidad subsisten tres personas de una misma sustancia, poder y
+          eternidad: el Padre, el Hijo y el Espíritu Santo.
+        </p>
+        <p>
+          El Padre no es engendrado; el Hijo es eternamente engendrado del
+          Padre; el Espíritu Santo procede eternamente del Padre y del Hijo
+          <span class="bible-ref">(Jn 1:14; Jn 15:26)</span>. Adoramos a este
+          Dios trino y a nadie más, conforme a la fe confesada en Nicea y
+          Calcedonia.
+        </p>
+      </section>
+
+      <section aria-labelledby="creed-art3">
+        <h2 id="creed-art3">III &middot; De los decretos eternos de Dios</h2>
+        <p>
+          Creemos que Dios, desde toda la eternidad y según el consejo
+          santísimo y sapientísimo de su propia voluntad, ordenó libremente
+          todo cuanto sucede <span class="bible-ref">(Ef 1:11)</span>; y lo hizo
+          de tal modo que ni es autor del pecado, ni se hace violencia a la
+          voluntad de las criaturas, ni se quita la libertad o contingencia de
+          las causas segundas, sino que más bien se establecen.
+        </p>
+        <p>
+          En su mera misericordia eligió en Cristo, antes de la fundación del
+          mundo, a un pueblo para vida eterna, no por previsión de mérito o de
+          fe en él, sino por su sola gracia
+          <span class="bible-ref">(Ro 9:11&ndash;16; Ef 1:4&ndash;5)</span>.
+          Esta elección, confesada con los Cánones de Dort, es fundamento de
+          humildad y de consuelo inquebrantable, no de presunción.
+        </p>
+      </section>
+
+      <section aria-labelledby="creed-art4">
+        <h2 id="creed-art4">IV &middot; De la creación y la providencia</h2>
+        <p>
+          Dios creó de la nada el cielo, la tierra y todo lo que en ellos hay,
+          y todo era bueno en gran manera
+          <span class="bible-ref">(Gn 1:31; Jn 1:3)</span>. Hizo al hombre,
+          varón y mujer, a su propia imagen.
+        </p>
+        <p>
+          El mismo Dios que creó todas las cosas las sostiene, dirige y
+          gobierna por su providencia sapientísima y santísima, desde la mayor
+          hasta la menor, de modo que nada acontece por azar
+          <span class="bible-ref">(Mt 10:29&ndash;30; Hch 17:28)</span>. En esta
+          verdad descansa el creyente: nada puede separarlo del amor de Dios en
+          Cristo.
+        </p>
+      </section>
+
+      <section aria-labelledby="creed-art5">
+        <h2 id="creed-art5">V &middot; Del hombre, el pacto y la caída</h2>
+        <p>
+          Dios creó al hombre en rectitud y verdadera santidad, en pacto con su
+          Creador, prometiéndole vida bajo condición de obediencia perfecta
+          <span class="bible-ref">(Gn 2:16&ndash;17; Os 6:7)</span>. Adán, como
+          cabeza federal de la humanidad, quebrantó ese pacto.
+        </p>
+        <p>
+          Por su transgresión, todos caímos con él: el pecado de Adán nos es
+          imputado, y heredamos una naturaleza corrompida en todas sus
+          facultades <span class="bible-ref">(Ro 5:12&ndash;19)</span>.
+          Confesamos así la depravación total &mdash;no que el ser humano sea
+          tan malo como podría ser, sino que ninguna parte de él escapa al
+          desorden del pecado&mdash;, de modo que por naturaleza nadie busca a
+          Dios ni puede agradarle.
+        </p>
+      </section>
+
+      <section aria-labelledby="creed-art6">
+        <h2 id="creed-art6">VI &middot; De Cristo, el Mediador</h2>
+        <p>
+          Confesamos que el Hijo eterno de Dios, sin dejar de ser plenamente
+          Dios, tomó sobre sí una naturaleza humana verdadera, concebido por el
+          Espíritu Santo y nacido de la virgen María
+          <span class="bible-ref">(Jn 1:14; Lc 1:35)</span>. Es, pues, una sola
+          persona en dos naturalezas, divina y humana, sin confusión, cambio,
+          división ni separación, conforme a la Definición de Calcedonia.
+        </p>
+        <p>
+          Como único Mediador ejerce los oficios de Profeta, Sacerdote y Rey:
+          nos revela la voluntad de Dios, se ofreció a sí mismo en sacrificio
+          perfecto por los pecados de su pueblo e intercede por él, y gobierna y
+          defiende a su Iglesia
+          <span class="bible-ref">(He 1:1&ndash;3; He 7:25)</span>.
+        </p>
+      </section>
+
+      <section aria-labelledby="creed-art7">
+        <h2 id="creed-art7">VII &middot; Del pacto de gracia y la obra salvadora</h2>
+        <p>
+          Tras la caída, Dios estableció un pacto de gracia, prometido desde
+          Génesis <span class="bible-ref">(Gn 3:15)</span> y revelado de modo
+          progresivo por Abraham, Moisés y David, hasta su cumplimiento en
+          Cristo. Es un solo pacto de gracia bajo distintas administraciones, no
+          dos vías de salvación.
+        </p>
+        <p>
+          En este pacto, Cristo murió eficazmente por los suyos, y su Espíritu
+          aplica infaliblemente esa redención: llama, regenera, da fe y
+          arrepentimiento, y no pierde a ninguno de los que el Padre le entregó
+          <span class="bible-ref">(Jn 6:37&ndash;39; Jn 10:27&ndash;29)</span>.
+          La gracia que salva es soberana, gratuita y eficaz.
+        </p>
+      </section>
+
+      <section aria-labelledby="creed-art8">
+        <h2 id="creed-art8">VIII &middot; De la justificación por la fe sola</h2>
+        <p>
+          Creemos que Dios justifica gratuitamente a los pecadores: no
+          infundiendo justicia en ellos ni teniendo en cuenta sus obras, sino
+          perdonando sus pecados y contando como justa la persona, por causa de
+          la justicia perfecta de Cristo imputada y recibida solo por la fe
+          <span class="bible-ref">(Ro 3:21&ndash;28; 2 Co 5:21)</span>.
+        </p>
+        <p>
+          Esta fe no es la base meritoria de la justificación, sino el
+          instrumento por el cual se recibe a Cristo. La fe que justifica nunca
+          está sola: siempre va acompañada de las demás gracias salvadoras y
+          produce obras de amor, que son fruto, no fundamento, de la salvación
+          <span class="bible-ref">(Stg 2:17; Ef 2:10)</span>.
+        </p>
+      </section>
+
+      <section aria-labelledby="creed-art9">
+        <h2 id="creed-art9">IX &middot; De la santificación y la perseverancia</h2>
+        <p>
+          A todos los que justifica, Dios también santifica realmente por su
+          Palabra y su Espíritu, dándoles muerte progresiva al pecado y vida
+          creciente en justicia
+          <span class="bible-ref">(Fil 2:12&ndash;13)</span>. Esta obra es
+          imperfecta en esta vida y se completará solo en la gloria.
+        </p>
+        <p>
+          Los que Dios ha aceptado en su Amado y santificado por su Espíritu no
+          pueden caer total ni definitivamente del estado de gracia, sino que
+          perseverarán hasta el fin, no por su propio libre albedrío, sino por
+          la inmutabilidad del decreto de elección y la fidelidad de Dios
+          <span class="bible-ref">(Jn 10:28; Ro 8:30; Fil 1:6)</span>.
+        </p>
+      </section>
+
+      <section aria-labelledby="creed-art10">
+        <h2 id="creed-art10">X &middot; De la Iglesia</h2>
+        <p>
+          La Iglesia universal e invisible se compone de todos los elegidos
+          reunidos en uno bajo Cristo, su cabeza
+          <span class="bible-ref">(Ef 1:22&ndash;23)</span>. La Iglesia visible
+          es la comunidad de los que profesan la verdadera religión, junto con
+          sus hijos.
+        </p>
+        <p>
+          Reconocemos como marcas de una iglesia verdadera la predicación pura
+          de la Palabra, la recta administración de los sacramentos y el
+          ejercicio fiel de la disciplina
+          <span class="bible-ref">(Hch 2:42)</span>. Ninguna formación
+          teológica, incluida la de esta academia, sustituye a la iglesia
+          local: la prepara y la sirve.
+        </p>
+      </section>
+
+      <section aria-labelledby="creed-art11">
+        <h2 id="creed-art11">XI &middot; De los sacramentos</h2>
+        <p>
+          Los sacramentos son señales y sellos santos del pacto de gracia,
+          instituidos por Cristo para representarlo a Él y sus beneficios y
+          confirmar nuestra participación en Él. Son dos: el bautismo y la Cena
+          del Señor <span class="bible-ref">(Mt 28:19; 1 Co 11:23&ndash;26)</span>.
+        </p>
+        <p>
+          El <strong>bautismo</strong> es la señal de la entrada en el pacto.
+          Por la unidad del pacto de gracia y la continuidad de su señal
+          &mdash;de la circuncisión al bautismo&mdash;, se administra no solo a
+          quienes profesan la fe, sino también a los hijos de los creyentes, que
+          pertenecen al pacto
+          <span class="bible-ref">(Gn 17:7; Hch 2:39; Col 2:11&ndash;12)</span>.
+        </p>
+        <p>
+          En la <strong>Cena del Señor</strong> confesamos, con Calvino, la
+          presencia espiritual real de Cristo: el pan y el vino no se
+          transforman en su cuerpo y sangre, pero los creyentes, por la fe y la
+          obra del Espíritu, se alimentan verdaderamente de Cristo crucificado y
+          de todos sus beneficios <span class="bible-ref">(1 Co 10:16)</span>.
+          Rechazamos por igual la transubstanciación y el mero memorialismo
+          vacío.
+        </p>
+      </section>
+
+      <section aria-labelledby="creed-art12">
+        <h2 id="creed-art12">XII &middot; De las últimas cosas</h2>
+        <p>
+          Al morir, el alma de los creyentes pasa a estar conscientemente con
+          el Señor, mientras el cuerpo descansa esperando la resurrección
+          <span class="bible-ref">(Lc 23:43; Fil 1:23)</span>.
+        </p>
+        <p>
+          Creemos en el retorno personal, corporal y glorioso de Jesucristo, en
+          la resurrección de justos e injustos, en el juicio final y en el
+          estado eterno: vida eterna para el pueblo de Dios y condenación justa
+          para los que rechazan el evangelio
+          <span class="bible-ref">(Hch 1:11; 2 Co 5:10; Ap 21:1&ndash;4)</span>.
+        </p>
+        <p>
+          Entre las posiciones sobre el milenio, nos orientamos por el
+          <strong>amilenarismo</strong> histórico de la tradición reformada: el
+          reino de Cristo es una realidad ya presente y espiritual, inaugurada
+          en su primera venida, que no desembocará en un reinado terrenal de mil
+          años previo a su regreso, sino que culminará directamente en su
+          retorno glorioso, la resurrección, el juicio y la nueva creación. El
+          «milenio» de Apocalipsis 20 lo entendemos como la era presente de la
+          Iglesia entre las dos venidas de Cristo. Sostenemos esta convicción
+          con claridad y, a la vez, con caridad hacia los hermanos reformados
+          que difieren en este punto, reconociéndolo como secundario respecto al
+          consenso sobre el retorno cierto y glorioso del Señor. Esperamos, en
+          fin, cielos nuevos y tierra nueva en los que mora la justicia, donde
+          Dios será todo en todos.
+        </p>
+      </section>
+
+      <blockquote>
+        La hierba se seca, la flor se marchita; mas la palabra de nuestro Dios
+        permanece para siempre.
+        <cite>Isaías 40:8</cite>
+      </blockquote>
+
+      <p>
+        Esta Declaración se ofrece como mapa, no como muro. Para toda la
+        biblioteca de lectura reformada, visita la
+        <a href="#/library" data-nav>Biblioteca</a> y los
+        <a href="#/resources" data-nav>Recursos externos</a>.
+      </p>
+
+      <p style="margin-top: var(--sp-lg);
+                font-family: var(--font-display);
+                font-style: italic;
+                color: var(--color-accent);
+                font-size: var(--text-md);">
+        Soli Deo Gloria.
+      </p>
+
+    </div>
+
+
+  </div>
+</section>
+
+<!-- ============================================================================
+     FIN DE pages/creed.html · Verbum Manet Academy · v5 · ETAPA 2 (enriquecido)
+     ============================================================================ -->
