@@ -267,6 +267,78 @@
 
 
 /* ============================================================
+   §2.bis · CAPA DE COMPATIBILIDAD · alias de tokens heredados
+   ------------------------------------------------------------
+   TEMPORAL. Los fragmentos pages/courses.html y pages/glossary.html
+   se escribieron contra un vocabulario de tokens anterior (--space-*,
+   --text-heading, --accent, --border, --duration-*, etc.) que fue
+   renombrado al sistema actual (--sp-*, --color-*, --t-*, --ls-*,
+   --lh-*). Cuando una var() apunta a un token inexistente, la
+   propiedad se invalida y el espaciado cae a cero (síntoma:
+   contenido "amontonado").
+
+   Este bloque mapea cada nombre heredado al token real vigente.
+   Los alias de color apuntan a los semánticos --color-* (no a los
+   crudos --vma-*), de modo que heredan automáticamente el cambio
+   de tema claro/oscuro sin necesidad de redefinirlos en
+   [data-theme="dark"]. Por eso van una sola vez aquí, en :root.
+
+   PENDIENTE FUTURO: si algún día se reescriben courses.html y
+   glossary.html con los tokens reales (igual que las páginas v5),
+   este bloque §2.bis completo puede eliminarse sin más.
+   ============================================================ */
+:root {
+  /* Espaciado */
+  --space-xs: var(--sp-xs);
+  --space-sm: var(--sp-sm);
+  --space-md: var(--sp-md);
+  --space-lg: var(--sp-lg);
+  --space-xl: var(--sp-xl);
+
+  /* Texto · color */
+  --text-primary:   var(--color-text);
+  --text-secondary: var(--color-text-muted);
+  --text-faint:     var(--color-text-muted);
+  --text-heading:   var(--color-heading);
+  --text-accent:    var(--color-accent);
+
+  /* Fondo y borde · color */
+  --bg-base:       var(--color-bg);
+  --bg-surface:    var(--color-bg-elevated);
+  --bg-muted:      var(--color-bg-sunken);
+  --border:        var(--color-border);
+  --border-subtle: var(--color-border-soft);
+  --accent:        var(--color-accent);
+  --accent-subtle: var(--color-accent-soft);
+
+  /* Tamaños de texto (nombres semánticos heredados) */
+  --text-lead: var(--text-md);
+  --text-h3:   var(--text-xl);
+  --text-h2:   var(--text-2xl);
+
+  /* Interlineado */
+  --leading-tight:  var(--lh-tight);
+  --leading-snug:   var(--lh-snug);
+  --leading-normal: var(--lh-normal);
+  --leading-loose:  var(--lh-relaxed);
+
+  /* Tracking */
+  --tracking-tight:  var(--ls-tight);
+  --tracking-wide:   var(--ls-wide);
+  --tracking-widest: var(--ls-wider);
+
+  /* Transición y easing */
+  --duration-fast: var(--t-fast);
+  --duration-base: var(--t-base);
+  --ease-out:      var(--ease-out-quart);
+
+  /* Otros sin equivalente directo */
+  --radius-full:   999px;          /* pastillas de etiqueta */
+  --header-height: 5rem;           /* coincide con scroll-padding-top del html */
+}
+
+
+/* ============================================================
    §3 · SISTEMA --fs-scale (control de tamaño de fuente)
    ============================================================ */
 :root[data-fs="1"] { --fs-scale: 1; }
