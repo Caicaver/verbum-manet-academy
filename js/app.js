@@ -907,7 +907,25 @@
 
   function bindHashRouting() {
     window.addEventListener('hashchange', () => {
-      navigate(location.hash);
+      const hash = location.hash;
+
+      // Distinguir rutas SPA (#/algo) de anclas internas dentro del
+      // fragmento actual (#letter-A, #term-x, #unidad-1...). Solo las
+      // rutas recargan contenido; las anclas internas hacen scroll al
+      // elemento sin tocar el fragmento (de lo contrario el router las
+      // forzaría a '#/' y devolvería al inicio).
+      const isRoute = !hash || hash.startsWith('#/');
+
+      if (isRoute) {
+        navigate(hash);
+      } else {
+        const target = document.getElementById(hash.slice(1));
+        if (target) {
+          const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+        }
+      }
+
       // Cerrar overlays al navegar
       setNavOpen(false);
       closeSearch();

@@ -3614,14 +3614,11 @@ a:focus:not(:focus-visible) {
   font-family: var(--font-display); font-size: var(--text-lg); font-weight: 400;
   line-height: var(--lh-tight); letter-spacing: var(--ls-tight);
   color: var(--color-heading); margin: 0 0 var(--sp-sm);
-  display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr);
-  column-gap: var(--sp-sm); align-items: baseline;
 }
 .course-page .via__title::before,
 .course-page .via__name::before {
-  content: counter(via, decimal-leading-zero);
-  font-family: var(--font-display); font-size: var(--text-md);
-  color: var(--color-accent); font-feature-settings: "lnum" 1, "tnum" 1; line-height: 1;
+  content: counter(via) ". ";
+  color: var(--color-accent); font-feature-settings: "lnum" 1, "tnum" 1;
 }
 .course-page .via__title em,
 .course-page .via__name em { font-style: italic; color: var(--color-accent); }
