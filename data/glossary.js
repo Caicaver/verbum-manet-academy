@@ -485,6 +485,30 @@
       courses: ['hermeneutica-biblica', 'bibliologia']
     },
 
+    'septuaginta': {
+      term: 'Septuaginta (LXX)',
+      definition:
+        'Traducción del Antiguo Testamento hebreo al griego koiné, realizada entre los ' +
+        'siglos III y II a.C. para la comunidad judía de habla griega. Fue la Biblia ' +
+        'de buena parte de la iglesia primitiva y la versión citada con frecuencia por ' +
+        'los autores del Nuevo Testamento. Su estudio ilumina el canon, la transmisión ' +
+        'textual y el trasfondo lingüístico del griego neotestamentario.',
+      related: ['canon', 'torah', 'inspiracion-verbal-plenaria'],
+      courses: ['introduccion-antiguo-testamento', 'introduccion-nuevo-testamento']
+    },
+
+    'torah': {
+      term: 'Torá',
+      definition:
+        'Término hebreo que significa «instrucción» o «enseñanza», más amplio que la ' +
+        'mera noción de «ley». Designa los cinco primeros libros del Antiguo Testamento ' +
+        '(el Pentateuco: Génesis a Deuteronomio), fundamento del pacto y de la revelación ' +
+        'mosaica. En la tradición reformada se lee como historia redentora que apunta a ' +
+        'Cristo, no como código legal aislado (Lc 24:44; Gl 3:24).',
+      related: ['septuaginta', 'canon', 'historia-redentora', 'pacto-de-gracia'],
+      courses: ['introduccion-antiguo-testamento']
+    },
+
 
     // =========================================================================
     //  HERMENÉUTICA
@@ -741,10 +765,18 @@
       courses: ['cristologia-soteriologia']
     },
 
-
-    // =========================================================================
-    //  ORDO SALUTIS · APLICACIÓN DE LA REDENCIÓN
-    // =========================================================================
+    'expiacion-sustitutoria-penal': {
+      term: 'Expiación sustitutoria penal',
+      definition:
+        'Concepción reformada del corazón de la expiación: Cristo, en lugar de su ' +
+        'pueblo (sustitución), cargó la pena que el pecado merecía ante la justicia ' +
+        'de Dios (penal), satisfaciendo la ira divina y cumpliendo la ley en favor ' +
+        'de los suyos (Is 53:5–6; 2 Co 5:21; Gl 3:13). Se distingue de teorías ' +
+        'meramente ejemplaristas o de influencia moral, que niegan la dimensión ' +
+        'objetiva y judicial del sacrificio.',
+      related: ['satisfaccion', 'propiciacion', 'expiacion-particular', 'justificacion'],
+      courses: ['cristologia-soteriologia', 'introduccion-antiguo-testamento']
+    },
 
     'llamado-eficaz': {
       term: 'Llamado eficaz',
