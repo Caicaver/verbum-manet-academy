@@ -269,9 +269,10 @@
 /* ============================================================
    §2.bis · CAPA DE COMPATIBILIDAD · alias de tokens heredados
    ------------------------------------------------------------
-   TEMPORAL. Los fragmentos pages/courses.html y pages/glossary.html
-   se escribieron contra un vocabulario de tokens anterior (--space-*,
-   --text-heading, --accent, --border, --duration-*, etc.) que fue
+   TEMPORAL. Los fragmentos pages/courses.html, pages/glossary.html y
+   los 20 fragmentos de courses/segment-N/*.html se escribieron contra
+   un vocabulario de tokens anterior (--space-*, --text-heading,
+   --accent, --border, --duration-*, --text-h*, etc.) que fue
    renombrado al sistema actual (--sp-*, --color-*, --t-*, --ls-*,
    --lh-*). Cuando una var() apunta a un token inexistente, la
    propiedad se invalida y el espaciado cae a cero (síntoma:
@@ -311,10 +312,18 @@
   --accent:        var(--color-accent);
   --accent-subtle: var(--color-accent-soft);
 
+  /* Espaciado · extremos de la escala usados por los cursos */
+  --space-2xs: var(--sp-2xs);
+  --space-2xl: var(--sp-2xl);
+
   /* Tamaños de texto (nombres semánticos heredados) */
   --text-lead: var(--text-md);
+  --text-h4:   var(--text-lg);
   --text-h3:   var(--text-xl);
   --text-h2:   var(--text-2xl);
+
+  /* Borde de mayor presencia (cajas de actividad) */
+  --border-strong: var(--color-border);
 
   /* Interlineado */
   --leading-tight:  var(--lh-tight);
@@ -3365,6 +3374,511 @@ a:focus:not(:focus-visible) {
 
 
 /* ============================================================
+   §27 · CURSOS · estilos globales de courses/segment-N/*.html
+   ------------------------------------------------------------
+   Los 20 fragmentos de curso comparten el contenedor raíz
+   .course-page. Originalmente cada fragmento debía traer su
+   propio bloque <style>, pero solo 2 de 20 lo incluían; el
+   resto quedaba sin estilo (texto sin márgenes, iconos «+»
+   gigantes sin dimensionar, navegación inferior sin formato).
+
+   Esta sección consolida esos estilos aquí, una sola vez, con
+   los tokens del sistema actual. Cubre el vocabulario completo
+   detectado en los 20 cursos, incluidas las variantes de
+   nomenclatura (p. ej. via__title y via__name; course-nav en
+   variante --prev/--next y en variante lista; cierres
+   course-footer y seminary-closing).
+
+   PENDIENTE FUTURO: cuando los fragmentos que aún conservan un
+   <style> inline propio (hermeneutica-biblica,
+   introduccion-teologia-reformada) lo retiren, no habrá
+   duplicación; entretanto, el inline y esta sección son
+   equivalentes y no entran en conflicto.
+   ============================================================ */
+
+.course-page {
+  --course-content-max: 44rem;
+}
+
+/* ---- HERO ---- */
+.course-page .course-hero {
+  padding-block: var(--sp-lg) var(--sp-xl);
+  border-block-end: var(--border-thin) solid var(--color-border);
+}
+.course-page .course-hero__breadcrumbs {
+  display: flex; flex-wrap: wrap; gap: 0.4rem 0.6rem; align-items: baseline;
+  margin-block-end: var(--sp-md);
+  font-family: var(--font-body); font-size: var(--text-xs);
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.course-page .course-hero__breadcrumbs a {
+  color: var(--color-text-muted); text-decoration: none;
+  transition: color var(--t-fast) var(--ease-out-quart);
+}
+.course-page .course-hero__breadcrumbs a:hover { color: var(--color-accent); }
+.course-page .course-hero__breadcrumbs span[aria-hidden] { color: var(--color-accent); }
+.course-page .course-hero__kicker,
+.course-page .course-hero__num {
+  font-family: var(--font-display);
+  color: var(--color-accent);
+  font-feature-settings: "lnum" 1;
+}
+.course-page .course-hero__kicker {
+  font-family: var(--font-body); font-size: var(--text-xs); font-weight: 500;
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  margin-block-end: var(--sp-xs);
+}
+.course-page .course-hero__num {
+  font-size: clamp(3.5rem, 2.5rem + 4vw, 6rem); line-height: 0.85;
+  letter-spacing: -0.02em; margin-block-end: var(--sp-sm);
+}
+.course-page .course-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.6rem + 2.8vw, 3.75rem);
+  font-weight: 400; line-height: 0.98; letter-spacing: -0.02em;
+  color: var(--color-heading); max-width: 22ch;
+  margin-block-end: var(--sp-md); text-wrap: balance;
+}
+.course-page .course-hero__title em { font-style: italic; color: var(--color-accent); }
+.course-page .course-hero__lead {
+  font-family: var(--font-body); font-size: var(--text-md);
+  line-height: var(--lh-relaxed); color: var(--color-text-muted);
+  max-width: 44rem; margin-block-end: var(--sp-lg);
+}
+.course-page .course-hero__meta {
+  display: flex; flex-wrap: wrap; gap: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+  padding-block: var(--sp-md);
+  border-block: var(--border-thin) solid var(--color-border);
+}
+.course-page .course-hero__meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
+.course-page .course-hero__meta-value {
+  font-family: var(--font-display); font-size: var(--text-lg);
+  color: var(--color-heading); line-height: 1;
+}
+.course-page .course-hero__meta-label {
+  font-family: var(--font-body); font-size: var(--text-xs);
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* ---- TOC ---- */
+.course-page .course-toc {
+  padding-block: var(--sp-xl);
+  border-block-end: var(--border-thin) solid var(--color-border);
+}
+.course-page .course-toc__title {
+  font-family: var(--font-body); font-size: var(--text-xs); font-weight: 500;
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  color: var(--color-accent); margin-block-end: var(--sp-md);
+}
+.course-page .course-toc__list {
+  list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-2xs);
+}
+@media (min-width: 720px) {
+  .course-page .course-toc__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--sp-md);
+  }
+}
+.course-page .course-toc__item {
+  display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  column-gap: var(--sp-sm); align-items: baseline; padding-block: 0.4rem;
+  border-block-end: 1px dotted var(--color-border-soft);
+}
+.course-page .course-toc__num {
+  font-family: var(--font-display); font-size: var(--text-sm);
+  color: var(--color-accent); font-feature-settings: "lnum" 1, "tnum" 1; min-width: 2rem;
+}
+.course-page .course-toc__link {
+  font-family: var(--font-body); font-size: var(--text-sm);
+  line-height: var(--lh-snug); color: var(--color-text); text-decoration: none;
+  transition: color var(--t-fast) var(--ease-out-quart);
+}
+.course-page .course-toc__link:hover { color: var(--color-accent); }
+
+/* ---- UNIDAD ---- */
+.course-page .unit {
+  padding-block: var(--sp-2xl) var(--sp-xl);
+  border-block-start: var(--border-thin) solid var(--color-border);
+  scroll-margin-top: 6rem;
+}
+.course-page .unit__header { margin-block-end: var(--sp-xl); }
+.course-page .unit__kicker {
+  font-family: var(--font-body); font-size: var(--text-xs); font-weight: 500;
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  color: var(--color-text-muted); margin-block-end: var(--sp-xs);
+}
+.course-page .unit__num {
+  font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  line-height: 1; color: var(--color-accent); margin-block-end: 0.25rem;
+  font-feature-settings: "lnum" 1;
+}
+.course-page .unit__title {
+  font-family: var(--font-display); font-size: clamp(2rem, 1.5rem + 2.2vw, 3rem);
+  font-weight: 400; line-height: var(--lh-tight); letter-spacing: var(--ls-tight);
+  color: var(--color-heading); max-width: 24ch;
+  margin-block-end: var(--sp-sm); text-wrap: balance;
+}
+.course-page .unit__intro {
+  font-family: var(--font-body); font-size: var(--text-md);
+  line-height: var(--lh-relaxed); color: var(--color-text-muted); max-width: 44rem;
+}
+
+/* ---- LECCIÓN ---- */
+.course-page .lesson {
+  padding-block: var(--sp-xl);
+  border-block-start: var(--border-thin) solid var(--color-border-soft);
+  scroll-margin-top: 6rem;
+}
+.course-page .lesson__header,
+.course-page .lesson__head { margin-block-end: var(--sp-lg); }
+.course-page .lesson__num {
+  font-family: var(--font-body); font-size: var(--text-xs); font-weight: 500;
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  color: var(--color-accent); margin-block-end: var(--sp-2xs);
+}
+.course-page .lesson__title,
+.course-page .lesson__heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
+  font-weight: 400; line-height: var(--lh-tight); letter-spacing: var(--ls-tight);
+  color: var(--color-heading); max-width: 28ch; text-wrap: balance;
+  margin-block-end: var(--sp-sm);
+}
+.course-page .lesson__title em,
+.course-page .lesson__heading em { font-style: italic; color: var(--color-accent); }
+.course-page .lesson__lead,
+.course-page .lesson__abstract {
+  font-family: var(--font-body); font-style: italic; font-size: var(--text-base);
+  color: var(--color-text-muted); line-height: var(--lh-relaxed); max-width: 44rem;
+  padding-inline-start: var(--sp-md); border-inline-start: 2px solid var(--color-accent);
+}
+.course-page .lesson__body {
+  margin-block-start: var(--sp-lg); max-width: var(--course-content-max);
+}
+.course-page .lesson__body p {
+  font-family: var(--font-body); font-size: var(--text-base);
+  line-height: var(--lh-relaxed); color: var(--color-text);
+  margin-block-end: var(--sp-md); text-wrap: pretty;
+}
+
+/* Bibliografía por lección */
+.course-page .lesson__source {
+  display: block; margin-block-start: var(--sp-lg); padding: var(--sp-md);
+  border: var(--border-thin) solid var(--color-border-soft);
+  border-radius: var(--radius-md); background-color: var(--color-bg-elevated);
+  max-width: var(--course-content-max);
+}
+.course-page .lesson__source-title {
+  font-family: var(--font-body); font-size: var(--text-xs); font-weight: 500;
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  color: var(--color-accent); margin-block-end: var(--sp-sm);
+}
+.course-page .lesson__source-list {
+  margin: 0; padding-inline-start: var(--sp-md);
+  font-family: var(--font-body); font-size: var(--text-sm);
+  line-height: var(--lh-normal); color: var(--color-text-muted);
+}
+.course-page .lesson__source-list li { margin-block-end: var(--sp-2xs); }
+
+/* ---- VÍAS PEDAGÓGICAS ---- */
+.course-page .vias {
+  list-style: none; padding: 0; margin: var(--sp-lg) 0 0; counter-reset: via;
+}
+.course-page .via {
+  padding-block: var(--sp-md);
+  border-block-start: var(--border-thin) solid var(--color-border-soft);
+}
+.course-page .via:first-child { border-block-start: var(--border-thin) solid var(--color-border); }
+.course-page .via__title,
+.course-page .via__name {
+  counter-increment: via;
+  font-family: var(--font-display); font-size: var(--text-lg); font-weight: 400;
+  line-height: var(--lh-tight); letter-spacing: var(--ls-tight);
+  color: var(--color-heading); margin: 0 0 var(--sp-sm);
+  display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  column-gap: var(--sp-sm); align-items: baseline;
+}
+.course-page .via__title::before,
+.course-page .via__name::before {
+  content: counter(via, decimal-leading-zero);
+  font-family: var(--font-display); font-size: var(--text-md);
+  color: var(--color-accent); font-feature-settings: "lnum" 1, "tnum" 1; line-height: 1;
+}
+.course-page .via__title em,
+.course-page .via__name em { font-style: italic; color: var(--color-accent); }
+.course-page .via__body { max-width: var(--course-content-max); }
+.course-page .via__body p {
+  font-family: var(--font-body); font-size: var(--text-base);
+  line-height: var(--lh-relaxed); color: var(--color-text);
+  margin-block-end: var(--sp-sm);
+}
+.course-page .via__body p:last-child { margin-block-end: 0; }
+
+/* Listas dentro de vías y cuerpo de lección */
+.course-page .via__body ul,
+.course-page .lesson__body ul {
+  list-style: none; padding-inline-start: 0; margin: var(--sp-sm) 0;
+}
+.course-page .via__body ul li,
+.course-page .lesson__body ul li {
+  font-family: var(--font-body); font-size: var(--text-base);
+  line-height: var(--lh-relaxed); color: var(--color-text);
+  padding-inline-start: var(--sp-md); position: relative; margin-block-end: var(--sp-2xs);
+}
+.course-page .via__body ul li::before,
+.course-page .lesson__body ul li::before {
+  content: "·"; position: absolute; inset-inline-start: 0;
+  color: var(--color-accent); font-weight: bold;
+}
+
+/* ---- PULLQUOTE ---- */
+.course-page .pullquote {
+  margin-block: var(--sp-lg); padding-inline-start: var(--sp-md);
+  border-inline-start: 2px solid var(--color-accent);
+  font-family: var(--font-display); font-style: italic; font-size: var(--text-lg);
+  line-height: var(--lh-snug); color: var(--color-heading); max-width: 38rem;
+}
+.course-page .pullquote cite {
+  display: block; margin-block-start: var(--sp-2xs);
+  font-family: var(--font-body); font-style: normal; font-size: var(--text-xs);
+  letter-spacing: var(--ls-wider); text-transform: uppercase; color: var(--color-text-muted);
+}
+
+/* ---- ACTIVIDAD ---- */
+.course-page .activity {
+  margin-block: var(--sp-lg); padding: var(--sp-md);
+  border: 1px dashed var(--color-border); border-radius: var(--radius-md);
+  background-color: transparent; max-width: var(--course-content-max);
+}
+.course-page .activity--final {
+  border-style: solid; background-color: var(--color-bg-elevated);
+  box-shadow: var(--shadow-card); max-width: none;
+}
+.course-page .activity__label,
+.course-page .activity__kicker {
+  font-family: var(--font-body); font-size: var(--text-xs); font-weight: 500;
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  color: var(--color-accent); margin-block-end: var(--sp-2xs);
+}
+.course-page .activity__title,
+.course-page .activity__heading {
+  font-family: var(--font-display); font-size: var(--text-lg); font-weight: 400;
+  line-height: var(--lh-tight); color: var(--color-heading); margin-block-end: var(--sp-sm);
+}
+.course-page .activity__lead,
+.course-page .activity__intro,
+.course-page .activity__instructions {
+  font-family: var(--font-body); font-size: var(--text-base);
+  line-height: var(--lh-relaxed); color: var(--color-text-muted);
+  margin-block-end: var(--sp-sm);
+}
+.course-page .activity__body p,
+.course-page .activity__text {
+  font-size: var(--text-sm); line-height: var(--lh-normal);
+  color: var(--color-text-muted); margin-block-end: var(--sp-2xs);
+}
+.course-page .activity__body p:last-child { margin-block-end: 0; }
+.course-page .activity__list { margin: var(--sp-sm) 0; padding-inline-start: var(--sp-md); }
+.course-page .activity__list li {
+  font-size: var(--text-sm); line-height: var(--lh-normal);
+  color: var(--color-text-muted); margin-block-end: var(--sp-2xs);
+}
+.course-page .activity__examples,
+.course-page .activity__criteria {
+  font-size: var(--text-sm); line-height: var(--lh-normal); color: var(--color-text-muted);
+}
+.course-page .activity__close {
+  margin-block-start: var(--sp-sm); font-style: italic;
+  font-size: var(--text-sm); color: var(--color-text-muted);
+}
+.course-page .activity__num {
+  font-family: var(--font-display); color: var(--color-accent);
+  font-feature-settings: "lnum" 1, "tnum" 1;
+}
+
+/* ---- CUESTIONARIO (acordeones <details>) ---- */
+.course-page .quiz {
+  margin-block: var(--sp-xl); padding-block: var(--sp-md);
+  border-block: var(--border-thin) solid var(--color-border);
+}
+.course-page .quiz__header { margin-block-end: var(--sp-md); }
+.course-page .quiz__kicker {
+  font-family: var(--font-body); font-size: var(--text-xs); font-weight: 500;
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  color: var(--color-accent); margin-block-end: var(--sp-2xs);
+}
+.course-page .quiz__title {
+  font-family: var(--font-display); font-size: var(--text-xl);
+  color: var(--color-heading); margin: 0;
+}
+.course-page .quiz__intro {
+  font-size: var(--text-sm); color: var(--color-text-muted);
+  margin-block-start: var(--sp-2xs); max-width: 44rem;
+}
+.course-page .quiz__list { list-style: none; padding: 0; margin: 0; }
+.course-page .question {
+  border-block-start: var(--border-thin) solid var(--color-border-soft);
+  padding-block: var(--sp-sm);
+}
+.course-page .question:last-child { border-block-end: var(--border-thin) solid var(--color-border-soft); }
+.course-page .question summary {
+  cursor: pointer; list-style: none;
+  display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+  column-gap: var(--sp-sm); align-items: baseline; padding: var(--sp-2xs) 0;
+  font-family: var(--font-body); font-size: var(--text-base);
+  color: var(--color-text); line-height: var(--lh-snug);
+}
+.course-page .question summary::-webkit-details-marker { display: none; }
+.course-page .question__num,
+.course-page .quiz__num {
+  font-family: var(--font-display); font-size: var(--text-sm);
+  color: var(--color-accent); min-width: 2rem;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+}
+.course-page .question__prompt { color: var(--color-text); }
+.course-page .question__plus {
+  width: 0.85rem; height: 0.85rem; color: var(--color-text-muted);
+  transition: transform var(--t-base) var(--ease-out-quart),
+              color var(--t-fast) var(--ease-out-quart);
+  flex-shrink: 0;
+}
+.course-page .question[open] .question__plus { transform: rotate(45deg); color: var(--color-accent); }
+.course-page .question summary:hover .question__plus { color: var(--color-accent); }
+.course-page .question__answer,
+.course-page .answer {
+  padding: var(--sp-sm) 0 var(--sp-2xs) 2.65rem;
+  font-family: var(--font-body); font-size: var(--text-sm);
+  line-height: var(--lh-relaxed); color: var(--color-text-muted); max-width: 42rem;
+}
+.course-page .question__answer p,
+.course-page .answer p { margin-block-end: var(--sp-2xs); }
+
+/* ---- RÚBRICA ---- */
+/* Caja contenedora (cuando .rubric envuelve una tabla) */
+.course-page .rubric:not(table) {
+  margin-block: var(--sp-xl); padding: var(--sp-lg);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-md); background-color: var(--color-bg-elevated);
+}
+.course-page .rubric__title {
+  font-family: var(--font-display); font-size: var(--text-xl);
+  color: var(--color-heading); margin-block-end: var(--sp-sm);
+}
+.course-page .rubric__intro {
+  font-size: var(--text-sm); color: var(--color-text-muted);
+  margin-block-end: var(--sp-md); max-width: 44rem;
+}
+.course-page .rubric__table-wrap { overflow-x: auto; }
+/* Tabla, tanto si es table.rubric directa como .rubric table o .rubric__table */
+.course-page table.rubric,
+.course-page .rubric table,
+.course-page .rubric__table {
+  width: 100%; border-collapse: collapse; font-size: var(--text-sm);
+  margin-block: var(--sp-md);
+}
+.course-page table.rubric th, .course-page table.rubric td,
+.course-page .rubric table th, .course-page .rubric table td,
+.course-page .rubric__table th, .course-page .rubric__table td {
+  padding: var(--sp-xs) var(--sp-sm); text-align: left; vertical-align: top;
+  border-block-end: var(--border-thin) solid var(--color-border-soft);
+}
+.course-page table.rubric thead th,
+.course-page .rubric table thead th,
+.course-page .rubric__table thead th {
+  font-family: var(--font-body); font-size: var(--text-xs); font-weight: 500;
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  color: var(--color-accent); border-block-end: var(--border-thin) solid var(--color-border);
+}
+.course-page table.rubric tbody th[scope="row"],
+.course-page .rubric table tbody th[scope="row"],
+.course-page .rubric__table tbody th[scope="row"] {
+  font-family: var(--font-body); font-weight: 500; color: var(--color-heading);
+}
+.course-page table.rubric td,
+.course-page .rubric table td,
+.course-page .rubric__table td { color: var(--color-text-muted); line-height: var(--lh-snug); }
+.course-page .rubric__note {
+  margin-block-start: var(--sp-sm); font-size: var(--text-sm);
+  font-style: italic; color: var(--color-text-muted);
+}
+
+/* ---- NAVEGACIÓN ENTRE CURSOS ---- */
+.course-page .course-nav {
+  margin-block-start: var(--sp-2xl); padding-block: var(--sp-lg);
+  border-block-start: var(--border-thin) solid var(--color-border);
+}
+/* Variante A: enlaces directos (course-nav__link--prev/next/catalog/home) */
+.course-page .course-nav {
+  display: grid; gap: var(--sp-md); grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 720px) {
+  .course-page .course-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Variante B: lista (course-nav__list > course-nav__prev/next) */
+.course-page .course-nav__list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: var(--sp-md); grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 720px) {
+  .course-page .course-nav__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.course-page .course-nav__link {
+  display: block; padding: var(--sp-md);
+  border: var(--border-thin) solid var(--color-border); border-radius: var(--radius-md);
+  text-decoration: none; color: inherit; height: 100%;
+  transition: border-color var(--t-fast) var(--ease-out-quart),
+              transform var(--t-base) var(--ease-out-quart);
+}
+.course-page .course-nav__link:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+.course-page .course-nav__link--next { text-align: right; }
+.course-page .course-nav__direction {
+  display: block; font-family: var(--font-body); font-size: var(--text-xs);
+  letter-spacing: var(--ls-wider); text-transform: uppercase; color: var(--color-text-muted);
+}
+.course-page .course-nav__title {
+  display: block; font-family: var(--font-display); font-size: var(--text-lg);
+  color: var(--color-heading); margin-block-start: 0.25rem; line-height: var(--lh-tight);
+}
+.course-page .course-nav__link:hover .course-nav__title { color: var(--color-accent); }
+.course-page .course-nav__hint {
+  display: block; margin-block-start: var(--sp-2xs);
+  font-size: var(--text-sm); color: var(--color-text-muted); line-height: var(--lh-snug);
+}
+@media (prefers-reduced-motion: reduce) {
+  .course-page .course-nav__link { transition: none; }
+  .course-page .course-nav__link:hover { transform: none; }
+}
+
+/* ---- CIERRES DOXOLÓGICOS ---- */
+.course-page .course-footer,
+.course-page .seminary-closing {
+  margin-block-start: var(--sp-2xl); padding-block: var(--sp-xl);
+  border-block-start: var(--border-thin) solid var(--color-border); text-align: center;
+}
+.course-page .seminary-closing__title {
+  font-family: var(--font-display); font-size: var(--text-xl);
+  color: var(--color-heading); margin-block-end: var(--sp-md);
+}
+.course-page .seminary-closing__text {
+  font-family: var(--font-body); font-size: var(--text-base);
+  line-height: var(--lh-relaxed); color: var(--color-text-muted);
+  max-width: 44rem; margin-inline: auto; margin-block-end: var(--sp-sm);
+}
+.course-page .course-footer__doxology,
+.course-page .seminary-closing__doxology {
+  font-family: var(--font-display); font-style: italic; font-size: var(--text-md);
+  line-height: var(--lh-snug); color: var(--color-accent);
+  max-width: 44rem; margin-inline: auto;
+}
+.course-page .seminary-closing__signature {
+  margin-block-start: var(--sp-md); font-family: var(--font-body);
+  font-size: var(--text-xs); letter-spacing: var(--ls-wider);
+  text-transform: uppercase; color: var(--color-text-muted);
+}
+
+
+/* ============================================================
    FIN DE Verbum Manet Academy · css/styles.css · v5
-   Parte A: §1–§14 · Parte B: §15–§26
+   Parte A: §1–§14 · Parte B: §15–§26 · §27: cursos
    ============================================================ */
