@@ -3471,8 +3471,15 @@ a:focus:not(:focus-visible) {
   display: flex; flex-wrap: wrap; gap: clamp(1rem, 0.5rem + 2vw, 2.5rem);
   padding-block: var(--sp-md);
   border-block: var(--border-thin) solid var(--color-border);
+  list-style: none; margin: 0; padding-inline: 0;
 }
-.course-page .course-hero__meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
+/* Cada dato apila el valor sobre la etiqueta. El HTML usa <li> directos
+   (no .meta-item), así que el flex-column se aplica al propio <li> para
+   evitar que número y etiqueta queden pegados ("3Unidades"). */
+.course-page .course-hero__meta > li,
+.course-page .course-hero__meta-item {
+  display: flex; flex-direction: column; gap: 0.2rem;
+}
 .course-page .course-hero__meta-value {
   font-family: var(--font-display); font-size: var(--text-lg);
   color: var(--color-heading); line-height: 1;
@@ -3602,7 +3609,9 @@ a:focus:not(:focus-visible) {
 .course-page .unit--open .unit__chevron::after  { transform: rotate(45deg); }
 /* Dejar aire para que el chevron no pise el texto del título/intro. */
 .course-page .unit__toggle .unit__title,
-.course-page .unit__toggle .unit__intro { padding-inline-end: 2rem; }
+.course-page .unit__toggle .unit__intro,
+.course-page .unit__toggle .activity__title,
+.course-page .unit__toggle .activity__lead { padding-inline-end: 2rem; }
 
 /* Panel colapsable: animación de altura. */
 .course-page .unit__panel {

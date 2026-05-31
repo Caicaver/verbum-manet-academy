@@ -850,20 +850,31 @@
 
   function enhanceUnitAccordions() {
     if (!mainEl) return;
-    const units = mainEl.querySelectorAll('.unit');
-    if (!units.length) return;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    units.forEach((unit, idx) => {
+    // Bloques plegables: las unidades del curso y, además, la actividad
+    // final integradora (que vive fuera de las unidades, al cierre). Cada
+    // entrada define el selector del bloque y el de su encabezado-disparador.
+    const blocks = [];
+    mainEl.querySelectorAll('.unit').forEach((el) =>
+      blocks.push({ el: el, headerSel: ':scope > .unit__header' })
+    );
+    mainEl.querySelectorAll('.activity--final').forEach((el) =>
+      blocks.push({ el: el, headerSel: ':scope > .activity__head, :scope > .activity__header' })
+    );
+    if (!blocks.length) return;
+
+    blocks.forEach((entry, idx) => {
+      const unit = entry.el;
       // Evitar doble realce si el hook corre más de una vez sobre el mismo DOM.
       if (unit.dataset.accordion === 'ready') return;
 
-      const header = unit.querySelector(':scope > .unit__header');
+      const header = unit.querySelector(entry.headerSel);
       if (!header) return;
 
-      // Recoger todo lo que va DESPUÉS del header dentro de la unidad
-      // (lecciones, cuestionario, etc.) para envolverlo en un panel.
+      // Recoger todo lo que va DESPUÉS del header dentro del bloque
+      // (lecciones, cuestionario, rúbrica, etc.) para envolverlo en un panel.
       const panelNodes = [];
       let node = header.nextSibling;
       while (node) {
