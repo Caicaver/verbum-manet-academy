@@ -3611,7 +3611,9 @@ a:focus:not(:focus-visible) {
 .course-page .unit__toggle .unit__title,
 .course-page .unit__toggle .unit__intro,
 .course-page .unit__toggle .activity__title,
-.course-page .unit__toggle .activity__lead { padding-inline-end: 2rem; }
+.course-page .unit__toggle .activity__lead,
+.course-page .unit__toggle.rubric__title,
+.course-page .unit__toggle .rubric__title { padding-inline-end: 2rem; }
 
 /* Panel colapsable: animación de altura. */
 .course-page .unit__panel {

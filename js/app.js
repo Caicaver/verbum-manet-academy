@@ -863,6 +863,14 @@
     mainEl.querySelectorAll('.activity--final').forEach((el) =>
       blocks.push({ el: el, headerSel: ':scope > .activity__head, :scope > .activity__header' })
     );
+    // Algunos cursos (hermenéutica, intro a la teología) cierran con una
+    // <section class="rubric"> independiente en lugar de .activity--final.
+    // Se pliega igual, usando su .rubric__title como disparador. Se excluyen
+    // las rúbricas que viven dentro de una actividad (esas ya van con ella).
+    mainEl.querySelectorAll('section.rubric').forEach((el) => {
+      if (el.closest('.activity')) return;
+      blocks.push({ el: el, headerSel: ':scope > .rubric__title' });
+    });
     if (!blocks.length) return;
 
     blocks.forEach((entry, idx) => {
