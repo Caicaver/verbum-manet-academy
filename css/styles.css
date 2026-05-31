@@ -685,7 +685,25 @@ a:focus:not(:focus-visible) {
 }
 
 /* ---- Font-size cycler: tres puntos indicadores ---- */
-.tool-btn--fs .fs-dot { opacity: 0.18; transition: opacity var(--t-fast); }
+/* Control de tamaño de texto: tres puntos de tamaño creciente.
+   Los <span> necesitan forma propia (ancho, alto, color), no solo
+   opacidad, o de lo contrario son invisibles en ambos temas. */
+.tool-btn--fs {
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.18rem;
+}
+.tool-btn--fs .fs-dot {
+  display: block;
+  border-radius: 999px;
+  background-color: currentColor;
+  opacity: 0.30;
+  transition: opacity var(--t-fast) var(--ease-out-quad);
+}
+.tool-btn--fs .fs-dot--1 { width: 0.30rem; height: 0.30rem; }
+.tool-btn--fs .fs-dot--2 { width: 0.42rem; height: 0.42rem; }
+.tool-btn--fs .fs-dot--3 { width: 0.54rem; height: 0.54rem; }
 :root[data-fs="1"] .tool-btn--fs .fs-dot--1 { opacity: 1; }
 :root[data-fs="2"] .tool-btn--fs .fs-dot--1,
 :root[data-fs="2"] .tool-btn--fs .fs-dot--2 { opacity: 1; }
@@ -3679,10 +3697,24 @@ a:focus:not(:focus-visible) {
 }
 /* Contención de desborde dentro de la actividad: las tablas anchas
    (rúbrica) hacen scroll horizontal dentro de su envoltorio en vez de
-   ensanchar toda la actividad y romper los márgenes de la página. */
+   ensanchar toda la actividad y romper los márgenes de la página.
+   Para que overflow-x:auto se active, TODA la cadena de contenedores
+   anidados necesita min-width:0 (de lo contrario los ancestros se
+   expanden con la tabla y el scroll nunca aparece). */
 .course-page .activity { overflow-wrap: break-word; }
-.course-page .activity > * { min-width: 0; max-width: 100%; }
-.course-page .activity .rubric__table-wrap { max-width: 100%; overflow-x: auto; }
+.course-page .activity,
+.course-page .activity__body,
+.course-page .activity__instructions,
+.course-page .activity__examples,
+.course-page .activity__rubric { min-width: 0; }
+.course-page .rubric__table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+/* La tabla mantiene un ancho mínimo legible; si no cabe, el wrap
+   (no la página) muestra la barra de desplazamiento horizontal. */
+.course-page .rubric__table-wrap > table { min-width: 38rem; }
 .course-page .activity__label,
 .course-page .activity__kicker {
   font-family: var(--font-body); font-size: var(--text-xs); font-weight: 500;
@@ -3906,9 +3938,10 @@ a:focus:not(:focus-visible) {
   max-width: 44rem; margin-inline: auto;
 }
 .course-page .seminary-closing__signature {
-  margin-block-start: var(--sp-lg); text-align: center;
+  margin-block-start: var(--sp-lg); margin-inline: auto;
+  max-width: 44rem; text-align: center;
   font-family: var(--font-display); font-style: italic;
-  font-size: var(--text-base); line-height: var(--lh-snug);
+  font-size: var(--text-base); line-height: var(--lh-relaxed);
   color: var(--color-text-muted);
 }
 .course-page .seminary-closing__signature em {
