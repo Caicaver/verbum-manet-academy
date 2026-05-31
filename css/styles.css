@@ -3545,6 +3545,83 @@ a:focus:not(:focus-visible) {
   line-height: var(--lh-relaxed); color: var(--color-text-muted); max-width: 44rem;
 }
 
+/* ---- ACORDEÓN DE UNIDADES (ETAPA 4) ----
+   El realce lo aplica app.js sobre el DOM inyectado: convierte el
+   unit__header en un botón (.unit__toggle) y pliega el resto en
+   .unit__panel. Las reglas aquí dan el disparador clicable, el
+   indicador (chevron) y la transición de altura. */
+.course-page .unit--collapsible .unit__header {
+  margin-block-end: 0;
+}
+.course-page .unit__toggle {
+  /* Botón a ancho completo, sin apariencia de botón: el contenido del
+     header (kicker, num, título, intro) se conserva intacto dentro. */
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: var(--sp-md) 0;
+  cursor: pointer;
+  position: relative;
+  color: inherit;
+  font: inherit;
+  border-block-end: var(--border-thin) solid transparent;
+  transition: border-color var(--t-fast) var(--ease-out-quart);
+}
+.course-page .unit__toggle:hover .unit__title {
+  color: var(--color-accent);
+}
+.course-page .unit--open .unit__toggle {
+  border-block-end-color: var(--color-border-soft);
+}
+/* Indicador chevron a la derecha, alineado con el título. */
+.course-page .unit__chevron {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-start: var(--sp-md);
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+}
+.course-page .unit__chevron::before,
+.course-page .unit__chevron::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%;
+  width: 0.62rem;
+  height: 1.8px;
+  background-color: var(--color-accent);
+  border-radius: 2px;
+  transition: transform var(--t-base) var(--ease-out-quart);
+}
+.course-page .unit__chevron::before { inset-inline-start: 0;    transform: rotate(45deg); }
+.course-page .unit__chevron::after  { inset-inline-end: 0;      transform: rotate(-45deg); }
+/* Abierto: el chevron apunta hacia arriba. */
+.course-page .unit--open .unit__chevron::before { transform: rotate(-45deg); }
+.course-page .unit--open .unit__chevron::after  { transform: rotate(45deg); }
+/* Dejar aire para que el chevron no pise el texto del título/intro. */
+.course-page .unit__toggle .unit__title,
+.course-page .unit__toggle .unit__intro { padding-inline-end: 2rem; }
+
+/* Panel colapsable: animación de altura. */
+.course-page .unit__panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height var(--t-slow) var(--ease-out-quart);
+}
+.course-page .unit--open .unit__panel {
+  /* En estado abierto el inline-style de app.js gobierna max-height
+     (medido y luego 'none'); esta regla es respaldo si el JS no corre. */
+  max-height: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-page .unit__panel { transition: none; }
+  .course-page .unit__chevron::before,
+  .course-page .unit__chevron::after { transition: none; }
+}
+
 /* ---- LECCIÓN ---- */
 .course-page .lesson {
   padding-block: var(--sp-xl);

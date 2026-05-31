@@ -830,6 +830,142 @@
 
   function runFragmentHooks(_hash) {
     initQuoteRotator();
+    enhanceUnitAccordions();
+  }
+
+
+  /* ==========================================================================
+     §13.bis · ACORDEÓN DE UNIDADES (divulgación progresiva)
+     · Realza, tras la inyección del fragmento, cada <section class="unit">
+       de los cursos convirtiendo su <header class="unit__header"> en un
+       disparador accesible y plegando el resto del contenido de la unidad
+       (lecciones + cuestionario) en un panel colapsable.
+     · No requiere tocar el HTML de los cursos ni insertar <script> en los
+       fragmentos: todo el realce ocurre aquí, sobre el DOM ya inyectado.
+     · Comportamiento: todas las unidades CERRADAS al entrar; acordeón
+       INDEPENDIENTE (varias pueden abrirse a la vez).
+     · Si el hash o un enlace interno apunta a un id dentro de una unidad
+       cerrada, esa unidad se abre antes de desplazarse.
+     ========================================================================== */
+
+  function enhanceUnitAccordions() {
+    if (!mainEl) return;
+    const units = mainEl.querySelectorAll('.unit');
+    if (!units.length) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    units.forEach((unit, idx) => {
+      // Evitar doble realce si el hook corre más de una vez sobre el mismo DOM.
+      if (unit.dataset.accordion === 'ready') return;
+
+      const header = unit.querySelector(':scope > .unit__header');
+      if (!header) return;
+
+      // Recoger todo lo que va DESPUÉS del header dentro de la unidad
+      // (lecciones, cuestionario, etc.) para envolverlo en un panel.
+      const panelNodes = [];
+      let node = header.nextSibling;
+      while (node) {
+        panelNodes.push(node);
+        node = node.nextSibling;
+      }
+      if (!panelNodes.length) return;
+
+      const panel = document.createElement('div');
+      panel.className = 'unit__panel';
+      const panelId = (unit.id || 'unit-' + idx) + '-panel';
+      panel.id = panelId;
+      panelNodes.forEach((n) => panel.appendChild(n));
+      unit.appendChild(panel);
+
+      // Convertir el header en disparador accesible.
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'unit__toggle';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-controls', panelId);
+      // Mover el contenido del header dentro del botón para que todo sea clicable.
+      while (header.firstChild) btn.appendChild(header.firstChild);
+      // Indicador visual (chevron).
+      const chevron = document.createElement('span');
+      chevron.className = 'unit__chevron';
+      chevron.setAttribute('aria-hidden', 'true');
+      btn.appendChild(chevron);
+      header.appendChild(btn);
+
+      // Estado inicial: cerrado.
+      unit.classList.add('unit--collapsible');
+      panel.hidden = true;
+      panel.style.maxHeight = '0px';
+
+      btn.addEventListener('click', () => {
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        if (isOpen) closeUnit(unit, btn, panel, reduce);
+        else openUnit(unit, btn, panel, reduce);
+      });
+
+      unit.dataset.accordion = 'ready';
+    });
+
+    // Si hay un ancla pendiente (hash interno) que cae dentro de una unidad
+    // cerrada, abrir esa unidad y desplazarse.
+    revealHashTarget(reduce);
+  }
+
+  function openUnit(unit, btn, panel, reduce) {
+    btn.setAttribute('aria-expanded', 'true');
+    unit.classList.add('unit--open');
+    panel.hidden = false;
+    if (reduce) {
+      panel.style.maxHeight = 'none';
+      return;
+    }
+    // Animación max-height: medir el alto real y animar hacia él.
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+    // Tras la transición, soltar el límite para permitir contenido dinámico.
+    const onEnd = (e) => {
+      if (e.propertyName !== 'max-height') return;
+      if (btn.getAttribute('aria-expanded') === 'true') panel.style.maxHeight = 'none';
+      panel.removeEventListener('transitionend', onEnd);
+    };
+    panel.addEventListener('transitionend', onEnd);
+  }
+
+  function closeUnit(unit, btn, panel, reduce) {
+    btn.setAttribute('aria-expanded', 'false');
+    unit.classList.remove('unit--open');
+    if (reduce) {
+      panel.style.maxHeight = '0px';
+      panel.hidden = true;
+      return;
+    }
+    // Fijar el alto actual antes de animar a 0 (si estaba en 'none').
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+    // Forzar reflujo para que la transición arranque desde el alto medido.
+    void panel.offsetHeight;
+    panel.style.maxHeight = '0px';
+    const onEnd = (e) => {
+      if (e.propertyName !== 'max-height') return;
+      if (btn.getAttribute('aria-expanded') === 'false') panel.hidden = true;
+      panel.removeEventListener('transitionend', onEnd);
+    };
+    panel.addEventListener('transitionend', onEnd);
+  }
+
+  // Abre la unidad que contenga el id objetivo (del hash interno) y se desplaza.
+  function revealHashTarget(reduce) {
+    const hash = location.hash;
+    if (!hash || hash.startsWith('#/') || hash.length < 2) return;
+    const target = mainEl.querySelector(hash.replace(/[^#\w:.\-]/g, ''));
+    if (!target) return;
+    const unit = target.closest('.unit');
+    if (unit && unit.classList.contains('unit--collapsible') && !unit.classList.contains('unit--open')) {
+      const btn = unit.querySelector(':scope > .unit__header > .unit__toggle');
+      const panel = unit.querySelector(':scope > .unit__panel');
+      if (btn && panel) openUnit(unit, btn, panel, reduce);
+    }
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
   }
 
 
@@ -922,6 +1058,14 @@
         const target = document.getElementById(hash.slice(1));
         if (target) {
           const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          // Si el destino vive dentro de una unidad colapsada, abrirla antes
+          // de desplazarse (de lo contrario el scroll iría a algo oculto).
+          const unit = target.closest('.unit');
+          if (unit && unit.classList.contains('unit--collapsible') && !unit.classList.contains('unit--open')) {
+            const btn = unit.querySelector(':scope > .unit__header > .unit__toggle');
+            const panel = unit.querySelector(':scope > .unit__panel');
+            if (btn && panel) openUnit(unit, btn, panel, reduce);
+          }
           target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
         }
       }
