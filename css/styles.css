@@ -3672,13 +3672,22 @@ a:focus:not(:focus-visible) {
 
 /* ---- ACTIVIDAD ---- */
 .course-page .activity {
-  margin-block: var(--sp-lg); padding: var(--sp-md);
+  margin-block: var(--sp-lg);
+  /* Padding interno generoso para que el texto no se ciña a los bordes.
+     Nota: .activity (2 clases) gana en especificidad sobre .container
+     (1 clase), así que aquí se fija el padding lateral definitivo del
+     recuadro en lugar de heredarlo del container. */
+  padding: var(--sp-lg) clamp(1.25rem, 3vw, 2.25rem);
   border: 1px dashed var(--color-border); border-radius: var(--radius-md);
   background-color: transparent; max-width: var(--course-content-max);
 }
 .course-page .activity--final {
   border-style: solid; background-color: var(--color-bg-elevated);
-  box-shadow: var(--shadow-card); max-width: none;
+  box-shadow: var(--shadow-card);
+  /* El recuadro final no se estira a todo el ancho del container: mantiene
+     un ancho de lectura cómodo y centrado, como el resto del contenido. */
+  max-width: 60rem; margin-inline: auto;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
 }
 /* Contención de desborde dentro de la actividad: las tablas anchas
    (rúbrica) hacen scroll horizontal dentro de su envoltorio en vez de

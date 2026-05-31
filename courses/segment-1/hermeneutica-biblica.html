@@ -2,344 +2,8 @@
      VERBUM MANET ACADEMY · courses/segment-1/hermeneutica-biblica.html
      Curso 02 · Segmento I · Fundamentos y Herramientas
      Fragmento parcial · sin etiquetas raíz, metadatos ni scripts
-     Comparte el sistema de estilos del Curso 01 (clase .course-page).
+     Usa el sistema de estilos global .course-page (css/styles.css).
      ========================================================================= -->
-
-<style>
-  /* ----------------------------------------------------------------------
-   *  Estilos compartidos con el resto de cursos del segmento.
-   *  Definidos íntegramente aquí porque cada fragmento debe ser autónomo:
-   *  CourseLoader inyecta el HTML por innerHTML y los <style> previos del
-   *  fragmento anterior se eliminan al renderizar el siguiente.
-   * ------------------------------------------------------------------- */
-
-  .course-page {
-    --course-content-max: 44rem;
-    --course-rule: var(--border);
-  }
-
-  .course-page .course-hero {
-    padding-block: var(--space-lg) var(--space-xl);
-    border-block-end: 1px solid var(--border);
-  }
-  .course-page .course-hero__breadcrumbs {
-    display: flex; flex-wrap: wrap; gap: 0.4rem 0.6rem; align-items: baseline;
-    margin-block-end: var(--space-md);
-    font-family: var(--font-body); font-size: var(--text-xs);
-    letter-spacing: var(--tracking-widest); text-transform: uppercase;
-    color: var(--text-faint);
-  }
-  .course-page .course-hero__breadcrumbs a {
-    color: var(--text-secondary); text-decoration: none;
-    transition: color var(--duration-fast) var(--ease-out);
-  }
-  .course-page .course-hero__breadcrumbs a:hover { color: var(--text-accent); }
-  .course-page .course-hero__breadcrumbs span[aria-hidden] { color: var(--accent); }
-  .course-page .course-hero__num {
-    font-family: var(--font-display);
-    font-size: clamp(3.5rem, 2.5rem + 4vw, 6rem);
-    line-height: 0.85; letter-spacing: -0.02em; color: var(--accent);
-    font-feature-settings: "lnum" 1; margin-block-end: var(--space-sm);
-  }
-  .course-page .course-hero__title {
-    font-family: var(--font-display);
-    font-size: clamp(2.25rem, 1.6rem + 2.8vw, 3.75rem);
-    font-weight: 400; line-height: 0.98; letter-spacing: -0.02em;
-    color: var(--text-heading); max-width: 22ch;
-    margin-block-end: var(--space-md); text-wrap: balance;
-  }
-  .course-page .course-hero__title em { font-style: italic; color: var(--text-accent); }
-  .course-page .course-hero__lead {
-    font-family: var(--font-body); font-size: var(--text-lead);
-    line-height: var(--leading-loose); color: var(--text-secondary);
-    max-width: 44rem; margin-block-end: var(--space-lg);
-  }
-  .course-page .course-hero__meta {
-    display: flex; flex-wrap: wrap;
-    gap: clamp(1rem, 0.5rem + 2vw, 2.5rem);
-    padding-block: var(--space-md);
-    border-block: 1px solid var(--border);
-  }
-  .course-page .course-hero__meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
-  .course-page .course-hero__meta-value {
-    font-family: var(--font-display); font-size: var(--text-h4);
-    color: var(--text-heading); line-height: 1;
-  }
-  .course-page .course-hero__meta-label {
-    font-family: var(--font-body); font-size: var(--text-xs);
-    letter-spacing: var(--tracking-widest); text-transform: uppercase;
-    color: var(--text-faint); max-width: none;
-  }
-
-  .course-page .course-toc {
-    padding-block: var(--space-xl);
-    border-block-end: 1px solid var(--border);
-  }
-  .course-page .course-toc__title {
-    font-family: var(--font-body); font-size: var(--text-xs);
-    font-weight: 500; letter-spacing: var(--tracking-widest);
-    text-transform: uppercase; color: var(--text-accent);
-    margin-block-end: var(--space-md); max-width: none;
-  }
-  .course-page .course-toc__list {
-    list-style: none; padding: 0; margin: 0;
-    display: grid; gap: var(--space-2xs);
-  }
-  @media (min-width: 720px) {
-    .course-page .course-toc__list {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: var(--space-md);
-    }
-  }
-  .course-page .course-toc__item {
-    display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr);
-    column-gap: var(--space-sm); align-items: baseline;
-    padding-block: 0.4rem;
-    border-block-end: 1px dotted var(--border-subtle);
-  }
-  .course-page .course-toc__num {
-    font-family: var(--font-display); font-size: var(--text-sm);
-    color: var(--text-accent);
-    font-feature-settings: "lnum" 1, "tnum" 1; min-width: 2rem;
-  }
-  .course-page .course-toc__link {
-    font-family: var(--font-body); font-size: var(--text-sm);
-    line-height: var(--leading-snug); color: var(--text-primary);
-    text-decoration: none;
-    transition: color var(--duration-fast) var(--ease-out);
-  }
-  .course-page .course-toc__link:hover { color: var(--text-accent); }
-
-  .course-page .unit {
-    padding-block: var(--space-2xl) var(--space-xl);
-    border-block-start: 1px solid var(--border);
-    scroll-margin-top: calc(var(--header-height) + 1rem);
-  }
-  .course-page .unit__header { margin-block-end: var(--space-xl); }
-  .course-page .unit__kicker {
-    font-family: var(--font-body); font-size: var(--text-xs);
-    font-weight: 500; letter-spacing: var(--tracking-widest);
-    text-transform: uppercase; color: var(--text-faint);
-    margin-block-end: var(--space-xs); max-width: none;
-  }
-  .course-page .unit__num {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
-    line-height: 1; color: var(--accent); margin-block-end: 0.25rem;
-    font-feature-settings: "lnum" 1;
-  }
-  .course-page .unit__title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 1.5rem + 2.2vw, 3rem);
-    font-weight: 400; line-height: var(--leading-tight);
-    letter-spacing: var(--tracking-tight); color: var(--text-heading);
-    max-width: 24ch; margin-block-end: var(--space-sm); text-wrap: balance;
-  }
-  .course-page .unit__intro {
-    font-family: var(--font-body); font-size: var(--text-lead);
-    line-height: var(--leading-loose); color: var(--text-secondary);
-    max-width: 44rem;
-  }
-
-  .course-page .lesson {
-    padding-block: var(--space-xl);
-    border-block-start: 1px solid var(--border-subtle);
-    scroll-margin-top: calc(var(--header-height) + 1rem);
-  }
-  .course-page .lesson__header { margin-block-end: var(--space-lg); }
-  .course-page .lesson__num {
-    font-family: var(--font-body); font-size: var(--text-xs);
-    font-weight: 500; letter-spacing: var(--tracking-widest);
-    text-transform: uppercase; color: var(--text-accent);
-    margin-block-end: var(--space-2xs); max-width: none;
-  }
-  .course-page .lesson__title {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
-    font-weight: 400; line-height: var(--leading-tight);
-    letter-spacing: var(--tracking-tight); color: var(--text-heading);
-    max-width: 28ch; text-wrap: balance; margin-block-end: var(--space-sm);
-  }
-  .course-page .lesson__title em { font-style: italic; color: var(--text-accent); }
-  .course-page .lesson__abstract {
-    font-family: var(--font-body); font-style: italic;
-    font-size: var(--text-base); color: var(--text-secondary);
-    line-height: var(--leading-loose); max-width: 44rem;
-    padding-inline-start: var(--space-md);
-    border-inline-start: 2px solid var(--accent);
-  }
-  .course-page .lesson__body {
-    margin-block-start: var(--space-lg);
-    max-width: var(--course-content-max);
-  }
-  .course-page .lesson__body p {
-    font-family: var(--font-body); font-size: var(--text-base);
-    line-height: var(--leading-loose); color: var(--text-primary);
-    margin-block-end: var(--space-md); max-width: none; text-wrap: pretty;
-  }
-
-  .course-page .vias {
-    margin-block-start: var(--space-lg); counter-reset: via;
-    list-style: none; padding: 0;
-  }
-  .course-page .via {
-    padding-block: var(--space-md);
-    border-block-start: 1px solid var(--border-subtle);
-  }
-  .course-page .via:first-child { border-block-start: 1px solid var(--border); }
-  .course-page .via__header {
-    counter-increment: via;
-    display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr);
-    column-gap: var(--space-sm); align-items: baseline;
-    margin-block-end: var(--space-sm);
-  }
-  .course-page .via__header::before {
-    content: counter(via, decimal-leading-zero);
-    font-family: var(--font-display); font-size: var(--text-h4);
-    color: var(--accent); font-feature-settings: "lnum" 1, "tnum" 1;
-    line-height: 1;
-  }
-  .course-page .via__name {
-    font-family: var(--font-display); font-size: var(--text-h4);
-    font-weight: 400; line-height: var(--leading-tight);
-    letter-spacing: var(--tracking-tight); color: var(--text-heading);
-    margin: 0; max-width: none;
-  }
-  .course-page .via__name em { font-style: italic; color: var(--text-accent); }
-  .course-page .via__body { max-width: var(--course-content-max); }
-  .course-page .via__body p {
-    font-family: var(--font-body); font-size: var(--text-base);
-    line-height: var(--leading-loose); color: var(--text-primary);
-    margin-block-end: var(--space-sm); max-width: none;
-  }
-  .course-page .via__body p:last-child { margin-block-end: 0; }
-
-  .course-page .via__body ul,
-  .course-page .lesson__body ul {
-    list-style: none; padding-inline-start: 0;
-    margin: var(--space-sm) 0;
-  }
-  .course-page .via__body ul li,
-  .course-page .lesson__body ul li {
-    font-family: var(--font-body); font-size: var(--text-base);
-    line-height: var(--leading-loose); color: var(--text-primary);
-    padding-inline-start: var(--space-md); position: relative;
-    margin-block-end: var(--space-2xs);
-  }
-  .course-page .via__body ul li::before,
-  .course-page .lesson__body ul li::before {
-    content: "·"; position: absolute; inset-inline-start: 0;
-    color: var(--accent); font-weight: bold;
-  }
-
-  .course-page .pullquote {
-    margin-block: var(--space-lg);
-    padding-inline-start: var(--space-md);
-    border-inline-start: 2px solid var(--accent);
-    font-family: var(--font-display); font-style: italic;
-    font-size: var(--text-h4); line-height: var(--leading-snug);
-    color: var(--text-heading); max-width: 38rem;
-  }
-  .course-page .pullquote cite {
-    display: block; margin-block-start: var(--space-2xs);
-    font-family: var(--font-body); font-style: normal;
-    font-size: var(--text-xs); letter-spacing: var(--tracking-widest);
-    text-transform: uppercase; color: var(--text-faint);
-  }
-
-  .course-page .activity {
-    margin-block: var(--space-lg); padding: var(--space-md);
-    border: 1px dashed var(--border-strong); border-radius: var(--radius-md);
-    background-color: transparent; max-width: var(--course-content-max);
-  }
-  .course-page .activity__label {
-    font-family: var(--font-body); font-size: var(--text-xs);
-    font-weight: 500; letter-spacing: var(--tracking-widest);
-    text-transform: uppercase; color: var(--text-accent);
-    margin-block-end: var(--space-2xs); max-width: none;
-  }
-  .course-page .activity__title {
-    font-family: var(--font-display); font-size: var(--text-h4);
-    font-weight: 400; line-height: var(--leading-tight);
-    color: var(--text-heading); margin-block-end: var(--space-sm);
-    max-width: none;
-  }
-  .course-page .activity__body p {
-    font-size: var(--text-sm); line-height: var(--leading-normal);
-    color: var(--text-secondary); margin-block-end: var(--space-2xs);
-    max-width: none;
-  }
-  .course-page .activity__body p:last-child { margin-block-end: 0; }
-
-  .course-page .rubric {
-    margin-block: var(--space-xl); padding: var(--space-lg);
-    border: 1px solid var(--border); border-radius: var(--radius-md);
-    background-color: var(--bg-surface);
-  }
-  .course-page .rubric__title {
-    font-family: var(--font-display); font-size: var(--text-h3);
-    color: var(--text-heading); margin-block-end: var(--space-sm);
-    max-width: none;
-  }
-  .course-page .rubric__intro {
-    font-size: var(--text-sm); color: var(--text-secondary);
-    margin-block-end: var(--space-md); max-width: 44rem;
-  }
-  .course-page .rubric table { font-size: var(--text-sm); }
-  .course-page .rubric th,
-  .course-page .rubric td {
-    padding: var(--space-xs) var(--space-sm);
-    border-block-end: 1px solid var(--border-subtle);
-    vertical-align: top;
-  }
-  .course-page .rubric th {
-    text-align: left; font-family: var(--font-body);
-    font-size: var(--text-xs); font-weight: 500;
-    letter-spacing: var(--tracking-widest); text-transform: uppercase;
-    color: var(--text-accent);
-    border-block-end: 1px solid var(--border);
-  }
-  .course-page .rubric td {
-    color: var(--text-secondary); line-height: var(--leading-snug);
-  }
-
-  .course-page .course-nav {
-    margin-block-start: var(--space-2xl);
-    padding-block: var(--space-lg);
-    border-block-start: 1px solid var(--border);
-    display: grid; gap: var(--space-md);
-    grid-template-columns: minmax(0, 1fr);
-  }
-  @media (min-width: 720px) {
-    .course-page .course-nav {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    }
-  }
-  .course-page .course-nav__link {
-    display: block; padding: var(--space-md);
-    border: 1px solid var(--border); border-radius: var(--radius-md);
-    text-decoration: none; color: inherit;
-    transition:
-      border-color var(--duration-fast) var(--ease-out),
-      transform var(--duration-base) var(--ease-out);
-  }
-  .course-page .course-nav__link:hover {
-    border-color: var(--accent); transform: translateY(-2px);
-  }
-  .course-page .course-nav__link--next { text-align: right; }
-  .course-page .course-nav__direction {
-    font-family: var(--font-body); font-size: var(--text-xs);
-    letter-spacing: var(--tracking-widest); text-transform: uppercase;
-    color: var(--text-faint); max-width: none;
-  }
-  .course-page .course-nav__title {
-    font-family: var(--font-display); font-size: var(--text-h4);
-    color: var(--text-heading); margin-block-start: 0.25rem;
-    max-width: none; line-height: var(--leading-tight);
-  }
-  .course-page .course-nav__link:hover .course-nav__title { color: var(--text-accent); }
-</style>
-
 
 <!-- ============================================================================
      ESTRUCTURA DEL CURSO 02
@@ -392,7 +56,6 @@
     </div>
   </section>
 
-
   <!-- ============================================
        TABLA DE CONTENIDOS
        ============================================ -->
@@ -414,7 +77,6 @@
     </ol>
   </section>
 
-
   <!-- ============================================
        UNIDAD 1 · Fundamentos
        ============================================ -->
@@ -433,7 +95,6 @@
         de la Unidad II.
       </p>
     </header>
-
 
     <!-- LECCIÓN 1.1 -->
     <article class="lesson" id="l-1-1" aria-labelledby="l-1-1-title">
@@ -621,7 +282,6 @@
       </aside>
     </article>
 
-
     <!-- LECCIÓN 1.2 -->
     <article class="lesson" id="l-1-2" aria-labelledby="l-1-2-title">
 
@@ -775,7 +435,6 @@
       </ol>
     </article>
 
-
     <!-- LECCIÓN 1.3 -->
     <article class="lesson" id="l-1-3" aria-labelledby="l-1-3-title">
 
@@ -922,7 +581,6 @@
 
       </ol>
     </article>
-
 
     <!-- LECCIÓN 1.4 -->
     <article class="lesson" id="l-1-4" aria-labelledby="l-1-4-title">
@@ -1086,7 +744,6 @@
 
   </section>
 
-
   <!-- ============================================
        UNIDAD 2 · El método histórico-gramatical
        ============================================ -->
@@ -1105,7 +762,6 @@
         canónica establece con Cristo.
       </p>
     </header>
-
 
     <!-- LECCIÓN 2.1 -->
     <article class="lesson" id="l-2-1" aria-labelledby="l-2-1-title">
@@ -1233,7 +889,6 @@
         </li>
       </ol>
     </article>
-
 
     <!-- LECCIÓN 2.2 -->
     <article class="lesson" id="l-2-2" aria-labelledby="l-2-2-title">
@@ -1366,7 +1021,6 @@
         </li>
       </ol>
     </article>
-
 
     <!-- LECCIÓN 2.3 -->
     <article class="lesson" id="l-2-3" aria-labelledby="l-2-3-title">
@@ -1509,7 +1163,6 @@
         </li>
       </ol>
     </article>
-
 
     <!-- LECCIÓN 2.4 -->
     <article class="lesson" id="l-2-4" aria-labelledby="l-2-4-title">
@@ -1658,7 +1311,6 @@
 
   </section>
 
-
   <!-- ============================================
        UNIDAD 3 · Hermenéutica especial por corpus
        ============================================ -->
@@ -1676,7 +1328,6 @@
         del método general.
       </p>
     </header>
-
 
     <!-- LECCIÓN 3.1 · Evangelios -->
     <article class="lesson" id="l-3-1" aria-labelledby="l-3-1-title">
@@ -1794,7 +1445,6 @@
       </ol>
 </article>
 
-
     <!-- LECCIÓN 3.2 · Epístolas -->
     <article class="lesson" id="l-3-2" aria-labelledby="l-3-2-title">
       <header class="lesson__header">
@@ -1911,7 +1561,6 @@
       </li>
       </ol>
 </article>
-
 
     <!-- LECCIÓN 3.3 · Apocalipsis -->
     <article class="lesson" id="l-3-3" aria-labelledby="l-3-3-title">
@@ -2178,7 +1827,6 @@
       </div>
     </article>
 
-
     <!-- ============================================
          ACTIVIDAD FINAL · Exégesis con rúbrica
          ============================================ -->
@@ -2272,7 +1920,6 @@
     </section>
 
   </section>
-
 
   <!-- ============================================
        NAVEGACIÓN ENTRE CURSOS
