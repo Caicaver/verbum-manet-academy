@@ -3837,13 +3837,45 @@ a:focus:not(:focus-visible) {
   font-size: var(--text-sm); color: var(--color-text-muted);
   margin-block-end: var(--sp-md); max-width: 44rem;
 }
-/* Tabla, tanto si es table.rubric directa como .rubric table o .rubric__table */
+/* Tabla, tanto si es table.rubric directa como .rubric table o .rubric__table.
+   Las tablas SIN envoltura (.rubric__table-wrap) — la mayoría de los cursos —
+   se hacen desplazables por sí mismas: display:block + overflow-x:auto, de
+   modo que cuando no caben muestran barra horizontal en lugar de ceñirse a
+   los bordes o desbordar la página. Las que sí tienen envoltura conservan
+   su comportamiento (la envoltura gestiona el scroll). */
+.course-page table.rubric,
+.course-page .rubric > table,
+.course-page .activity table:not(.rubric__table) {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) var(--color-bg-sunken);
+}
+.course-page table.rubric::-webkit-scrollbar,
+.course-page .rubric > table::-webkit-scrollbar,
+.course-page .activity table:not(.rubric__table)::-webkit-scrollbar { height: 0.5rem; }
+.course-page table.rubric::-webkit-scrollbar-track,
+.course-page .rubric > table::-webkit-scrollbar-track,
+.course-page .activity table:not(.rubric__table)::-webkit-scrollbar-track {
+  background: var(--color-bg-sunken); border-radius: 999px;
+}
+.course-page table.rubric::-webkit-scrollbar-thumb,
+.course-page .rubric > table::-webkit-scrollbar-thumb,
+.course-page .activity table:not(.rubric__table)::-webkit-scrollbar-thumb {
+  background: var(--color-accent); border-radius: 999px;
+}
+
 .course-page table.rubric,
 .course-page .rubric table,
 .course-page .rubric__table {
   width: 100%; border-collapse: collapse; font-size: var(--text-sm);
   margin-block: var(--sp-md);
 }
+/* Ancho mínimo legible: por debajo de esto, la propia tabla hace scroll */
+.course-page table.rubric,
+.course-page .activity table:not(.rubric__table) { min-width: 34rem; }
 .course-page table.rubric th, .course-page table.rubric td,
 .course-page .rubric table th, .course-page .rubric table td,
 .course-page .rubric__table th, .course-page .rubric__table td {
