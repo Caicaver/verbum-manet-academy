@@ -685,31 +685,16 @@ a:focus:not(:focus-visible) {
 }
 
 /* ---- Font-size cycler: tres puntos indicadores ---- */
-/* Control de tamaño de texto: tres puntos de tamaño creciente.
-   Los <span> necesitan forma propia (ancho, alto, color), no solo
-   opacidad, o de lo contrario son invisibles en ambos temas. */
-.tool-btn--fs {
-  display: inline-flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 0.18rem;
-}
-.tool-btn--fs .fs-dot {
+/* Control de tamaño de texto: glifo "A+". Usa currentColor, de modo que
+   adopta el color del botón y se adapta a ambos temas. El nivel activo
+   (data-fs 1/2/3) se refuerza con un ligero cambio de color e intensidad. */
+.tool-btn--fs .fs-icon {
+  width: 1.4rem;
+  height: 1.4rem;
   display: block;
-  border-radius: 999px;
-  background-color: currentColor;
-  opacity: 0.30;
-  transition: opacity var(--t-fast) var(--ease-out-quad);
 }
-.tool-btn--fs .fs-dot--1 { width: 0.30rem; height: 0.30rem; }
-.tool-btn--fs .fs-dot--2 { width: 0.42rem; height: 0.42rem; }
-.tool-btn--fs .fs-dot--3 { width: 0.54rem; height: 0.54rem; }
-:root[data-fs="1"] .tool-btn--fs .fs-dot--1 { opacity: 1; }
-:root[data-fs="2"] .tool-btn--fs .fs-dot--1,
-:root[data-fs="2"] .tool-btn--fs .fs-dot--2 { opacity: 1; }
-:root[data-fs="3"] .tool-btn--fs .fs-dot--1,
-:root[data-fs="3"] .tool-btn--fs .fs-dot--2,
-:root[data-fs="3"] .tool-btn--fs .fs-dot--3 { opacity: 1; }
+:root[data-fs="2"] .tool-btn--fs { color: var(--color-heading); }
+:root[data-fs="3"] .tool-btn--fs { color: var(--color-accent); }
 
 /* ---- Theme toggle: muestra sol o luna según tema ---- */
 .tool-btn--theme .icon-sun,
@@ -3711,10 +3696,27 @@ a:focus:not(:focus-visible) {
   max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  /* Barra de desplazamiento siempre visible y estilizada, para que se
+     perciba que la tabla se puede desplazar horizontalmente. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) var(--color-bg-sunken);
+  padding-block-end: var(--sp-2xs);
+  margin-block: var(--sp-md);
+}
+.course-page .rubric__table-wrap::-webkit-scrollbar {
+  height: 0.5rem;
+}
+.course-page .rubric__table-wrap::-webkit-scrollbar-track {
+  background: var(--color-bg-sunken);
+  border-radius: 999px;
+}
+.course-page .rubric__table-wrap::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 999px;
 }
 /* La tabla mantiene un ancho mínimo legible; si no cabe, el wrap
    (no la página) muestra la barra de desplazamiento horizontal. */
-.course-page .rubric__table-wrap > table { min-width: 38rem; }
+.course-page .rubric__table-wrap > table { min-width: 34rem; }
 .course-page .activity__label,
 .course-page .activity__kicker {
   font-family: var(--font-body); font-size: var(--text-xs); font-weight: 500;
@@ -3835,7 +3837,6 @@ a:focus:not(:focus-visible) {
   font-size: var(--text-sm); color: var(--color-text-muted);
   margin-block-end: var(--sp-md); max-width: 44rem;
 }
-.course-page .rubric__table-wrap { overflow-x: auto; }
 /* Tabla, tanto si es table.rubric directa como .rubric table o .rubric__table */
 .course-page table.rubric,
 .course-page .rubric table,
@@ -3846,7 +3847,7 @@ a:focus:not(:focus-visible) {
 .course-page table.rubric th, .course-page table.rubric td,
 .course-page .rubric table th, .course-page .rubric table td,
 .course-page .rubric__table th, .course-page .rubric__table td {
-  padding: var(--sp-xs) var(--sp-sm); text-align: left; vertical-align: top;
+  padding: var(--sp-sm) var(--sp-md); text-align: left; vertical-align: top;
   border-block-end: var(--border-thin) solid var(--color-border-soft);
 }
 .course-page table.rubric thead th,
