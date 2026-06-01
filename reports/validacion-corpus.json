@@ -1,0 +1,340 @@
+{
+  "root": "/home/claude/work/fix2",
+  "courses": [
+    {
+      "file": "courses/segment-1/formacion-espiritual-piedad-reformada.html",
+      "id": "formacion-espiritual-piedad-reformada",
+      "lessonCount": 6,
+      "quizCount": 2,
+      "totalQuestions": 20,
+      "glossaryTerms": [
+        "confesion-de-westminster"
+      ],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-1/hermeneutica-biblica.html",
+      "id": "hermeneutica-biblica",
+      "lessonCount": 11,
+      "quizCount": 3,
+      "totalQuestions": 36,
+      "glossaryTerms": [
+        "metodo-historico-gramatical",
+        "exegesis",
+        "confesion-de-westminster",
+        "analogia-fidei",
+        "perspicuidad",
+        "iluminacion",
+        "testimonium-spiritus-sancti-internum",
+        "calvino",
+        "sola-scriptura",
+        "tipologia",
+        "historia-redentora"
+      ],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-1/introduccion-antiguo-testamento.html",
+      "id": "introduccion-antiguo-testamento",
+      "lessonCount": 10,
+      "quizCount": 3,
+      "totalQuestions": 32,
+      "glossaryTerms": [
+        "canon",
+        "confesion-de-westminster",
+        "liberalismo-teologico",
+        "historia-redentora",
+        "torah",
+        "redencion",
+        "expiacion-sustitutoria-penal",
+        "sola-fide"
+      ],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-1/introduccion-nuevo-testamento.html",
+      "id": "introduccion-nuevo-testamento",
+      "lessonCount": 10,
+      "quizCount": 3,
+      "totalQuestions": 32,
+      "glossaryTerms": [
+        "septuaginta",
+        "confesion-de-westminster",
+        "teologia-federal",
+        "sola-fide",
+        "amilenarismo"
+      ],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-1/introduccion-teologia-reformada.html",
+      "id": "introduccion-teologia-reformada",
+      "lessonCount": 10,
+      "quizCount": 2,
+      "totalQuestions": 24,
+      "glossaryTerms": [
+        "sola-scriptura",
+        "confesion-de-westminster",
+        "catecismo-de-heidelberg",
+        "historia-redentora",
+        "perspicuidad",
+        "lutero",
+        "sola-fide",
+        "sola-gratia",
+        "solus-christus",
+        "soli-deo-gloria",
+        "canones-de-dort",
+        "calvino",
+        "knox",
+        "tulip",
+        "arminianismo",
+        "teologia-biblica-vos",
+        "analogia-fidei"
+      ],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-2/historia-iglesia-antigua.html",
+      "id": "historia-iglesia-antigua",
+      "lessonCount": 10,
+      "quizCount": 3,
+      "totalQuestions": 32,
+      "glossaryTerms": [
+        "historia-redentora",
+        "confesion-de-westminster"
+      ],
+      "findings": [
+        {
+          "sev": "info",
+          "msg": "Lección 1: vía 5 usa \"Culminación doxológica\" (variante de Segmento II; canónico: \"Aplicación doxológica\")."
+        },
+        {
+          "sev": "info",
+          "msg": "Lección 2: vía 5 usa \"Culminación doxológica\" (variante de Segmento II; canónico: \"Aplicación doxológica\")."
+        },
+        {
+          "sev": "info",
+          "msg": "Lección 10: vía 5 usa \"Culminación doxológica\" (variante de Segmento II; canónico: \"Aplicación doxológica\")."
+        }
+      ],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-2/historia-iglesia-medieval.html",
+      "id": "historia-iglesia-medieval",
+      "lessonCount": 7,
+      "quizCount": 2,
+      "totalQuestions": 22,
+      "glossaryTerms": [
+        "confesion-de-westminster",
+        "expiacion-sustitutoria-penal"
+      ],
+      "findings": [
+        {
+          "sev": "info",
+          "msg": "Lección 1: vía 5 usa \"Culminación doxológica\" (variante de Segmento II; canónico: \"Aplicación doxológica\")."
+        },
+        {
+          "sev": "info",
+          "msg": "Lección 4: vía 5 usa \"Culminación doxológica\" (variante de Segmento II; canónico: \"Aplicación doxológica\")."
+        }
+      ],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-2/historia-iglesia-moderna.html",
+      "id": "historia-iglesia-moderna",
+      "lessonCount": 9,
+      "quizCount": 3,
+      "totalQuestions": 32,
+      "glossaryTerms": [
+        "confesion-de-westminster"
+      ],
+      "findings": [
+        {
+          "sev": "info",
+          "msg": "Lección 2: vía 5 usa \"Culminación doxológica\" (variante de Segmento II; canónico: \"Aplicación doxológica\")."
+        },
+        {
+          "sev": "info",
+          "msg": "Lección 6: vía 5 usa \"Culminación doxológica\" (variante de Segmento II; canónico: \"Aplicación doxológica\")."
+        },
+        {
+          "sev": "info",
+          "msg": "Lección 8: vía 5 usa \"Culminación doxológica\" (variante de Segmento II; canónico: \"Aplicación doxológica\")."
+        }
+      ],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-2/reforma-protestante.html",
+      "id": "reforma-protestante",
+      "lessonCount": 10,
+      "quizCount": 3,
+      "totalQuestions": 34,
+      "glossaryTerms": [
+        "sola-fide"
+      ],
+      "findings": [
+        {
+          "sev": "info",
+          "msg": "Lección 3: vía 5 usa \"Culminación doxológica\" (variante de Segmento II; canónico: \"Aplicación doxológica\")."
+        },
+        {
+          "sev": "info",
+          "msg": "Lección 4: vía 5 usa \"Culminación doxológica\" (variante de Segmento II; canónico: \"Aplicación doxológica\")."
+        },
+        {
+          "sev": "info",
+          "msg": "Lección 7: vía 5 usa \"Culminación doxológica\" (variante de Segmento II; canónico: \"Aplicación doxológica\")."
+        }
+      ],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-3/antropologia-hamartologia.html",
+      "id": "antropologia-hamartologia",
+      "lessonCount": 4,
+      "quizCount": 2,
+      "totalQuestions": 23,
+      "glossaryTerms": [],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-3/bibliologia.html",
+      "id": "bibliologia",
+      "lessonCount": 4,
+      "quizCount": 2,
+      "totalQuestions": 22,
+      "glossaryTerms": [],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-3/cristologia-soteriologia.html",
+      "id": "cristologia-soteriologia",
+      "lessonCount": 10,
+      "quizCount": 3,
+      "totalQuestions": 33,
+      "glossaryTerms": [],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-3/eclesiologia-sacramentologia.html",
+      "id": "eclesiologia-sacramentologia",
+      "lessonCount": 6,
+      "quizCount": 2,
+      "totalQuestions": 22,
+      "glossaryTerms": [],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-3/escatologia.html",
+      "id": "escatologia",
+      "lessonCount": 4,
+      "quizCount": 2,
+      "totalQuestions": 22,
+      "glossaryTerms": [],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-3/teologia-propia.html",
+      "id": "teologia-propia",
+      "lessonCount": 4,
+      "quizCount": 2,
+      "totalQuestions": 23,
+      "glossaryTerms": [],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-4/apologetica-reformada.html",
+      "id": "apologetica-reformada",
+      "lessonCount": 7,
+      "quizCount": 2,
+      "totalQuestions": 21,
+      "glossaryTerms": [],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-4/etica-biblica-reformada.html",
+      "id": "etica-biblica-reformada",
+      "lessonCount": 3,
+      "quizCount": 1,
+      "totalQuestions": 12,
+      "glossaryTerms": [],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-4/misiones-evangelismo-local.html",
+      "id": "misiones-evangelismo-local",
+      "lessonCount": 4,
+      "quizCount": 1,
+      "totalQuestions": 12,
+      "glossaryTerms": [],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-4/teologia-biblica.html",
+      "id": "teologia-biblica",
+      "lessonCount": 3,
+      "quizCount": 1,
+      "totalQuestions": 12,
+      "glossaryTerms": [],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    },
+    {
+      "file": "courses/segment-4/teologia-del-pacto.html",
+      "id": "teologia-del-pacto",
+      "lessonCount": 3,
+      "quizCount": 1,
+      "totalQuestions": 12,
+      "glossaryTerms": [],
+      "findings": [],
+      "critical": 0,
+      "warn": 0
+    }
+  ],
+  "totals": {
+    "files": 20,
+    "lessons": 135,
+    "critical": 0,
+    "warn": 0
+  },
+  "dataAvailable": {
+    "courses": false,
+    "glossary": false
+  }
+}
