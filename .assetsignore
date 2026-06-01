@@ -1,0 +1,13 @@
+﻿# .assetsignore — Verbum Manet Academy
+# Cloudflare Pages NO publicará estas rutas como assets del sitio.
+
+docs/
+reports/
+tools/
+
+.github/
+.editorconfig
+.gitattributes
+.gitignore
+
+wrangler.jsonc
