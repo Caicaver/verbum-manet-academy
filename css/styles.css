@@ -443,6 +443,15 @@ h5 { font-size: var(--text-lg); }
 h6 { font-size: var(--text-md); }
 
 p { max-width: var(--measure-base); }
+/* Los <p> heredan max-width (--measure-base); dentro de un contenedor con
+   text-align:center, una caja más angosta que el contenedor se ancla a la
+   izquierda y el texto parece descentrado aunque sus líneas estén centradas.
+   Esta regla auto-centra la caja del <p> SOLO dentro de bloques centrados
+   conocidos. :where() aporta especificidad 0, así que no pisa estilos de
+   componente y es fácil de sobreescribir. */
+:where(.panel-empty, .quote-item, .sola, .hero, .seminary-closing, [style*="text-align: center"], [style*="text-align:center"]) p {
+  margin-inline: auto;
+}
 em, i { font-family: var(--font-display); font-style: italic; }
 strong, b { font-weight: 700; }
 small { font-size: var(--text-sm); }
@@ -2637,6 +2646,11 @@ a:focus:not(:focus-visible) {
   font-style: italic;
   font-size: var(--text-lg);
   color: var(--color-text-muted);
+  /* El <p> global lleva max-width: var(--measure-base); sin margin auto la
+     caja angosta se ancla a la izquierda y el título parece descentrado.
+     Centramos la caja para que el text-align:center del contenedor luzca. */
+  max-width: 100%;
+  margin-inline: auto;
   margin-bottom: var(--sp-xs);
   font-weight: 500;
 }
