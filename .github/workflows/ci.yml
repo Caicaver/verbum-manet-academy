@@ -1,0 +1,67 @@
+# ============================================================================
+# Verbum Manet Academy · Integración Continua
+# ----------------------------------------------------------------------------
+# Valida la integridad estructural del corpus en cada push y pull request
+# contra main. Si validar-corpus.js halla algún CRÍTICO (exit 1) o un error
+# de invocación (exit 2), la build falla y el merge queda bloqueado.
+#
+# Ubicación esperada en el repo: .github/workflows/ci.yml
+# Validador esperado:            tools/validar-corpus.js
+# ============================================================================
+
+name: Validación del corpus
+
+# Cuándo se ejecuta -----------------------------------------------------------
+# Nota: "on" va entrecomillado a propósito. Sin comillas, algunos parsers YAML
+# lo interpretan como el booleano true (el "Norway problem"); las comillas
+# garantizan que se lea como la clave de disparadores en cualquier herramienta.
+"on":
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Permite lanzarlo a mano desde la pestaña Actions de GitHub.
+  workflow_dispatch:
+
+# Evita ejecuciones redundantes: si llegan varios push seguidos a la misma
+# rama, cancela las builds en curso y conserva solo la última.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Permisos mínimos (principio de menor privilegio).
+permissions:
+  contents: read
+
+jobs:
+  validar-corpus:
+    name: Validar corpus (20 cursos)
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Traer el repositorio al runner.
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      # 2) Node 20 LTS. El validador requiere Node >= 18; 20 es el LTS vigente.
+      #    Sin 'cache' porque el proyecto no tiene package-lock.json (sin deps).
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3) Comprobación de cordura: el validador debe existir donde se espera.
+      #    Falla con un mensaje claro si alguien lo mueve de sitio.
+      - name: Verificar que el validador existe
+        run: |
+          if [ ! -f tools/validar-corpus.js ]; then
+            echo "::error::No se encontró tools/validar-corpus.js"
+            exit 1
+          fi
+
+      # 4) Ejecutar la validación sobre todo el árbol.
+      #    --root . recorre courses/segment-* y cruza con data/ si está.
+      #    El exit code del script (0 ok · 1 crítico · 2 invocación) decide
+      #    el resultado del job automáticamente; no hace falta parsear salida.
+      - name: Validar el corpus
+        run: node tools/validar-corpus.js --root .
