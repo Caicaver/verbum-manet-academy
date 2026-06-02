@@ -59,7 +59,7 @@
    §1 · Versión y nombres de caché
    SUBE ESTE NÚMERO EN CADA DESPLIEGUE QUE TOQUE ARCHIVOS DEL SHELL O CURSOS.
    --------------------------------------------------------------------------- */
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v3';
 const SHELL_CACHE   = `vma-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `vma-runtime-${CACHE_VERSION}`;
 
