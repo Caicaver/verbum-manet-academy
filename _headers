@@ -63,9 +63,21 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 # ─────────────────────────────────────────────────────────────────
-# Manifiesto PWA — MIME type específico requerido por la spec
+# Service Worker — el worker EN SÍ nunca se cachea: debe revalidarse
+# en cada visita para que las actualizaciones se propaguen rápido.
+# (Lo que el SW guarda en Cache Storage sí persiste; esto es solo el
+#  archivo del worker. Debe servirse desde la raíz para tener scope
+#  sobre todo el sitio.)
 # ─────────────────────────────────────────────────────────────────
-/manifest.json
+/service-worker.js
+  Cache-Control: public, max-age=0, must-revalidate
+  Content-Type: application/javascript; charset=utf-8
+
+# ─────────────────────────────────────────────────────────────────
+# Manifiesto PWA — MIME type específico requerido por la spec
+# (el archivo real es site.webmanifest, enlazado así desde index.html)
+# ─────────────────────────────────────────────────────────────────
+/site.webmanifest
   Cache-Control: public, max-age=86400
   Content-Type: application/manifest+json; charset=utf-8
 
@@ -92,4 +104,4 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
   X-DNS-Prefetch-Control: on
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src 'self' https://fonts.gstatic.com https://api.fontshare.com https://cdn.fontshare.com data:; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src 'self' https://fonts.gstatic.com https://api.fontshare.com https://cdn.fontshare.com data:; img-src 'self' data: https:; connect-src 'self'; worker-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; upgrade-insecure-requests

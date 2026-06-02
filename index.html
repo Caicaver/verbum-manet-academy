@@ -342,5 +342,21 @@
   <script src="./js/study-panel.js" defer></script>
   <script src="./js/app.js" defer></script>
 
+  <!-- ════════════════════════════════════════════════════════════════════
+       SERVICE WORKER · PWA offline-first (TEC-001)
+       Registro tras 'load' para no competir con recursos críticos del arranque.
+       La actualización es silenciosa: un SW nuevo toma control en segundo plano.
+       ════════════════════════════════════════════════════════════════════ -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./service-worker.js').catch(function (err) {
+          // Fallo no crítico: el sitio funciona igual sin SW (solo sin offline).
+          console.warn('[VMA] Registro de Service Worker fallido:', err);
+        });
+      });
+    }
+  </script>
+
 </body>
 </html>
