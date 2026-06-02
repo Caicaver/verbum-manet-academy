@@ -346,7 +346,7 @@ Los pares marcados como principales han sido verificados para contraste **AA cue
 | Rol | Familia | Fuente | Pesos a embarcar |
 |---|---|---|---|
 | **Display / Editorial** | Cormorant Garamond | Google Fonts | 400, 500, 600, 700; 400 Italic, 600 Italic |
-| **UI / Cuerpo** | Satoshi | Fontshare | 300, 400, 500, 700, 900; 400 Italic |
+| **UI / Cuerpo** | Satoshi | Fontshare | 400, 500, 700 |
 
 > **Regla absoluta:** sólo estas dos familias. Sólo estos pesos. Ningún sustituto.
 
@@ -354,7 +354,7 @@ Los pares marcados como principales han sido verificados para contraste **AA cue
 
 **Satoshi (Fontshare — preferente):**
 ```html
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900,4italic&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
 ```
 
 **Cormorant Garamond (Google Fonts):**
