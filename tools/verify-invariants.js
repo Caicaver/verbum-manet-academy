@@ -105,6 +105,30 @@ function stripHtmlComments(s) {
   return (s || '').replace(/<!--[\s\S]*?-->/g, ' ');
 }
 
+// Quita comentarios de JavaScript (// de línea y /* */ de bloque) respetando
+// el contenido de cadenas con comillas ", ' y `. Necesario para que INV-01 no
+// marque archivos cuyos COMENTARIOS mencionan localStorage para documentar que
+// NO lo usan (p. ej. "· Sin localStorage ni sessionStorage (constraint v4)").
+function stripJsComments(src) {
+  let out = '', i = 0;
+  const n = (src || '').length;
+  let inS = null; // comilla activa: " ' `
+  while (i < n) {
+    const c = src[i], d = src[i + 1];
+    if (inS) {
+      out += c;
+      if (c === '\\' && i + 1 < n) { out += d; i += 2; continue; } // escape dentro de cadena
+      if (c === inS) inS = null;
+      i++; continue;
+    }
+    if (c === '"' || c === "'" || c === '`') { inS = c; out += c; i++; continue; }
+    if (c === '/' && d === '/') { while (i < n && src[i] !== '\n') i++; continue; }
+    if (c === '/' && d === '*') { i += 2; while (i < n && !(src[i] === '*' && src[i + 1] === '/')) i++; i += 2; continue; }
+    out += c; i++;
+  }
+  return out;
+}
+
 /* ---------------------------------------------------------------------------
    §2 · Comprobaciones individuales
    Cada función recibe un colector `add(sev, code, msg)` y opera sobre ROOT.
@@ -115,10 +139,14 @@ function stripHtmlComments(s) {
 function invStorage(add) {
   // Solo escaneamos código que se sirve al navegador: js/ y data/.
   const files = [...walk('js', ['.js']), ...walk('data', ['.js'])];
+  // Uso SINTÁCTICO: el identificador seguido de acceso (.setItem, ["k"]) o
+  // asignación. Tras descartar comentarios, esto evita marcar menciones en
+  // cadenas o documentación. Un comentario "// sin localStorage" no dispara.
+  const usage = /\b(localStorage|sessionStorage)\s*(\.|\[|=)/;
   let any = false;
   for (const f of files) {
-    const code = read(f);
-    if (code && /\b(localStorage|sessionStorage)\b/.test(code)) {
+    const code = stripJsComments(read(f));
+    if (code && usage.test(code)) {
       add('critical', 'INV-01', `${f}: usa localStorage/sessionStorage (Principio 3 lo prohíbe).`);
       any = true;
     }
@@ -346,6 +374,14 @@ function selftest() {
   W('data/courses-index.js', 'const COURSES_INDEX = [];');
   W('data/glossary.js', 'const GLOSSARY = {};');
   W('js/app.js', 'const x = 1;');
+  // Caso clave: COMENTARIOS que mencionan localStorage para documentar que NO
+  // se usa. No debe disparar INV-01 (regresión del falso positivo real).
+  W('js/study-panel.js', [
+    '/* Estado StudyState (en memoria · sin localStorage · constraint v4) */',
+    '// Convención: ninguna escritura en localStorage, sessionStorage ni cookies.',
+    'const help = "ver guía en https://x.test/localStorageGuide";',
+    'const StudyState = { notes: [] };',
+  ].join('\n'));
 
   let saved = ROOT; ROOT = tmp;
   let f = run(); ROOT = saved;
