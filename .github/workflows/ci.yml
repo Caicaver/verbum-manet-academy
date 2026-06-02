@@ -50,18 +50,32 @@ jobs:
         with:
           node-version: '20'
 
-      # 3) Comprobación de cordura: el validador debe existir donde se espera.
-      #    Falla con un mensaje claro si alguien lo mueve de sitio.
-      - name: Verificar que el validador existe
+      # 3) Comprobación de cordura: los validadores deben existir donde se espera.
+      #    Falla con un mensaje claro si alguien los mueve de sitio.
+      - name: Verificar que los validadores existen
         run: |
-          if [ ! -f tools/validar-corpus.js ]; then
-            echo "::error::No se encontró tools/validar-corpus.js"
-            exit 1
-          fi
+          for f in tools/validar-corpus.js tools/verify-invariants.js; do
+            if [ ! -f "$f" ]; then
+              echo "::error::No se encontró $f"
+              exit 1
+            fi
+          done
 
-      # 4) Ejecutar la validación sobre todo el árbol.
+      # 4) Autotest del verificador de invariantes.
+      #    Garantiza que el propio script no se ha degradado antes de confiar
+      #    en su veredicto sobre el proyecto.
+      - name: Autotest de invariantes
+        run: node tools/verify-invariants.js --selftest
+
+      # 5) Validar la estructura interna del corpus (20 cursos).
       #    --root . recorre courses/segment-* y cruza con data/ si está.
       #    El exit code del script (0 ok · 1 crítico · 2 invocación) decide
       #    el resultado del job automáticamente; no hace falta parsear salida.
       - name: Validar el corpus
         run: node tools/validar-corpus.js --root .
+
+      # 6) Verificar las invariantes globales del proyecto.
+      #    Complementa al validador de corpus: principios de arquitectura,
+      #    enlaces locales, contrato de datos, rutas y enlaces externos.
+      - name: Verificar invariantes globales
+        run: node tools/verify-invariants.js --root .
