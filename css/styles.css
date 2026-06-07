@@ -3804,12 +3804,14 @@ a:focus:not(:focus-visible) {
   border-block-start: var(--border-thin) solid var(--color-border-soft);
 }
 .course-page .via:first-child { border-block-start: var(--border-thin) solid var(--color-border); }
-/* Etiqueta de vía: algunos cursos traen <p class="via__label">Vía N</p>
-   en el HTML; otros no. Para numerar de forma uniforme en los 20 cursos
-   sin duplicar, se OCULTA el via__label del HTML y la numeración la
-   genera el counter del título (abajo). Así todos muestran "Vía N"
-   consistentemente, exista o no el label en el marcado. */
-.course-page .via__label { display: none; }
+/* Etiqueta/numeral de vía: los cursos traen el número de vía de dos formas
+   no canónicas — <p class="via__label">Vía N</p> (la mayoría) o, en algunos
+   de Segmento IV, <div class="via__head"><p class="via__num">N</p>…</div>.
+   Para numerar de forma uniforme en los 20 cursos sin duplicar, se OCULTAN
+   ambos y la numeración la genera el counter del título (abajo). Así todos
+   muestran "Vía N · " consistentemente, exista lo que exista en el marcado. */
+.course-page .via__label,
+.course-page .via__num { display: none; }
 
 .course-page .via__title,
 .course-page .via__name {
