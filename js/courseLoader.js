@@ -334,18 +334,16 @@
     if (el.dataset.vmaInit === '1') return;
     el.dataset.vmaInit = '1';
 
+    // El tooltip del glosario lo gestiona ÚNICAMENTE la delegación de
+    // app.js §9 (#glossary-tooltip, estilizado en styles.css §12).
+    // courseLoader YA NO crea su propio #vma-glossary-tip ni enlaza
+    // listeners aquí: hacerlo mostraba DOS tooltips a la vez (el navy de
+    // app.js + este, con fondo transparente por usar tokens inexistentes),
+    // que es la superposición reportada. Aquí solo dejamos la accesibilidad
+    // de teclado, porque los términos son <span> sin foco propio.
     if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
     el.setAttribute('role', 'button');
-    el.setAttribute('aria-describedby', 'vma-glossary-tip');
-
-    el.addEventListener('mouseenter', function () { showTip(el); });
-    el.addEventListener('focus',      function () { showTip(el); });
-    el.addEventListener('mouseleave', hideTip);
-    el.addEventListener('blur',       hideTip);
-    // Escape cierra incluso si sigue con hover
-    el.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') { hideTip(); el.blur(); }
-    });
+    el.setAttribute('aria-describedby', 'glossary-tooltip');
   }
 
   function showTip(el) {

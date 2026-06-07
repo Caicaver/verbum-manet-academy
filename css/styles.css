@@ -354,9 +354,13 @@
 :root[data-fs="2"] { --fs-scale: 1.125; }
 :root[data-fs="3"] { --fs-scale: 1.25; }
 
-/* Aplica scale al html root para que afecte rem en cascada */
+/* Multiplicador independiente del modo lectura (§28). Por defecto 1;
+   sube un nivel la tipografía sin pelear con el ciclo de --fs-scale. */
+:root { --reading-scale: 1; }
+
+/* Aplica ambos factores al html root para que afecten rem en cascada */
 html {
-  font-size: calc(100% * var(--fs-scale));
+  font-size: calc(100% * var(--fs-scale) * var(--reading-scale));
 }
 
 
@@ -449,7 +453,7 @@ p { max-width: var(--measure-base); }
    Esta regla auto-centra la caja del <p> SOLO dentro de bloques centrados
    conocidos. :where() aporta especificidad 0, así que no pisa estilos de
    componente y es fácil de sobreescribir. */
-:where(.panel-empty, .quote-item, .sola, .hero, .seminary-closing, [style*="text-align: center"], [style*="text-align:center"]) p {
+:where(.panel-empty, .quote-item, .sola, .hero, .seminary-closing, .closing, [style*="text-align: center"], [style*="text-align:center"]) p {
   margin-inline: auto;
 }
 em, i { font-family: var(--font-display); font-style: italic; }
@@ -1294,12 +1298,23 @@ a:focus:not(:focus-visible) {
 .glossary-tooltip {
   position: absolute;
   z-index: var(--z-tooltip);
-  max-width: 22rem;
+  /* Nunca excede el viewport: positionTooltip (app.js §9) clampa con
+     ttRect.width asumiendo que la caja cabe en pantalla. */
+  max-width: min(22rem, calc(100vw - 2rem));
   padding: 0.9rem 1.1rem;
   background-color: var(--vma-navy-900);
   color: var(--vma-cream-50);
+  /* Filo dorado translúcido: da un canto perceptible en AMBOS temas.
+     Imprescindible en oscuro, donde el relleno navy-900 (L 18%) es
+     isoluminoso con la página ink-900 (L 18%) y la sombra oscura no
+     contrasta; sin este borde el tooltip carece de borde visible y el
+     texto contiguo de la lección parece traspasar la caja (DIS-005). */
+  border: 1px solid oklch(76% 0.075 78 / 0.45);
   border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-lg);
+  /* Sombra negra (no la --shadow-lg navy, que se diluía sobre fondos
+     oscuros): aporta elevación real sobre crema y un halo sutil en oscuro. */
+  box-shadow: 0 12px 32px oklch(0% 0 0 / 0.30);
+  isolation: isolate; /* contexto de apilamiento propio · defensivo */
   font-family: var(--font-body);
   font-size: var(--text-sm);
   line-height: var(--lh-snug);
@@ -3946,6 +3961,27 @@ a:focus:not(:focus-visible) {
   font-feature-settings: "lnum" 1, "tnum" 1;
 }
 
+/* Sub-encabezados internos de una actividad (p. ej. «Consigna detallada»,
+   «Ejemplos de casos aptos», «Rúbrica de evaluación»). Los fragmentos los
+   marcan como <h2>/<h3> crudos; sin esta regla heredan la escala display
+   global (§5: h2=text-3xl, h3=text-2xl) sin margen, quedando enormes,
+   pegados al párrafo siguiente y por encima del propio .activity__title.
+   Aquí se normalizan por DEBAJO del título de la actividad, con espaciado.
+   Los encabezados con clase propia se excluyen por :not() y conservan su
+   tamaño. */
+.course-page .activity :is(h2, h3, h4):not(.activity__title):not(.activity__heading) {
+  font-family: var(--font-display);
+  color: var(--color-heading);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-snug);
+  font-weight: 500;
+  margin-block: var(--sp-md) var(--sp-xs);
+}
+.course-page .activity h2:not(.activity__title):not(.activity__heading),
+.course-page .activity :is(h3, h4):not(.activity__title):not(.activity__heading) { font-size: var(--text-md); }
+/* El primer encabezado del cuerpo no necesita margen superior extra. */
+.course-page .activity__body > :is(h2, h3, h4):first-child { margin-block-start: 0; }
+
 /* ---- CUESTIONARIO (acordeones <details>) ---- */
 .course-page .quiz {
   margin-block: var(--sp-xl); padding-block: var(--sp-md);
@@ -4170,6 +4206,64 @@ a:focus:not(:focus-visible) {
 
 
 /* ============================================================
+   §28 · MODO LECTURA SIN DISTRACCIONES (DIS-005)
+   ------------------------------------------------------------
+   Estado en sesión: html[data-reading="on"] (sin persistencia).
+   Conmutado por #reading-toggle y la tecla R (app.js §5.bis/§12).
+   Oculta nav primaria, herramientas no esenciales, pie y panel
+   Pomodoro; ensancha la columna de lectura y sube un nivel la
+   tipografía vía --reading-scale (§3). El header se conserva
+   (sticky) para que la salida esté siempre a un clic/tecla.
+   ============================================================ */
+
+/* Sube un nivel la tipografía global mientras dura la lectura. */
+:root[data-reading="on"] { --reading-scale: 1.08; }
+
+/* --- Ocultar cromo no esencial --- */
+[data-reading="on"] .primary-nav,
+[data-reading="on"] .menu-toggle,
+[data-reading="on"] .site-footer,
+[data-reading="on"] #search-open,
+[data-reading="on"] #fs-cycle,
+[data-reading="on"] #pomodoro-open,
+[data-reading="on"] #pomodoro-panel {
+  display: none !important;
+}
+
+/* La toolbar conserva solo tema + salir de lectura. */
+[data-reading="on"] .site-header__inner { justify-content: space-between; }
+
+/* --- Ensanchar el área de lectura --- */
+[data-reading="on"] .course-page { --course-content-max: 54rem; }
+
+[data-reading="on"] #main-content .container,
+[data-reading="on"] .course-page > .course-hero:not(.container),
+[data-reading="on"] .course-page > .course-toc:not(.container),
+[data-reading="on"] .course-page > .unit:not(.container),
+[data-reading="on"] .course-page > .quiz:not(.container),
+[data-reading="on"] .course-page > .activity:not(.container),
+[data-reading="on"] .course-page > .course-footer:not(.container),
+[data-reading="on"] .course-page > .seminary-closing:not(.container) {
+  max-width: 60rem;
+}
+
+/* Un poco más de aire superior para lectura sostenida. */
+[data-reading="on"] #main-content { padding-block-start: var(--sp-md); }
+
+/* --- Estado activo del botón en la toolbar --- */
+.tool-btn--reading[aria-pressed="true"] {
+  color: var(--color-accent);
+  background-color: var(--color-btn-ghost-bg-hover);
+}
+
+/* En móvil la columna vuelve a fluido (igual que el override de §27). */
+@media (max-width: 47.99rem) {
+  [data-reading="on"] .course-page { --course-content-max: 100%; }
+  [data-reading="on"] #main-content .container { max-width: 100%; }
+}
+
+
+/* ============================================================
    FIN DE Verbum Manet Academy · css/styles.css · v5
-   Parte A: §1–§14 · Parte B: §15–§26 · §27: cursos
+   Parte A: §1–§14 · Parte B: §15–§26 · §27: cursos · §28: lectura
    ============================================================ */

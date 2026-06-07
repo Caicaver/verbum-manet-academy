@@ -86,7 +86,7 @@
   let htmlEl, mainEl, searchModal, searchInput, searchResults,
       pomodoroPanel, pomodoroOpenBtn, primaryNav, navToggle,
       themeToggle, fsCycle, searchOpen, pomodoroClose,
-      glossaryTooltip;
+      glossaryTooltip, readingToggle;
 
 
   /* --------------------------------------------------------------------------
@@ -289,6 +289,33 @@
       `Tamaño del texto: ${label}. Pulsar para cambiar a ${nextLabel}.`
     );
     fsCycle.setAttribute('data-tooltip', FS_TOOLTIPS[level]);
+  }
+
+
+  /* ==========================================================================
+     §5.bis · MODO LECTURA SIN DISTRACCIONES (DIS-005)
+     · Estado en sesión vía html[data-reading]; sin persistencia.
+     · El CSS (§28) oculta cromo, ensancha la columna y sube --reading-scale.
+     ========================================================================== */
+
+  function isReadingOn() {
+    return htmlEl.getAttribute('data-reading') === 'on';
+  }
+
+  function setReadingMode(on) {
+    htmlEl.setAttribute('data-reading', on ? 'on' : 'off');
+    if (!readingToggle) return;
+    readingToggle.setAttribute('aria-pressed', String(on));
+    readingToggle.setAttribute(
+      'aria-label',
+      on ? 'Salir del modo lectura (tecla R)'
+         : 'Modo lectura sin distracciones (tecla R)'
+    );
+    readingToggle.setAttribute('data-tooltip', on ? 'Salir de lectura · R' : 'Modo lectura · R');
+  }
+
+  function toggleReadingMode() {
+    setReadingMode(!isReadingOn());
   }
 
 
@@ -721,6 +748,8 @@
           <dd style="margin:0;">Abrir el buscador</dd>
           <dt style="margin:0;">${kbd('P')}</dt>
           <dd style="margin:0;">Sesión de estudio (Pomodoro)</dd>
+          <dt style="margin:0;">${kbd('R')}</dt>
+          <dd style="margin:0;">Modo lectura sin distracciones</dd>
           <dt style="margin:0;">${kbd('?')}</dt>
           <dd style="margin:0;">Mostrar esta lista de atajos</dd>
           <dt style="margin:0;">${kbd('Esc')}</dt>
@@ -816,6 +845,13 @@
     if (e.key === '?') {
       e.preventDefault();
       showShortcutsHelp();
+      return;
+    }
+
+    if (e.key === 'r' || e.key === 'R') {
+      // Bare R · no colisiona con Ctrl+R/F5 (los modificadores ya salieron arriba)
+      e.preventDefault();
+      toggleReadingMode();
       return;
     }
   }
@@ -1007,6 +1043,7 @@
     fsCycle         = document.getElementById('fs-cycle');
     searchOpen      = document.getElementById('search-open');
     glossaryTooltip = document.getElementById('glossary-tooltip');
+    readingToggle   = document.getElementById('reading-toggle');
   }
 
   function bindShellEvents() {
@@ -1018,6 +1055,11 @@
     // Escala tipográfica
     if (fsCycle) {
       fsCycle.addEventListener('click', cycleFsLevel);
+    }
+
+    // Modo lectura sin distracciones (DIS-005)
+    if (readingToggle) {
+      readingToggle.addEventListener('click', toggleReadingMode);
     }
 
     // Drawer
@@ -1137,6 +1179,7 @@
     syncThemeToggleA11y(htmlEl.getAttribute('data-theme') || 'light');
     setNavOpen(false);
     setPomodoroOpen(false);
+    setReadingMode(false);
 
     bindShellEvents();
     bindNavCloseOnRoute();
@@ -1167,6 +1210,8 @@
     closeSearch,
     togglePomodoro,
     setPomodoroOpen,
+    toggleReadingMode,
+    setReadingMode,
     showShortcutsHelp,
     applyTheme,
     setFsLevel,
