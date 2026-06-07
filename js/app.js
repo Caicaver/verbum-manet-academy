@@ -1096,6 +1096,35 @@
     });
   }
 
+  /* ==========================================================================
+     §13.ter · EXPANSIÓN PARA IMPRESIÓN
+     Chrome no revela el contenido de un <details> cerrado solo con CSS al
+     imprimir. Abrimos todos los cuestionarios (y cualquier <details>) antes
+     de imprimir y los restauramos después, sin alterar el estado en pantalla.
+     El acordeón de unidades NO se toca aquí: lo revela el CSS @media print
+     (sobre el atributo [hidden] del panel, que sí es sobrescribible).
+     ========================================================================== */
+  function setupPrintExpansion() {
+    let openedForPrint = [];
+    const expand = () => {
+      openedForPrint = Array.prototype.slice.call(
+        document.querySelectorAll('details:not([open])')
+      );
+      openedForPrint.forEach((d) => { d.open = true; });
+    };
+    const restore = () => {
+      openedForPrint.forEach((d) => { d.open = false; });
+      openedForPrint = [];
+    };
+    window.addEventListener('beforeprint', expand);
+    window.addEventListener('afterprint', restore);
+    // Safari/iOS no disparan before/afterprint: usar la media query como respaldo.
+    const mql = window.matchMedia('print');
+    const onChange = (e) => (e.matches ? expand() : restore());
+    if (mql.addEventListener) mql.addEventListener('change', onChange);
+    else if (mql.addListener) mql.addListener(onChange);
+  }
+
   async function bootstrap() {
     cacheDom();
     buildRoutes();
@@ -1113,6 +1142,7 @@
     bindNavCloseOnRoute();
     bindGlossaryDelegation();
     bindHashRouting();
+    setupPrintExpansion();
     document.addEventListener('keydown', handleGlobalKeydown);
 
     // Primera navegación

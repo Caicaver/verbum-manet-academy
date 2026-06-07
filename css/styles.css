@@ -3351,6 +3351,14 @@ a:focus:not(:focus-visible) {
    Para que Mis Notas y los fragmentos de lecciones impriman dignamente
    ============================================================ */
 @media print {
+  /* ============================================================
+     §26b · IMPRESIÓN (DIS-006) — hoja de estudio imprimible
+     (1) ocultar cromo + navegación interna   (2) monocromo
+     (3) saltos de página por estructura real (unidad/lección/vía/quiz)
+     (4) fuentes legibles + URLs visibles      (5) ver nota del pie
+     ============================================================ */
+
+  /* (2) Reset monocromático */
   *, *::before, *::after {
     background: transparent !important;
     color: #000 !important;
@@ -3361,7 +3369,10 @@ a:focus:not(:focus-visible) {
   }
 
   body { font-size: 11pt; line-height: 1.5; }
+  p, li, blockquote { orphans: 3; widows: 3; }
 
+  /* (1) Ocultar cromo del shell + navegación interna del fragmento.
+     OJO: .course-footer NO se oculta — es el cierre doxológico (contenido). */
   .site-header,
   .site-footer,
   .site-toolbar,
@@ -3369,23 +3380,88 @@ a:focus:not(:focus-visible) {
   .search-modal,
   .glossary-tooltip,
   .panel-actions,
-  .skip-link {
+  .skip-link,
+  .course-nav,
+  .course-hero__breadcrumbs {
     display: none !important;
   }
 
   main, .container { max-width: 100%; padding: 0; }
+  .course-page { --course-content-max: 100%; }
 
+  /* (4) Enlaces: las URLs externas (fuentes) se imprimen; las anclas internas no */
   a { text-decoration: underline; color: #000 !important; }
   a[href^="http"]::after {
     content: " (" attr(href) ")";
     font-size: 9pt;
     font-style: italic;
+    word-break: break-all;
   }
   a[href^="#"]::after { content: ""; }
 
-  h1, h2, h3 { page-break-after: avoid; }
-  blockquote, .note-item { page-break-inside: avoid; }
+  /* Compactar decoración tipográfica que desperdicia página */
+  .course-hero__num   { font-size: 2.5rem !important; line-height: 1 !important; margin-block-end: 0.25rem !important; }
+  .course-hero__title { font-size: 1.9rem !important; }
+  .unit__num          { font-size: 1.5rem !important; }
 
+  /* (3) Saltos de página y cohesión de bloques sobre la estructura real.
+     Cada unidad empieza en página nueva; comenta las 2 props de .unit para
+     obtener un flujo continuo sin cortes forzados. */
+  .unit { break-before: page; page-break-before: always; }
+
+  .unit__title, .lesson__title, .via__title,
+  .quiz__title, h1, h2, h3, h4 {
+    break-after: avoid; page-break-after: avoid;
+  }
+
+  .unit__header, .lesson__header, .quiz__header,
+  .lesson__source, .question,
+  blockquote, .note-item, figure, table, tr {
+    break-inside: avoid; page-break-inside: avoid;
+  }
+
+  /* (Acordeón) app.js §13.bis cierra por defecto cada unidad, actividad final
+     y rúbrica: mueve su contenido a un .unit__panel con [hidden] + max-height:0.
+     Sin esto, al imprimir solo salen las CABECERAS (no las lecciones). Forzamos
+     todos los paneles abiertos; el título vive dentro de .unit__toggle, así que
+     NO se oculta el botón — solo el chevron decorativo. */
+  .unit__panel {
+    display: block !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  .unit__chevron { display: none !important; }
+  .unit__toggle { border: 0 !important; padding: 0 !important; }
+
+  /* (Quizzes) Copia de estudio: revela las respuestas de los <details>.
+     Para imprimir el cuestionario EN BLANCO (responder a mano) comenta la
+     primera regla; el modo examen formal será UX-006. */
+  details.question > *:not(summary) { display: block !important; }
+  details.question { border: 1pt solid #000; padding: 0.4rem 0.6rem; margin-block: 0.4rem; }
+  details.question > summary { font-weight: 600; list-style: none; }
+
+  /* (4) Bloque de fuentes completo y legible al cierre de cada lección */
+  .lesson__source {
+    border-top: 1pt solid #000;
+    margin-block-start: 0.8rem;
+    padding-block-start: 0.4rem;
+    font-size: 9.5pt;
+  }
+  .lesson__source-title { font-weight: 700; }
+
+  /* Cierre doxológico del curso (ambas variantes del corpus): se conserva,
+     no se parte entre páginas, centrado y en cursiva */
+  .course-footer, .seminary-closing {
+    break-before: avoid; page-break-before: avoid;
+    break-inside: avoid; page-break-inside: avoid;
+    margin-block-start: 1.2rem;
+  }
+  .course-footer__doxology, .seminary-closing__doxology,
+  .seminary-closing__signature { text-align: center; font-style: italic; }
+
+  /* (5) El navegador imprime fecha + URL en su pie por defecto. Un pie de
+     marca por curso requeriría un hook JS (beforeprint) que sacaría DIS-006
+     de "solo CSS"; pendiente de tu decisión (ver entrega). */
   @page { margin: 2cm; }
 }
 
