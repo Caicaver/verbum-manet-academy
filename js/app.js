@@ -82,6 +82,9 @@
   /** Índice del término del glosario actualmente con tooltip visible */
   let activeTooltipKey = null;
 
+  /** UX-002 · ancla de lección a revelar tras cargar un fragmento de curso */
+  let pendingAnchor = null;
+
   /* ---- Selectores cacheados (rellenados en init) ---- */
   let htmlEl, mainEl, searchModal, searchInput, searchResults,
       pomodoroPanel, pomodoroOpenBtn, primaryNav, navToggle,
@@ -168,6 +171,14 @@
 
     updateActiveNav(normalizedHash);
     runFragmentHooks(normalizedHash);
+
+    // UX-002 · si llegamos desde un marcador, revelar el ancla ya cargado el curso.
+    if (pendingAnchor) {
+      const anchorId = pendingAnchor;
+      pendingAnchor = null;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      revealAnchorById(anchorId, reduce);
+    }
 
     // Cualquier módulo externo puede engancharse aquí (study-panel.js
     // inicializa el dashboard del Panel cuando hash === '#/panel')
@@ -864,9 +875,10 @@
      · Cualquier módulo externo puede escuchar 'vma:navigated' (ver §3).
      ========================================================================== */
 
-  function runFragmentHooks(_hash) {
+  function runFragmentHooks(hash) {
     initQuoteRotator();
     enhanceUnitAccordions();
+    enhanceLessonBookmarks(hash);
   }
 
 
@@ -1025,9 +1037,105 @@
 
 
   /* ==========================================================================
-     §14 · INIT
+     §13.quater · MARCADORES (UX-002) · navegación + inyección del botón
+     · revealAnchorById: hermano de revealHashTarget con id explícito.
+     · goToBookmark: resuelve la navegación cross-fragmento bajo hash único.
+     · enhanceLessonBookmarks: inyecta "Marcar" en cada lección tras navegar a
+       un curso (un punto; sirve para los 20 cursos; no toca fragmentos).
      ========================================================================== */
 
+  function revealAnchorById(id, reduce) {
+    if (!id || !mainEl) return;
+    const safe = (id + '').replace(/[^\w:.\-]/g, '');
+    if (!safe) return;
+    const target = mainEl.querySelector('#' + safe);
+    if (!target) return;
+    const unit = target.closest('.unit');
+    if (unit && unit.classList.contains('unit--collapsible') && !unit.classList.contains('unit--open')) {
+      const btn = unit.querySelector(':scope > .unit__header > .unit__toggle');
+      const panel = unit.querySelector(':scope > .unit__panel');
+      if (btn && panel) openUnit(unit, btn, panel, reduce);
+    }
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  /** Navega a un marcador. Si ya estamos en el curso, revela directo; si no,
+   *  fija la ruta y deja un ancla pendiente que consume navigate(). */
+  function goToBookmark(courseId, anchor) {
+    if (!courseId || !anchor) return;
+    const routeHash = '#/' + courseId;
+    if (location.hash === routeHash) {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      revealAnchorById(anchor, reduce);
+    } else {
+      pendingAnchor = anchor;
+      location.hash = routeHash; // dispara hashchange → navigate()
+    }
+  }
+
+  function courseTitleFromIndex(courseId) {
+    const arr = window.COURSES_INDEX;
+    if (Array.isArray(arr)) {
+      const c = arr.find((x) => x && x.id === courseId);
+      if (c && c.title) return c.title;
+    }
+    return courseId;
+  }
+
+  function setBookmarkBtnState(btn, marked) {
+    btn.setAttribute('aria-pressed', marked ? 'true' : 'false');
+    btn.classList.toggle('is-marked', marked);
+    btn.setAttribute('aria-label', marked
+      ? 'Quitar marcador de esta lección'
+      : 'Marcar esta lección');
+    btn.title = marked ? 'Marcado · pulse para quitar' : 'Marcar esta lección';
+    const txt = btn.querySelector('.lesson__bookmark-text');
+    if (txt) txt.textContent = marked ? 'Marcado' : 'Marcar';
+  }
+
+  /** Inyecta el botón "Marcar" en cada .lesson__header de un curso. */
+  function enhanceLessonBookmarks(hash) {
+    if (!mainEl || !COURSE_ROUTES[hash]) return; // solo rutas de curso
+    const study = window.VMA && window.VMA.study;
+    if (!study || typeof study.toggleBookmark !== 'function') return;
+
+    const courseId = hash.slice(2); // quita '#/'
+    const courseTitle = courseTitleFromIndex(courseId);
+
+    mainEl.querySelectorAll('article.lesson[id]').forEach((lesson) => {
+      const header = lesson.querySelector(':scope > .lesson__header');
+      if (!header) return;
+      if (header.querySelector(':scope > [data-lesson-bookmark]')) return; // ya inyectado
+
+      const anchor = lesson.id;
+      const numEl = header.querySelector('.lesson__num');
+      const numText = numEl ? numEl.textContent.trim() : '';
+      const label = numText ? (numText + ' · ' + courseTitle) : courseTitle;
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'lesson__bookmark';
+      btn.setAttribute('data-lesson-bookmark', '');
+      btn.innerHTML =
+        '<svg class="lesson__bookmark-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+        '<path d="M7 3h10a1 1 0 0 1 1 1v17l-6-4-6 4V4a1 1 0 0 1 1-1z"/></svg>' +
+        '<span class="lesson__bookmark-text"></span>';
+      setBookmarkBtnState(btn, study.isBookmarked(courseId, anchor));
+
+      btn.addEventListener('click', () => {
+        const nowMarked = study.toggleBookmark({ courseId, anchor, label });
+        setBookmarkBtnState(btn, nowMarked);
+      });
+
+      if (numEl && numEl.nextSibling) header.insertBefore(btn, numEl.nextSibling);
+      else header.appendChild(btn);
+    });
+  }
+
+
+  /* ==========================================================================
+     §14 · INIT
+     ========================================================================== */
   function cacheDom() {
     htmlEl          = document.documentElement;
     mainEl          = document.getElementById('main-content');
@@ -1206,6 +1314,7 @@
   window.VMA = window.VMA || {};
   Object.assign(window.VMA, {
     navigate,                  // permite a study-panel.js redirigir si lo necesita
+    goToBookmark,              // UX-002 · navegación a marcadores desde el panel
     openSearch,
     closeSearch,
     togglePomodoro,

@@ -50,7 +50,7 @@
   const CYCLES_TO_LONG_BREAK = 4;
 
   /** Versión actual del schema de StudyState (para validar importaciones) */
-  const STATE_VERSION = 1;
+  const STATE_VERSION = 2;
 
   /** Tick del Pomodoro · 1 s · el cómputo real va por timestamp */
   const TICK_MS = 1000;
@@ -77,6 +77,7 @@
         termsConsulted: [],   // claves únicas consultadas
       },
       notes: [],     // [{ id, text, createdAt, updatedAt, courseId?, lessonId? }]
+      bookmarks: [], // [{ id, courseId, anchor, title, label, createdAt }] · UX-002
       achievements: {},  // { achievementId: unlockedAt(ISO) }
       meta: {
         firstSessionAt: null,
@@ -110,8 +111,9 @@
            s.reading.coursesCompleted.length === 0 &&
            s.reading.segmentsCompleted.length === 0 &&
            s.quizzes.passed.length === 0 &&
-           s.glossary.termsConsulted.length === 0 &&
-           s.notes.length === 0;
+            s.glossary.termsConsulted.length === 0 &&
+           s.notes.length === 0 &&
+           (s.bookmarks ? s.bookmarks.length === 0 : true);
   }
 
 
@@ -171,6 +173,11 @@
     }[c]));
   }
 
+  function normalizeText(s) {
+    return (s || '').toString().toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+  }
+
   function uid() {
     return 'n_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
   }
@@ -181,8 +188,17 @@
     const merged = JSON.parse(JSON.stringify(fresh));
 
     if (!imported || typeof imported !== 'object') return merged;
-    if (imported.version !== STATE_VERSION) {
-      throw new Error('La versión del archivo no es compatible con esta academia.');
+
+    // Migración hacia adelante: se aceptan archivos de esta versión o
+    // anteriores; los campos que no traigan quedan en su valor por defecto
+    // (p. ej. un progreso v1 importado en el esquema v2 estrena bookmarks:[]).
+    // Solo se rechazan archivos de una versión MÁS RECIENTE que esta academia.
+    const importedVersion = Number(imported.version) || 0;
+    if (importedVersion > STATE_VERSION) {
+      throw new Error(
+        'El archivo procede de una versión más reciente de la academia. ' +
+        'Actualice la academia antes de importarlo.'
+      );
     }
 
     // Pomodoro
@@ -235,6 +251,20 @@
           updatedAt: n.updatedAt || n.createdAt || nowIso(),
           courseId:  n.courseId || null,
           lessonId:  n.lessonId || null,
+        }));
+    }
+
+    // Bookmarks (esquema v2+) · se descartan entradas sin courseId/anchor
+    if (Array.isArray(imported.bookmarks)) {
+      merged.bookmarks = imported.bookmarks
+        .filter((b) => b && typeof b === 'object' && b.courseId && b.anchor)
+        .map((b) => ({
+          id:        b.id || uid(),
+          courseId:  String(b.courseId),
+          anchor:    String(b.anchor),
+          title:     (b.title  != null ? String(b.title)  : ''),
+          label:     (b.label  != null ? String(b.label)  : ''),
+          createdAt: b.createdAt || nowIso(),
         }));
     }
 
@@ -765,9 +795,10 @@
     if (empty) empty.hidden = true;
     if (grid)  grid.hidden = false;
 
-    renderMetrics(root);
+     renderMetrics(root);
     renderAchievements(root);
     renderNotes(root);
+    renderBookmarks(root);
   }
 
   /* ---- Métricas ----------------------------------------------------- */
@@ -1028,6 +1059,188 @@
   }
 
 
+   /* ==========================================================================
+     §11.bis · MARCADORES (UX-002) · CRUD + render en el panel
+     · Hermano de las notas; vive en el mismo StudyState versionado.
+     · La creación/borrado ocurre desde el botón inyectado en cada lección
+       (ver app.js); el panel solo lista, busca y navega.
+     ========================================================================== */
+
+  function courseTitleFor(courseId) {
+    const arr = window.COURSES_INDEX;
+    if (Array.isArray(arr)) {
+      const c = arr.find((x) => x && x.id === courseId);
+      if (c && c.title) return c.title;
+    }
+    return courseId;
+  }
+
+  function findBookmark(courseId, anchor) {
+    return state.bookmarks.find(
+      (b) => b.courseId === courseId && b.anchor === anchor
+    ) || null;
+  }
+
+  function isBookmarked(courseId, anchor) {
+    return !!findBookmark(courseId, anchor);
+  }
+
+  /** Crea (o, si ya existe ese ancla, actualiza su título). meta:
+   *  { courseId, anchor, title?, label? }. Devuelve el marcador. */
+  function addBookmark(meta) {
+    if (!meta || !meta.courseId || !meta.anchor) return null;
+    const existing = findBookmark(meta.courseId, meta.anchor);
+    if (existing) {
+      if (meta.title != null && String(meta.title).trim()) {
+        existing.title = String(meta.title).trim();
+        notify();
+      }
+      return existing;
+    }
+    const bm = {
+      id:        uid(),
+      courseId:  String(meta.courseId),
+      anchor:    String(meta.anchor),
+      title:     (meta.title != null ? String(meta.title).trim() : ''),
+      label:     (meta.label != null ? String(meta.label).trim() : ''),
+      createdAt: nowIso(),
+    };
+    state.bookmarks.unshift(bm);
+    notify();
+    return bm;
+  }
+
+  function updateBookmark(id, newTitle) {
+    const idx = state.bookmarks.findIndex((b) => b.id === id);
+    if (idx < 0) return;
+    state.bookmarks[idx] = {
+      ...state.bookmarks[idx],
+      title: String(newTitle || '').trim(),
+    };
+    notify();
+  }
+
+  function removeBookmark(id) {
+    const idx = state.bookmarks.findIndex((b) => b.id === id);
+    if (idx < 0) return;
+    state.bookmarks.splice(idx, 1);
+    notify();
+  }
+
+  /** Conmutador idempotente usado por el botón de la lección.
+   *  Devuelve true si quedó marcado, false si se quitó. */
+  function toggleBookmark(meta) {
+    const existing = findBookmark(meta.courseId, meta.anchor);
+    if (existing) { removeBookmark(existing.id); return false; }
+    addBookmark(meta);
+    return true;
+  }
+
+  /* ---- Render en el Panel de Estudio --------------------------------- */
+
+  let bookmarkQuery = '';
+
+  function renderBookmarks(root) {
+    const list = root.querySelector('[data-bookmark-list]');
+    if (!list) return; // el panel aún no expone el módulo (entrega 2)
+
+    const q = normalizeText(bookmarkQuery);
+    let items = state.bookmarks.slice();
+
+    if (q) {
+      items = items.filter((b) => {
+        const hay = `${b.title} ${b.label} ${courseTitleFor(b.courseId)}`;
+        return normalizeText(hay).includes(q);
+      });
+    }
+
+    // Orden: por curso (título) y, dentro del curso, más reciente primero.
+    items.sort((a, b) => {
+      const ct = courseTitleFor(a.courseId).localeCompare(
+        courseTitleFor(b.courseId), 'es'
+      );
+      if (ct !== 0) return ct;
+      return b.createdAt.localeCompare(a.createdAt);
+    });
+
+    if (items.length === 0) {
+      list.innerHTML = `
+        <li class="note-empty" style="
+          padding: var(--sp-md);
+          font-family: var(--font-display);
+          font-style: italic;
+          color: var(--color-text-muted);
+          font-size: var(--text-sm);
+          text-align: center;
+          border: 1px dashed var(--color-border-soft);
+          border-radius: var(--radius-sm);
+          list-style: none;
+        ">
+          ${bookmarkQuery
+            ? 'Ningún marcador coincide con la búsqueda.'
+            : 'Aún no hay marcadores. Use el botón «Marcar» en la cabecera de cualquier lección.'}
+        </li>`;
+      return;
+    }
+
+    list.innerHTML = items.map(bookmarkItemHtml).join('');
+    bindBookmarkItemEvents(list);
+  }
+
+  function bookmarkItemHtml(b) {
+    const stamp = new Date(b.createdAt);
+    const fecha = stamp.toLocaleDateString('es-ES', {
+      year: 'numeric', month: 'long', day: 'numeric',
+    });
+    const heading = b.title || b.label || 'Marcador';
+    const sub = courseTitleFor(b.courseId) + (b.label && b.title ? ' · ' + b.label : '');
+
+    return `
+      <li class="bookmark-item" data-bookmark-id="${escapeHtml(b.id)}">
+        <div class="bookmark-item__meta">
+          <span>${escapeHtml(fecha)}</span>
+          <span class="bookmark-item__actions">
+            <button type="button" class="btn btn--link" data-bookmark-go
+                    style="font-size:0.78rem;letter-spacing:var(--ls-wide);">Ir</button>
+            <button type="button" class="btn btn--link" data-bookmark-edit
+                    style="font-size:0.78rem;letter-spacing:var(--ls-wide);margin-left:0.5rem;">Renombrar</button>
+            <button type="button" class="btn btn--link" data-bookmark-delete
+                    style="font-size:0.78rem;letter-spacing:var(--ls-wide);margin-left:0.5rem;">Eliminar</button>
+          </span>
+        </div>
+        <p class="bookmark-item__title">${escapeHtml(heading)}</p>
+        <p class="bookmark-item__course">${escapeHtml(sub)}</p>
+      </li>`;
+  }
+
+  function bindBookmarkItemEvents(list) {
+    list.querySelectorAll('[data-bookmark-go]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const id = e.target.closest('.bookmark-item')?.dataset.bookmarkId;
+        const bm = state.bookmarks.find((b) => b.id === id);
+        if (bm && window.VMA && typeof window.VMA.goToBookmark === 'function') {
+          window.VMA.goToBookmark(bm.courseId, bm.anchor);
+        }
+      });
+    });
+    list.querySelectorAll('[data-bookmark-edit]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const id = e.target.closest('.bookmark-item')?.dataset.bookmarkId;
+        const bm = state.bookmarks.find((b) => b.id === id);
+        if (!bm) return;
+        const next = prompt('Título del marcador:', bm.title || bm.label || '');
+        if (next != null) updateBookmark(id, next);
+      });
+    });
+    list.querySelectorAll('[data-bookmark-delete]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const id = e.target.closest('.bookmark-item')?.dataset.bookmarkId;
+        if (id && confirm('¿Eliminar este marcador?')) removeBookmark(id);
+      });
+    });
+  }
+
+
   /* ==========================================================================
      §12 · EXPORT · IMPORT JSON
      ========================================================================== */
@@ -1153,6 +1366,16 @@
       addNoteBtn.__vmaBound = true;
     }
 
+    // Buscador de marcadores (UX-002) · el input llega en panel-estudio.html
+    const bmSearch = root.querySelector('[data-bookmark-search]');
+    if (bmSearch && !bmSearch.__vmaBound) {
+      bmSearch.addEventListener('input', (e) => {
+        bookmarkQuery = e.target.value || '';
+        renderBookmarks(root);
+      });
+      bmSearch.__vmaBound = true;
+    }
+
     // Si StudyState cambia (nueva nota, ciclo completado, etc.) y aún
     // estamos en panel, re-renderizar el dashboard.
     subscribe(() => {
@@ -1213,10 +1436,18 @@
     markQuizPassed,
     markTermConsulted,
 
-    // Notas
+     // Notas
     addNote,
     updateNote,
     deleteNote,
+
+    // Marcadores (UX-002)
+    addBookmark,
+    updateBookmark,
+    removeBookmark,
+    toggleBookmark,
+    isBookmarked,
+    listBookmarks: () => state.bookmarks.map((b) => ({ ...b })),
 
     // Persistencia
     exportProgress,

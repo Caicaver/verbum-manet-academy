@@ -211,9 +211,32 @@
         </button>
       </header>
 
-      <ul class="notes-list" data-note-list aria-live="polite"
+     <ul class="notes-list" data-note-list aria-live="polite"
           style="list-style: none; margin: 0; padding: 0;">
         <!-- Las .note-item las pinta study-panel.js -->
+      </ul>
+    </section>
+
+
+    <!-- ----------------------------------------------------------------
+         §5.2.bis · MARCADORES (UX-002)
+         JS popula data-bookmark-list y filtra con data-bookmark-search.
+         ---------------------------------------------------------------- -->
+    <section class="panel-module" aria-labelledby="bookmarks-title">
+      <header class="panel-module__header">
+        <h2 class="panel-module__title" id="bookmarks-title">Mis marcadores</h2>
+        <span class="panel-module__meta">Lecciones señaladas</span>
+      </header>
+
+      <div class="bookmark-search">
+        <input type="search" data-bookmark-search class="bookmark-search__input"
+               placeholder="Buscar por título o curso…"
+               aria-label="Buscar entre los marcadores" autocomplete="off">
+      </div>
+
+      <ul class="bookmarks-list" data-bookmark-list aria-live="polite"
+          style="list-style: none; margin: 0; padding: 0;">
+        <!-- Las .bookmark-item las pinta study-panel.js -->
       </ul>
     </section>
 
