@@ -4449,6 +4449,98 @@ a:focus:not(:focus-visible) {
 
 
 /* ============================================================
+   §29 · MODO EXAMEN · cuestionarios bajo evaluación (UX-006)
+   Realce en runtime sobre .quiz; solo-de-sesión. Sin antipatrones:
+   separación por borde/superficie, nunca por barra lateral de color.
+   ============================================================ */
+
+.quiz__exam-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-sm);
+  margin-block-start: var(--sp-md);
+}
+
+.quiz__exam-timeropt {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2xs);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+.quiz__exam-timeropt input { cursor: pointer; }
+
+.quiz__exam-clock {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  letter-spacing: var(--ls-wide);
+}
+
+/* Mientras el examen está activo, el botón SRS cede el protagonismo. */
+.quiz.is-exam-active .quiz__srs-add { display: none; }
+
+/* Controles de autocalificación bajo cada respuesta. */
+.question__grade {
+  display: flex;
+  gap: var(--sp-sm);
+  margin-block-start: var(--sp-sm);
+}
+.question__grade-btn {
+  font: inherit;
+  font-size: var(--text-sm);
+  padding: var(--sp-2xs) var(--sp-sm);
+  border-radius: var(--radius-sm);
+  border: var(--border-thin) solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+.question__grade-btn--right:hover,
+.question__grade[data-grade="right"] .question__grade-btn--right {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.question__grade-btn--wrong:hover,
+.question__grade[data-grade="wrong"] .question__grade-btn--wrong {
+  border-color: oklch(58% 0.16 25);
+  color: oklch(58% 0.16 25);
+}
+.question__grade[data-grade] .question__grade-btn { opacity: 0.55; }
+.question__grade[data-grade="right"] .question__grade-btn--right,
+.question__grade[data-grade="wrong"] .question__grade-btn--wrong { opacity: 1; }
+
+/* Panel de resultado · hairline dorado para separación cross-tema. */
+.quiz__exam-result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-sm);
+  margin-block-start: var(--sp-md);
+  padding: var(--sp-sm) var(--sp-md);
+  border: var(--border-thin) solid oklch(76% 0.075 78 / 0.45);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+/* Filtro "revisar erradas": oculta las preguntas no marcadas como erradas. */
+.quiz[data-exam-filter="wrong"] details.question:not([data-grade="wrong"]) {
+  display: none;
+}
+
+/* Los controles de examen no se imprimen. */
+@media print {
+  .quiz__exam-bar,
+  .quiz__exam-result,
+  .question__grade { display: none !important; }
+}
+
+
+/* ============================================================
    FIN DE Verbum Manet Academy · css/styles.css · v5
    Parte A: §1–§14 · Parte B: §15–§26 · §27: cursos · §28: lectura
    ============================================================ */

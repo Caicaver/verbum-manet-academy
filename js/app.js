@@ -880,6 +880,7 @@
     enhanceUnitAccordions();
     enhanceLessonBookmarks(hash);
     enhanceQuizSrs(hash);
+    enhanceQuizExam(hash);
   }
 
 
@@ -1213,6 +1214,243 @@
         if (ref && ref.parentNode) ref.parentNode.insertBefore(btn, ref.nextSibling);
         else quiz.insertBefore(btn, quiz.firstChild);
       }
+    });
+  }
+
+
+  /* ==========================================================================
+     §13.sexies · MODO EXAMEN · cuestionarios bajo evaluación (UX-006)
+     · Hermano de enhanceQuizSrs: realce en runtime, sin tocar fragmentos.
+     · Solo-de-sesión: el estado del examen vive en memoria por render; al
+       navegar, CourseLoader reemplaza el DOM y el estado se reinicia. NO
+       persiste y NO toca el contrato de estado (STATE_VERSION intacto).
+     · Cuestionarios abiertos (pregunta + respuesta modelo, sin clave): el
+       puntaje es AUTOEVALUADO (Acerté/Fallé tras revelar), coherente con la
+       autocalificación del repaso espaciado (CONT-002).
+     · Flujo: Iniciar (bloquea respuestas) → Finalizar (revela + autocalifica)
+       → Resultado %  → Revisar erradas (filtro) → Salir (restaura).
+     · Tolerante a las DOS variantes de markup (con/sin .quiz__header).
+     ========================================================================== */
+
+  function fmtClock(ms) {
+    const s = Math.max(0, Math.round(ms / 1000));
+    const m = Math.floor(s / 60);
+    return m + ':' + String(s % 60).padStart(2, '0');
+  }
+
+  function enhanceQuizExam(hash) {
+    if (!mainEl || !COURSE_ROUTES[hash]) return; // solo rutas de curso
+
+    mainEl.querySelectorAll('section.quiz[aria-labelledby]').forEach((quiz) => {
+      if (quiz.querySelector(':scope .quiz__exam-bar')) return; // idempotente (puede anidarse en el header)
+
+      const questions = Array.from(quiz.querySelectorAll('details.question'));
+      if (questions.length === 0) return;
+
+      // Estado del examen (en memoria, por quiz) -------------------------
+      const state = { mode: 'idle', timed: false, start: 0, elapsed: 0, timerId: 0 };
+      const grades = new Map(); // details -> 'right' | 'wrong'
+
+      // Barra de control -------------------------------------------------
+      const bar = document.createElement('div');
+      bar.className = 'quiz__exam-bar';
+
+      const startBtn = document.createElement('button');
+      startBtn.type = 'button';
+      startBtn.className = 'quiz__exam-start btn btn--ghost btn--sm';
+      startBtn.textContent = 'Iniciar examen';
+      startBtn.setAttribute('aria-label',
+        'Iniciar examen: oculta las respuestas hasta finalizar');
+
+      const timerLabel = document.createElement('label');
+      timerLabel.className = 'quiz__exam-timeropt';
+      const timerChk = document.createElement('input');
+      timerChk.type = 'checkbox';
+      timerChk.className = 'quiz__exam-timerchk';
+      timerLabel.appendChild(timerChk);
+      timerLabel.appendChild(document.createTextNode(' Cronometrar'));
+
+      const clock = document.createElement('span');
+      clock.className = 'quiz__exam-clock';
+      clock.hidden = true;
+      clock.setAttribute('aria-hidden', 'true');
+
+      bar.appendChild(startBtn);
+      bar.appendChild(timerLabel);
+      bar.appendChild(clock);
+
+      // Panel de resultado (oculto hasta finalizar) ----------------------
+      const result = document.createElement('div');
+      result.className = 'quiz__exam-result';
+      result.hidden = true;
+      result.setAttribute('role', 'status');
+      result.setAttribute('aria-live', 'polite');
+      const resultText = document.createTextNode('');
+      result.appendChild(resultText);
+
+      const reviewBtn = document.createElement('button');
+      reviewBtn.type = 'button';
+      reviewBtn.className = 'btn btn--ghost btn--sm quiz__exam-review';
+      reviewBtn.textContent = 'Revisar erradas';
+
+      const exitBtn = document.createElement('button');
+      exitBtn.type = 'button';
+      exitBtn.className = 'btn btn--ghost btn--sm quiz__exam-exit';
+      exitBtn.textContent = 'Salir del examen';
+
+      result.appendChild(reviewBtn);
+      result.appendChild(exitBtn);
+
+      // Bloqueo de <details> mientras corre el examen --------------------
+      quiz.addEventListener('click', (e) => {
+        if (state.mode !== 'running') return;
+        const sm = e.target.closest && e.target.closest('summary');
+        if (sm && quiz.contains(sm)) { e.preventDefault(); e.stopPropagation(); }
+      }, true);
+      quiz.addEventListener('keydown', (e) => {
+        if (state.mode !== 'running') return;
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const sm = e.target.closest && e.target.closest('summary');
+        if (sm && quiz.contains(sm)) e.preventDefault();
+      }, true);
+      questions.forEach((det) => {
+        det.addEventListener('toggle', () => {
+          if (state.mode === 'running' && det.open) det.open = false; // red de seguridad
+        });
+      });
+
+      // Cronómetro -------------------------------------------------------
+      function tick() { clock.textContent = '\u23F1 ' + fmtClock(Date.now() - state.start); }
+      function stopTimer() { if (state.timerId) { clearInterval(state.timerId); state.timerId = 0; } }
+
+      // Puntaje (autoevaluado) ------------------------------------------
+      function paintScore() {
+        let right = 0, wrong = 0;
+        grades.forEach((v) => { if (v === 'right') right++; else if (v === 'wrong') wrong++; });
+        const done = right + wrong;
+        const pct = done ? Math.round((right / done) * 100) : 0;
+        const pend = questions.length - done;
+        let txt = 'Aciertos: ' + right + ' de ' + questions.length + ' \u00b7 Puntaje: ' + pct + '%';
+        if (pend > 0) txt += ' \u00b7 Sin calificar: ' + pend;
+        if (state.timed) txt += ' \u00b7 \u23F1 ' + fmtClock(state.elapsed);
+        resultText.textContent = txt;
+        reviewBtn.disabled = wrong === 0;
+      }
+
+      function addGradeControls() {
+        questions.forEach((det) => {
+          if (det.querySelector(':scope > .question__grade')) return;
+          const g = document.createElement('div');
+          g.className = 'question__grade';
+          const ok = document.createElement('button');
+          ok.type = 'button';
+          ok.className = 'question__grade-btn question__grade-btn--right';
+          ok.textContent = 'Acert\u00e9';
+          const no = document.createElement('button');
+          no.type = 'button';
+          no.className = 'question__grade-btn question__grade-btn--wrong';
+          no.textContent = 'Fall\u00e9';
+          function set(v) {
+            grades.set(det, v);
+            det.setAttribute('data-grade', v);
+            g.setAttribute('data-grade', v);
+            paintScore();
+          }
+          ok.addEventListener('click', () => set('right'));
+          no.addEventListener('click', () => set('wrong'));
+          g.appendChild(ok);
+          g.appendChild(no);
+          det.appendChild(g);
+        });
+      }
+
+      function lockSummaries(on) {
+        questions.forEach((det) => {
+          const s = det.querySelector(':scope > summary');
+          if (!s) return;
+          if (on) s.setAttribute('aria-disabled', 'true');
+          else s.removeAttribute('aria-disabled');
+        });
+      }
+
+      // Transiciones de modo --------------------------------------------
+      function toRunning() {
+        state.mode = 'running';
+        state.timed = timerChk.checked;
+        quiz.classList.add('is-exam-active');
+        questions.forEach((det) => { det.open = false; });
+        lockSummaries(true);
+        startBtn.textContent = 'Finalizar examen';
+        startBtn.setAttribute('aria-label', 'Finalizar examen y revelar las respuestas');
+        timerLabel.hidden = true;
+        if (state.timed) {
+          clock.hidden = false; clock.removeAttribute('aria-hidden');
+          state.start = Date.now(); tick();
+          state.timerId = setInterval(tick, 1000);
+        }
+      }
+
+      function toFinished() {
+        state.mode = 'finished';
+        if (state.timed) { state.elapsed = Date.now() - state.start; stopTimer(); }
+        lockSummaries(false);
+        questions.forEach((det) => { det.open = true; }); // revela todo
+        addGradeControls();
+        startBtn.hidden = true;
+        clock.hidden = true;
+        result.hidden = false;
+        paintScore();
+      }
+
+      function toIdle() {
+        stopTimer();
+        state.mode = 'idle';
+        state.timed = false;
+        state.elapsed = 0;
+        grades.clear();
+        quiz.classList.remove('is-exam-active');
+        quiz.removeAttribute('data-exam-filter');
+        lockSummaries(false);
+        questions.forEach((det) => {
+          det.open = false;
+          det.removeAttribute('data-grade');
+          const g = det.querySelector(':scope > .question__grade');
+          if (g) g.remove();
+        });
+        startBtn.hidden = false;
+        startBtn.textContent = 'Iniciar examen';
+        startBtn.setAttribute('aria-label',
+          'Iniciar examen: oculta las respuestas hasta finalizar');
+        timerLabel.hidden = false;
+        timerChk.checked = false;
+        clock.hidden = true;
+        result.hidden = true;
+        reviewBtn.textContent = 'Revisar erradas';
+      }
+
+      // Cableado de eventos ---------------------------------------------
+      startBtn.addEventListener('click', () => {
+        if (state.mode === 'idle') toRunning();
+        else if (state.mode === 'running') toFinished();
+      });
+      reviewBtn.addEventListener('click', () => {
+        const on = quiz.getAttribute('data-exam-filter') === 'wrong';
+        if (on) { quiz.removeAttribute('data-exam-filter'); reviewBtn.textContent = 'Revisar erradas'; }
+        else { quiz.setAttribute('data-exam-filter', 'wrong'); reviewBtn.textContent = 'Ver todas'; }
+      });
+      exitBtn.addEventListener('click', toIdle);
+
+      // Inserción en el DOM (misma lógica de anclaje que SRS) -----------
+      const header = quiz.querySelector(':scope > .quiz__header');
+      if (header) {
+        header.appendChild(bar);
+      } else {
+        const ref = quiz.querySelector(':scope > .quiz__intro')
+                 || quiz.querySelector(':scope > .quiz__title');
+        if (ref && ref.parentNode) ref.parentNode.insertBefore(bar, ref.nextSibling);
+        else quiz.insertBefore(bar, quiz.firstChild);
+      }
+      quiz.appendChild(result);
     });
   }
 
