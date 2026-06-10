@@ -569,6 +569,7 @@
     },
 
     start() {
+      unlockAudio();
       if (engine.isRunning) return;
       if (engine.remainingSec <= 0) {
         // Si el modo actual ya está consumido, recargar al duration completo
@@ -621,6 +622,7 @@
       const finishedMode = engine.mode;
       engine.stop();
       engine.remainingSec = 0;
+      playChime(finishedMode);
 
       if (finishedMode === 'focus') {
         // Acreditar el ciclo en la sesión y en el StudyState
@@ -678,8 +680,46 @@
 
 
   /* ==========================================================================
-     §9 · MOUNT DE POMODORO · floating + embebido
-     · Acepta un descriptor de DOM y suscribe el render del engine.
+     §8.bis · AVISO AUDIBLE · chime al completar un ciclo (UX-008)
+     ========================================================================== */
+
+  let audioCtx = null;
+  let soundEnabled = true;
+
+  function unlockAudio() {
+    try {
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        audioCtx = new AC();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    } catch (_) {}
+  }
+
+  function playChime(finishedMode) {
+    if (!soundEnabled || !audioCtx || audioCtx.state !== 'running') return;
+    try {
+      const now = audioCtx.currentTime;
+      const notes = finishedMode === 'focus' ? [880, 1318.5] : [659.25, 880];
+      notes.forEach((freq, i) => {
+        const osc  = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        const t = now + i * 0.18;
+        gain.gain.setValueAtTime(0.0001, t);
+        gain.gain.exponentialRampToValueAtTime(0.16, t + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.5);
+      });
+    } catch (_) {}
+  }
+
+  /* ==========================================================================
+     §9 · MOUNT DE POMODORO · floating + embebido     · Acepta un descriptor de DOM y suscribe el render del engine.
      · Devuelve un unmount() que libera listeners.
      ========================================================================== */
 
@@ -758,6 +798,34 @@
       floatingUnmount();
       floatingUnmount = null;
     }
+  }
+
+  /** Indicador SIEMPRE visible en el header con el tiempo restante (UX-008).
+      Lee del engine; nunca se desmonta (vive lo que vive el shell). */
+  let headerIndicatorUnsub = null;
+  function mountHeaderIndicator() {
+    if (headerIndicatorUnsub) return;
+    const btn    = document.getElementById('pomodoro-open');
+    const timeEl = document.getElementById('pomodoro-indicator');
+    if (!btn || !timeEl) return;
+    const baseLabel = btn.getAttribute('aria-label') || 'Sesión de estudio · Pomodoro';
+    function render(snap) {
+      const active = snap.isRunning || snap.remainingSec < snap.durationSec;
+      if (active) {
+        const mmss = formatMmSs(snap.remainingSec);
+        timeEl.textContent = mmss;
+        timeEl.hidden = false;
+        btn.classList.add('tool-btn--timing');
+        btn.setAttribute('aria-label',
+          `${baseLabel} · ${mmss} restantes${snap.isRunning ? '' : ' (en pausa)'}`);
+      } else {
+        timeEl.hidden = true;
+        btn.classList.remove('tool-btn--timing');
+        btn.setAttribute('aria-label', baseLabel);
+      }
+    }
+    headerIndicatorUnsub = engine.onChange(render);
+    render(engine.getSnapshot());
   }
 
   /** Monta el Pomodoro embebido en el panel de estudio (si existe en el DOM) */
@@ -1394,9 +1462,9 @@
     // Montaje del flotante (si el DOM ya lo provee, lo cual ocurre en
     // index.html)
     mountFloatingPomodoro();
+    mountHeaderIndicator();
 
-    // Tracking automático del glosario
-    bindGlossaryTracking();
+    // Tracking automático del glosario    bindGlossaryTracking();
 
     // Suscripciones a eventos del shell
     window.addEventListener('vma:navigated', handleNavigated);
@@ -1461,6 +1529,8 @@
       setMode: (m) => engine.setMode(m),
       snapshot:() => engine.getSnapshot(),
       onChange:(fn) => engine.onChange(fn),
+      setSound:(on) => { soundEnabled = !!on; },
+      isSoundOn:() => soundEnabled,
     },
 
     // Catálogo de logros (read-only)

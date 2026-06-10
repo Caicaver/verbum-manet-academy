@@ -463,9 +463,9 @@ Primera visita al sitio: overlay opcional que explica los elementos clave (búsq
 | **Prioridad** | 🟡 media |
 | **Esfuerzo** | S |
 | **Impacto** | medio |
-| **Estado** | pendiente |
+| **Estado** | completado (v8) |
 
-El temporizador Pomodoro actual vive en `pages/panel-estudio.html`. Hacer que sea persistente entre navegaciones: indicador flotante en el header con tiempo restante, audible al finalizar.
+Motor migrado a singleton en `js/study-panel.js` (cómputo por timestamp); persiste entre navegaciones bajo el shell de hash único. Indicador de tiempo restante en el header (`#pomodoro-indicator`, render por `engine.onChange`) y chime Web Audio al cerrar ciclo (§8.bis). A11Y-005 (aria-live al finalizar) queda cubierto por `announcePomo`. Sin `STATE_VERSION` nuevo: el tiempo restante es estado efímero del engine. La no-persistencia tras recargar es por diseño (sin localStorage).
 
 ---
 

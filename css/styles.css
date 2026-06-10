@@ -726,6 +726,22 @@ a:focus:not(:focus-visible) {
   background-color: var(--color-btn-ghost-bg-hover);
 }
 
+/* ---- Indicador de tiempo en el header (UX-008) ---- */
+.site-toolbar .tool-btn--timing {
+  width: auto;
+  gap: var(--sp-2xs);
+  padding-inline: var(--sp-xs);
+}
+.pomodoro-indicator {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--ls-wide);
+  line-height: 1;
+  color: var(--color-accent);
+}
+
 /* ---- Hamburguesa: solo móvil + animación a X ---- */
 .tool-btn--menu { display: none; }
 
