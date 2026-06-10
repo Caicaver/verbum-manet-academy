@@ -4364,6 +4364,91 @@ a:focus:not(:focus-visible) {
 
 
 /* ============================================================
+   §29 · REPASO ESPACIADO (CONT-002) · módulo "Repaso de hoy"
+   Tarjeta de catequesis con separación cross-tema (hairline dorado
+   + sombra), reusando los .btn globales para acciones.
+   ============================================================ */
+
+.srs-card {
+  border: 1px solid oklch(76% 0.075 78 / 0.45); /* hairline dorado cross-tema */
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-elevated);
+  box-shadow: var(--shadow-sm);
+  padding: var(--sp-lg);
+}
+
+.srs-card__source {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--sp-sm);
+}
+
+.srs-card__q {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: var(--lh-snug);
+  color: var(--color-text);
+  margin: 0 0 var(--sp-md);
+}
+
+.srs-card__answer {
+  border-block-start: 1px solid var(--color-border-soft);
+  padding-block-start: var(--sp-md);
+  margin-block-end: var(--sp-md);
+}
+.srs-card__answer p {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.srs-card__controls { margin-block-end: var(--sp-sm); }
+
+.srs-grades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-sm);
+  margin-block-end: var(--sp-sm);
+}
+
+.srs-grade {
+  flex: 1 1 auto;
+  min-width: 6rem;
+  padding: 0.65rem 1rem;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.srs-grade:hover { background-color: var(--color-btn-ghost-bg-hover); }
+.srs-grade:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.srs-grade--again:hover { border-color: oklch(58% 0.16 25); }
+.srs-grade--easy:hover  { border-color: var(--color-accent); }
+
+.srs-card__back { margin: 0; }
+
+/* Botón "Añadir al repaso" inyectado en cada cuestionario */
+.quiz__srs-add { margin-block-start: var(--sp-md); }
+.quiz__srs-add.is-seeded {
+  opacity: 0.7;
+  cursor: default;
+}
+
+
+/* ============================================================
    FIN DE Verbum Manet Academy · css/styles.css · v5
    Parte A: §1–§14 · Parte B: §15–§26 · §27: cursos · §28: lectura
    ============================================================ */

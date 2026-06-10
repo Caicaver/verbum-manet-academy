@@ -194,6 +194,24 @@
 
 
     <!-- ----------------------------------------------------------------
+         §5.1.bis · REPASO DE HOY (CONT-002 · repaso espaciado SM-2)
+         Oculto por defecto; study-panel.js lo muestra solo si hay tarjetas
+         debidas hoy. La tarjeta activa se pinta en [data-srs-card].
+         ---------------------------------------------------------------- -->
+    <section class="panel-module" data-srs-module style="grid-column: 1 / -1;" hidden
+             aria-labelledby="srs-title">
+      <header class="panel-module__header">
+        <h2 class="panel-module__title" id="srs-title">Repaso de hoy</h2>
+        <span class="panel-module__meta" data-srs-meta>Catequesis acumulada</span>
+      </header>
+
+      <div data-srs-card aria-live="polite">
+        <!-- La tarjeta activa la pinta study-panel.js -->
+      </div>
+    </section>
+
+
+    <!-- ----------------------------------------------------------------
          §5.2 · NOTAS · columna izquierda (default · ocupa la columna 1)
          JS popula data-note-list y maneja [data-note-add].
          ---------------------------------------------------------------- -->

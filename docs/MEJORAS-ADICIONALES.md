@@ -73,7 +73,7 @@ Cada lección podría incluir un reproductor de audio integrado en el header, co
 | **Esfuerzo** | M (banco de preguntas + algoritmo SM-2) |
 | **Impacto** | alto (retención real del aprendizaje) |
 | **Dependencias** | Sistema de Pomodoro ya en `study-panel.js` |
-| **Estado** | pendiente |
+| **Estado** | completado (v9) |
 
 Implementar **repaso espaciado** estilo Anki: el estudiante recibe preguntas de lecciones previas distribuidas en intervalos crecientes (1 día, 3 días, 7 días, 14 días, 30 días) según el algoritmo SuperMemo SM-2. Las preguntas vienen ya generadas por curso (cuestionarios existentes).
 
@@ -81,6 +81,9 @@ Implementar **repaso espaciado** estilo Anki: el estudiante recibe preguntas de 
 - Nueva sección "Repaso de hoy" en el Panel de Estudio.
 - Estado de cada pregunta (intervalo, easiness factor) en memoria + export/import JSON.
 - 10 preguntas/día como compromiso sostenible.
+
+**Cierre (v9):** 
+Banco SM-2 derivado opt-in de los cuestionarios existentes (botón «Añadir al repaso» inyectado por `app.js` en cada `.quiz`, tolerante a las dos variantes de markup). Estado en `StudyState.srs` con `STATE_VERSION` 2→3 forward-compatible; módulo "Repaso de hoy" en `pages/panel-estudio.html` (tope 10/día); calificación de 4 botones → grados 2/3/4/5; enlace de vuelta vía `goToBookmark(courseId, 'quiz-N-title')`. API: `VMA.study.seedQuiz/gradeCard/srsDueToday/isQuizSeeded`.
 
 ### CONT-003 — Variantes pedagógicas por nivel
 

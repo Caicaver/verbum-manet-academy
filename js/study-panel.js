@@ -50,7 +50,7 @@
   const CYCLES_TO_LONG_BREAK = 4;
 
   /** Versión actual del schema de StudyState (para validar importaciones) */
-  const STATE_VERSION = 2;
+  const STATE_VERSION = 3;
 
   /** Tick del Pomodoro · 1 s · el cómputo real va por timestamp */
   const TICK_MS = 1000;
@@ -78,6 +78,10 @@
       },
       notes: [],     // [{ id, text, createdAt, updatedAt, courseId?, lessonId? }]
       bookmarks: [], // [{ id, courseId, anchor, title, label, createdAt }] · UX-002
+      srs: {                 // CONT-002 · repaso espaciado SM-2
+        cards: [],           // [{ id, courseId, quizAnchor, num, q, a, ef, interval, reps, due, lastReviewed }]
+        lastReviewedDay: null,
+      },
       achievements: {},  // { achievementId: unlockedAt(ISO) }
       meta: {
         firstSessionAt: null,
@@ -113,7 +117,8 @@
            s.quizzes.passed.length === 0 &&
             s.glossary.termsConsulted.length === 0 &&
            s.notes.length === 0 &&
-           (s.bookmarks ? s.bookmarks.length === 0 : true);
+           (s.bookmarks ? s.bookmarks.length === 0 : true) &&
+           (s.srs && Array.isArray(s.srs.cards) ? s.srs.cards.length === 0 : true);
   }
 
 
@@ -266,6 +271,34 @@
           label:     (b.label  != null ? String(b.label)  : ''),
           createdAt: b.createdAt || nowIso(),
         }));
+    }
+
+    // SRS · repaso espaciado (esquema v3+). Forward-compatible: un progreso
+    // v2 sin `srs` estrena cards:[] por defecto. Cada tarjeta se sanea.
+    if (imported.srs && Array.isArray(imported.srs.cards)) {
+      const seen = new Set();
+      merged.srs.cards = imported.srs.cards
+        .filter((c) => c && typeof c === 'object' && c.courseId && c.quizAnchor && c.q)
+        .map((c) => {
+          const num = String(c.num != null ? c.num : '').replace(/\D+/g, '') || '0';
+          return {
+            id: c.id ? String(c.id) : `${c.courseId}::${c.quizAnchor}::${num}`,
+            courseId:   String(c.courseId),
+            quizAnchor: String(c.quizAnchor),
+            num,
+            q: String(c.q),
+            a: (c.a != null ? String(c.a) : ''),
+            ef: Math.max(1.3, Number(c.ef) || 2.5),
+            interval: Math.max(0, Math.round(Number(c.interval) || 0)),
+            reps:     Math.max(0, Math.round(Number(c.reps) || 0)),
+            due:      (/^\d{4}-\d{2}-\d{2}$/.test(c.due) ? c.due : ymdLocal(new Date())),
+            lastReviewed: (c.lastReviewed ? String(c.lastReviewed) : null),
+          };
+        })
+        .filter((c) => { if (seen.has(c.id)) return false; seen.add(c.id); return true; });
+      if (/^\d{4}-\d{2}-\d{2}$/.test(imported.srs.lastReviewedDay)) {
+        merged.srs.lastReviewedDay = imported.srs.lastReviewedDay;
+      }
     }
 
     // Achievements
@@ -867,6 +900,7 @@
     renderAchievements(root);
     renderNotes(root);
     renderBookmarks(root);
+    renderSrs(root);
   }
 
   /* ---- Métricas ----------------------------------------------------- */
@@ -1310,6 +1344,198 @@
 
 
   /* ==========================================================================
+     §11.ter · REPASO ESPACIADO SM-2 (CONT-002)
+     · Banco derivado de los cuestionarios existentes; sembrado opt-in desde
+       el botón inyectado en cada .quiz por app.js (datos planos, sin DOM aquí).
+     · Algoritmo SuperMemo SM-2 estándar.
+     · Persistido en StudyState.srs (export/import JSON · versión 3).
+     ========================================================================== */
+
+  const SRS_DAILY_LIMIT = 10; // compromiso sostenible (ficha CONT-002)
+  const SRS_ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+
+  function todayYmd() { return ymdLocal(new Date()); }
+
+  /** "quiz-1-title" -> "Unidad I" (uniforme en ambas variantes de markup). */
+  function unitLabelFromAnchor(anchor) {
+    const m = /quiz-(\d+)-title/.exec(anchor || '');
+    if (m) { const n = parseInt(m[1], 10); return 'Unidad ' + (SRS_ROMAN[n] || n); }
+    return 'Cuestionario';
+  }
+
+  function srsCardId(courseId, quizAnchor, num) {
+    const d = String(num != null ? num : '').replace(/\D+/g, '') || '0';
+    return `${courseId}::${quizAnchor}::${d}`;
+  }
+
+  /** ¿Hay ya alguna tarjeta de este cuestionario en el banco? */
+  function isQuizSeeded(courseId, quizAnchor) {
+    return state.srs.cards.some(
+      (c) => c.courseId === courseId && c.quizAnchor === quizAnchor
+    );
+  }
+
+  /** Siembra idempotente (solo añade) las preguntas de un cuestionario.
+   *  payload = { courseId, quizAnchor, cards: [{ num, q, a }] }.
+   *  Devuelve el número de tarjetas nuevas añadidas. */
+  function seedQuiz(payload) {
+    if (!payload || !payload.courseId || !payload.quizAnchor) return 0;
+    if (!Array.isArray(payload.cards) || payload.cards.length === 0) return 0;
+    const today = todayYmd();
+    const present = new Set(state.srs.cards.map((c) => c.id));
+    let added = 0;
+    payload.cards.forEach((raw) => {
+      if (!raw || !raw.q) return;
+      const num = String(raw.num != null ? raw.num : '').replace(/\D+/g, '') || '0';
+      const id = srsCardId(payload.courseId, payload.quizAnchor, num);
+      if (present.has(id)) return;
+      present.add(id);
+      state.srs.cards.push({
+        id,
+        courseId:   String(payload.courseId),
+        quizAnchor: String(payload.quizAnchor),
+        num,
+        q: String(raw.q).trim(),
+        a: String(raw.a != null ? raw.a : '').trim(),
+        ef: 2.5,
+        interval: 0,
+        reps: 0,
+        due: today,        // disponible de inmediato
+        lastReviewed: null,
+      });
+      added += 1;
+    });
+    if (added > 0) { refreshAchievements(); notify(); }
+    return added;
+  }
+
+  /** Cola de repaso de hoy: due <= hoy, más antiguas primero, tope diario. */
+  function srsDueQueue() {
+    const today = todayYmd();
+    return state.srs.cards
+      .filter((c) => c.due <= today)
+      .sort((a, b) => (a.due < b.due ? -1 : a.due > b.due ? 1 : 0))
+      .slice(0, SRS_DAILY_LIMIT);
+  }
+
+  /** Número total de tarjetas debidas hoy (sin tope). */
+  function srsDueToday() {
+    const today = todayYmd();
+    return state.srs.cards.reduce((n, c) => n + (c.due <= today ? 1 : 0), 0);
+  }
+
+  /** Aplica SM-2 a una tarjeta tras calificarla. grade in [0..5]. */
+  function gradeCard(id, grade) {
+    const card = state.srs.cards.find((c) => c.id === id);
+    if (!card) return;
+    const q = Math.max(0, Math.min(5, Math.round(Number(grade))));
+
+    if (q < 3) {
+      card.reps = 0;
+      card.interval = 1;
+    } else {
+      if (card.reps === 0)      card.interval = 1;
+      else if (card.reps === 1) card.interval = 6;
+      else                      card.interval = Math.round(card.interval * card.ef);
+      card.reps += 1;
+    }
+
+    // Factor de facilidad (SM-2), mínimo 1.3.
+    card.ef = Math.max(1.3,
+      card.ef + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02)));
+
+    const next = new Date();
+    next.setDate(next.getDate() + card.interval);
+    card.due = ymdLocal(next);
+    card.lastReviewed = nowIso();
+    state.srs.lastReviewedDay = todayYmd();
+
+    refreshAchievements();
+    notify();
+  }
+
+  /* ---- Render del módulo "Repaso de hoy" ----------------------------- */
+
+  function renderSrs(root) {
+    const module = root.querySelector('[data-srs-module]');
+    const mount  = root.querySelector('[data-srs-card]');
+    if (!module || !mount) return; // panel sin el módulo (caché antigua): no-op
+
+    const queue = srsDueQueue();
+
+    // Sin repasos para hoy -> ocultar el módulo (ficha: "solo con cards debidas")
+    if (queue.length === 0) {
+      module.hidden = true;
+      mount.innerHTML = '';
+      return;
+    }
+    module.hidden = false;
+
+    const card = queue[0];
+    const remaining = queue.length;
+    const source = `${courseTitleFor(card.courseId)} · ${unitLabelFromAnchor(card.quizAnchor)}`;
+
+    const meta = module.querySelector('[data-srs-meta]');
+    if (meta) {
+      meta.textContent = remaining === 1
+        ? '1 tarjeta pendiente hoy'
+        : `${remaining} tarjetas pendientes hoy`;
+    }
+
+    mount.innerHTML = `
+      <article class="srs-card" data-srs-id="${escapeHtml(card.id)}">
+        <p class="srs-card__source">${escapeHtml(source)} · pregunta ${escapeHtml(card.num)}</p>
+        <p class="srs-card__q">${escapeHtml(card.q)}</p>
+        <div class="srs-card__answer" data-srs-answer hidden>
+          <p>${escapeHtml(card.a).replace(/\n/g, '<br>')}</p>
+        </div>
+        <div class="srs-card__controls">
+          <button type="button" class="btn btn--primary" data-srs-reveal>Mostrar respuesta</button>
+        </div>
+        <div class="srs-grades" data-srs-grades hidden role="group" aria-label="Calificar la respuesta">
+          <button type="button" class="srs-grade srs-grade--again" data-srs-grade="2">Otra vez</button>
+          <button type="button" class="srs-grade srs-grade--hard"  data-srs-grade="3">Difícil</button>
+          <button type="button" class="srs-grade srs-grade--good"  data-srs-grade="4">Bien</button>
+          <button type="button" class="srs-grade srs-grade--easy"  data-srs-grade="5">Fácil</button>
+        </div>
+        <p class="srs-card__back">
+          <button type="button" class="btn btn--link" data-srs-go>Ir a la lección de origen</button>
+        </p>
+      </article>`;
+
+    bindSrsCard(mount, card);
+  }
+
+  function bindSrsCard(mount, card) {
+    const revealBtn = mount.querySelector('[data-srs-reveal]');
+    const answer    = mount.querySelector('[data-srs-answer]');
+    const grades    = mount.querySelector('[data-srs-grades]');
+    const goBtn     = mount.querySelector('[data-srs-go]');
+
+    if (revealBtn && answer && grades) {
+      revealBtn.addEventListener('click', () => {
+        answer.hidden = false;
+        grades.hidden = false;
+        revealBtn.hidden = true;
+        const first = grades.querySelector('[data-srs-grade]');
+        if (first) first.focus();
+      });
+    }
+    mount.querySelectorAll('[data-srs-grade]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        // notify() -> renderDashboard -> renderSrs avanza a la siguiente tarjeta.
+        gradeCard(card.id, btn.getAttribute('data-srs-grade'));
+      });
+    });
+    if (goBtn && window.VMA && typeof window.VMA.goToBookmark === 'function') {
+      goBtn.addEventListener('click', () => {
+        window.VMA.goToBookmark(card.courseId, card.quizAnchor);
+      });
+    }
+  }
+
+
+  /* ==========================================================================
      §12 · EXPORT · IMPORT JSON
      ========================================================================== */
 
@@ -1516,6 +1742,13 @@
     toggleBookmark,
     isBookmarked,
     listBookmarks: () => state.bookmarks.map((b) => ({ ...b })),
+
+    // Repaso espaciado SM-2 (CONT-002)
+    seedQuiz,
+    gradeCard,
+    srsDueToday,
+    isQuizSeeded,
+    listSrs: () => state.srs.cards.map((c) => ({ ...c })),
 
     // Persistencia
     exportProgress,

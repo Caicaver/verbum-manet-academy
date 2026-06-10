@@ -879,6 +879,7 @@
     initQuoteRotator();
     enhanceUnitAccordions();
     enhanceLessonBookmarks(hash);
+    enhanceQuizSrs(hash);
   }
 
 
@@ -1129,6 +1130,89 @@
 
       if (numEl && numEl.nextSibling) header.insertBefore(btn, numEl.nextSibling);
       else header.appendChild(btn);
+    });
+  }
+
+
+  /* ==========================================================================
+     §13.quinquies · REPASO ESPACIADO · botón "Añadir al repaso" en cada .quiz
+     · Hermano de enhanceLessonBookmarks: realce en runtime, sin tocar los
+       fragmentos de curso. Parsea cada cuestionario a datos planos y los
+       siembra vía VMA.study.seedQuiz (CONT-002).
+     · Tolerante a las DOS variantes de markup de .quiz (con/sin .quiz__header,
+       pregunta en <span> propio o como texto suelto del summary).
+     ========================================================================== */
+
+  function setSrsAddBtnState(btn, seeded) {
+    btn.classList.toggle('is-seeded', seeded);
+    btn.disabled = seeded;
+    btn.textContent = seeded ? 'En tu repaso \u2713' : 'A\u00f1adir al repaso';
+    btn.title = seeded
+      ? 'Las preguntas de este cuestionario ya est\u00e1n en tu repaso espaciado'
+      : 'A\u00f1adir estas preguntas a tu repaso espaciado (Panel de Estudio)';
+    btn.setAttribute('aria-label', btn.title);
+  }
+
+  /** Extrae las tarjetas {num,q,a} de un <section class="quiz">. */
+  function parseQuizCards(quiz) {
+    const cards = [];
+    quiz.querySelectorAll('details.question').forEach((det) => {
+      const summary = det.querySelector(':scope > summary');
+      const ansEl   = det.querySelector(':scope > .question__answer');
+      if (!summary || !ansEl) return;
+      const numEl = summary.querySelector('.question__num');
+      const num = numEl ? numEl.textContent.replace(/\D+/g, '') : '';
+      // Clonar el summary, quitar número y svg, leer el texto restante:
+      // cubre la variante A (pregunta en <span> propio + svg) y la B
+      // (pregunta como nodo de texto del summary, sin svg).
+      const clone = summary.cloneNode(true);
+      clone.querySelectorAll('.question__num, svg').forEach((n) => n.remove());
+      const q = clone.textContent.replace(/\s+/g, ' ').trim();
+      const a = ansEl.textContent.replace(/\s+/g, ' ').trim();
+      if (q) cards.push({ num, q, a });
+    });
+    return cards;
+  }
+
+  function enhanceQuizSrs(hash) {
+    if (!mainEl || !COURSE_ROUTES[hash]) return; // solo rutas de curso
+    const study = window.VMA && window.VMA.study;
+    if (!study || typeof study.seedQuiz !== 'function') return;
+
+    const courseId = hash.slice(2); // quita '#/'
+
+    mainEl.querySelectorAll('section.quiz[aria-labelledby]').forEach((quiz) => {
+      if (quiz.querySelector(':scope [data-srs-add]')) return; // ya inyectado
+      const quizAnchor = quiz.getAttribute('aria-labelledby');
+      if (!quizAnchor) return;
+
+      const cards = parseQuizCards(quiz);
+      if (cards.length === 0) return;
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'quiz__srs-add btn btn--ghost btn--sm';
+      btn.setAttribute('data-srs-add', '');
+      setSrsAddBtnState(btn, study.isQuizSeeded(courseId, quizAnchor));
+
+      btn.addEventListener('click', () => {
+        const added = study.seedQuiz({ courseId, quizAnchor, cards });
+        setSrsAddBtnState(btn, true);
+        btn.setAttribute('aria-label', added > 0
+          ? added + ' preguntas a\u00f1adidas a tu repaso espaciado'
+          : 'Estas preguntas ya estaban en tu repaso espaciado');
+      });
+
+      // Inserción: tras la cabecera (variante A) o tras el intro/título (B).
+      const header = quiz.querySelector(':scope > .quiz__header');
+      if (header) {
+        header.appendChild(btn);
+      } else {
+        const ref = quiz.querySelector(':scope > .quiz__intro')
+                 || quiz.querySelector(':scope > .quiz__title');
+        if (ref && ref.parentNode) ref.parentNode.insertBefore(btn, ref.nextSibling);
+        else quiz.insertBefore(btn, quiz.firstChild);
+      }
     });
   }
 
