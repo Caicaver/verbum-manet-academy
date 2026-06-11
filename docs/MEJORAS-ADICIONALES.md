@@ -438,13 +438,9 @@ Al seleccionar una cita y pulsar un botón "Compartir", se genera una imagen (ca
 | **Prioridad** | 🟡 media |
 | **Esfuerzo** | S |
 | **Impacto** | medio |
-| **Estado** | pendiente |
+| **Estado** | completado (v10) |
 
-Los cuestionarios actuales son por `<details>` colapsable. Añadir un modo "examen" que:
-- Oculta las respuestas hasta enviar.
-- Cronómetro opcional.
-- Resultado final con porcentaje de aciertos.
-- Botón para revisar respuestas erradas.
+`enhanceQuizExam(hash)` (§13.sexies en `js/app.js`), hermano de `enhanceQuizSrs`: realce en runtime sobre cada `section.quiz[aria-labelledby]`, sin tocar fragmentos. Flujo Iniciar → Finalizar → autocalificación Acerté/Fallé → resultado con % → "Revisar erradas" (filtro `data-exam-filter`) → Salir. Respuestas bloqueadas durante el examen (intercepción de clic/teclado en `summary` + red de seguridad en `toggle`); cronómetro opcional; puntaje autoevaluado (cuestionarios abiertos, sin clave). Solo-de-sesión: estado efímero en memoria por render, sin `STATE_VERSION` nuevo (queda en 3). CSS en §29 de `styles.css`. Tolerante a las dos variantes de markup (con/sin `.quiz__header`). `CACHE_VERSION` v9→v10.
 
 ### UX-007 — Tour guiado para primer uso
 

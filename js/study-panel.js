@@ -1375,6 +1375,16 @@
     );
   }
 
+  /** ¿Existe en el banco la tarjeta concreta de esta pregunta? (CONT-002b)
+   *  Lectura pura · mismo derivado de id que seedQuiz (num sin no-dígitos).
+   *  Permite a app.js distinguir "sembrado parcial" (subconjunto de erradas
+   *  enviado desde el modo examen) de "sembrado completo", sin alterar la
+   *  semántica de isQuizSeeded ni el esquema persistido (STATE_VERSION intacto). */
+  function hasSrsCard(courseId, quizAnchor, num) {
+    const id = srsCardId(courseId, quizAnchor, num);
+    return state.srs.cards.some((c) => c.id === id);
+  }
+
   /** Siembra idempotente (solo añade) las preguntas de un cuestionario.
    *  payload = { courseId, quizAnchor, cards: [{ num, q, a }] }.
    *  Devuelve el número de tarjetas nuevas añadidas. */
@@ -1748,6 +1758,7 @@
     gradeCard,
     srsDueToday,
     isQuizSeeded,
+    hasSrsCard,
     listSrs: () => state.srs.cards.map((c) => ({ ...c })),
 
     // Persistencia

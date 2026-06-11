@@ -1154,23 +1154,52 @@
     btn.setAttribute('aria-label', btn.title);
   }
 
+  /** ¿Están TODAS las tarjetas del cuestionario ya en el banco? (CONT-002b)
+   *  El botón de siembra completa debe basarse en COBERTURA TOTAL, no en
+   *  "hay alguna" (isQuizSeeded): así, tras enviar solo las erradas desde el
+   *  modo examen, sigue habilitado para completar el resto (seedQuiz es
+   *  idempotente y deduplica por id). Solo queda "En tu repaso ✓" cuando
+   *  cubre el cuestionario entero. */
+  function quizFullySeeded(study, courseId, quizAnchor, cards) {
+    if (!study || typeof study.hasSrsCard !== 'function') {
+      // Compatibilidad: panel viejo (caché previa) sin hasSrsCard → contrato anterior.
+      return !!(study && study.isQuizSeeded && study.isQuizSeeded(courseId, quizAnchor));
+    }
+    return cards.length > 0 &&
+      cards.every((c) => study.hasSrsCard(courseId, quizAnchor, c.num));
+  }
+
+  function refreshSrsAddBtn(btn, study, courseId, quizAnchor, cards) {
+    setSrsAddBtnState(btn, quizFullySeeded(study, courseId, quizAnchor, cards));
+  }
+
+  /** Extrae UNA tarjeta {num,q,a} de un <details class="question">.
+   *  Devuelve null si falta el summary o la respuesta modelo. Compartido por
+   *  parseQuizCards (siembra completa, §13.quinquies) y el modo examen
+   *  (envío de erradas, §13.sexies · CONT-002b) para no divergir el parseo. */
+  function parseQuestionCard(det) {
+    const summary = det.querySelector(':scope > summary');
+    const ansEl   = det.querySelector(':scope > .question__answer');
+    if (!summary || !ansEl) return null;
+    const numEl = summary.querySelector('.question__num');
+    const num = numEl ? numEl.textContent.replace(/\D+/g, '') : '';
+    // Clonar el summary, quitar número y svg, leer el texto restante:
+    // cubre la variante A (pregunta en <span> propio + svg) y la B
+    // (pregunta como nodo de texto del summary, sin svg).
+    const clone = summary.cloneNode(true);
+    clone.querySelectorAll('.question__num, svg').forEach((n) => n.remove());
+    const q = clone.textContent.replace(/\s+/g, ' ').trim();
+    const a = ansEl.textContent.replace(/\s+/g, ' ').trim();
+    if (!q) return null;
+    return { num, q, a };
+  }
+
   /** Extrae las tarjetas {num,q,a} de un <section class="quiz">. */
   function parseQuizCards(quiz) {
     const cards = [];
     quiz.querySelectorAll('details.question').forEach((det) => {
-      const summary = det.querySelector(':scope > summary');
-      const ansEl   = det.querySelector(':scope > .question__answer');
-      if (!summary || !ansEl) return;
-      const numEl = summary.querySelector('.question__num');
-      const num = numEl ? numEl.textContent.replace(/\D+/g, '') : '';
-      // Clonar el summary, quitar número y svg, leer el texto restante:
-      // cubre la variante A (pregunta en <span> propio + svg) y la B
-      // (pregunta como nodo de texto del summary, sin svg).
-      const clone = summary.cloneNode(true);
-      clone.querySelectorAll('.question__num, svg').forEach((n) => n.remove());
-      const q = clone.textContent.replace(/\s+/g, ' ').trim();
-      const a = ansEl.textContent.replace(/\s+/g, ' ').trim();
-      if (q) cards.push({ num, q, a });
+      const card = parseQuestionCard(det);
+      if (card) cards.push(card);
     });
     return cards;
   }
@@ -1194,11 +1223,11 @@
       btn.type = 'button';
       btn.className = 'quiz__srs-add btn btn--ghost btn--sm';
       btn.setAttribute('data-srs-add', '');
-      setSrsAddBtnState(btn, study.isQuizSeeded(courseId, quizAnchor));
+      refreshSrsAddBtn(btn, study, courseId, quizAnchor, cards);
 
       btn.addEventListener('click', () => {
         const added = study.seedQuiz({ courseId, quizAnchor, cards });
-        setSrsAddBtnState(btn, true);
+        refreshSrsAddBtn(btn, study, courseId, quizAnchor, cards);
         btn.setAttribute('aria-label', added > 0
           ? added + ' preguntas a\u00f1adidas a tu repaso espaciado'
           : 'Estas preguntas ya estaban en tu repaso espaciado');
@@ -1247,6 +1276,13 @@
       const questions = Array.from(quiz.querySelectorAll('details.question'));
       if (questions.length === 0) return;
 
+      // Puente examen → repaso espaciado (CONT-002b) --------------------
+      const study      = window.VMA && window.VMA.study;
+      const canSeed    = !!(study && typeof study.seedQuiz === 'function');
+      const courseId   = hash.slice(2);                       // quita '#/'
+      const quizAnchor = quiz.getAttribute('aria-labelledby') || '';
+      let   seedDone   = false; // erradas ya enviadas en esta sesión de examen
+
       // Estado del examen (en memoria, por quiz) -------------------------
       const state = { mode: 'idle', timed: false, start: 0, elapsed: 0, timerId: 0 };
       const grades = new Map(); // details -> 'right' | 'wrong'
@@ -1293,12 +1329,21 @@
       reviewBtn.className = 'btn btn--ghost btn--sm quiz__exam-review';
       reviewBtn.textContent = 'Revisar erradas';
 
+      // Enviar erradas al repaso espaciado (CONT-002b). Solo se monta si el
+      // panel de estudio expone la API; sin ella, el examen sigue intacto.
+      const seedWrongBtn = document.createElement('button');
+      seedWrongBtn.type = 'button';
+      seedWrongBtn.className = 'btn btn--ghost btn--sm quiz__exam-seedwrong';
+      seedWrongBtn.textContent = 'Enviar erradas al repaso';
+      seedWrongBtn.disabled = true;
+
       const exitBtn = document.createElement('button');
       exitBtn.type = 'button';
       exitBtn.className = 'btn btn--ghost btn--sm quiz__exam-exit';
       exitBtn.textContent = 'Salir del examen';
 
       result.appendChild(reviewBtn);
+      if (canSeed && quizAnchor) result.appendChild(seedWrongBtn);
       result.appendChild(exitBtn);
 
       // Bloqueo de <details> mientras corre el examen --------------------
@@ -1335,6 +1380,12 @@
         if (state.timed) txt += ' \u00b7 \u23F1 ' + fmtClock(state.elapsed);
         resultText.textContent = txt;
         reviewBtn.disabled = wrong === 0;
+        if (!seedDone) {
+          seedWrongBtn.disabled = wrong === 0;
+          seedWrongBtn.textContent = wrong > 0
+            ? 'Enviar erradas al repaso (' + wrong + ')'
+            : 'Enviar erradas al repaso';
+        }
       }
 
       function addGradeControls() {
@@ -1426,6 +1477,11 @@
         clock.hidden = true;
         result.hidden = true;
         reviewBtn.textContent = 'Revisar erradas';
+        seedDone = false;
+        seedWrongBtn.classList.remove('is-seeded');
+        seedWrongBtn.disabled = true;
+        seedWrongBtn.removeAttribute('aria-label');
+        seedWrongBtn.textContent = 'Enviar erradas al repaso';
       }
 
       // Cableado de eventos ---------------------------------------------
@@ -1439,6 +1495,32 @@
         else { quiz.setAttribute('data-exam-filter', 'wrong'); reviewBtn.textContent = 'Ver todas'; }
       });
       exitBtn.addEventListener('click', toIdle);
+
+      seedWrongBtn.addEventListener('click', () => {
+        if (!canSeed || seedDone) return;
+        const subset = [];
+        questions.forEach((det) => {
+          if (grades.get(det) !== 'wrong') return;
+          const card = parseQuestionCard(det);
+          if (card && card.q) subset.push(card);
+        });
+        if (subset.length === 0) return;
+        const added = study.seedQuiz({ courseId, quizAnchor, cards: subset });
+        seedDone = true;
+        seedWrongBtn.disabled = true;
+        seedWrongBtn.classList.add('is-seeded');
+        seedWrongBtn.textContent = 'Erradas en tu repaso \u2713';
+        seedWrongBtn.setAttribute('aria-label', added > 0
+          ? added + ' preguntas erradas a\u00f1adidas a tu repaso espaciado'
+          : 'Esas preguntas ya estaban en tu repaso espaciado');
+        // Refresca en vivo el botón de siembra completa: §13.quinquies corre
+        // antes que §13.sexies, así que ya existe en este .quiz. Tras un
+        // sembrado parcial, su cobertura sigue incompleta → permanece activo.
+        const fullBtn = quiz.querySelector(':scope [data-srs-add]');
+        if (fullBtn) {
+          refreshSrsAddBtn(fullBtn, study, courseId, quizAnchor, parseQuizCards(quiz));
+        }
+      });
 
       // Inserción en el DOM (misma lógica de anclaje que SRS) -----------
       const header = quiz.querySelector(':scope > .quiz__header');

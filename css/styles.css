@@ -4527,6 +4527,12 @@ a:focus:not(:focus-visible) {
   color: var(--color-text);
 }
 
+/* Botón "Enviar erradas al repaso" en estado enviado (CONT-002b). */
+.quiz__exam-seedwrong.is-seeded {
+  opacity: 0.7;
+  cursor: default;
+}
+
 /* Filtro "revisar erradas": oculta las preguntas no marcadas como erradas. */
 .quiz[data-exam-filter="wrong"] details.question:not([data-grade="wrong"]) {
   display: none;
