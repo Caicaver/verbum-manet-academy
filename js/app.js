@@ -89,7 +89,7 @@
   let htmlEl, mainEl, searchModal, searchInput, searchResults,
       pomodoroPanel, pomodoroOpenBtn, primaryNav, navToggle,
       themeToggle, fsCycle, searchOpen, pomodoroClose,
-      glossaryTooltip, readingToggle;
+      glossaryTooltip, readingToggle, bibTooltip;
 
 
   /* --------------------------------------------------------------------------
@@ -699,6 +699,230 @@
 
 
   /* ==========================================================================
+     §9.bis · BIBLIOGRAFÍA INTERACTIVA · CONT-004a
+     · enhanceBibliographyRefs(): auto-enlace en runtime de las referencias de
+       `.lesson__source-list li`, SIN tocar fragmentos (Binding C). Envuelve la
+       FRASE de título (no el <li> completo) en <span class="bib-ref" data-bib>.
+       Casa por FIRMA contra BIBLIOGRAPHY_MATCH; los `guards` resuelven homónimos
+       (John Owen ≠ Owen Chadwick; Charles ≠ A. A. Hodge; John ≠ Iain Murray;
+       Bavinck ≠ Muller). Idempotente vía dataset.bibDone.
+     · Delegación [data-bib] hermana de la del glosario (§9), pero el tooltip SÍ
+       recibe puntero (pointer-events:auto en CSS) para poder pulsar "Leer en
+       línea"; mouseleave del propio tooltip lo cierra.
+     · Tolerante: sin BIBLIOGRAPHY/_MATCH o sin #bib-tooltip → no-op.
+     ========================================================================== */
+
+  let activeBibKey = null;
+  let bibHideTimer = null;
+
+  function cancelBibHide() {
+    if (bibHideTimer) { clearTimeout(bibHideTimer); bibHideTimer = null; }
+  }
+  function scheduleBibHide() {
+    cancelBibHide();
+    // Margen para cruzar el hueco ref→tooltip sin que se cierre (clic en enlace).
+    bibHideTimer = setTimeout(hideBibTooltip, 220);
+  }
+
+  /** Normaliza char-a-char (lower · NFD · sin diacríticos) preservando el
+   *  mapeo de cada char normalizado a su offset en el texto ORIGINAL. */
+  function bibNormMap(text) {
+    let out = '';
+    const map = [];
+    for (let i = 0; i < text.length; i += 1) {
+      const nc = text[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      for (let k = 0; k < nc.length; k += 1) { out += nc[k]; map.push(i); }
+    }
+    return { out, map };
+  }
+
+  function bibGuardsOk(liNorm, guards) {
+    for (let g = 0; g < guards.length; g += 1) {
+      const group = guards[g];
+      let any = false;
+      for (let a = 0; a < group.length; a += 1) {
+        if (liNorm.indexOf(group[a]) !== -1) { any = true; break; }
+      }
+      if (!any) return false;
+    }
+    return true;
+  }
+
+  function enhanceBibliographyRefs() {
+    if (!mainEl) return;
+    const matchers = window.BIBLIOGRAPHY_MATCH;
+    const refs = window.BIBLIOGRAPHY;
+    if (!Array.isArray(matchers) || !refs) return;
+
+    mainEl.querySelectorAll('.lesson__source-list li').forEach((li) => {
+      if (li.dataset.bibDone === '1') return;
+      li.dataset.bibDone = '1';
+
+      const liNorm = bibNormMap(li.textContent).out.replace(/\s+/g, ' ');
+      const active = matchers.filter((d) => refs[d.id] && bibGuardsOk(liNorm, d.guards));
+      if (active.length === 0) return;
+
+      // Recolectar nodos de texto que aún no estén dentro de un .bib-ref.
+      const walker = document.createTreeWalker(li, NodeFilter.SHOW_TEXT, null);
+      const textNodes = [];
+      let node;
+      while ((node = walker.nextNode())) {
+        if (node.parentElement && !node.parentElement.closest('.bib-ref')) {
+          textNodes.push(node);
+        }
+      }
+
+      textNodes.forEach((tn) => {
+        const original = tn.nodeValue;
+        const { out, map } = bibNormMap(original);
+        const found = [];
+        active.forEach((d) => {
+          d.titles.forEach((title) => {
+            let from = 0;
+            let idx;
+            while ((idx = out.indexOf(title, from)) !== -1) {
+              found.push({ start: idx, end: idx + title.length, id: d.id, len: title.length });
+              from = idx + title.length;
+            }
+          });
+        });
+        if (found.length === 0) return;
+
+        // Greedy: empieza antes y, a igual inicio, frase más larga; sin solapes.
+        found.sort((a, b) => (a.start - b.start) || (b.len - a.len));
+        const chosen = [];
+        let lastEnd = -1;
+        found.forEach((m) => { if (m.start >= lastEnd) { chosen.push(m); lastEnd = m.end; } });
+        if (chosen.length === 0) return;
+
+        const frag = document.createDocumentFragment();
+        let cursor = 0;
+        chosen.forEach((m) => {
+          const oStart = map[m.start];
+          const oEnd = map[m.end - 1] + 1;
+          if (oStart > cursor) frag.appendChild(document.createTextNode(original.slice(cursor, oStart)));
+          const span = document.createElement('span');
+          span.className = 'bib-ref';
+          span.setAttribute('data-bib', m.id);
+          span.setAttribute('tabindex', '0');
+          const entry = refs[m.id];
+          span.setAttribute('aria-label',
+            `Referencia bibliográfica: ${entry && entry.title ? entry.title : m.id}`);
+          span.textContent = original.slice(oStart, oEnd);
+          frag.appendChild(span);
+          cursor = oEnd;
+        });
+        if (cursor < original.length) frag.appendChild(document.createTextNode(original.slice(cursor)));
+        tn.parentNode.replaceChild(frag, tn);
+      });
+    });
+  }
+
+  function bibTooltipHtml(entry) {
+    const meta = [];
+    if (entry.author) meta.push(escapeHtml(entry.author));
+    if (entry.year != null) meta.push(escapeHtml(String(entry.year)));
+    let line2 = '';
+    if (entry.publisher) line2 += escapeHtml(entry.publisher);
+    if (entry.isbn) line2 += (line2 ? ' · ' : '') + 'ISBN ' + escapeHtml(entry.isbn);
+    const orig = entry.originalTitle && entry.originalTitle !== entry.title
+      ? `<span class="bib-tooltip__orig">${escapeHtml(entry.originalTitle)}</span>` : '';
+    const link = entry.url
+      ? `<a class="bib-tooltip__link" href="${escapeHtml(entry.url)}" target="_blank" rel="noopener noreferrer">Leer en línea <span class="sr-only">— abre en nueva pestaña</span>↗</a>`
+      : '';
+    return (
+      `<span class="bib-tooltip__term">${escapeHtml(entry.title || '')}</span>` +
+      orig +
+      (meta.length ? `<span class="bib-tooltip__meta">${meta.join(' · ')}</span>` : '') +
+      (line2 ? `<span class="bib-tooltip__meta">${line2}</span>` : '') +
+      link
+    );
+  }
+
+  function positionBibTooltip(refEl) {
+    if (!bibTooltip) return;
+    const rect = refEl.getBoundingClientRect();
+    const ttRect = bibTooltip.getBoundingClientRect();
+    const margin = 8;
+    let top = window.scrollY + rect.bottom + margin;
+    let left = window.scrollX + rect.left + rect.width / 2 - ttRect.width / 2;
+    if (top + ttRect.height > window.scrollY + window.innerHeight - margin) {
+      top = window.scrollY + rect.top - ttRect.height - margin;
+    }
+    const minLeft = window.scrollX + margin;
+    const maxLeft = window.scrollX + window.innerWidth - ttRect.width - margin;
+    left = Math.max(minLeft, Math.min(left, maxLeft));
+    bibTooltip.style.top = `${top}px`;
+    bibTooltip.style.left = `${left}px`;
+  }
+
+  function showBibTooltip(refEl) {
+    if (!bibTooltip || !refEl) return;
+    cancelBibHide();
+    const key = refEl.getAttribute('data-bib');
+    const entry = window.BIBLIOGRAPHY && window.BIBLIOGRAPHY[key];
+    if (!entry) return;
+    bibTooltip.innerHTML = bibTooltipHtml(entry);
+    bibTooltip.hidden = false;
+    activeBibKey = key;
+    positionBibTooltip(refEl);
+  }
+
+  function hideBibTooltip() {
+    cancelBibHide();
+    if (!bibTooltip) return;
+    bibTooltip.hidden = true;
+    activeBibKey = null;
+  }
+
+  function bindBibliographyDelegation() {
+    if (!bibTooltip) return;
+
+    document.addEventListener('mouseover', (e) => {
+      const ref = e.target.closest('[data-bib]');
+      if (ref) showBibTooltip(ref);
+    });
+    document.addEventListener('mouseout', (e) => {
+      const ref = e.target.closest('[data-bib]');
+      if (!ref) return;
+      const to = e.relatedTarget;
+      // Si el puntero va al propio tooltip o a otra ref, no programar cierre.
+      if (to && (to.closest('[data-bib]') || to.closest('#bib-tooltip'))) return;
+      scheduleBibHide();
+    });
+    // El puntero entra al tooltip: cancelar el cierre (permite pulsar el enlace).
+    bibTooltip.addEventListener('mouseenter', cancelBibHide);
+    bibTooltip.addEventListener('mouseleave', (e) => {
+      const to = e.relatedTarget;
+      if (to && to.closest('[data-bib]')) return;
+      scheduleBibHide();
+    });
+    document.addEventListener('focusin', (e) => {
+      const ref = e.target.closest('[data-bib]');
+      if (ref) showBibTooltip(ref);
+    });
+    document.addEventListener('focusout', (e) => {
+      const ref = e.target.closest('[data-bib]');
+      if (ref) scheduleBibHide();
+    });
+    document.addEventListener('click', (e) => {
+      const ref = e.target.closest('[data-bib]');
+      if (ref) {
+        const key = ref.getAttribute('data-bib');
+        if (activeBibKey === key) hideBibTooltip(); else showBibTooltip(ref);
+        return;
+      }
+      if (!e.target.closest('#bib-tooltip')) hideBibTooltip();
+    });
+    window.addEventListener('resize', () => {
+      if (!activeBibKey) return;
+      const active = document.querySelector(`[data-bib="${activeBibKey}"]`);
+      if (active) positionBibTooltip(active); else hideBibTooltip();
+    });
+  }
+
+
+  /* ==========================================================================
      §10 · ROTADOR DE CITAS ALTERNANTES
      · Se invoca en cada navegación; si no hay .quote-item se vuelve no-op.
      · Respeta prefers-reduced-motion (la CSS además ya lo gestiona).
@@ -881,6 +1105,7 @@
     enhanceLessonBookmarks(hash);
     enhanceQuizSrs(hash);
     enhanceQuizExam(hash);
+    enhanceBibliographyRefs();
   }
 
 
@@ -1556,6 +1781,7 @@
     searchOpen      = document.getElementById('search-open');
     glossaryTooltip = document.getElementById('glossary-tooltip');
     readingToggle   = document.getElementById('reading-toggle');
+    bibTooltip      = document.getElementById('bib-tooltip');
   }
 
   function bindShellEvents() {
@@ -1696,6 +1922,7 @@
     bindShellEvents();
     bindNavCloseOnRoute();
     bindGlossaryDelegation();
+    bindBibliographyDelegation();
     bindHashRouting();
     setupPrintExpansion();
     document.addEventListener('keydown', handleGlobalKeydown);

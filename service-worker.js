@@ -59,7 +59,7 @@
    §1 · Versión y nombres de caché
    SUBE ESTE NÚMERO EN CADA DESPLIEGUE QUE TOQUE ARCHIVOS DEL SHELL O CURSOS.
    --------------------------------------------------------------------------- */
-const CACHE_VERSION = 'v11';
+const CACHE_VERSION = 'v13';
 const SHELL_CACHE   = `vma-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `vma-runtime-${CACHE_VERSION}`;
 
@@ -80,6 +80,7 @@ const SHELL_ASSETS = [
   './js/app.js',
   './data/courses-index.js',
   './data/glossary.js',
+  './data/bibliography.js',
   // Páginas estáticas base de la SPA (ligeras; mejoran el primer offline).
   './pages/home.html',
   './pages/about.html',

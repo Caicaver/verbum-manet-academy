@@ -1340,6 +1340,74 @@ a:focus:not(:focus-visible) {
 
 .glossary-tooltip[hidden] { display: none; }
 
+/* ── Bibliografía interactiva (CONT-004a) ─────────────────────────────────
+   Afordancia discreta sobre la frase de título dentro de las fuentes; el
+   tooltip espeja al del glosario pero RECIBE puntero (pointer-events:auto)
+   para que su enlace "Leer en línea" sea clicable. */
+.bib-ref {
+  border-bottom: 1px dotted var(--vma-gold-300, var(--color-accent));
+  cursor: help;
+  color: inherit;
+  transition: color var(--t-fast) var(--ease-out-quad),
+              border-color var(--t-fast) var(--ease-out-quad);
+}
+.bib-ref:hover,
+.bib-ref:focus-visible {
+  color: var(--vma-gold-300, var(--color-accent));
+  border-color: var(--vma-gold-300, var(--color-accent));
+}
+
+.bib-tooltip {
+  position: absolute;
+  z-index: var(--z-tooltip);
+  max-width: min(24rem, calc(100vw - 2rem));
+  padding: 0.9rem 1.1rem;
+  background-color: var(--vma-navy-900);
+  color: var(--vma-cream-50);
+  /* Filo dorado + sombra negra: canto perceptible en ambos temas (cf. §9). */
+  border: 1px solid oklch(76% 0.075 78 / 0.45);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 12px 32px oklch(0% 0 0 / 0.30);
+  isolation: isolate;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--lh-snug);
+  pointer-events: auto; /* a diferencia del glosario: permite pulsar el enlace */
+  animation: tooltip-enter var(--t-fast) var(--ease-out-quad);
+}
+.bib-tooltip[hidden] { display: none; }
+.bib-tooltip__term {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--vma-gold-300);
+  font-size: var(--text-md);
+  margin-bottom: 0.2rem;
+  display: block;
+}
+.bib-tooltip__orig {
+  display: block;
+  font-size: var(--text-xs);
+  opacity: 0.85;
+  margin-bottom: 0.35rem;
+}
+.bib-tooltip__meta {
+  display: block;
+  font-size: var(--text-xs);
+  opacity: 0.92;
+}
+.bib-tooltip__link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--vma-gold-300);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.bib-tooltip__link:hover,
+.bib-tooltip__link:focus-visible { color: var(--vma-cream-50); }
+
 .glossary-tooltip__term {
   font-family: var(--font-display);
   font-style: italic;
@@ -3410,6 +3478,7 @@ a:focus:not(:focus-visible) {
   .pomodoro-panel,
   .search-modal,
   .glossary-tooltip,
+  .bib-tooltip,
   .panel-actions,
   .skip-link,
   .course-nav,

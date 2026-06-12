@@ -355,7 +355,13 @@ function validateCourse(file, data) {
      que documentan el cierre del wrapper raiz). Sin esto, un comentario como
      <!-- ... <div class="course-page"> ... --> infla el conteo de <div>. */
   const htmlNoComments = html.replace(/<!--[\s\S]*?-->/g, ' ');
-  ['li', 'ul', 'ol', 'aside', 'article', 'div', 'section', 'details', 'table', 'tr'].forEach((tag) => {
+  // Se incluyen strong/em/span (formato inline): un cierre malformado como
+  // </strong; (punto y coma) o una etiqueta extraviada sangra el formato a
+  // toda la lección al inyectarse el fragmento (CONT-004a · humo Historia
+  // Moderna). El conteo de cierre exige '>' literal, así que </strong; cuenta
+  // como apertura sin pareja y dispara el hallazgo.
+  ['li', 'ul', 'ol', 'aside', 'article', 'div', 'section', 'details', 'table', 'tr',
+    'strong', 'em', 'span'].forEach((tag) => {
     const o = countRe(htmlNoComments, new RegExp(`<${tag}\\b`, 'gi'));
     const c = countRe(htmlNoComments, new RegExp(`</${tag}>`, 'gi'));
     if (o !== c) add('critical', `Etiquetas <${tag}> desbalanceadas: ${o} abren, ${c} cierran.`);
