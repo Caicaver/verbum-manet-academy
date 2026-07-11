@@ -49,7 +49,7 @@ const BIBLIOGRAPHY = Object.freeze({
     title: 'Confesión de Fe de Westminster',
     originalTitle: 'The Westminster Confession of Faith', originalLanguage: 'en',
     publisher: null, translator: null, city: null, editionYear: null, isbn: null,
-    url: null, language: 'es', level: 'intermedio',
+    url: 'https://es.ligonier.org/recursos/credos-confesiones/la-confesion-de-fe-de-westminster/', language: 'es', level: 'intermedio',
     topics: ['confesionalismo', 'dogmática-reformada'],
   },
   'catecismo-mayor-westminster': {
@@ -58,7 +58,7 @@ const BIBLIOGRAPHY = Object.freeze({
     title: 'Catecismo Mayor de Westminster',
     originalTitle: 'The Westminster Larger Catechism', originalLanguage: 'en',
     publisher: null, translator: null, city: null, editionYear: null, isbn: null,
-    url: null, language: 'es', level: 'intermedio',
+    url: 'https://es.ligonier.org/recursos/credos-confesiones/el-catecismo-mayor-de-westminster/', language: 'es', level: 'intermedio',
     topics: ['confesionalismo', 'catequesis'],
   },
   'catecismo-menor-westminster': {
@@ -67,7 +67,7 @@ const BIBLIOGRAPHY = Object.freeze({
     title: 'Catecismo Menor de Westminster',
     originalTitle: 'The Westminster Shorter Catechism', originalLanguage: 'en',
     publisher: null, translator: null, city: null, editionYear: null, isbn: null,
-    url: null, language: 'es', level: 'fundacional',
+    url: 'https://es.ligonier.org/recursos/credos-confesiones/el-catecismo-menor-de-westminster/', language: 'es', level: 'fundacional',
     topics: ['confesionalismo', 'catequesis'],
   },
   'catecismo-heidelberg': {
@@ -76,7 +76,7 @@ const BIBLIOGRAPHY = Object.freeze({
     title: 'Catecismo de Heidelberg',
     originalTitle: 'Heidelberger Katechismus', originalLanguage: 'de',
     publisher: null, translator: null, city: null, editionYear: null, isbn: null,
-    url: null, language: 'es', level: 'fundacional',
+    url: 'https://es.ligonier.org/recursos/credos-confesiones/el-catecismo-de-heidelberg/', language: 'es', level: 'fundacional',
     topics: ['confesionalismo', 'catequesis'],
   },
   'confesion-belga': {
@@ -85,7 +85,7 @@ const BIBLIOGRAPHY = Object.freeze({
     title: 'Confesión Belga',
     originalTitle: 'Confessio Belgica', originalLanguage: 'fr',
     publisher: null, translator: null, city: null, editionYear: null, isbn: null,
-    url: null, language: 'es', level: 'intermedio',
+    url: 'https://es.ligonier.org/recursos/credos-confesiones/la-confesion-belga/', language: 'es', level: 'intermedio',
     topics: ['confesionalismo', 'dogmática-reformada'],
   },
   'canones-dort': {
@@ -94,7 +94,7 @@ const BIBLIOGRAPHY = Object.freeze({
     title: 'Cánones de Dort',
     originalTitle: 'Canones Synodi Dordrechtanae', originalLanguage: 'la',
     publisher: null, translator: null, city: null, editionYear: null, isbn: null,
-    url: null, language: 'es', level: 'intermedio',
+    url: 'https://es.ligonier.org/recursos/credos-confesiones/los-canones-de-dort/', language: 'es', level: 'intermedio',
     topics: ['confesionalismo', 'soteriología', 'arminianismo'],
   },
   'confesion-1689': {
@@ -103,7 +103,7 @@ const BIBLIOGRAPHY = Object.freeze({
     title: 'Confesión Bautista de Fe de 1689 (de Londres)',
     originalTitle: 'Second London Baptist Confession of Faith', originalLanguage: 'en',
     publisher: null, translator: null, city: null, editionYear: null, isbn: null,
-    url: null, language: 'es', level: 'intermedio',
+    url: 'https://es.ligonier.org/recursos/credos-confesiones/la-confesion-bautista-de-fe-de-londres-de-1689/', language: 'es', level: 'intermedio',
     topics: ['confesionalismo', 'bautismo', 'dogmática-reformada'],
   },
   'confesion-helvetica-2': {
@@ -121,7 +121,7 @@ const BIBLIOGRAPHY = Object.freeze({
     title: 'Credo Niceno-Constantinopolitano',
     originalTitle: 'Symbolum Nicaeno-Constantinopolitanum', originalLanguage: 'gr',
     publisher: null, translator: null, city: null, editionYear: null, isbn: null,
-    url: null, language: 'es', level: 'fundacional',
+    url: 'https://es.ligonier.org/recursos/credos-confesiones/el-credo-niceno/', language: 'es', level: 'fundacional',
     topics: ['trinidad', 'cristología', 'patrística'],
   },
 
